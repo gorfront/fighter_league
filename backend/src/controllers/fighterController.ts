@@ -1,0 +1,232 @@
+import { Request, Response } from "express";
+import Fighter from "../models/Fighter";
+import User from "../models/User";
+import Division from "../models/Division";
+
+const divisionMap: { [key: string]: number } = {
+  Lightweight: 1,
+  Welterweight: 2,
+  "Light Heavyweight": 3,
+  Heavyweight: 4,
+  Flyweight: 5,
+  Bantamweight: 6,
+  "Open/Heavyweight": 7,
+};
+
+const createRecordString = (w: number, l: number, d: number): string =>
+  `${w}-${l}-${d}`;
+
+export const registerFighter = async (req: Request, res: Response) => {
+  const {
+    email,
+    country,
+    walletAddress,
+    weight,
+    gender,
+    division,
+    wins,
+    losses,
+    draws,
+    image,
+    bio,
+    achievements,
+  } = req.body;
+
+  if (!email || !country || !weight || !gender || !division || !image) {
+    return res
+      .status(400)
+      .json({ message: "Missing required fighter fields." });
+  }
+
+  const divisionId = divisionMap[division];
+
+  if (!divisionId) {
+    return res.status(400).json({ message: "Invalid division name." });
+  }
+
+  try {
+    const user = await User.findOne({ where: { email } });
+
+    if (!user) return res.status(404).json({ message: "User not found." });
+
+    await user.update({
+      user_type: "FIGHTER",
+      wallet_address: walletAddress,
+      country,
+    });
+
+    const fighter = await Fighter.create({
+      user_id: user.id,
+      name: user.name,
+      country,
+      division_id: divisionId,
+      division,
+      weight,
+      gender,
+      wins: wins || 0,
+      losses: losses || 0,
+      draws: draws || 0,
+      image,
+      bio,
+      achievements: achievements || [],
+      status: "pending",
+    });
+
+    res.status(201).json({
+      message: "Fighter profile submitted successfully.",
+      fighterId: fighter.id,
+    });
+  } catch (err) {
+    console.error("Sequelize registerFighter error:", err);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+export const getAllFighters = async (req: Request, res: Response) => {
+  const { limit, sortBy, country } = req.query;
+
+  try {
+    const fighters = await Fighter.findAll({
+      where: {
+        status: "verified",
+        ...(country ? { country } : {}),
+      },
+      include: [
+        {
+          model: Division,
+          attributes: ["name"],
+        },
+      ],
+      attributes: [
+        "id",
+        "user_id",
+        "name",
+        "country",
+        "division",
+        "weight",
+        "gender",
+        "wins",
+        "losses",
+        "draws",
+        "image",
+        "ranking",
+        "bio",
+        "achievements",
+        "sponsors",
+      ],
+      order: [[sortBy === "ranking" ? "ranking" : "name", "ASC"]],
+      ...(limit ? { limit: Number(limit) } : {}),
+    });
+
+    const list = fighters.map((f) => ({
+      id: f.id.toString(),
+      user_id: f.user_id,
+      name: f.name,
+      country: f.country,
+      division: f.division,
+      weight: f.weight,
+      gender: f.gender,
+      record: createRecordString(f.wins, f.losses, f.draws),
+      wins: f.wins,
+      losses: f.losses,
+      draws: f.draws,
+      image: f.image,
+      bio: f.bio ?? undefined,
+      achievements: f.achievements,
+      sponsors: f.sponsors,
+    }));
+
+    res.status(200).json(list);
+  } catch (err) {
+    console.error("getAllFighters Sequelize error:", err);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+export const getFighterById = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    const fighter = await Fighter.findOne({
+      where: { id, status: "verified" },
+      include: [
+        {
+          model: Division,
+          attributes: ["name"],
+        },
+      ],
+    });
+
+    if (!fighter) return res.status(404).json({ message: "Fighter not found" });
+
+    const result = {
+      id: fighter.id.toString(),
+      name: fighter.name,
+      country: fighter.country,
+      division: fighter.division,
+      weight: fighter.weight,
+      gender: fighter.gender,
+      record: createRecordString(fighter.wins, fighter.losses, fighter.draws),
+      wins: fighter.wins,
+      losses: fighter.losses,
+      draws: fighter.draws,
+      image: fighter.image,
+      bio: fighter.bio ?? undefined,
+      achievements: fighter.achievements || [],
+      sponsors: fighter.sponsors || [],
+    };
+
+    res.status(200).json(result);
+  } catch (err) {
+    console.error("getFighterById Sequelize error:", err);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+export const getMyFighterProfile = async (req: Request, res: Response) => {
+  const userId = req.user?.id;
+
+  if (!userId) return res.status(401).json({ message: "Not authorized" });
+
+  try {
+    const fighter = await Fighter.findOne({
+      where: { user_id: userId },
+      include: [
+        {
+          model: Division,
+          attributes: ["name"],
+        },
+      ],
+    });
+
+    if (!fighter) {
+      return res.status(200).json({
+        status: "not_found",
+        message: "Fighter profile not found",
+      });
+    }
+
+    const result = {
+      id: fighter.id.toString(),
+      name: fighter.name,
+      country: fighter.country,
+      division: fighter.division,
+      weight: fighter.weight,
+      gender: fighter.gender,
+      record: createRecordString(fighter.wins, fighter.losses, fighter.draws),
+      wins: fighter.wins,
+      losses: fighter.losses,
+      draws: fighter.draws,
+      image: fighter.image,
+      bio: fighter.bio ?? undefined,
+      achievements: fighter.achievements || [],
+      sponsors: fighter.sponsors || [],
+      status: fighter.status,
+    };
+
+    res.status(200).json(result);
+  } catch (err) {
+    console.error("getMyFighterProfile Sequelize error:", err);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
