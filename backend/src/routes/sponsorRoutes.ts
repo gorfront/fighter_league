@@ -3,6 +3,7 @@ import {
   registerSponsor,
   getMySponsorProfile,
   getAllSponsors,
+  updateSponsorProfile,
 } from "../controllers/sponsorController";
 import { protect } from "../middleware/authMiddleware";
 
@@ -21,5 +22,7 @@ router.post(
   //  protect,
   registerSponsor
 );
+
+router.put("/me", protect, updateSponsorProfile);
 
 export default router;

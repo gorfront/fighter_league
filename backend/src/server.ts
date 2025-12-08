@@ -17,6 +17,7 @@ import sponsorRoutes from "./routes/sponsorRoutes";
 import messageRoutes from "./routes/messageRoutes";
 
 import userActions from "./routes/userActions";
+import path from "path";
 
 dotenv.config();
 
@@ -40,6 +41,8 @@ application.use(
 
 application.use(express.json());
 application.use(express.urlencoded({ extended: true }));
+
+application.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 application.use((req: Request, res: Response, next: NextFunction) => {
   console.info(

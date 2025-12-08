@@ -21,6 +21,8 @@ import { useAuthStore } from "./stores/authStore";
 import Sponsors from "./pages/navigate/Sponsors";
 import ChatPage from "./components/ChatWindow";
 import MessagesPage from "./pages/dashboard/MessagesPage";
+import FighterEdit from "./pages/dashboard/FighterEdit";
+import SponsorEdit from "./pages/dashboard/SponsorEdit";
 
 const queryClient = new QueryClient();
 
@@ -58,6 +60,9 @@ const App = () => {
               <Route path="/dashboard/sponsor" element={<SponsorDashboard />} />
               <Route path="/dashboard/donor" element={<>donor</>} />
               <Route path="/dashboard/guest" element={<RoleSelectionPage />} />
+
+              <Route path="/dashboard/fighter/edit" element={<FighterEdit />} />
+              <Route path="/dashboard/sponsor/edit" element={<SponsorEdit />} />
 
               {/* 404 */}
               <Route path="*" element={<NotFound />} />

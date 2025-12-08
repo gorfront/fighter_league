@@ -230,3 +230,66 @@ export const getMyFighterProfile = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Server Error" });
   }
 };
+
+const parseBodyInt = (val: any) => {
+  if (!val || val === "undefined" || val === "null" || val === "")
+    return undefined;
+  const parsed = parseInt(val, 10);
+  return isNaN(parsed) ? undefined : parsed;
+};
+
+// Helper to safely parse floats (for weight)
+const parseBodyFloat = (val: any) => {
+  if (!val || val === "undefined" || val === "null" || val === "")
+    return undefined;
+  const parsed = parseFloat(val);
+  return isNaN(parsed) ? undefined : parsed;
+};
+
+export const updateFighterProfile = async (req: Request, res: Response) => {
+  const userId = req.user?.id;
+
+  if (!userId) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  try {
+    const fighter = await Fighter.findOne({ where: { user_id: userId } });
+
+    if (!fighter) {
+      return res.status(404).json({ message: "Fighter profile not found" });
+    }
+
+    // 1. Achievements: Frontend sends a stringified JSON array, parse it back
+    let achievements = fighter.achievements;
+    if (req.body.achievements) {
+      try {
+        achievements = JSON.parse(req.body.achievements);
+      } catch (e) {
+        // If it's already an array (middleware magic) or fails, fallback
+        if (Array.isArray(req.body.achievements)) {
+          achievements = req.body.achievements;
+        }
+      }
+    }
+
+    // 2. Update
+    await fighter.update({
+      name: req.body.name || fighter.name,
+      country: req.body.country || fighter.country,
+      division_id: req.body.division_id || fighter.division_id,
+      division: req.body.division || fighter.division,
+      weight: req.body.weight || fighter.weight,
+      gender: req.body.gender || fighter.gender,
+      bio: req.body.bio || fighter.bio,
+      achievements: achievements,
+      // Frontend sends the filename string now, not a file object
+      image: req.body.image || fighter.image,
+    });
+
+    res.status(200).json({ message: "Profile updated successfully", fighter });
+  } catch (error) {
+    console.error("Error updating fighter profile:", error);
+    res.status(500).json({ message: "Server error updating profile" });
+  }
+};

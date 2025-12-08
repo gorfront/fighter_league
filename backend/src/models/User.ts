@@ -9,6 +9,7 @@ class User extends Model {
   public user_type!: string;
   public country!: string;
   public avatar!: string | null;
+  public wallet_address!: string | null;
   public readonly created_at!: Date;
 }
 
@@ -42,6 +43,10 @@ User.init(
       allowNull: true,
     },
     avatar: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    wallet_address: {
       type: DataTypes.STRING,
       allowNull: true,
     },

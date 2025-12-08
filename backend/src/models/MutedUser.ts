@@ -19,14 +19,16 @@ MutedUser.init(
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      field: "user_id",
       references: { model: "users", key: "id" },
-      comment: "ID users who muted another user",
+      comment: "ID of user who muted another user",
     },
     mutedUserId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      field: "muted_user_id",
       references: { model: "users", key: "id" },
-      comment: "ID users who are muted",
+      comment: "ID of user who is muted",
     },
   },
   {
@@ -38,7 +40,8 @@ MutedUser.init(
     indexes: [
       {
         unique: true,
-        fields: ["userId", "mutedUserId"],
+        fields: ["user_id", "muted_user_id"],
+        name: "unique_mute_pair",
       },
     ],
   }

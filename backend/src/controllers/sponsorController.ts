@@ -158,3 +158,32 @@ export const getAllSponsors = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Server error retrieving sponsors." });
   }
 };
+
+export const updateSponsorProfile = async (req: Request, res: Response) => {
+  const userId = req.user?.id;
+
+  if (!userId) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  try {
+    const sponsor = await Sponsor.findOne({ where: { user_id: userId } });
+
+    if (!sponsor) {
+      return res.status(404).json({ message: "Sponsor profile not found" });
+    }
+
+    // Update fields (excluding website)
+    await sponsor.update({
+      company_name: req.body.company_name || sponsor.company_name,
+      email: req.body.email || sponsor.email,
+      description: req.body.description || sponsor.description,
+      logo_url: req.body.logo_url || sponsor.logo_url,
+    });
+
+    res.status(200).json({ message: "Sponsor profile updated", sponsor });
+  } catch (error) {
+    console.error("Error updating sponsor:", error);
+    res.status(500).json({ message: "Server error updating profile" });
+  }
+};

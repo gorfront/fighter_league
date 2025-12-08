@@ -1,0 +1,281 @@
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import apiClient from "@/api/apiClient";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Loader2, Save, ArrowLeft, UploadCloud } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
+import { createClient } from "@supabase/supabase-js";
+
+// --- SUPABASE CONFIGURATION ---
+const SUPABASE_URL = "https://eumlexrcxqgaudtsmavc.supabase.co";
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
+const IMAGE_BASE_URL =
+  "https://eumlexrcxqgaudtsmavc.supabase.co/storage/v1/object/public/sponsor-logos/";
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+interface SponsorFormData {
+  company_name: string;
+  email: string;
+  description: string;
+  logo_url?: string | File;
+}
+
+const SponsorEdit = () => {
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
+
+  const [formData, setFormData] = useState<SponsorFormData>({
+    company_name: "",
+    email: "",
+    description: "",
+    logo_url: "",
+  });
+
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+
+  // 1. Fetch Current Data
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await apiClient.get("/dashboard/sponsor/me");
+        const data = response.data;
+
+        setFormData({
+          company_name: data.company_name || "",
+          email: data.email || "",
+          description: data.description || "",
+          logo_url: data.logo_url || "",
+        });
+
+        if (data.logo_url) {
+          const isExternal = data.logo_url.startsWith("http");
+          setImagePreview(
+            isExternal ? data.logo_url : IMAGE_BASE_URL + data.logo_url
+          );
+        }
+      } catch (error) {
+        console.error("Failed to load profile", error);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Could not load sponsor profile.",
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProfile();
+  }, [toast]);
+
+  // 2. Handle Inputs
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // 3. Handle Image Selection
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setFormData((prev) => ({ ...prev, logo_url: file }));
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
+
+  // 4. Submit Logic
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSaving(true);
+
+    try {
+      let finalLogoUrl = formData.logo_url;
+
+      // A. Upload to Supabase if it's a new File
+      if (formData.logo_url instanceof File) {
+        const file = formData.logo_url;
+        const fileExt = file.name.split(".").pop();
+        // Create a unique filename
+        const fileName = `${Date.now()}-logo.${fileExt}`;
+        const filePath = `${fileName}`;
+
+        // Upload to 'sponsor-logos' bucket
+        const { error: uploadError } = await supabase.storage
+          .from("sponsor-logos")
+          .upload(filePath, file);
+
+        if (uploadError)
+          throw new Error("Logo upload failed: " + uploadError.message);
+
+        finalLogoUrl = filePath;
+      }
+
+      // B. Prepare Payload (removed website)
+      const payload = {
+        company_name: formData.company_name,
+        email: formData.email,
+        description: formData.description,
+        logo_url: typeof finalLogoUrl === "string" ? finalLogoUrl : undefined,
+      };
+
+      // C. Update Backend
+      await apiClient.put("/dashboard/sponsor/me", payload);
+
+      toast({ title: "Success", description: "Profile updated successfully!" });
+      navigate("/dashboard/sponsor");
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.error("Update failed", error);
+      toast({
+        variant: "destructive",
+        title: "Update Failed",
+        description: error.message || "Could not save changes.",
+      });
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Header />
+
+      <main className="flex-1 container max-w-3xl py-10">
+        <div className="flex items-center gap-4 mb-8">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => navigate("/dashboard/sponsor")}
+          >
+            <ArrowLeft className="h-5 w-5" />
+          </Button>
+          <h1 className="text-3xl font-bold">Edit Company Profile</h1>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Company Details</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {/* Logo Upload */}
+              <div className="flex flex-col items-center gap-6 sm:flex-row">
+                <div className="relative h-32 w-32 shrink-0 overflow-hidden rounded-lg border bg-white flex items-center justify-center">
+                  {imagePreview ? (
+                    <img
+                      src={imagePreview}
+                      alt="Logo Preview"
+                      className="h-full w-full object-contain p-2"
+                    />
+                  ) : (
+                    <UploadCloud className="h-10 w-10 text-gray-300" />
+                  )}
+                </div>
+                <div className="w-full">
+                  <Label htmlFor="logo" className="mb-2 block">
+                    Company Logo
+                  </Label>
+                  <Input
+                    id="logo"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                  />
+                  <p className="text-xs text-muted-foreground mt-2">
+                    Upload a transparent PNG or high-quality JPG.
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid gap-4 md:grid-cols-2">
+                <div className="space-y-2">
+                  <Label htmlFor="company_name">Company Name</Label>
+                  <Input
+                    id="company_name"
+                    name="company_name"
+                    value={formData.company_name}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="email">Contact Email</Label>
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="description">Company Description</Label>
+                <Textarea
+                  id="description"
+                  name="description"
+                  rows={5}
+                  placeholder="Tell us about your brand..."
+                  value={formData.description}
+                  onChange={handleChange}
+                />
+              </div>
+            </CardContent>
+          </Card>
+
+          <div className="flex justify-end gap-4">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => navigate("/dashboard/sponsor")}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              disabled={isSaving}
+              className="bg-primary min-w-[140px]"
+            >
+              {isSaving ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Saving...
+                </>
+              ) : (
+                <>
+                  <Save className="mr-2 h-4 w-4" /> Save Changes
+                </>
+              )}
+            </Button>
+          </div>
+        </form>
+      </main>
+
+      <Footer />
+    </div>
+  );
+};
+
+export default SponsorEdit;

@@ -9,7 +9,7 @@ import {
   CardTitle,
   CardFooter,
 } from "@/components/ui/card";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/components/ui/use-toast"; // Fixed import path based on context
 import apiClient from "@/api/apiClient";
 import {
   ShieldCheck,
@@ -19,6 +19,7 @@ import {
   User,
   Trophy,
   Eye,
+  Edit,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/stores/authStore";
@@ -40,6 +41,7 @@ interface SponsorProfile {
 }
 
 const SponsorDashboard = () => {
+  // Ensure this matches your Supabase bucket URL exactly
   const SUPABASE_IMAGE_URL =
     "https://eumlexrcxqgaudtsmavc.supabase.co/storage/v1/object/public/sponsor-logos/";
 
@@ -118,17 +120,9 @@ const SponsorDashboard = () => {
             <p className="text-sm">
               Complete your sponsor information to appear on the site.
             </p>
-            <Button
-              className="mt-4"
-              onClick={() =>
-                toast({
-                  title: "Action needed",
-                  description:
-                    "Implement button action to show the profile creation form.",
-                })
-              }
-            >
-              Go to Profile Creation
+            {/* 🛠️ UPDATED: Now links to the Edit/Create page */}
+            <Button className="mt-4" asChild>
+              <Link to="/dashboard/sponsor/edit">Go to Profile Creation</Link>
             </Button>
           </Card>
         </main>
@@ -151,21 +145,29 @@ const SponsorDashboard = () => {
 
       <main className="flex-1 container mx-auto py-12">
         <Card className="max-w-4xl mx-auto shadow-xl">
-          <CardHeader className="border-b flex-row items-center justify-between p-6">
+          <CardHeader className="border-b flex-row flex-wrap items-center justify-between p-6">
             <CardTitle className="text-3xl flex items-center gap-3">
               <ShieldCheck className="h-7 w-7 text-primary" />
               Sponsor Dashboard: {profileData?.company_name}
             </CardTitle>
 
-            {profileData?.tier && (
-              <span
-                className={`px-4 py-1 text-sm font-semibold uppercase rounded-full ${
-                  tierColors[profileData.tier]
-                }`}
-              >
-                {profileData.tier} Tier
-              </span>
-            )}
+            <div className="flex items-center gap-4">
+              {profileData?.tier && (
+                <span
+                  className={`px-4 py-1 text-sm font-semibold uppercase rounded-full ${
+                    tierColors[profileData.tier]
+                  }`}
+                >
+                  {profileData.tier} Tier
+                </span>
+              )}
+              <Button variant="outline" size="sm" asChild>
+                <Link to="/dashboard/sponsor/edit">
+                  <Edit className="h-4 w-4 mr-2" />
+                  Edit Profile
+                </Link>
+              </Button>
+            </div>
           </CardHeader>
 
           <CardContent className="p-6 grid md:grid-cols-2 gap-8">
@@ -176,7 +178,11 @@ const SponsorDashboard = () => {
 
               {profileData?.logo_url ? (
                 <img
-                  src={SUPABASE_IMAGE_URL + profileData.logo_url}
+                  src={
+                    profileData.logo_url.startsWith("http")
+                      ? profileData.logo_url
+                      : SUPABASE_IMAGE_URL + profileData.logo_url
+                  }
                   alt={`${profileData.company_name} Logo`}
                   className="w-full h-auto max-h-48 object-contain border rounded-lg p-2 bg-gray-50"
                 />
@@ -187,7 +193,7 @@ const SponsorDashboard = () => {
               )}
 
               <div className="space-y-1">
-                <h4 className="font-medium text-gray-200">
+                <h4 className="font-medium text-gray-800">
                   Company Description:
                 </h4>
                 <p className="text-sm text-muted-foreground">
@@ -242,8 +248,8 @@ const SponsorDashboard = () => {
               )}
             </div>
 
-            <div className="lg:col-span-1">
-              <Card className="shadow-xl">
+            <div className="lg:col-span-2">
+              <Card className="shadow-sm border">
                 <CardHeader className="border-b p-4">
                   <CardTitle className="text-xl flex items-center gap-2">
                     <Trophy className="h-5 w-5 text-primary" />
@@ -251,8 +257,9 @@ const SponsorDashboard = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="p-4 space-y-3">
-                  {profileData?.my_fighters.length > 0 ? (
-                    profileData?.my_fighters.map((fighter) => (
+                  {profileData?.my_fighters &&
+                  profileData.my_fighters.length > 0 ? (
+                    profileData.my_fighters.map((fighter) => (
                       <div
                         key={fighter.id}
                         className="flex items-center justify-between border-b last:border-b-0 py-2"
