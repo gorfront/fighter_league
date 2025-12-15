@@ -1,6 +1,9 @@
 import { Server, Socket } from "socket.io";
+
 import jwt from "jsonwebtoken";
+
 import Message from "../models/Message";
+
 import BlockedUser from "../models/BlockedUser";
 
 interface DecodedToken {
@@ -21,7 +24,6 @@ export class ServerSocket {
   constructor(server: any) {
     ServerSocket.instance = this;
     this.users = {};
-
     this.io = new Server(server, {
       serveClient: false,
       pingInterval: 10000,
@@ -57,83 +59,115 @@ export class ServerSocket {
     });
 
     this.io.on("connection", (socket: AuthSocket) => {
-      console.log(`User connected: ${socket.user?.id}`);
-
-      if (socket.user?.id) {
+      if (socket.user?.id !== undefined) {
+        console.log(`User connected: ${socket.user.id}`);
         this.users[socket.user.id] = socket.id;
         socket.join(`user_${socket.user.id}`);
       }
 
       socket.on("join_chat", ({ targetUserId }) => {
         const myId = socket.user?.id;
-        if (!myId || !targetUserId) return;
+
+        if (
+          myId === undefined ||
+          targetUserId === undefined ||
+          targetUserId === null
+        )
+          return;
+
         const roomId = [myId, targetUserId].sort((a, b) => a - b).join("_");
         socket.join(`chat_${roomId}`);
       });
 
-      socket.on("send_message", async ({ targetUserId, content }) => {
-        const myId = socket.user?.id;
-        if (!myId || !targetUserId) return;
+      // socket.on("send_message", async ({ targetUserId, content }) => {
+      socket.on(
+        "send_message",
+        async ({ targetUserId, content, attachmentUrl, attachmentType }) => {
+          const myId = socket.user?.id;
 
-        try {
-          const isBlockedByTarget = await BlockedUser.findOne({
-            where: {
-              blockerId: targetUserId,
-              blockedId: myId,
-            },
-          });
-
-          if (isBlockedByTarget) {
-            socket.emit("error", {
-              message:
-                "You cannot send messages to this user (you are blocked).",
-            });
+          if (
+            myId === undefined ||
+            targetUserId === undefined ||
+            targetUserId === null
+          )
             return;
-          }
+          try {
+            const isBlockedByTarget = await BlockedUser.findOne({
+              where: {
+                blockerId: targetUserId,
 
-          const didIBlock = await BlockedUser.findOne({
-            where: {
-              blockerId: myId,
-              blockedId: targetUserId,
-            },
-          });
-
-          if (didIBlock) {
-            socket.emit("error", {
-              message: "Unblock this user first to send messages.",
+                blockedId: myId,
+              },
             });
-            return;
-          }
 
-          const newMessage = await Message.create({
-            senderId: myId,
-            receiverId: targetUserId,
-            content: content,
-          });
+            if (isBlockedByTarget) {
+              socket.emit("error", {
+                message:
+                  "You cannot send messages to this user (you are blocked).",
+              });
 
-          const roomId = [myId, targetUserId].sort((a, b) => a - b).join("_");
-          const chatRoomName = `chat_${roomId}`;
-
-          this.io.to(chatRoomName).emit("receive_message", newMessage);
-
-          const receiverSocketId = this.users[targetUserId];
-          if (receiverSocketId) {
-            const receiverSocket =
-              this.io.sockets.sockets.get(receiverSocketId);
-            const isReceiverInChat = receiverSocket?.rooms.has(chatRoomName);
-
-            if (!isReceiverInChat) {
-              this.io.to(receiverSocketId).emit("receive_message", newMessage);
+              return;
             }
+
+            const didIBlock = await BlockedUser.findOne({
+              where: {
+                blockerId: myId,
+                blockedId: targetUserId,
+              },
+            });
+
+            if (didIBlock) {
+              socket.emit("error", {
+                message: "Unblock this user first to send messages.",
+              });
+
+              return;
+            }
+
+            // const newMessage = await Message.create({
+            //   senderId: myId,
+            //   receiverId: targetUserId,
+            //   content: content,
+            // });
+            // const roomId = [myId, targetUserId].sort((a, b) => a - b).join("_");
+            // const chatRoomName = `chat_${roomId}`;
+
+            // this.io.to(chatRoomName).emit("receive_message", newMessage);
+
+            const newMessage = await Message.create({
+              senderId: myId,
+              receiverId: targetUserId,
+              content: content || "", // Handle empty content if it's just an image
+              attachmentUrl, // Save URL
+              attachmentType, // Save Type
+            });
+
+            const roomId = [myId, targetUserId].sort((a, b) => a - b).join("_");
+            const chatRoomName = `chat_${roomId}`;
+
+            this.io.to(chatRoomName).emit("receive_message", newMessage);
+
+            // Notification logic
+            const receiverSocketId = this.users[targetUserId];
+            if (receiverSocketId) {
+              const receiverSocket =
+                this.io.sockets.sockets.get(receiverSocketId);
+              const isReceiverInChat = receiverSocket?.rooms.has(chatRoomName);
+              if (!isReceiverInChat) {
+                this.io
+                  .to(receiverSocketId)
+                  .emit("receive_message", newMessage);
+              }
+            }
+          } catch (error) {
+            console.error("Error saving message:", error);
+            socket.emit("error", { message: "Failed to send message" });
           }
-        } catch (error) {
-          console.error("Error saving message:", error);
-          socket.emit("error", { message: "Failed to send message" });
         }
-      });
+      );
 
       socket.on("disconnect", () => {
-        if (socket.user?.id) {
+        if (socket.user?.id !== undefined) {
           delete this.users[socket.user.id];
         }
       });

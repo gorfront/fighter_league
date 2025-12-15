@@ -10,12 +10,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 import apiClient from "@/api/apiClient";
 import UploadPhoto from "@/components/UploadPhoto";
 import { supabase } from "@/lib/supabaseClient";
 import { useNavigate } from "react-router-dom";
 import { Textarea } from "../ui/textarea";
+import { useAuthStore } from "@/stores/authStore";
 
 interface SponsorProfile {
   company_name: string;
@@ -38,7 +39,9 @@ const SponsorForm = ({ name, email }: { name: string; email: string }) => {
     walletAddress: "",
     tier: "Partner" as SponsorProfile["tier"],
   });
-  const navigation = useNavigate();
+
+  const setToken = useAuthStore((s) => s.setToken);
+  const setUser = useAuthStore((s) => s.setUser);
 
   const handleSelectChange = (value: string) => {
     setFormData((prev) => ({ ...prev, tier: value as SponsorProfile["tier"] }));
@@ -52,11 +55,10 @@ const SponsorForm = ({ name, email }: { name: string; email: string }) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    if (!formData.name || !formData.walletAddress || !imageFile) {
+    if (!formData.name || !imageFile) {
       toast({
         title: "Missing required fields",
-        description:
-          "Please fill in all * required fields and upload an image.",
+        description: "Please fill in Company Name and upload a Logo.",
         variant: "destructive",
       });
       setIsSubmitting(false);
@@ -64,8 +66,9 @@ const SponsorForm = ({ name, email }: { name: string; email: string }) => {
     }
 
     try {
-      const fileExt = imageFile!.name.split(".").pop();
-      const fileName = `${formData.name!.replace(
+      // 1. Upload Image
+      const fileExt = imageFile.name.split(".").pop();
+      const fileName = `${formData.name.replace(
         / /g,
         "_"
       )}_logo_${Date.now()}.${fileExt}`;
@@ -73,37 +76,45 @@ const SponsorForm = ({ name, email }: { name: string; email: string }) => {
 
       const { data: uploadData, error: uploadError } = await supabase.storage
         .from("sponsor-logos")
-        .upload(filePath, imageFile!);
+        .upload(filePath, imageFile);
 
       if (uploadError) {
         throw new Error(`Logo upload failed: ${uploadError.message}`);
       }
       const logoUrl = uploadData.path;
 
+      // 2. Prepare Payload
       const registerPayload = {
         companyName: formData.name,
         email,
         description: formData.description,
-        walletAddress: formData.walletAddress,
+        walletAddress: formData.walletAddress || undefined, // Send undefined if empty
         user_type: "SPONSOR",
         logoUrl,
         tier: formData.tier,
       };
 
+      // 🛠️ FIX: Correct URL (Plural 'sponsors', no 'dashboard' prefix)
       const registerRes = await apiClient.post(
-        "/sponsor/register",
+        "/sponsors/register",
         registerPayload
       );
 
+      // 3. Update Auth Store with NEW Token (Promotes user to SPONSOR)
+      if (registerRes.data.token && registerRes.data.user) {
+        setToken(registerRes.data.token);
+        setUser(registerRes.data.user);
+      }
+
       toast({
-        title: "Sponsor Registration Complete!",
-        description:
-          registerRes.data.message ||
-          "Welcome! Please log in to your new account.",
+        title: "Registration Complete!",
+        description: "You are now logged in as a Sponsor.",
       });
 
+      // 4. Navigate (Now the Guard will let you pass because token is updated)
       navigate("/dashboard/sponsor");
 
+      // Reset
       setFormData({
         name: "",
         websiteUrl: "",
@@ -115,6 +126,7 @@ const SponsorForm = ({ name, email }: { name: string; email: string }) => {
       setImageFile(null);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
+      console.error(error);
       const message =
         error.response?.data?.message ||
         error.message ||
@@ -161,17 +173,7 @@ const SponsorForm = ({ name, email }: { name: string; email: string }) => {
             handleFileChange={handleFileChange}
           />
         </div>
-        {/* <div className="space-y-2 flex flex-col items-start">
-          <Label htmlFor="email">Work Email *</Label>
-          <Input
-            id="email"
-            type="email"
-            placeholder="you@company.com"
-            value={formData.email}
-            onChange={(e) => handleChange("email", e.target.value)}
-            required
-          />
-        </div> */}
+
         <div className="space-y-2 flex flex-col items-start">
           <Label htmlFor="walletAddress">Wallet Address *</Label>
           <Input

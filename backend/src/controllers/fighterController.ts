@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import Fighter from "../models/Fighter";
 import User from "../models/User";
 import Division from "../models/Division";
+import { Op } from "sequelize";
 
 const divisionMap: { [key: string]: number } = {
   Lightweight: 1,
@@ -83,20 +84,39 @@ export const registerFighter = async (req: Request, res: Response) => {
 };
 
 export const getAllFighters = async (req: Request, res: Response) => {
-  const { limit, sortBy, country } = req.query;
+  // 1. Extract Pagination Params (Default: Page 1, Limit 10)
+  const {
+    limit = "10",
+    page = "1",
+    sortBy,
+    search,
+    division,
+    gender,
+  } = req.query;
+
+  const limitNum = Number(limit);
+  const pageNum = Number(page);
+  const offset = (pageNum - 1) * limitNum;
 
   try {
-    const fighters = await Fighter.findAll({
-      where: {
-        status: "verified",
-        ...(country ? { country } : {}),
-      },
-      include: [
-        {
-          model: Division,
-          attributes: ["name"],
-        },
-      ],
+    const whereClause: any = {
+      status: "verified",
+    };
+
+    if (search) {
+      whereClause[Op.or] = [
+        { name: { [Op.iLike]: `%${search}%` } },
+        { country: { [Op.iLike]: `%${search}%` } },
+      ];
+    }
+
+    if (division && division !== "all") whereClause.division = division;
+    if (gender && gender !== "all") whereClause.gender = gender;
+
+    // 2. Use findAndCountAll for Pagination
+    const { count, rows: fighters } = await Fighter.findAndCountAll({
+      where: whereClause,
+      include: [{ model: Division, attributes: ["name"] }],
       attributes: [
         "id",
         "user_id",
@@ -115,8 +135,12 @@ export const getAllFighters = async (req: Request, res: Response) => {
         "sponsors",
       ],
       order: [[sortBy === "ranking" ? "ranking" : "name", "ASC"]],
-      ...(limit ? { limit: Number(limit) } : {}),
+      limit: limitNum,
+      offset: offset,
     });
+
+    const createRecordString = (w: number, l: number, d: number) =>
+      `${w}-${l}-${d}`;
 
     const list = fighters.map((f) => ({
       id: f.id.toString(),
@@ -136,7 +160,16 @@ export const getAllFighters = async (req: Request, res: Response) => {
       sponsors: f.sponsors,
     }));
 
-    res.status(200).json(list);
+    // 3. Return Pagination Metadata
+    res.status(200).json({
+      fighters: list,
+      pagination: {
+        totalItems: count,
+        totalPages: Math.ceil(count / limitNum),
+        currentPage: pageNum,
+        itemsPerPage: limitNum,
+      },
+    });
   } catch (err) {
     console.error("getAllFighters Sequelize error:", err);
     res.status(500).json({ message: "Server Error" });
@@ -231,21 +264,6 @@ export const getMyFighterProfile = async (req: Request, res: Response) => {
   }
 };
 
-const parseBodyInt = (val: any) => {
-  if (!val || val === "undefined" || val === "null" || val === "")
-    return undefined;
-  const parsed = parseInt(val, 10);
-  return isNaN(parsed) ? undefined : parsed;
-};
-
-// Helper to safely parse floats (for weight)
-const parseBodyFloat = (val: any) => {
-  if (!val || val === "undefined" || val === "null" || val === "")
-    return undefined;
-  const parsed = parseFloat(val);
-  return isNaN(parsed) ? undefined : parsed;
-};
-
 export const updateFighterProfile = async (req: Request, res: Response) => {
   const userId = req.user?.id;
 
@@ -292,4 +310,19 @@ export const updateFighterProfile = async (req: Request, res: Response) => {
     console.error("Error updating fighter profile:", error);
     res.status(500).json({ message: "Server error updating profile" });
   }
+};
+
+const parseBodyInt = (val: any) => {
+  if (!val || val === "undefined" || val === "null" || val === "")
+    return undefined;
+  const parsed = parseInt(val, 10);
+  return isNaN(parsed) ? undefined : parsed;
+};
+
+// Helper to safely parse floats (for weight)
+const parseBodyFloat = (val: any) => {
+  if (!val || val === "undefined" || val === "null" || val === "")
+    return undefined;
+  const parsed = parseFloat(val);
+  return isNaN(parsed) ? undefined : parsed;
 };

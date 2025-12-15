@@ -4,6 +4,10 @@ import {
   approveFighter,
   rejectFighter,
   getVerifiedFighters,
+  deleteDonor,
+  deleteSponsor,
+  getAllDonors,
+  getAllSponsors,
 } from "../controllers/adminController";
 import { protect } from "../middleware/authMiddleware";
 
@@ -28,5 +32,11 @@ router.patch("/fighters/:id/approve", protect, approveFighter);
 router.delete("/fighters/:id", protect, rejectFighter);
 
 router.get("/fighters/verified", protect, getVerifiedFighters);
+
+router.get("/sponsors", protect, getAllSponsors);
+router.delete("/sponsors/:id", protect, deleteSponsor);
+
+router.get("/donors", protect, getAllDonors);
+router.delete("/donors/:id", protect, deleteDonor);
 
 export default router;

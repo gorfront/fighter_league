@@ -19,8 +19,6 @@ import { Loader2, Plus, Trash2, Save, ArrowLeft } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { createClient } from "@supabase/supabase-js";
 
-// --- SUPABASE CONFIGURATION ---
-// You should ideally have these in your .env file
 const SUPABASE_URL = "https://eumlexrcxqgaudtsmavc.supabase.co";
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
 const IMAGE_BASE_URL = import.meta.env.VITE_SUPABASE_IMAGE_URL as string;

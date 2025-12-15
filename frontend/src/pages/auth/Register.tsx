@@ -1,7 +1,5 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-
-import { Tabs } from "@/components/ui/tabs";
 import RegisterFirstStep from "@/components/RegisterForms/RegisterFirstStep";
 
 const Register = () => {
@@ -23,9 +21,7 @@ const Register = () => {
 
         <section className="py-12">
           <div className="container max-w-2xl">
-            <Tabs defaultValue="fighter">
-              <RegisterFirstStep />
-            </Tabs>
+            <RegisterFirstStep />
           </div>
         </section>
       </main>

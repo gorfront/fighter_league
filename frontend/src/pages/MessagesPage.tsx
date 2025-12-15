@@ -3,7 +3,6 @@ import { useEffect, useState, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useChatStore } from "@/stores/useChatStore";
 import { useAuthStore } from "@/stores/authStore";
-import ChatWindow from "../../components/ChatWindow";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import {
@@ -18,6 +17,7 @@ import {
 import apiClient from "@/api/apiClient";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import ChatWindow from "@/components/ChatWindow";
 
 const MessagesPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -120,7 +120,6 @@ const MessagesPage = () => {
     });
   };
 
-
   const handleRemove = async (id: number) => {
     try {
       await apiClient.delete(`/users/conversations/${id}`);
@@ -143,7 +142,7 @@ const MessagesPage = () => {
     try {
       await apiClient.post("/users/mute", { targetId: id });
       toast.success("Notifications muted");
-      fetchContacts(); 
+      fetchContacts();
     } catch (error) {
       console.error("Failed to mute user", error);
       toast.error("Failed to mute user");
@@ -156,7 +155,7 @@ const MessagesPage = () => {
     try {
       await apiClient.post("/users/unmute", { targetId: id });
       toast.success("Notifications unmuted");
-      fetchContacts(); 
+      fetchContacts();
     } catch (error) {
       console.error("Failed to unmute user", error);
       toast.error("Failed to unmute user");
@@ -285,8 +284,13 @@ const MessagesPage = () => {
           </div>
 
           <div className="col-span-1 md:col-span-2 h-full bg-white flex flex-col max-h-[766px]">
-            {activeChatUser ? (
-              <ChatWindow targetUserId={activeChatUser} myToken={token || ""} />
+            {activeChatUser !== null ? (
+              <>
+                <ChatWindow
+                  targetUserId={activeChatUser}
+                  myToken={token || ""}
+                />
+              </>
             ) : (
               <div className="flex flex-col h-full items-center justify-center text-muted-foreground bg-gray-50/30 p-8 text-center">
                 <div className="h-16 w-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">

@@ -51,6 +51,14 @@ export const Footer = () => {
                   Events
                 </Link>
               </li>
+              <li>
+                <Link
+                  to="/sponsors"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
+                  Sponsors
+                </Link>
+              </li>
             </ul>
           </div>
 

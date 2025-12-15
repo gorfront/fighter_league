@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useAuthStore } from "@/stores/authStore";
-import { Mail } from "lucide-react";
+import { Mail, Heart } from "lucide-react";
 
 interface FighterCardProps {
   id: string;
@@ -92,6 +92,20 @@ export const FighterCard = ({
             >
               <Mail className="w-4 h-4 mr-2" />
               Message
+            </Button>
+          ) : (
+            <></>
+          )}
+
+          {userType && userType === "DONOR" ? (
+            <Button
+              className="w-full bg-gradient-gold hover:opacity-90 transition-opacity"
+              // onClick={() => {
+              //   navigate(`/dashboard/messages?contactId=${user_id}`);
+              // }}
+            >
+              <Heart className="w-4 h-4 mr-2" />
+              Donate
             </Button>
           ) : (
             <></>

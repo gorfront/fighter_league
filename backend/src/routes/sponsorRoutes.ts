@@ -17,11 +17,7 @@ router.get(
 
 router.get("/me", protect, getMySponsorProfile);
 
-router.post(
-  "/register",
-  //  protect,
-  registerSponsor
-);
+router.post("/register", protect, registerSponsor);
 
 router.put("/me", protect, updateSponsorProfile);
 

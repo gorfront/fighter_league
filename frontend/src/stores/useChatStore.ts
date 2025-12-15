@@ -9,6 +9,8 @@ interface Message {
   receiverId: number;
   content: string;
   createdAt: string;
+  attachmentUrl?: string; // Add this
+  attachmentType?: string; // Add this
 }
 
 export interface ChatContact {
@@ -42,7 +44,12 @@ interface ChatState {
 
   connectSocket: (token: string) => void;
   joinChat: (targetUserId: number) => Promise<void>;
-  sendMessage: (content: string) => void;
+  // sendMessage: (content: string) => void;
+  sendMessage: (
+    content: string,
+    attachmentUrl?: string | null,
+    attachmentType?: string | null
+  ) => void;
   disconnectSocket: () => void;
   fetchContacts: () => Promise<void>;
   ensureContactInList: (user: ChatContact) => void;
@@ -191,13 +198,25 @@ export const useChatStore = create<ChatState>((set, get) => ({
     }
   },
 
-  sendMessage: (content) => {
-    const { socket, activeChatUser } = get();
-    if (!socket || !activeChatUser) return;
+  // sendMessage: (content) => {
+  //   const { socket, activeChatUser } = get();
+  //   if (!socket || activeChatUser === null) return;
 
+  //   socket.emit("send_message", {
+  //     targetUserId: activeChatUser,
+  //     content,
+  //   });
+  // },
+  sendMessage: (content, attachmentUrl = null, attachmentType = null) => {
+    const { socket, activeChatUser } = get();
+    if (!socket || activeChatUser === null) return;
+
+    // Emit with new fields
     socket.emit("send_message", {
       targetUserId: activeChatUser,
       content,
+      attachmentUrl,
+      attachmentType,
     });
   },
 

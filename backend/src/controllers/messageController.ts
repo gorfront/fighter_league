@@ -11,7 +11,8 @@ export const markAsRead = async (req: Request, res: Response) => {
     const myId = req.user!.id;
     const { senderId } = req.body;
 
-    if (!senderId) {
+    // FIX: Check for undefined/null instead of !senderId
+    if (senderId === undefined || senderId === null) {
       return res.status(400).json({ message: "senderId is required" });
     }
 

@@ -66,7 +66,6 @@ export const Header = () => {
       if (senderId === myId) return;
 
       if (senderId !== activeChatUser) {
-        console.log("📩 New message in background, refreshing contacts...");
         fetchContacts();
       }
     };

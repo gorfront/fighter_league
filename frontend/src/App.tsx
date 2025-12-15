@@ -19,10 +19,11 @@ import SponsorDashboard from "./pages/dashboard/SponsorDashboard";
 import RoleSelectionPage from "./pages/auth/RoleSelectionPage";
 import { useAuthStore } from "./stores/authStore";
 import Sponsors from "./pages/navigate/Sponsors";
-import ChatPage from "./components/ChatWindow";
-import MessagesPage from "./pages/dashboard/MessagesPage";
-import FighterEdit from "./pages/dashboard/FighterEdit";
-import SponsorEdit from "./pages/dashboard/SponsorEdit";
+import FighterEdit from "./pages/edit/FighterEdit";
+import SponsorEdit from "./pages/edit/SponsorEdit";
+import DonorDashboard from "./pages/dashboard/DonorDashboard";
+import DonorEdit from "./pages/edit/DonorEdit";
+import MessagesPage from "./pages/MessagesPage";
 
 const queryClient = new QueryClient();
 
@@ -58,11 +59,13 @@ const App = () => {
               <Route path="/dashboard/admin" element={<AdminDashboard />} />
               <Route path="/dashboard/fighter" element={<FighterDashboard />} />
               <Route path="/dashboard/sponsor" element={<SponsorDashboard />} />
-              <Route path="/dashboard/donor" element={<>donor</>} />
+              <Route path="/dashboard/donor" element={<DonorDashboard />} />
               <Route path="/dashboard/guest" element={<RoleSelectionPage />} />
 
+              {/* Edit */}
               <Route path="/dashboard/fighter/edit" element={<FighterEdit />} />
               <Route path="/dashboard/sponsor/edit" element={<SponsorEdit />} />
+              <Route path="/dashboard/donor/edit" element={<DonorEdit />} />
 
               {/* 404 */}
               <Route path="*" element={<NotFound />} />

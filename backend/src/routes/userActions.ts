@@ -68,7 +68,6 @@ router.post("/mute", protect, async (req: Request, res: Response) => {
       mutedUserId: targetId,
     });
 
-    console.log(`User ${myId} muted user ${targetId}`);
     res.json({ success: true, message: `User ${targetId} muted` });
   } catch (error) {
     console.error("Error muting user:", error);
@@ -122,7 +121,6 @@ router.post("/block", protect, async (req: Request, res: Response) => {
       blockedId: targetId,
     });
 
-    console.log(`User ${myId} blocked user ${targetId}`);
     res.json({ success: true, message: `User ${targetId} blocked` });
   } catch (error) {
     console.error("Error blocking user:", error);
@@ -153,8 +151,6 @@ router.post("/unblock", protect, async (req: Request, res: Response) => {
       io.to(targetSocketRoom).emit("unblock_status_change", {
         unblockerId: myId,
       });
-
-      console.log(`User ${targetId} unblocked by ${myId}. Socket signal sent.`);
     } catch (e) {
       console.warn(
         "Could not emit unblock signal: ServerSocket instance not ready."

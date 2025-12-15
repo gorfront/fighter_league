@@ -2,11 +2,13 @@ import { useState, useEffect } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Loader2, DollarSign, LinkIcon, Mail } from "lucide-react";
+import { Loader2, DollarSign, LinkIcon, Mail, Search } from "lucide-react";
 import apiClient from "@/api/apiClient";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/stores/authStore";
+import { useDebounce } from "@/hooks/debounce";
 
 interface PublicSponsor {
   id: number;
@@ -27,6 +29,9 @@ const Sponsors = () => {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
+  const [searchQuery, setSearchQuery] = useState("");
+  const debouncedSearch = useDebounce(searchQuery, 500);
+
   const userType = useAuthStore((s) => s.userType);
   const currentUser = useAuthStore((s) => s.currentUser);
 
@@ -35,21 +40,30 @@ const Sponsors = () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await apiClient.get("/sponsors");
-        setSponsors(
-          Array.isArray(response.data) ? response.data : response.data.sponsors
-        );
+        const params = new URLSearchParams();
+        if (debouncedSearch) params.append("search", debouncedSearch);
+
+        const response = await apiClient.get(`/sponsors?${params.toString()}`);
+
+        const data = Array.isArray(response.data)
+          ? response.data
+          : response.data.sponsors;
+
+        setSponsors(data);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
-        setError("Failed to fetch data. Please try again later.");
-        console.error("Error fetching sponsors:", err);
+        if (err.response?.status !== 404) {
+          setError("Failed to fetch sponsors.");
+        } else {
+          setSponsors([]);
+        }
       } finally {
         setLoading(false);
       }
     };
 
     fetchData();
-  }, []);
+  }, [debouncedSearch]);
 
   const filteredSponsors = sponsors.filter((sponsor) => {
     if (userType === "SPONSOR" && currentUser?.id === sponsor.user_id) {
@@ -77,129 +91,173 @@ const Sponsors = () => {
     Partner: { color: "text-blue-600", ring: "ring-blue-500" },
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex flex-col justify-center items-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-        <p className="mt-2">Loading sponsors list...</p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="min-h-screen flex flex-col justify-center items-center">
-        <h1 className="text-3xl text-red-600">Error</h1>
-        <p>{error}</p>
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-background">
       <Header />
-      <main className="flex-1 container mx-auto py-12">
+      <main className="flex-1 container mx-auto py-12 px-4">
         <div className="max-w-6xl mx-auto">
-          <h1 className="text-5xl font-extrabold mb-4 flex items-center gap-3 text-foreground">
-            <DollarSign className="h-10 w-10 text-primary" />
-            Our Valued Sponsors
-          </h1>
-          <p className="text-lg text-muted-foreground mb-12">
-            We are proud to partner with these leading organizations who support
-            the Valor League and our fighters.
-          </p>
-
-          <div className="space-y-12">
-            {tierOrder.map((tier) => {
-              const sponsorsInTier = groupedSponsors[tier];
-              if (!sponsorsInTier || sponsorsInTier.length === 0) return null;
-
-              const { color, ring } = tierStyles[tier];
-
-              return (
-                <div key={tier}>
-                  <h2
-                    className={`text-3xl font-bold mb-6 pb-2 border-b-2 ${color} border-primary`}
-                  >
-                    {tier} Tier Sponsors ({sponsorsInTier.length})
-                  </h2>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {sponsorsInTier.map((sponsor) => (
-                      <Card
-                        key={sponsor.id}
-                        className={`shadow-lg ring-2 ${ring} transition-shadow duration-300 hover:shadow-2xl flex flex-col`}
-                      >
-                        <CardHeader className="flex flex-col items-center p-6 border-b">
-                          {sponsor.logo_url ? (
-                            <img
-                              src={SUPABASE_IMAGE_URL + sponsor.logo_url}
-                              alt={sponsor.company_name}
-                              className="h-20 w-auto object-contain mb-3"
-                            />
-                          ) : (
-                            <div className="h-20 w-full flex items-center justify-center text-xl font-semibold border rounded-md bg-gray-50">
-                              {sponsor.company_name}
-                            </div>
-                          )}
-                          <CardTitle className="text-xl mt-2 text-center">
-                            {sponsor.company_name}
-                          </CardTitle>
-                        </CardHeader>
-                        <CardContent className="p-4 space-y-3 flex-1 flex flex-col">
-                          <p className="text-sm text-gray-700 h-16 overflow-hidden">
-                            {sponsor.description ||
-                              "Official sponsor of the Valor League."}
-                          </p>
-
-                          {sponsor.website && (
-                            <a
-                              href={
-                                sponsor.website.startsWith("http")
-                                  ? sponsor.website
-                                  : `https://${sponsor.website}`
-                              }
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="flex items-center text-sm text-primary hover:underline mb-2"
-                            >
-                              <LinkIcon className="h-4 w-4 mr-2" />
-                              Visit Website
-                            </a>
-                          )}
-
-                          <div className="mt-auto pt-2">
-                            {userType &&
-                            userType !== "GUEST" &&
-                            sponsor.user_id ? (
-                              <Button
-                                className="w-full bg-gradient-gold hover:opacity-90 transition-opacity"
-                                onClick={() => {
-                                  navigate(
-                                    `/dashboard/messages?contactId=${sponsor.user_id}`
-                                  );
-                                }}
-                              >
-                                <Mail className="w-4 h-4 mr-2" />
-                                Message
-                              </Button>
-                            ) : null}
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                </div>
-              );
-            })}
-
-            {filteredSponsors.length === 0 && !loading && (
-              <div className="text-center py-20">
-                <p className="text-xl text-muted-foreground">
-                  We are currently looking for new partners!
-                </p>
-              </div>
-            )}
+          <div className="mb-10 text-center md:text-left">
+            <h1 className="text-4xl md:text-5xl font-extrabold mb-4 flex items-center justify-center md:justify-start gap-3 text-foreground">
+              <DollarSign className="h-10 w-10 text-primary" />
+              Our Partners
+            </h1>
+            <p className="text-lg text-muted-foreground max-w-2xl">
+              Proudly supported by leading organizations committed to the future
+              of combat sports.
+            </p>
           </div>
+
+          <div className="mb-12 sticky top-20 z-10 bg-background/95 p-4 rounded-xl border shadow-sm backdrop-blur supports-[backdrop-filter]:bg-background/60">
+            <div className="relative max-w-full">
+              <Input
+                placeholder="Search sponsors by company name..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10 h-12 text-lg"
+              />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" />
+            </div>
+          </div>
+
+          {loading && (
+            <div className="flex flex-col justify-center items-center py-20">
+              <Loader2 className="h-10 w-10 animate-spin text-primary mb-4" />
+              <p className="text-muted-foreground">
+                Connecting with partners...
+              </p>
+            </div>
+          )}
+
+          {error && !loading && (
+            <div className="text-center py-20 text-red-500">
+              <p>{error}</p>
+            </div>
+          )}
+
+          {!loading && !error && (
+            <div className="space-y-16">
+              {tierOrder.map((tier) => {
+                const sponsorsInTier = groupedSponsors[tier];
+                if (!sponsorsInTier || sponsorsInTier.length === 0) return null;
+
+                const { color, ring } = tierStyles[tier];
+
+                return (
+                  <div
+                    key={tier}
+                    className="animate-in fade-in duration-500 slide-in-from-bottom-4"
+                  >
+                    <h2
+                      className={`text-2xl font-bold mb-6 pb-2 border-b-2 ${color} border-opacity-20 flex items-center gap-2`}
+                    >
+                      <span
+                        className={`w-3 h-3 rounded-full ${color.replace(
+                          "text-",
+                          "bg-"
+                        )}`}
+                      ></span>
+                      {tier} Sponsors
+                    </h2>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                      {sponsorsInTier.map((sponsor) => (
+                        <Card
+                          key={sponsor.id}
+                          className={`group overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 ring-1 hover:ring-2 ${ring} flex flex-col h-full`}
+                        >
+                          <CardHeader className="flex flex-col items-center p-6 bg-muted/20 border-b">
+                            <div className="h-24 w-full flex items-center justify-center mb-4 transition-transform group-hover:scale-105 duration-300">
+                              {sponsor.logo_url ? (
+                                <img
+                                  src={
+                                    sponsor.logo_url.startsWith("http")
+                                      ? sponsor.logo_url
+                                      : SUPABASE_IMAGE_URL + sponsor.logo_url
+                                  }
+                                  alt={sponsor.company_name}
+                                  className="max-h-full max-w-full object-contain drop-shadow-sm"
+                                />
+                              ) : (
+                                <span className="text-xl font-bold text-gray-400">
+                                  {sponsor.company_name}
+                                </span>
+                              )}
+                            </div>
+                            <CardTitle className="text-lg text-center truncate w-full">
+                              {sponsor.company_name}
+                            </CardTitle>
+                          </CardHeader>
+
+                          <CardContent className="p-5 flex-1 flex flex-col justify-between bg-card">
+                            <p className="text-sm text-muted-foreground line-clamp-3 mb-4">
+                              {sponsor.description ||
+                                "Official sponsor of the Valor League."}
+                            </p>
+
+                            <div className="space-y-3 mt-auto">
+                              {sponsor.website && (
+                                <a
+                                  href={
+                                    sponsor.website.startsWith("http")
+                                      ? sponsor.website
+                                      : `https://${sponsor.website}`
+                                  }
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="flex items-center justify-center text-sm font-medium text-primary hover:underline w-full py-1"
+                                >
+                                  <LinkIcon className="h-3.5 w-3.5 mr-2" />
+                                  Visit Website
+                                </a>
+                              )}
+
+                              {userType &&
+                                userType !== "GUEST" &&
+                                sponsor.user_id && (
+                                  <Button
+                                    className="w-full gap-2"
+                                    variant="secondary"
+                                    onClick={() =>
+                                      navigate(
+                                        `/dashboard/messages?contactId=${sponsor.user_id}`
+                                      )
+                                    }
+                                  >
+                                    <Mail className="w-4 h-4" />
+                                    Contact
+                                  </Button>
+                                )}
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+
+              {filteredSponsors.length === 0 && (
+                <div className="text-center py-20 bg-muted/10 rounded-xl border border-dashed">
+                  <Search className="h-12 w-12 mx-auto text-muted-foreground/30 mb-3" />
+                  <h3 className="text-xl font-semibold text-gray-700">
+                    No sponsors found
+                  </h3>
+                  <p className="text-muted-foreground mt-2">
+                    Try adjusting your search terms.
+                  </p>
+                  {searchQuery && (
+                    <Button
+                      variant="link"
+                      onClick={() => setSearchQuery("")}
+                      className="mt-2"
+                    >
+                      Clear Search
+                    </Button>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </main>
       <Footer />

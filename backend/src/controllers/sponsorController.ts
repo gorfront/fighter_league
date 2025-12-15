@@ -3,6 +3,7 @@ import { Op, Transaction } from "sequelize";
 import User from "../models/User";
 import Sponsor from "../models/Sponsor";
 import sequelize from "../config/sequelize";
+import jwt from "jsonwebtoken";
 
 interface SponsorRegistrationPayload {
   email: string;
@@ -89,10 +90,28 @@ export const registerSponsor = async (
 
     await transaction.commit();
 
+    const newToken = jwt.sign(
+      {
+        id: user.id,
+        email: user.email,
+        user_type: "SPONSOR",
+        name: user.name,
+      },
+      process.env.JWT_SECRET as string,
+      { expiresIn: "30d" }
+    );
+
     res.status(201).json({
-      message:
-        "Sponsor registration completed successfully and user profile updated.",
+      message: "Sponsor registration completed successfully.",
       sponsorId: sponsor.id,
+      token: newToken,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        user_type: "SPONSOR",
+        wallet_address: user.wallet_address,
+      },
     });
   } catch (error: any) {
     if (transaction) await transaction.rollback();
@@ -133,8 +152,18 @@ export const getMySponsorProfile = async (req: Request, res: Response) => {
 };
 
 export const getAllSponsors = async (req: Request, res: Response) => {
+  const { search } = req.query;
+
   try {
+    const whereClause: any = {};
+
+    // 1. Add Search Logic
+    if (search) {
+      whereClause.company_name = { [Op.iLike]: `%${search}%` }; // Case-insensitive
+    }
+
     const sponsors = await Sponsor.findAll({
+      where: whereClause,
       order: [["company_name", "ASC"]],
       attributes: [
         "id",
@@ -143,15 +172,10 @@ export const getAllSponsors = async (req: Request, res: Response) => {
         "logo_url",
         "description",
         "tier",
-        "wallet_address",
-        "my_fighters",
       ],
     });
 
-    if (sponsors.length === 0) {
-      return res.status(404).json({ message: "No sponsors found." });
-    }
-
+    // Even if empty, return 200 with empty array for search to work smoothly
     res.status(200).json({ sponsors });
   } catch (error) {
     console.error("Error in getAllSponsors:", error);
