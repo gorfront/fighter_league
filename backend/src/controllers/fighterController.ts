@@ -84,7 +84,6 @@ export const registerFighter = async (req: Request, res: Response) => {
 };
 
 export const getAllFighters = async (req: Request, res: Response) => {
-  // 1. Extract Pagination Params (Default: Page 1, Limit 10)
   const {
     limit = "10",
     page = "1",
@@ -113,7 +112,6 @@ export const getAllFighters = async (req: Request, res: Response) => {
     if (division && division !== "all") whereClause.division = division;
     if (gender && gender !== "all") whereClause.gender = gender;
 
-    // 2. Use findAndCountAll for Pagination
     const { count, rows: fighters } = await Fighter.findAndCountAll({
       where: whereClause,
       include: [{ model: Division, attributes: ["name"] }],
@@ -160,7 +158,6 @@ export const getAllFighters = async (req: Request, res: Response) => {
       sponsors: f.sponsors,
     }));
 
-    // 3. Return Pagination Metadata
     res.status(200).json({
       fighters: list,
       pagination: {
@@ -278,20 +275,17 @@ export const updateFighterProfile = async (req: Request, res: Response) => {
       return res.status(404).json({ message: "Fighter profile not found" });
     }
 
-    // 1. Achievements: Frontend sends a stringified JSON array, parse it back
     let achievements = fighter.achievements;
     if (req.body.achievements) {
       try {
         achievements = JSON.parse(req.body.achievements);
       } catch (e) {
-        // If it's already an array (middleware magic) or fails, fallback
         if (Array.isArray(req.body.achievements)) {
           achievements = req.body.achievements;
         }
       }
     }
 
-    // 2. Update
     await fighter.update({
       name: req.body.name || fighter.name,
       country: req.body.country || fighter.country,
@@ -301,7 +295,6 @@ export const updateFighterProfile = async (req: Request, res: Response) => {
       gender: req.body.gender || fighter.gender,
       bio: req.body.bio || fighter.bio,
       achievements: achievements,
-      // Frontend sends the filename string now, not a file object
       image: req.body.image || fighter.image,
     });
 
@@ -310,19 +303,4 @@ export const updateFighterProfile = async (req: Request, res: Response) => {
     console.error("Error updating fighter profile:", error);
     res.status(500).json({ message: "Server error updating profile" });
   }
-};
-
-const parseBodyInt = (val: any) => {
-  if (!val || val === "undefined" || val === "null" || val === "")
-    return undefined;
-  const parsed = parseInt(val, 10);
-  return isNaN(parsed) ? undefined : parsed;
-};
-
-// Helper to safely parse floats (for weight)
-const parseBodyFloat = (val: any) => {
-  if (!val || val === "undefined" || val === "null" || val === "")
-    return undefined;
-  const parsed = parseFloat(val);
-  return isNaN(parsed) ? undefined : parsed;
 };

@@ -9,7 +9,7 @@ import {
   CardTitle,
   CardFooter,
 } from "@/components/ui/card";
-import { useToast } from "@/components/ui/use-toast"; // Fixed import path based on context
+import { useToast } from "@/components/ui/use-toast";
 import apiClient from "@/api/apiClient";
 import {
   ShieldCheck,
@@ -41,9 +41,8 @@ interface SponsorProfile {
 }
 
 const SponsorDashboard = () => {
-  // Ensure this matches your Supabase bucket URL exactly
-  const SUPABASE_IMAGE_URL =
-    "https://eumlexrcxqgaudtsmavc.supabase.co/storage/v1/object/public/sponsor-logos/";
+  const supabaseAnonKey = import.meta.env
+    .VITE_SUPABASE_SPONSOR_IMAGES as string;
 
   const userType = useAuthStore((s) => s.userType);
   const token = useAuthStore((s) => s.token);
@@ -139,7 +138,6 @@ const SponsorDashboard = () => {
     Partner: "bg-blue-600 text-white",
   };
 
-  console.log(userType);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -183,7 +181,7 @@ const SponsorDashboard = () => {
                   src={
                     profileData.logo_url.startsWith("http")
                       ? profileData.logo_url
-                      : SUPABASE_IMAGE_URL + profileData.logo_url
+                      : supabaseAnonKey + profileData.logo_url
                   }
                   alt={`${profileData.company_name} Logo`}
                   className="w-full h-auto max-h-48 object-contain border rounded-lg p-2 bg-gray-50"

@@ -157,9 +157,8 @@ export const getAllSponsors = async (req: Request, res: Response) => {
   try {
     const whereClause: any = {};
 
-    // 1. Add Search Logic
     if (search) {
-      whereClause.company_name = { [Op.iLike]: `%${search}%` }; // Case-insensitive
+      whereClause.company_name = { [Op.iLike]: `%${search}%` };
     }
 
     const sponsors = await Sponsor.findAll({
@@ -175,7 +174,6 @@ export const getAllSponsors = async (req: Request, res: Response) => {
       ],
     });
 
-    // Even if empty, return 200 with empty array for search to work smoothly
     res.status(200).json({ sponsors });
   } catch (error) {
     console.error("Error in getAllSponsors:", error);
@@ -197,7 +195,6 @@ export const updateSponsorProfile = async (req: Request, res: Response) => {
       return res.status(404).json({ message: "Sponsor profile not found" });
     }
 
-    // Update fields (excluding website)
     await sponsor.update({
       company_name: req.body.company_name || sponsor.company_name,
       email: req.body.email || sponsor.email,

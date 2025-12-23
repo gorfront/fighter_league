@@ -12,7 +12,6 @@ import { Loader2, Save, ArrowLeft, UploadCloud } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { createClient } from "@supabase/supabase-js";
 
-// --- SUPABASE CONFIGURATION ---
 const SUPABASE_URL = "https://eumlexrcxqgaudtsmavc.supabase.co";
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
 const IMAGE_BASE_URL =
@@ -43,7 +42,6 @@ const SponsorEdit = () => {
 
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
-  // 1. Fetch Current Data
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -78,7 +76,6 @@ const SponsorEdit = () => {
     fetchProfile();
   }, [toast]);
 
-  // 2. Handle Inputs
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -86,7 +83,6 @@ const SponsorEdit = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // 3. Handle Image Selection
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -95,7 +91,6 @@ const SponsorEdit = () => {
     }
   };
 
-  // 4. Submit Logic
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSaving(true);
@@ -103,15 +98,12 @@ const SponsorEdit = () => {
     try {
       let finalLogoUrl = formData.logo_url;
 
-      // A. Upload to Supabase if it's a new File
       if (formData.logo_url instanceof File) {
         const file = formData.logo_url;
         const fileExt = file.name.split(".").pop();
-        // Create a unique filename
         const fileName = `${Date.now()}-logo.${fileExt}`;
         const filePath = `${fileName}`;
 
-        // Upload to 'sponsor-logos' bucket
         const { error: uploadError } = await supabase.storage
           .from("sponsor-logos")
           .upload(filePath, file);
@@ -122,7 +114,6 @@ const SponsorEdit = () => {
         finalLogoUrl = filePath;
       }
 
-      // B. Prepare Payload (removed website)
       const payload = {
         company_name: formData.company_name,
         email: formData.email,
@@ -130,7 +121,6 @@ const SponsorEdit = () => {
         logo_url: typeof finalLogoUrl === "string" ? finalLogoUrl : undefined,
       };
 
-      // C. Update Backend
       await apiClient.put("/dashboard/sponsor/me", payload);
 
       toast({ title: "Success", description: "Profile updated successfully!" });

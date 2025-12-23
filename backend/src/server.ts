@@ -18,11 +18,13 @@ import messageRoutes from "./routes/messageRoutes";
 
 import userActions from "./routes/userActions";
 import path from "path";
+import newsletterRoutes from "./routes/newsletterRoutes";
 
 dotenv.config();
 
 const application: Express = express();
 const httpServer = http.createServer(application);
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const socketService = new ServerSocket(httpServer);
 
 application.use(
@@ -63,6 +65,7 @@ application.get("/ping", (_, res) => {
 });
 
 application.get("/status", (_, res) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const users = (ServerSocket.instance as any)?.users ?? [];
   return res.status(200).json({
     server: "running",
@@ -85,12 +88,15 @@ application.use("/api/v1/dashboard/admin", adminRoutes);
 
 application.use("/api/v1/users", userActions);
 
+application.use("/api/v1/newsletter", newsletterRoutes);
+
 application.use((req: Request, res: Response) => {
   res.status(404).json({
     message: `Route ${req.url} not found`,
   });
 });
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 application.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.error("Internal error:", err);
   res
@@ -102,8 +108,20 @@ const PORT = process.env.PORT || 3000;
 
 sequelize
   .authenticate()
-  .then(() => {
+  .then(async () => {
     console.log("✅ Database connected successfully.");
+
+    try {
+      await sequelize.query(
+        "SELECT setval('events_id_seq', (SELECT MAX(id) FROM events))"
+      );
+    } catch (seqErr) {
+      console.warn(
+        "⚠️ Could not sync sequence (table might be empty or sequence name differs):",
+        seqErr
+      );
+    }
+
     return sequelize.sync({ alter: false });
   })
   .then(() => {

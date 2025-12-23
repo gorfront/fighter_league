@@ -11,6 +11,12 @@ import apiClient from "@/api/apiClient";
 import { Fighter } from "@/types/fighter";
 import FighterGlobe from "@/components/FighterGlobe";
 import { useAuthStore } from "@/stores/authStore";
+import { useToast } from "@/components/ui/use-toast";
+
+interface FightersResponse {
+  fighters: Fighter[];
+  pagination: Record<string, number>;
+}
 
 const Index = () => {
   const [featuredFighters, setFeaturedFighters] = useState<Fighter[]>([]);
@@ -18,20 +24,56 @@ const Index = () => {
   const [error, setError] = useState<string | null>(null);
   const { userType } = useAuthStore();
 
+  const { toast } = useToast();
+  const [email, setEmail] = useState("");
+  const [subscribing, setSubscribing] = useState(false);
+
+  const handleSubscribe = async () => {
+    if (!email) {
+      toast({
+        title: "Email Required",
+        description: "Please enter your email address.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setSubscribing(true);
+    try {
+      const res = await apiClient.post("/newsletter/subscribe", { email });
+
+      toast({
+        title: "Subscribed!",
+        description: res.data.message || "You will now receive fight updates.",
+      });
+
+      setEmail("");
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      const msg = error.response?.data?.message || "Subscription failed.";
+      toast({
+        title: "Error",
+        description: msg,
+        variant: "destructive",
+      });
+    } finally {
+      setSubscribing(false);
+    }
+  };
+
   useEffect(() => {
     const fetchFeaturedFighters = async () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await apiClient.get<Fighter[]>("/fighters", {
+        const response = await apiClient.get<FightersResponse>("/fighters", {
           params: {
             sortBy: "ranking",
             limit: 4,
           },
         });
-        setFeaturedFighters(
-          response.data.sort((a, b) => b.ranking - a.ranking)
-        );
+
+        setFeaturedFighters(response.data.fighters);
       } catch (err) {
         setError("Failed to fetch fighters. Please try again later.");
         console.error(err);
@@ -160,7 +202,7 @@ const Index = () => {
             {!loading && !error && (
               <>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                  {featuredFighters.slice(0, 4).map((fighter) => (
+                  {featuredFighters.map((fighter) => (
                     <FighterCard key={fighter.id} {...fighter} />
                   ))}
                 </div>
@@ -231,9 +273,24 @@ const Index = () => {
                   type="email"
                   placeholder="Enter your email"
                   className="flex-1"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  disabled={subscribing}
+                  onKeyDown={(e) => e.key === "Enter" && handleSubscribe()}
                 />
-                <Button className="bg-gradient-gold hover:opacity-90 transition-opacity">
-                  Subscribe
+                <Button
+                  className="bg-gradient-gold hover:opacity-90 transition-opacity"
+                  onClick={handleSubscribe}
+                  disabled={subscribing}
+                >
+                  {subscribing ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Wait...
+                    </>
+                  ) : (
+                    "Subscribe"
+                  )}
                 </Button>
               </div>
             </div>

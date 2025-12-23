@@ -24,9 +24,7 @@ interface DonorProfile {
 }
 
 const DonorDashboard = () => {
-  // Supabase storage bucket public URL
-  const SUPABASE_IMAGE_URL =
-    "https://eumlexrcxqgaudtsmavc.supabase.co/storage/v1/object/public/donor_images/";
+  const supabaseAnonKey = import.meta.env.VITE_SUPABASE_DONOR_IMAGES as string;
 
   const userType = useAuthStore((s) => s.userType);
   const token = useAuthStore((s) => s.token);
@@ -133,7 +131,7 @@ const DonorDashboard = () => {
                     src={
                       profileData.logo_url.startsWith("http")
                         ? profileData.logo_url
-                        : SUPABASE_IMAGE_URL + profileData.logo_url
+                        : supabaseAnonKey + profileData.logo_url
                     }
                     alt="Donor Logo"
                     className="h-full w-full object-cover"

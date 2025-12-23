@@ -12,7 +12,8 @@ import { Fighter } from "@/types/fighter";
 import { useAuthStore } from "@/stores/authStore";
 
 const FighterProfile = () => {
-  const supabaseAnonKey = import.meta.env.VITE_SUPABASE_IMAGE_URL as string;
+  const supabaseAnonKey = import.meta.env
+    .VITE_SUPABASE_FIGHTER_IMAGES as string;
   const navigate = useNavigate();
 
   const { id } = useParams();

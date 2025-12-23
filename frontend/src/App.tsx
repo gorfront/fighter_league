@@ -24,6 +24,9 @@ import SponsorEdit from "./pages/edit/SponsorEdit";
 import DonorDashboard from "./pages/dashboard/DonorDashboard";
 import DonorEdit from "./pages/edit/DonorEdit";
 import MessagesPage from "./pages/MessagesPage";
+import EditEvent from "./pages/edit/EditEvent";
+import CreateEvent from "./pages/CreateEvent";
+import EventDetails from "./pages/EventDetails";
 
 const queryClient = new QueryClient();
 
@@ -66,12 +69,18 @@ const App = () => {
               <Route path="/dashboard/fighter/edit" element={<FighterEdit />} />
               <Route path="/dashboard/sponsor/edit" element={<SponsorEdit />} />
               <Route path="/dashboard/donor/edit" element={<DonorEdit />} />
+              <Route path="/events/edit/:id" element={<EditEvent />} />
 
               {/* 404 */}
               <Route path="*" element={<NotFound />} />
 
               {/* Chat */}
               <Route path="/dashboard/messages" element={<MessagesPage />} />
+
+              {/* Create */}
+              <Route path="/events/create" element={<CreateEvent />} />
+
+              <Route path="/events/:id" element={<EventDetails />} />
             </Routes>
           </AppInitializer>
         </BrowserRouter>

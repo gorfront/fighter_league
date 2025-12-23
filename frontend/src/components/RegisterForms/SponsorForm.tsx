@@ -66,7 +66,6 @@ const SponsorForm = ({ name, email }: { name: string; email: string }) => {
     }
 
     try {
-      // 1. Upload Image
       const fileExt = imageFile.name.split(".").pop();
       const fileName = `${formData.name.replace(
         / /g,
@@ -83,24 +82,21 @@ const SponsorForm = ({ name, email }: { name: string; email: string }) => {
       }
       const logoUrl = uploadData.path;
 
-      // 2. Prepare Payload
       const registerPayload = {
         companyName: formData.name,
         email,
         description: formData.description,
-        walletAddress: formData.walletAddress || undefined, // Send undefined if empty
+        walletAddress: formData.walletAddress || undefined,
         user_type: "SPONSOR",
         logoUrl,
         tier: formData.tier,
       };
 
-      // 🛠️ FIX: Correct URL (Plural 'sponsors', no 'dashboard' prefix)
       const registerRes = await apiClient.post(
         "/sponsors/register",
         registerPayload
       );
 
-      // 3. Update Auth Store with NEW Token (Promotes user to SPONSOR)
       if (registerRes.data.token && registerRes.data.user) {
         setToken(registerRes.data.token);
         setUser(registerRes.data.user);
@@ -111,10 +107,8 @@ const SponsorForm = ({ name, email }: { name: string; email: string }) => {
         description: "You are now logged in as a Sponsor.",
       });
 
-      // 4. Navigate (Now the Guard will let you pass because token is updated)
       navigate("/dashboard/sponsor");
 
-      // Reset
       setFormData({
         name: "",
         websiteUrl: "",

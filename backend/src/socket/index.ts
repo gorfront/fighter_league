@@ -79,7 +79,6 @@ export class ServerSocket {
         socket.join(`chat_${roomId}`);
       });
 
-      // socket.on("send_message", async ({ targetUserId, content }) => {
       socket.on(
         "send_message",
         async ({ targetUserId, content, attachmentUrl, attachmentType }) => {
@@ -124,22 +123,12 @@ export class ServerSocket {
               return;
             }
 
-            // const newMessage = await Message.create({
-            //   senderId: myId,
-            //   receiverId: targetUserId,
-            //   content: content,
-            // });
-            // const roomId = [myId, targetUserId].sort((a, b) => a - b).join("_");
-            // const chatRoomName = `chat_${roomId}`;
-
-            // this.io.to(chatRoomName).emit("receive_message", newMessage);
-
             const newMessage = await Message.create({
               senderId: myId,
               receiverId: targetUserId,
-              content: content || "", // Handle empty content if it's just an image
-              attachmentUrl, // Save URL
-              attachmentType, // Save Type
+              content: content || "",
+              attachmentUrl,
+              attachmentType,
             });
 
             const roomId = [myId, targetUserId].sort((a, b) => a - b).join("_");
@@ -147,7 +136,6 @@ export class ServerSocket {
 
             this.io.to(chatRoomName).emit("receive_message", newMessage);
 
-            // Notification logic
             const receiverSocketId = this.users[targetUserId];
             if (receiverSocketId) {
               const receiverSocket =

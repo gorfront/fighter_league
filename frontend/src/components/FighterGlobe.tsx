@@ -4,12 +4,16 @@ import Globe from "react-globe.gl";
 import { scaleSequentialSqrt } from "d3-scale";
 import { interpolateYlOrRd } from "d3-scale-chromatic";
 import countries from "@/assets/ne_110m_admin_0_countries.json";
-import { Division, Fighter } from "@/types/fighter.ts";
+import { Fighter } from "@/types/fighter.ts";
 import apiClient from "@/api/apiClient.ts";
 import "../App.css";
 
-const SUPABASE_IMAGE_URL =
-  "https://eumlexrcxqgaudtsmavc.supabase.co/storage/v1/object/public/fighter-images/";
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_FIGHTER_IMAGES as string;
+
+interface FightersResponse {
+  fighters: Fighter[];
+  pagination: any;
+}
 
 const FighterGlobe: React.FC = () => {
   const [hoverD, setHoverD] = useState<any>(null);
@@ -30,11 +34,11 @@ const FighterGlobe: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [fightersRes] = await Promise.all([
-          apiClient.get<Fighter[]>("/fighters"),
-          apiClient.get<Division[]>("/divisions"),
-        ]);
-        setFighters(fightersRes.data);
+        const response = await apiClient.get<FightersResponse>("/fighters", {
+          params: { limit: 1000 },
+        });
+
+        setFighters(response.data.fighters);
       } catch (err) {
         console.error("Error fetching fighters:", err);
       }
@@ -61,9 +65,11 @@ const FighterGlobe: React.FC = () => {
       ${
         f.image === "https://i.imgur.com/LpaY82x.png"
           ? f.image
-          : `${SUPABASE_IMAGE_URL}${f.image}`
+          : f.image?.startsWith("http")
+          ? f.image
+          : `${supabaseAnonKey}${f.image}`
       }
-        style="width:32px;height:32px;border-radius:50%;margin-right:4px;" title="${
+        style="width:32px;height:32px;border-radius:50%;margin-right:4px;object-fit:cover;" title="${
           f.name
         }" />`;
       });
@@ -75,8 +81,10 @@ const FighterGlobe: React.FC = () => {
       } else if (fList.length === 3) {
         const third = fList[2];
         html += `<img src="${
-          third.image || "https://via.placeholder.com/32"
-        }" style="width:32px;height:32px;border-radius:50%;margin-left:2px;" title="${
+          third.image?.startsWith("http")
+            ? third.image
+            : `${supabaseAnonKey}${third.image}`
+        }" style="width:32px;height:32px;border-radius:50%;margin-left:2px;object-fit:cover;" title="${
           third.name
         }" />`;
       }

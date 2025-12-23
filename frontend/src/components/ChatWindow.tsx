@@ -229,8 +229,8 @@ const ChatWindow = ({
                               : "bg-gray-50 border-gray-200"
                           }`}
                         >
-                          <FileText size={20} />
-                          <span className="text-sm underline break-all">
+                          <FileText size={20} className="text-black" />
+                          <span className="text-sm underline break-all text-black">
                             Download File
                           </span>
                         </a>

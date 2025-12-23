@@ -283,7 +283,7 @@ const MessagesPage = () => {
             </div>
           </div>
 
-          <div className="col-span-1 md:col-span-2 h-full bg-white flex flex-col max-h-[766px]">
+          <div className="col-span-1 md:col-span-2 h-full bg-white flex flex-col max-h-[744px]">
             {activeChatUser !== null ? (
               <>
                 <ChatWindow

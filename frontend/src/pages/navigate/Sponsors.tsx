@@ -20,8 +20,7 @@ interface PublicSponsor {
   tier: "Platinum" | "Gold" | "Silver" | "Bronze" | "Partner";
 }
 
-const SUPABASE_IMAGE_URL =
-  "https://eumlexrcxqgaudtsmavc.supabase.co/storage/v1/object/public/sponsor-logos/";
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_SPONSOR_IMAGES as string;
 
 const Sponsors = () => {
   const [sponsors, setSponsors] = useState<PublicSponsor[]>([]);
@@ -172,7 +171,7 @@ const Sponsors = () => {
                                   src={
                                     sponsor.logo_url.startsWith("http")
                                       ? sponsor.logo_url
-                                      : SUPABASE_IMAGE_URL + sponsor.logo_url
+                                      : supabaseAnonKey + sponsor.logo_url
                                   }
                                   alt={sponsor.company_name}
                                   className="max-h-full max-w-full object-contain drop-shadow-sm"

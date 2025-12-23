@@ -25,9 +25,11 @@ export const FighterCard = ({
   image,
   user_id,
 }: FighterCardProps) => {
-  const supabaseAnonKey = import.meta.env.VITE_SUPABASE_IMAGE_URL as string;
+  const supabaseAnonKey = import.meta.env
+    .VITE_SUPABASE_FIGHTER_IMAGES as string;
   const userType = useAuthStore((s) => s.userType);
   const navigate = useNavigate();
+
 
   return (
     <Card className="group relative overflow-hidden border-border bg-gradient-stripe hover:shadow-gold transition-all duration-300">
@@ -98,12 +100,7 @@ export const FighterCard = ({
           )}
 
           {userType && userType === "DONOR" ? (
-            <Button
-              className="w-full bg-gradient-gold hover:opacity-90 transition-opacity"
-              // onClick={() => {
-              //   navigate(`/dashboard/messages?contactId=${user_id}`);
-              // }}
-            >
+            <Button className="w-full bg-gradient-gold hover:opacity-90 transition-opacity">
               <Heart className="w-4 h-4 mr-2" />
               Donate
             </Button>

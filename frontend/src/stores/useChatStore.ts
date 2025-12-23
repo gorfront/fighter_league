@@ -9,8 +9,8 @@ interface Message {
   receiverId: number;
   content: string;
   createdAt: string;
-  attachmentUrl?: string; // Add this
-  attachmentType?: string; // Add this
+  attachmentUrl?: string;
+  attachmentType?: string;
 }
 
 export interface ChatContact {
@@ -44,7 +44,6 @@ interface ChatState {
 
   connectSocket: (token: string) => void;
   joinChat: (targetUserId: number) => Promise<void>;
-  // sendMessage: (content: string) => void;
   sendMessage: (
     content: string,
     attachmentUrl?: string | null,
@@ -120,7 +119,6 @@ export const useChatStore = create<ChatState>((set, get) => ({
 
       if (isChatOpen) {
         set((state) => ({ messages: [...state.messages, message] }));
-        // ----------------------------------------
         apiClient.patch("/messages/mark-read", { senderId });
       } else {
         set((state) => ({
@@ -198,20 +196,10 @@ export const useChatStore = create<ChatState>((set, get) => ({
     }
   },
 
-  // sendMessage: (content) => {
-  //   const { socket, activeChatUser } = get();
-  //   if (!socket || activeChatUser === null) return;
-
-  //   socket.emit("send_message", {
-  //     targetUserId: activeChatUser,
-  //     content,
-  //   });
-  // },
   sendMessage: (content, attachmentUrl = null, attachmentType = null) => {
     const { socket, activeChatUser } = get();
     if (!socket || activeChatUser === null) return;
 
-    // Emit with new fields
     socket.emit("send_message", {
       targetUserId: activeChatUser,
       content,

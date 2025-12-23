@@ -120,12 +120,9 @@ export const rejectFighter = async (req: Request, res: Response) => {
 
     const userId = fighter.user_id;
 
-    // 1. Delete Fighter Profile
     await fighter.destroy();
 
-    // 2. If User exists, clean up Messages then User
     if (userId) {
-      // 🛠️ FIX: Delete all messages associated with this user first
       await Message.destroy({
         where: {
           [Op.or]: [{ senderId: userId }, { receiverId: userId }],
@@ -156,7 +153,6 @@ export const deleteSponsor = async (req: Request, res: Response) => {
     await sponsor.destroy();
 
     if (userId) {
-      // 🛠️ FIX: Delete messages first
       await Message.destroy({
         where: {
           [Op.or]: [{ senderId: userId }, { receiverId: userId }],
@@ -187,7 +183,6 @@ export const deleteDonor = async (req: Request, res: Response) => {
     await donor.destroy();
 
     if (userId) {
-      // 🛠️ FIX: Delete messages first
       await Message.destroy({
         where: {
           [Op.or]: [{ senderId: userId }, { receiverId: userId }],

@@ -182,7 +182,6 @@ const AdminDashboard = () => {
   };
 
   const handleDeleteSponsor = async (id: number) => {
-    // if (!confirm("Are you sure? This deletes the user account too.")) return;
     try {
       await apiClient.delete(`dashboard/admin/sponsors/${id}`, authHeaders);
       setSponsors((prev) => prev.filter((s) => s.id !== id));
@@ -197,7 +196,6 @@ const AdminDashboard = () => {
   };
 
   const handleDeleteDonor = async (id: number) => {
-    // if (!confirm("Are you sure? This deletes the user account too.")) return;
     try {
       await apiClient.delete(`dashboard/admin/donors/${id}`, authHeaders);
       setDonors((prev) => prev.filter((d) => d.id !== id));

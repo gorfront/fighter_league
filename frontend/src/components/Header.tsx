@@ -291,7 +291,7 @@ export const Header = () => {
           </span>
         </Link>
 
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden sm-md:flex items-center gap-6">
           <nav className="flex items-center gap-6">
             {navigation.map((item) => (
               <Link
@@ -328,7 +328,7 @@ export const Header = () => {
         </div>
 
         <Sheet>
-          <SheetTrigger asChild className="md:hidden">
+          <SheetTrigger asChild className="sm-md:hidden">
             <Button variant="ghost" size="icon">
               <div className="relative">
                 <Menu className="h-5 w-5" />

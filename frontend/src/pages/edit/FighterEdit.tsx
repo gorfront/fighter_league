@@ -19,9 +19,9 @@ import { Loader2, Plus, Trash2, Save, ArrowLeft } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { createClient } from "@supabase/supabase-js";
 
-const SUPABASE_URL = "https://eumlexrcxqgaudtsmavc.supabase.co";
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
-const IMAGE_BASE_URL = import.meta.env.VITE_SUPABASE_IMAGE_URL as string;
+const IMAGE_BASE_URL = import.meta.env.VITE_SUPABASE_FIGHTER_IMAGES as string;
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -85,7 +85,6 @@ const FighterEdit = () => {
         });
 
         if (data.image) {
-          // If image is a full URL, use it; otherwise prepend Supabase base URL
           const isExternal = data.image.startsWith("http");
           setImagePreview(
             isExternal ? data.image : IMAGE_BASE_URL + data.image
@@ -131,7 +130,6 @@ const FighterEdit = () => {
     }
   };
 
-  // Achievements Logic
   const addAchievement = () => {
     setFormData((prev) => ({
       ...prev,
@@ -155,38 +153,35 @@ const FighterEdit = () => {
     try {
       let finalImageName = formData.image;
 
-      // 1. Upload to Supabase if 'image' is a File object
       if (formData.image instanceof File) {
         const file = formData.image;
         const fileExt = file.name.split(".").pop();
         const fileName = `${Date.now()}.${fileExt}`;
-        const filePath = `${fileName}`; // Path inside the bucket
+        const filePath = `${fileName}`;
 
         const { error: uploadError } = await supabase.storage
-          .from("fighter-images") // Make sure this bucket exists and is public
+          .from("fighter-images")
           .upload(filePath, file);
 
         if (uploadError) {
           throw new Error("Image upload failed: " + uploadError.message);
         }
 
-        finalImageName = filePath; // Save just the filename to DB
+        finalImageName = filePath;
       }
 
-      // 2. Prepare JSON Payload (Backend now expects JSON, not FormData)
       const payload = {
         name: formData.name,
         country: formData.country,
-        division_id: formData.division_id || null, // Send null if 0/undefined
+        division_id: formData.division_id || null,
         division: formData.division,
         weight: formData.weight || null,
         gender: formData.gender,
         bio: formData.bio,
-        achievements: JSON.stringify(formData.achievements), // Stringify array
+        achievements: JSON.stringify(formData.achievements),
         image: typeof finalImageName === "string" ? finalImageName : undefined,
       };
 
-      // 3. Send to Backend
       await apiClient.put("/fighters/me", payload);
 
       toast({ title: "Success", description: "Profile updated successfully!" });
@@ -223,8 +218,6 @@ const FighterEdit = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-8">
-          {/* ... (Rest of the JSX remains exactly the same as before) ... */}
-          {/* Just ensure your Input for image onChange calls handleImageChange */}
           <Card>
             <CardHeader>
               <CardTitle>Basic Information</CardTitle>

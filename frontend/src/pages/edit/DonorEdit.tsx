@@ -12,10 +12,8 @@ import { Loader2, Save, ArrowLeft, UploadCloud } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { createClient } from "@supabase/supabase-js";
 
-// --- SUPABASE CONFIG ---
 const SUPABASE_URL = "https://eumlexrcxqgaudtsmavc.supabase.co";
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
-// Make sure you create a 'donor_images' bucket in Supabase
 const IMAGE_BASE_URL =
   "https://eumlexrcxqgaudtsmavc.supabase.co/storage/v1/object/public/donor_images/";
 
@@ -62,7 +60,6 @@ const DonorEdit = () => {
         }
       } catch (error) {
         console.error("Failed to load profile", error);
-        // It's okay if it fails (404) for a new donor
       } finally {
         setIsLoading(false);
       }
@@ -91,7 +88,6 @@ const DonorEdit = () => {
     try {
       let finalLogoUrl = formData.logo_url;
 
-      // 1. Upload to Supabase if new file
       if (formData.logo_url instanceof File) {
         const file = formData.logo_url;
         const fileExt = file.name.split(".").pop();
@@ -99,7 +95,7 @@ const DonorEdit = () => {
         const filePath = `${fileName}`;
 
         const { error: uploadError } = await supabase.storage
-          .from("donor_images") // Ensure this bucket exists
+          .from("donor_images")
           .upload(filePath, file);
 
         if (uploadError)
@@ -108,7 +104,6 @@ const DonorEdit = () => {
         finalLogoUrl = filePath;
       }
 
-      // 2. Send to Backend
       const payload = {
         email: formData.email,
         wallet_address: formData.wallet_address,
