@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "yarn install --production=false && tsc --skipLibCheck",
+    "build": "tsc",
     "start": "node dist/server.js",
     "dev:tsc": "npx tsc --watch",
     "dev:node": "nodemon dist/server.js",
