@@ -336,7 +336,7 @@ const FighterEdit = () => {
               </Button>
             </CardHeader>
             <CardContent className="space-y-4">
-              {formData.achievements.map((ach, i) => (
+              {formData?.achievements?.map((ach, i) => (
                 <div key={i} className="flex gap-2">
                   <Input
                     value={ach}

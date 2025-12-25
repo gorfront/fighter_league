@@ -233,7 +233,7 @@ const FighterProfile = () => {
                 <h2 className="text-2xl md:text-3xl font-bold">Achievements</h2>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
-                {fighter.achievements.map((achievement, index) => (
+                {fighter?.achievements?.map((achievement, index) => (
                   <Card
                     key={index}
                     className="p-4 flex items-start gap-3 bg-card/50 hover:bg-card transition-colors"

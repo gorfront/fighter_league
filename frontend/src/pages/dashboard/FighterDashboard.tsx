@@ -184,9 +184,9 @@ const FighterDashboard = () => {
                 <CardTitle>My Achievements</CardTitle>
               </CardHeader>
               <CardContent>
-                {fighter.achievements?.length ? (
+                {fighter.achievements?.length > 0 ? (
                   <ul className="list-disc list-inside space-y-2">
-                    {fighter.achievements.map((ach, index) => (
+                    {fighter?.achievements?.map((ach, index) => (
                       <li key={index} className="flex items-center gap-2">
                         <Award className="h-4 w-4 text-primary" />
                         {ach}

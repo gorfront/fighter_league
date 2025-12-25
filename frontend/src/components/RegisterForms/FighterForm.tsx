@@ -291,7 +291,7 @@ const FighterForm = ({ name, email }: { name: string; email: string }) => {
             </Button>
           </div>
           <div className="flex items-start justify-start gap-1 flex-wrap">
-            {achievements.map((ach, index) => (
+            {achievements?.map((ach, index) => (
               <div
                 key={index}
                 className="flex items-center justify-between p-2 text-sm bg-muted rounded-md"
