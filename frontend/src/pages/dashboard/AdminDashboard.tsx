@@ -5,9 +5,18 @@ import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
-import { Check, X, Trash2, Shield, User, Loader2 } from "lucide-react";
+import {
+  Check,
+  X,
+  Trash2,
+  Shield,
+  User,
+  Loader2,
+  Calendar,
+} from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useAuthStore } from "@/stores/authStore";
+import { Badge } from "@/components/ui/badge";
 
 interface FighterListing {
   id: number;
@@ -30,6 +39,26 @@ interface DonorListing {
   wallet_address: string;
 }
 
+interface EventApplication {
+  id: number;
+  status: string;
+  createdAt: string;
+  Event: {
+    title: string;
+    event_date: string;
+  };
+  User: {
+    email: string;
+    Fighter?: {
+      name: string;
+      wins: number;
+      losses: number;
+      draws: number;
+      country: string;
+    };
+  };
+}
+
 const AdminDashboard = () => {
   const { toast } = useToast();
   const token = useAuthStore((s) => s.token);
@@ -38,18 +67,21 @@ const AdminDashboard = () => {
   const [verified, setVerified] = useState<FighterListing[]>([]);
   const [sponsors, setSponsors] = useState<SponsorListing[]>([]);
   const [donors, setDonors] = useState<DonorListing[]>([]);
+  const [applications, setApplications] = useState<EventApplication[]>([]);
 
   const [loading, setLoading] = useState({
     pending: true,
     verified: false,
     sponsors: false,
     donors: false,
+    applications: false,
   });
 
   const [fetched, setFetched] = useState({
     verified: false,
     sponsors: false,
     donors: false,
+    applications: false,
   });
 
   const authHeaders = token
@@ -132,6 +164,26 @@ const AdminDashboard = () => {
     }
   };
 
+  const fetchApplications = async () => {
+    try {
+      setLoading((prev) => ({ ...prev, applications: true }));
+      const res = await apiClient.get<EventApplication[]>(
+        "dashboard/admin/applications",
+        authHeaders
+      );
+      setApplications(res.data);
+      setFetched((prev) => ({ ...prev, applications: true }));
+    } catch (err) {
+      toast({
+        title: "Error",
+        description: "Failed to load applications.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading((prev) => ({ ...prev, applications: false }));
+    }
+  };
+
   const handleApproveFighter = async (id: number) => {
     try {
       await apiClient.patch(
@@ -209,6 +261,30 @@ const AdminDashboard = () => {
     }
   };
 
+  const handleReviewApplication = async (
+    id: number,
+    status: "approved" | "rejected"
+  ) => {
+    try {
+      await apiClient.patch(
+        `dashboard/admin/applications/${id}`,
+        { status },
+        authHeaders
+      );
+      setApplications((prev) => prev.filter((app) => app.id !== id));
+      toast({
+        title: status === "approved" ? "Approved" : "Rejected",
+        description: `Application marked as ${status}.`,
+      });
+    } catch (err) {
+      toast({
+        title: "Error",
+        description: "Failed to update status.",
+        variant: "destructive",
+      });
+    }
+  };
+
   useEffect(() => {
     if (token) fetchPendingFighters();
   }, [token]);
@@ -217,13 +293,14 @@ const AdminDashboard = () => {
     if (value === "fighters" && !fetched.verified) fetchVerifiedFighters();
     if (value === "sponsors" && !fetched.sponsors) fetchSponsors();
     if (value === "donors" && !fetched.donors) fetchDonors();
+    if (value === "applications" && !fetched.applications) fetchApplications();
   };
 
   const EmptyState = ({ message }: { message: string }) => (
     <p className="text-muted-foreground text-center py-8">{message}</p>
   );
 
-  const tierColors = {
+  const tierColors: Record<string, string> = {
     Platinum: "bg-gray-200 text-black",
     Gold: "bg-yellow-500 text-black",
     Silver: "bg-gray-400 text-black",
@@ -244,9 +321,10 @@ const AdminDashboard = () => {
             onValueChange={onTabChange}
             className="w-full"
           >
-            <TabsList className="grid w-full grid-cols-4 mb-8">
-              <TabsTrigger value="pending">Pending Fighters</TabsTrigger>
-              <TabsTrigger value="fighters">All Fighters</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-5 mb-8">
+              <TabsTrigger value="pending">Pending</TabsTrigger>
+              <TabsTrigger value="applications">Event Req.</TabsTrigger>
+              <TabsTrigger value="fighters">Fighters</TabsTrigger>
               <TabsTrigger value="sponsors">Sponsors</TabsTrigger>
               <TabsTrigger value="donors">Donors</TabsTrigger>
             </TabsList>
@@ -254,16 +332,15 @@ const AdminDashboard = () => {
             <TabsContent value="pending">
               <Card>
                 <CardHeader>
-                  <CardTitle>Pending Registrations</CardTitle>
+                  <CardTitle>Pending User Registrations</CardTitle>
                 </CardHeader>
                 <CardContent>
                   {loading.pending ? (
-                    <div className="min-h-auto flex flex-col justify-center items-center">
-                      <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                      <p className="mt-2">Loading pending list...</p>
+                    <div className="flex flex-col items-center py-8">
+                      <Loader2 className="animate-spin text-primary" />
                     </div>
                   ) : pending.length === 0 ? (
-                    <EmptyState message="No pending applications." />
+                    <EmptyState message="No pending registrations." />
                   ) : (
                     <div className="space-y-3">
                       {pending.map((f) => (
@@ -301,6 +378,89 @@ const AdminDashboard = () => {
               </Card>
             </TabsContent>
 
+            <TabsContent value="applications">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Event Fight Requests</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {loading.applications ? (
+                    <div className="flex flex-col items-center py-8">
+                      <Loader2 className="animate-spin text-primary" />
+                    </div>
+                  ) : applications.length === 0 ? (
+                    <EmptyState message="No pending event applications." />
+                  ) : (
+                    <div className="space-y-3">
+                      {applications.map((app) => (
+                        <div
+                          key={app.id}
+                          className="flex flex-col md:flex-row md:items-center justify-between p-4 bg-white border rounded-lg shadow-sm gap-4"
+                        >
+                          <div className="flex items-start gap-4">
+                            <div className="flex flex-col items-center justify-center bg-muted p-2 rounded w-16 text-center">
+                              <Calendar className="h-4 w-4 text-muted-foreground mb-1" />
+                              <span className="text-[10px] font-bold">
+                                {new Date(app.createdAt).toLocaleDateString(
+                                  undefined,
+                                  { month: "short", day: "numeric" }
+                                )}
+                              </span>
+                            </div>
+
+                            <div>
+                              <div className="flex items-center gap-2">
+                                <p className="font-bold text-lg text-primary">
+                                  {app.User.Fighter?.name || "Unknown Fighter"}
+                                </p>
+
+                                <Badge variant="outline">
+                                  {app.User.Fighter
+                                    ? `${app.User.Fighter.wins}-${app.User.Fighter.losses}-${app.User.Fighter.draws}`
+                                    : "0-0-0"}
+                                </Badge>
+                              </div>
+                              <p className="text-sm text-muted-foreground">
+                                Applied for:{" "}
+                                <span className="font-semibold text-foreground">
+                                  {app.Event.title}
+                                </span>
+                              </p>
+                              <p className="text-xs text-muted-foreground mt-1">
+                                {app.User.email} • {app.User.Fighter?.country}
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="flex gap-2 justify-end">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              className="border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700"
+                              onClick={() =>
+                                handleReviewApplication(app.id, "rejected")
+                              }
+                            >
+                              <X className="w-4 h-4 mr-1" /> Reject
+                            </Button>
+                            <Button
+                              size="sm"
+                              className="bg-green-600 hover:bg-green-700"
+                              onClick={() =>
+                                handleReviewApplication(app.id, "approved")
+                              }
+                            >
+                              <Check className="w-4 h-4 mr-1" /> Approve
+                            </Button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </TabsContent>
+
             <TabsContent value="fighters">
               <Card>
                 <CardHeader>
@@ -308,12 +468,11 @@ const AdminDashboard = () => {
                 </CardHeader>
                 <CardContent>
                   {loading.verified ? (
-                    <div className="min-h-auto flex flex-col justify-center items-center">
-                      <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                      <p className="mt-2">Loading fighters list...</p>
+                    <div className="flex justify-center py-4">
+                      <Loader2 className="animate-spin" />
                     </div>
                   ) : verified.length === 0 ? (
-                    <EmptyState message="No approved fighters found." />
+                    <EmptyState message="No approved fighters." />
                   ) : (
                     <div className="space-y-3">
                       {verified.map((f) => (
@@ -350,9 +509,8 @@ const AdminDashboard = () => {
                 </CardHeader>
                 <CardContent>
                   {loading.sponsors ? (
-                    <div className="min-h-auto flex flex-col justify-center items-center">
-                      <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                      <p className="mt-2">Loading sponsors list...</p>
+                    <div className="flex justify-center py-4">
+                      <Loader2 className="animate-spin" />
                     </div>
                   ) : sponsors.length === 0 ? (
                     <EmptyState message="No sponsors registered." />
@@ -406,9 +564,8 @@ const AdminDashboard = () => {
                 </CardHeader>
                 <CardContent>
                   {loading.donors ? (
-                    <div className="min-h-auto flex flex-col justify-center items-center">
-                      <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                      <p className="mt-2">Loading donors list...</p>
+                    <div className="flex justify-center py-4">
+                      <Loader2 className="animate-spin" />
                     </div>
                   ) : donors.length === 0 ? (
                     <EmptyState message="No donors registered." />
@@ -426,7 +583,7 @@ const AdminDashboard = () => {
                                 {d.email}
                               </p>
                               <p className="text-xs text-muted-foreground font-mono">
-                                {d.wallet_address || "No Wallet Connected"}
+                                {d.wallet_address || "No Wallet"}
                               </p>
                             </div>
                           </div>

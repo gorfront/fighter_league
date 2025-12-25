@@ -5,6 +5,8 @@ import {
   createEvent,
   updateEvent,
   deleteEvent,
+  joinEvent,
+  getApprovedFightersForEvent,
 } from "../controllers/eventController";
 import { protect } from "../middleware/authMiddleware";
 
@@ -16,5 +18,8 @@ router.get("/:id", getEventById);
 router.post("/", protect, createEvent);
 router.put("/:id", protect, updateEvent);
 router.delete("/:id", protect, deleteEvent);
+
+router.post("/:id/join", protect, joinEvent);
+router.get("/:id/fighters", protect, getApprovedFightersForEvent);
 
 export default router;

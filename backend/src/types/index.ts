@@ -36,5 +36,6 @@ export interface Event {
   event_date: string;
   location: string;
   division: string;
+  has_applied?: boolean;
   status: "upcoming" | "completed" | "live";
 }

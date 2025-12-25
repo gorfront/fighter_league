@@ -1,9 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { useAuthStore } from "@/stores/authStore";
 import { Mail, Heart } from "lucide-react";
+import { getFlagComponent } from "@/hooks/getFlagComponent";
 
 interface FighterCardProps {
   id: string;
@@ -30,7 +30,6 @@ export const FighterCard = ({
   const userType = useAuthStore((s) => s.userType);
   const navigate = useNavigate();
 
-
   return (
     <Card className="group relative overflow-hidden border-border bg-gradient-stripe hover:shadow-gold transition-all duration-300">
       <div className="aspect-[3/4] overflow-hidden">
@@ -45,18 +44,15 @@ export const FighterCard = ({
         />
       </div>
 
-      {/* <div className="absolute top-0 left-0 right-0 p-4 bg-gradient-to-b from-background/80 to-transparent">
-        {ranking && (
-          <Badge className="bg-primary text-primary-foreground">
-            #{ranking}
-          </Badge>
-        )}
-      </div> */}
-
       <div className="p-4 bg-card">
         <div className="mb-3">
           <h3 className="text-xl font-bold mb-1">{name}</h3>
-          <p className="text-sm text-muted-foreground">{country}</p>
+
+          <div className="flex items-center justify-center gap-2">
+            {getFlagComponent(country)}
+
+            <p className="text-sm text-muted-foreground">{country}</p>
+          </div>
         </div>
 
         <div className="flex items-center justify-between text-sm mb-4">

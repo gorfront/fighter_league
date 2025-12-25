@@ -211,9 +211,6 @@ const MessagesPage = () => {
           <div className="hidden md:flex flex-col border-r h-full bg-gray-50/50">
             <div className="p-4 border-b bg-muted/50 flex justify-between items-center">
               <h2 className="text-xl font-bold">Messages</h2>
-              <Button variant="ghost" size="icon" className="h-8 w-8">
-                <MoreVertical className="h-4 w-4" />
-              </Button>
             </div>
 
             <div className="flex-1 overflow-y-auto">

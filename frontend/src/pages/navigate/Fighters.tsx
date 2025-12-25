@@ -155,6 +155,9 @@ const Fighters = () => {
     return d.gender === selectedGender;
   });
 
+  console.log(fighters);
+  
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Header />
@@ -223,7 +226,6 @@ const Fighters = () => {
                 </div>
               )}
 
-              {/* Initial Loading (Full Page Spinner) */}
               {loading && fighters.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-20 gap-4">
                   <Loader2 className="h-8 w-8 animate-spin text-primary" />

@@ -19,6 +19,7 @@ import messageRoutes from "./routes/messageRoutes";
 import userActions from "./routes/userActions";
 import path from "path";
 import newsletterRoutes from "./routes/newsletterRoutes";
+import fightRoutes from "./routes/fightRoutes";
 
 dotenv.config();
 
@@ -90,6 +91,8 @@ application.use("/api/v1/users", userActions);
 
 application.use("/api/v1/newsletter", newsletterRoutes);
 
+application.use("/api/v1/fights", fightRoutes);
+
 application.use((req: Request, res: Response) => {
   res.status(404).json({
     message: `Route ${req.url} not found`,
@@ -114,6 +117,9 @@ sequelize
     try {
       await sequelize.query(
         "SELECT setval('events_id_seq', (SELECT MAX(id) FROM events))"
+      );
+      await sequelize.query(
+        'ALTER TABLE "users" ADD COLUMN IF NOT EXISTS "is_military" BOOLEAN DEFAULT false;'
       );
     } catch (seqErr) {
       console.warn(

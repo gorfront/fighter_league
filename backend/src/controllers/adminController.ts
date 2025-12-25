@@ -5,6 +5,9 @@ import Donor from "../models/Donor";
 import Sponsor from "../models/Sponsor";
 import { Op } from "sequelize";
 import Message from "../models/Message";
+import EventApplication from "../models/EventApplication";
+import Event from "../models/Event";
+import { sendApplicationStatusEmail } from "../utils/emailService";
 
 export const getPendingFighters = async (req: Request, res: Response) => {
   try {
@@ -196,6 +199,70 @@ export const deleteDonor = async (req: Request, res: Response) => {
     res.status(200).json({ message: "Donor deleted successfully." });
   } catch (error) {
     console.error("deleteDonor error:", error);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+export const getEventApplications = async (req: Request, res: Response) => {
+  try {
+    const apps = await EventApplication.findAll({
+      where: { status: "pending" },
+      include: [
+        {
+          model: Event,
+          attributes: ["title", "event_date"],
+        },
+        {
+          model: User,
+          attributes: ["id", "email"],
+          include: [
+            {
+              model: Fighter,
+              attributes: ["name", "wins", "losses", "draws", "country"],
+            },
+          ],
+        },
+      ],
+      order: [["createdAt", "ASC"]],
+    });
+    res.json(apps);
+  } catch (error) {
+    console.error("getEventApplications error:", error);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+export const updateApplicationStatus = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  try {
+    const app = await EventApplication.findByPk(id, {
+      include: [
+        {
+          model: User,
+          attributes: ["email"],
+          include: [{ model: Fighter, attributes: ["name"] }],
+        },
+        { model: Event, attributes: ["title"] },
+      ],
+    });
+
+    if (!app) return res.status(404).json({ message: "Application not found" });
+
+    await app.update({ status });
+
+    const userEmail = (app as any).User?.email;
+    const fighterName = (app as any).User?.Fighter?.name || "Fighter";
+    const eventTitle = (app as any).Event?.title || "the event";
+
+    if (userEmail) {
+      sendApplicationStatusEmail(userEmail, fighterName, eventTitle, status);
+    }
+
+    res.json({ message: `Application marked as ${status} and email sent.` });
+  } catch (error) {
+    console.error("updateApplicationStatus error:", error);
     res.status(500).json({ message: "Server Error" });
   }
 };

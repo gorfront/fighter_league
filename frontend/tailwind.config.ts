@@ -100,6 +100,7 @@ export default {
       },
       screens: {
         "sm-md": "900px",
+        "md-sm": "568px"
       },
     },
   },

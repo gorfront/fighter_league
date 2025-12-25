@@ -90,6 +90,8 @@ const Sponsors = () => {
     Partner: { color: "text-blue-600", ring: "ring-blue-500" },
   };
 
+  console.log(sponsors);
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Header />

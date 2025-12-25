@@ -2,6 +2,10 @@ import { Request, Response } from "express";
 import Event from "../models/Event";
 import Subscriber from "../models/Subscriber";
 import { sendEventNotification } from "../utils/emailService";
+import EventApplication from "../models/EventApplication";
+import jwt from "jsonwebtoken";
+import User from "../models/User";
+import Fighter from "../models/Fighter";
 
 export const getAllEvents = async (req: Request, res: Response) => {
   const { status } = req.query;
@@ -34,26 +38,18 @@ export const getAllEvents = async (req: Request, res: Response) => {
 };
 
 export const createEvent = async (req: Request, res: Response) => {
-  // ... validation logic ...
-
   try {
     const newEvent = await Event.create(req.body);
-
-    // --- 🚀 NEW NOTIFICATION LOGIC ---
-    // 1. Fetch all active subscribers
     const subscribers = await Subscriber.findAll({
       where: { isActive: true },
-      attributes: ["email"], // Only need email
+      attributes: ["email"],
     });
 
     const emailList = subscribers.map((s) => s.email);
 
-    // 2. Trigger Email (Don't await this if you want a fast response to the admin)
-    // Passing "NEW" type
     if (emailList.length > 0) {
       sendEventNotification(emailList, newEvent.toJSON(), "NEW");
     }
-    // ---------------------------------
 
     res.status(201).json(newEvent);
   } catch (error) {
@@ -69,12 +65,8 @@ export const updateEvent = async (req: Request, res: Response) => {
     const event = await Event.findByPk(id);
     if (!event) return res.status(404).json({ message: "Event not found" });
 
-    // Update
     await event.update(req.body);
 
-    // --- 🚀 UPDATE NOTIFICATION LOGIC ---
-    // Only send if important fields changed (Optional check)
-    // For now, we send on every update action
     const subscribers = await Subscriber.findAll({
       where: { isActive: true },
       attributes: ["email"],
@@ -85,7 +77,6 @@ export const updateEvent = async (req: Request, res: Response) => {
     if (emailList.length > 0) {
       sendEventNotification(emailList, event.toJSON(), "UPDATE");
     }
-    // ------------------------------------
 
     res.json(event);
   } catch (error) {
@@ -96,13 +87,38 @@ export const updateEvent = async (req: Request, res: Response) => {
 
 export const getEventById = async (req: Request, res: Response) => {
   const { id } = req.params;
-
   try {
     const event = await Event.findByPk(id);
+
     if (!event) {
       return res.status(404).json({ message: "Event not found" });
     }
-    res.status(200).json(event);
+
+    let application_status = null;
+    const authHeader = req.headers.authorization;
+
+    if (authHeader && authHeader.startsWith("Bearer")) {
+      try {
+        const token = authHeader.split(" ")[1];
+        const decoded: any = jwt.verify(
+          token,
+          process.env.JWT_SECRET as string
+        );
+
+        const application = await EventApplication.findOne({
+          where: { event_id: id, user_id: decoded.id },
+        });
+
+        if (application) {
+          application_status = application.status;
+        }
+      } catch (error) {}
+    }
+
+    res.json({
+      ...event.toJSON(),
+      application_status,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server Error" });
@@ -116,5 +132,74 @@ export const deleteEvent = async (req: Request, res: Response) => {
     res.json({ message: "Event deleted" });
   } catch (err) {
     res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const joinEvent = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  // @ts-ignore - assuming req.user exists from auth middleware
+  const userId = req.user.id;
+
+  try {
+    const event = await Event.findByPk(id);
+    if (!event) {
+      return res.status(404).json({ message: "Event not found" });
+    }
+
+    const existing = await EventApplication.findOne({
+      where: { event_id: id, user_id: userId },
+    });
+
+    if (existing) {
+      return res
+        .status(400)
+        .json({ message: "You have already applied to this event." });
+    }
+
+    await EventApplication.create({
+      event_id: id,
+      user_id: userId,
+      status: "pending",
+    });
+
+    res.status(201).json({ message: "Application sent successfully!" });
+  } catch (error) {
+    console.error("Join Event Error:", error);
+    res.status(500).json({ message: "Server error joining event." });
+  }
+};
+
+export const getApprovedFightersForEvent = async (
+  req: Request,
+  res: Response
+) => {
+  const { id } = req.params;
+
+  try {
+    const applications = await EventApplication.findAll({
+      where: {
+        event_id: id,
+        status: "approved",
+      },
+      include: [
+        {
+          model: User,
+          required: true,
+          include: [
+            {
+              model: Fighter,
+              required: true,
+            },
+          ],
+        },
+      ],
+    });
+
+    const fighters = applications.map((app: any) => app.User.Fighter);
+
+    res.json(fighters);
+  } catch (error) {
+    console.error("Error fetching event fighters:", error);
+    res.status(500).json({ message: "Server Error" });
   }
 };

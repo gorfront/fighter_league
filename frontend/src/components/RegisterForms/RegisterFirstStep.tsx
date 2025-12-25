@@ -7,7 +7,6 @@ import { useToast } from "@/components/ui/use-toast";
 import apiClient from "@/api/apiClient";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
-import { useAuthStore } from "@/stores/authStore";
 
 const RegisterFirstStep = () => {
   const { toast } = useToast();

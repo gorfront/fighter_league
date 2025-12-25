@@ -19,7 +19,6 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { Loader2, ArrowLeft, PlusCircle } from "lucide-react";
 
-// Matches your Backend Event Model
 interface EventData {
   title: string;
   event_date: string;
@@ -28,7 +27,6 @@ interface EventData {
   status: "upcoming" | "completed" | "live";
 }
 
-// Simple interface for Division
 interface Division {
   id: number;
   name: string;
@@ -40,8 +38,7 @@ const CreateEvent = () => {
   const { userType, token } = useAuthStore();
 
   const [isSaving, setIsSaving] = useState(false);
-  const [divisions, setDivisions] = useState<Division[]>([]); // Store divisions
-
+  const [divisions, setDivisions] = useState<Division[]>([]);
   const [formData, setFormData] = useState<EventData>({
     title: "",
     event_date: "",
@@ -50,7 +47,6 @@ const CreateEvent = () => {
     status: "upcoming",
   });
 
-  // 1. Security Check & Fetch Divisions
   useEffect(() => {
     if (userType !== "ADMIN") {
       toast({
@@ -62,15 +58,12 @@ const CreateEvent = () => {
       return;
     }
 
-    // Fetch Divisions List
     const fetchDivisions = async () => {
       try {
         const res = await apiClient.get<Division[]>("/divisions");
         setDivisions(res.data);
       } catch (err) {
         console.error("Failed to load divisions", err);
-        // Fallback or silent fail (user can still type manually if you kept input,
-        // but here we are using Select, so it might be empty)
       }
     };
 
@@ -116,7 +109,7 @@ const CreateEvent = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen flex flex-col dark:bg-gray-900">
       <Header />
 
       <main className="flex-1 py-12 container max-w-2xl">
@@ -138,7 +131,6 @@ const CreateEvent = () => {
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Title */}
               <div className="space-y-2">
                 <Label htmlFor="title">Event Title</Label>
                 <Input
@@ -150,7 +142,6 @@ const CreateEvent = () => {
                 />
               </div>
 
-              {/* Date & Location Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="date">Date & Time (UTC)</Label>
@@ -177,12 +168,10 @@ const CreateEvent = () => {
                 </div>
               </div>
 
-              {/* Division & Status Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="division">Division / Weight Class</Label>
 
-                  {/* UPDATED: Using Select for Divisions */}
                   <Select
                     value={formData.division}
                     onValueChange={(val) => handleChange("division", val)}
@@ -196,7 +185,6 @@ const CreateEvent = () => {
                           {div.name}
                         </SelectItem>
                       ))}
-                      {/* Optional: Add 'Open Weight' manually if needed */}
                       <SelectItem value="Open Weight">Open Weight</SelectItem>
                     </SelectContent>
                   </Select>
@@ -220,7 +208,6 @@ const CreateEvent = () => {
                 </div>
               </div>
 
-              {/* Actions */}
               <div className="pt-4 flex items-center justify-end">
                 <Button
                   type="submit"

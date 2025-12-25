@@ -8,6 +8,8 @@ import {
   deleteSponsor,
   getAllDonors,
   getAllSponsors,
+  getEventApplications,
+  updateApplicationStatus,
 } from "../controllers/adminController";
 import { protect } from "../middleware/authMiddleware";
 
@@ -38,5 +40,8 @@ router.delete("/sponsors/:id", protect, deleteSponsor);
 
 router.get("/donors", protect, getAllDonors);
 router.delete("/donors/:id", protect, deleteDonor);
+
+router.get("/applications", protect, getEventApplications);
+router.patch("/applications/:id", protect, updateApplicationStatus);
 
 export default router;
