@@ -245,13 +245,26 @@ application.use("/api", (req: Request, res: Response) => {
 });
 
 // B. Serve React Static Files
-const frontendPath = path.join(__dirname, "../../frontend/dist");
+const frontendPath = path.resolve(__dirname, "../../frontend/dist");
 application.use(express.static(frontendPath));
 
 // C. Catch-All Route (SPA Support)
 // FIX: Use Regex /.*/ instead of "*" to avoid PathError in newer Express versions
 application.get(/.*/, (req: Request, res: Response) => {
-  res.sendFile(path.join(frontendPath, "index.html"));
+  const indexPath = path.join(frontendPath, "index.html");
+
+  // Send the file
+  res.sendFile(indexPath, (err) => {
+    if (err) {
+      console.error("❌ Error sending index.html:", err);
+      // If index.html is missing, we must send a JSON error or the browser hangs
+      res
+        .status(500)
+        .send(
+          "Frontend build not found. Please run 'npm run build' in frontend."
+        );
+    }
+  });
 });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
