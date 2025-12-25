@@ -34,15 +34,15 @@
     "socket.io": "^4.8.1",
     "uuid": "^13.0.0",
     "typescript": "^5.9.3",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "@types/node": "^24.10.1",
+    "@types/express": "^5.0.5"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
     "@types/cors": "^2.8.19",
-    "@types/express": "^5.0.5",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/multer": "^2.0.0",
-    "@types/node": "^24.10.1",
     "@types/nodemailer": "^7.0.4",
     "@types/pg": "^8.15.6",
     "@types/sequelize": "^6.12.0",
