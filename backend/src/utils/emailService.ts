@@ -106,40 +106,17 @@
 //   }
 // };
 
-import nodemailer from "nodemailer";
 import dotenv from "dotenv";
+import { Resend } from "resend";
 
 dotenv.config();
 
-// const transporter = nodemailer.createTransport({
-//   service: "gmail",
-//   auth: {
-//     user: process.env.EMAIL_USER,
-//     pass: process.env.EMAIL_PASS,
-//   },
-// });
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false, // true for 465, false for other ports
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-  tls: {
-    rejectUnauthorized: false, // Helps if Render's IP is being flagged
-  },
-  // ⬇️ CRITICAL FIXES ⬇️
-  logger: true,
-  debug: true,
-  connectionTimeout: 60000, // Increase to 60 seconds (was 10s)
-  greetingTimeout: 30000, // Wait 30s for the server to say "Hello"
-  socketTimeout: 60000, // Wait 60s for data to flow
-  dns: {
-    useIPv4: true, // Force IPv4 to prevent IPv6 hanging issues
-  },
-} as nodemailer.TransportOptions);
+// Define a consistent sender address.
+// NOTE: You must verify this domain in your Resend Dashboard.
+// If testing, use 'onboarding@resend.dev'
+const FROM_EMAIL = "Valor League <noreply@valorleague.com>";
 
 export const sendWelcomeEmail = async (toEmail: string, eventDetails: any) => {
   const eventName = eventDetails?.title || "Upcoming Championship";
@@ -147,27 +124,32 @@ export const sendWelcomeEmail = async (toEmail: string, eventDetails: any) => {
   const eventDate = rawDate ? new Date(rawDate).toDateString() : "Date TBD";
   const eventLocation = eventDetails?.location || "TBD";
 
-  const mailOptions = {
-    from: `"Valor League" <${process.env.EMAIL_USER}>`,
-    to: toEmail,
-    subject: "Welcome to the Fight Club! 🥊",
-    html: `
-      <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto;">
-        <h1 style="color: #d97706;">You're in!</h1>
-        <p>Thanks for subscribing. You'll be the first to know about fight announcements.</p>
-        <hr style="border: 1px solid #eee; margin: 20px 0;" />
-        <h2>📅 Next Event: ${eventName}</h2>
-        <p><strong>Date:</strong> ${eventDate}</p>
-        <p><strong>Location:</strong> ${eventLocation}</p>
-      </div>
-    `,
-  };
-
   try {
-    await transporter.sendMail(mailOptions);
-    console.log(`✅ Welcome email sent to ${toEmail}`);
-  } catch (error) {
-    console.error("❌ Error sending welcome email:", error);
+    const { data, error } = await resend.emails.send({
+      from: FROM_EMAIL,
+      to: [toEmail],
+      subject: "Welcome to the Fight Club! 🥊",
+      html: `
+        <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto;">
+          <h1 style="color: #d97706;">You're in!</h1>
+          <p>Thanks for subscribing. You'll be the first to know about fight announcements.</p>
+          <hr style="border: 1px solid #eee; margin: 20px 0;" />
+          <h2>📅 Next Event: ${eventName}</h2>
+          <p><strong>Date:</strong> ${eventDate}</p>
+          <p><strong>Location:</strong> ${eventLocation}</p>
+          <br />
+          <p style="font-size: 12px; color: #888;">Valor League Team</p>
+        </div>
+      `,
+    });
+
+    if (error) {
+      console.error("❌ Resend API Error:", error);
+      return;
+    }
+    console.log(`✅ Welcome email sent to ${toEmail}. ID: ${data?.id}`);
+  } catch (err) {
+    console.error("❌ Unexpected error sending welcome email:", err);
   }
 };
 
@@ -188,15 +170,15 @@ export const sendEventNotification = async (
       ? `🔥 NEW EVENT ANNOUNCED: ${eventName}`
       : `⚠️ UPDATE: Changes to ${eventName}`;
 
-  // FIX 2: Removed the duplicate 'for' loop. Using ONLY Promise.allSettled
   console.log(
     `📧 Sending ${type} notification to ${subscribers.length} subscribers...`
   );
 
+  // Map subscribers to Resend API calls
   const emailPromises = subscribers.map((email) => {
-    const mailOptions = {
-      from: `"Valor League" <${process.env.EMAIL_USER}>`,
-      to: email,
+    return resend.emails.send({
+      from: FROM_EMAIL,
+      to: [email],
       subject: subject,
       html: `
         <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto;">
@@ -214,17 +196,18 @@ export const sendEventNotification = async (
           </a>
         </div>
       `,
-    };
-    return transporter.sendMail(mailOptions);
+    });
   });
 
+  // Use Promise.allSettled to ensure one failure doesn't stop the rest
   const results = await Promise.allSettled(emailPromises);
 
-  // Log results
-  const successful = results.filter((r) => r.status === "fulfilled").length;
-  console.log(
-    `✅ Sent ${successful} emails. ❌ Failed ${results.length - successful}.`
-  );
+  const successful = results.filter(
+    (r) => r.status === "fulfilled" && !r.value.error
+  ).length;
+  const failed = results.length - successful;
+
+  console.log(`✅ Sent ${successful} emails. ❌ Failed ${failed}.`);
 };
 
 export const sendApplicationStatusEmail = async (
@@ -246,37 +229,37 @@ export const sendApplicationStatusEmail = async (
     status === "approved"
       ? `<p>Congratulations <strong>${fighterName}</strong>!</p>
          <p>Your application to fight in <strong>${eventName}</strong> has been <span style="color:${color}; font-weight:bold;">APPROVED</span>.</p>
-         <p>The matchmakers will be in touch shortly to confirm your opponent and bout details.</p>
-         <p>Get ready!</p>`
+         <p>The matchmakers will be in touch shortly to confirm your opponent and bout details.</p>`
       : `<p>Dear <strong>${fighterName}</strong>,</p>
          <p>Thank you for your interest in <strong>${eventName}</strong>.</p>
-         <p>After reviewing the fight card, we regret to inform you that we cannot offer you a spot on this specific event.</p>
-         <p>Please keep training and apply for future events!</p>`;
-
-  const mailOptions = {
-    from: `"Valor League Matchmaker" <${process.env.EMAIL_USER}>`,
-    to: toEmail,
-    subject: subject,
-    html: `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
-        <div style="background-color: ${color}; padding: 20px; text-align: center;">
-          <h1 style="color: white; margin: 0;">${title}</h1>
-        </div>
-        <div style="padding: 20px; color: #333; line-height: 1.6;">
-          ${messageBody}
-        </div>
-        <div style="background-color: #f9fafb; padding: 15px; text-align: center; font-size: 12px; color: #6b7280;">
-          © ${new Date().getFullYear()} Valor League. All rights reserved.
-        </div>
-      </div>
-    `,
-  };
+         <p>After reviewing the fight card, we regret to inform you that we cannot offer you a spot on this specific event.</p>`;
 
   try {
-    await transporter.sendMail(mailOptions);
-    console.log(`Application email sent to ${toEmail} for status: ${status}`);
-  } catch (error) {
-    console.error("Error sending application status email:", error);
+    const { data, error } = await resend.emails.send({
+      from: FROM_EMAIL,
+      to: [toEmail],
+      subject: subject,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
+          <div style="background-color: ${color}; padding: 20px; text-align: center;">
+            <h1 style="color: white; margin: 0;">${title}</h1>
+          </div>
+          <div style="padding: 20px; color: #333; line-height: 1.6;">
+            ${messageBody}
+          </div>
+        </div>
+      `,
+    });
+
+    if (error) {
+      console.error("❌ Resend API Error:", error);
+      return;
+    }
+    console.log(
+      `✅ Application status email sent to ${toEmail}. ID: ${data?.id}`
+    );
+  } catch (err) {
+    console.error("❌ Unexpected error:", err);
   }
 };
 
@@ -290,46 +273,38 @@ export const sendFightMatchEmail = async (
 ) => {
   const subject = `🥊 Fight Confirmation: You vs ${opponentName}`;
 
-  const html = `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
-      <div style="background-color: #d97706; padding: 20px; text-align: center;">
-        <h1 style="color: white; margin: 0;">Fight Confirmed!</h1>
-      </div>
-      
-      <div style="padding: 20px; color: #333; line-height: 1.6; text-align: center;">
-        <p style="font-size: 18px;">Hello <strong>${fighterName}</strong>,</p>
-        <p>Your bout for <strong>${eventName}</strong> has been officially set.</p>
-        
-        <div style="background-color: #f3f4f6; padding: 20px; margin: 20px 0; border-radius: 8px;">
-          <h2 style="color: #dc2626; margin: 0 0 10px 0;">VS</h2>
-          <p style="font-size: 20px; font-weight: bold; margin: 0;">${opponentName}</p>
-          <p style="color: #6b7280; margin-top: 5px;">(Opponent)</p>
-        </div>
-
-        <div style="text-align: left; background: #fff7ed; padding: 15px; border-radius: 5px; border: 1px solid #ffedd5;">
-          <p style="margin: 5px 0;"><strong>📅 Date:</strong> ${eventDate}</p>
-          <p style="margin: 5px 0;"><strong>📍 Location:</strong> ${location}</p>
-        </div>
-
-        <p>Please contact the matchmaker if you have any questions.</p>
-        <p style="font-weight: bold;">Good luck!</p>
-      </div>
-
-      <div style="background-color: #f9fafb; padding: 15px; text-align: center; font-size: 12px; color: #6b7280;">
-        © ${new Date().getFullYear()} Valor League. All rights reserved.
-      </div>
-    </div>
-  `;
-
   try {
-    await transporter.sendMail({
-      from: `"Valor League Matchmaker" <${process.env.EMAIL_USER}>`,
-      to: toEmail,
-      subject,
-      html,
+    const { data, error } = await resend.emails.send({
+      from: FROM_EMAIL,
+      to: [toEmail],
+      subject: subject,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
+          <div style="background-color: #d97706; padding: 20px; text-align: center;">
+            <h1 style="color: white; margin: 0;">Fight Confirmed!</h1>
+          </div>
+          <div style="padding: 20px; color: #333; line-height: 1.6; text-align: center;">
+            <p style="font-size: 18px;">Hello <strong>${fighterName}</strong>,</p>
+            <p>Your bout for <strong>${eventName}</strong> has been officially set.</p>
+            <div style="background-color: #f3f4f6; padding: 20px; margin: 20px 0; border-radius: 8px;">
+              <h2 style="color: #dc2626; margin: 0 0 10px 0;">VS</h2>
+              <p style="font-size: 20px; font-weight: bold; margin: 0;">${opponentName}</p>
+            </div>
+            <div style="text-align: left; background: #fff7ed; padding: 15px; border-radius: 5px;">
+              <p style="margin: 5px 0;"><strong>📅 Date:</strong> ${eventDate}</p>
+              <p style="margin: 5px 0;"><strong>📍 Location:</strong> ${location}</p>
+            </div>
+          </div>
+        </div>
+      `,
     });
-    console.log(`Fight match email sent to ${toEmail}`);
-  } catch (error) {
-    console.error("Error sending fight match email:", error);
+
+    if (error) {
+      console.error("❌ Resend API Error:", error);
+      return;
+    }
+    console.log(`✅ Fight match email sent to ${toEmail}. ID: ${data?.id}`);
+  } catch (err) {
+    console.error("❌ Unexpected error:", err);
   }
 };
