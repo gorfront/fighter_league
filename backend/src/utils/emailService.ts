@@ -111,17 +111,25 @@ import { Resend } from "resend";
 
 dotenv.config();
 
-const resendApiKey = process.env.RESEND_API_KEY;
+// FIX 1: Trim whitespace to prevent "Invalid API Key" errors
+const rawKey = process.env.RESEND_API_KEY;
+const resendApiKey = rawKey ? rawKey.trim() : "";
 
+// FIX 2: Safe Debug Log (Shows length/start of key to verify it loaded)
 if (!resendApiKey) {
   console.warn("⚠️ RESEND_API_KEY is missing. Email sending will fail.");
+} else {
+  console.log(
+    `🔑 Resend Key Loaded: Length=${
+      resendApiKey.length
+    }, StartsWith=${resendApiKey.substring(0, 3)}...`
+  );
 }
 
 const resend = resendApiKey ? new Resend(resendApiKey) : null;
 
 // Define a consistent sender address.
-// NOTE: You must verify this domain in your Resend Dashboard.
-// If testing, use 'onboarding@resend.dev'
+// NOTE: Ensure 'valorleague.com' is verified in Resend, otherwise use 'onboarding@resend.dev'
 const FROM_EMAIL = "Valor League <noreply@valorleague.com>";
 
 export const sendWelcomeEmail = async (toEmail: string, eventDetails: any) => {
@@ -170,6 +178,11 @@ export const sendEventNotification = async (
 ) => {
   if (subscribers.length === 0) return;
 
+  if (!resend) {
+    console.error("❌ Cannot send email: Resend is not initialized");
+    return;
+  }
+
   const eventName = eventDetails.title || "Championship Event";
   const eventDate = new Date(eventDetails.event_date).toDateString();
   const eventLocation = eventDetails.location || "TBD";
@@ -184,10 +197,6 @@ export const sendEventNotification = async (
     `📧 Sending ${type} notification to ${subscribers.length} subscribers...`
   );
 
-  if (!resend) {
-    console.error("❌ Cannot send email: Resend is not initialized");
-    return;
-  }
   // Map subscribers to Resend API calls
   const emailPromises = subscribers.map((email) => {
     return resend.emails.send({
