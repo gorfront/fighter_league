@@ -189,7 +189,7 @@ export const sendEventNotification = async (
           </div>
           
           <a href="${
-            process.env.CLIENT_URL || "http://localhost:5173"
+            process.env.FRONTEND_URL || "http://localhost:8080"
           }/events/${eventDetails.id}" 
              style="background-color: #d97706; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
              View Full Event
