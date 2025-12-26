@@ -145,6 +145,7 @@
 //   await sequelize.close();
 //   process.exit(0);
 // });
+
 import dotenv from "dotenv";
 import http from "http";
 import express, { Express, Request, Response, NextFunction } from "express";
@@ -171,12 +172,16 @@ dotenv.config();
 
 const application: Express = express();
 const httpServer = http.createServer(application);
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const socketService = new ServerSocket(httpServer);
+new ServerSocket(httpServer);
 
 application.use(
   cors({
-    origin: "*",
+    origin: [
+      "http://localhost:8080",
+      "http://localhost:3000",
+      process.env.FRONTEND_URL || "https://fighter-league-1.onrender.com",
+    ],
+    credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
@@ -184,7 +189,7 @@ application.use(
 
 application.use(
   helmet({
-    contentSecurityPolicy: false, // Disable strictly for testing if assets break, or configure specifically
+    contentSecurityPolicy: false,
     crossOriginResourcePolicy: { policy: "cross-origin" },
   })
 );
@@ -234,36 +239,9 @@ application.use("/api/v1/users", userActions);
 application.use("/api/v1/newsletter", newsletterRoutes);
 application.use("/api/v1/fights", fightRoutes);
 
-// --- 3. THE FIX: Handle 404s & Serve Frontend ---
-
-// A. Handle API 404s specifically
-// app.use matches the PREFIX, so this catches anything starting with /api that wasn't handled above.
 application.use("/api", (req: Request, res: Response) => {
   res.status(404).json({
     message: `API Route ${req.url} not found`,
-  });
-});
-
-// B. Serve React Static Files
-const frontendPath = path.resolve(__dirname, "../../frontend/dist");
-application.use(express.static(frontendPath));
-
-// C. Catch-All Route (SPA Support)
-// FIX: Use Regex /.*/ instead of "*" to avoid PathError in newer Express versions
-application.get(/.*/, (req: Request, res: Response) => {
-  const indexPath = path.join(frontendPath, "index.html");
-
-  // Send the file
-  res.sendFile(indexPath, (err) => {
-    if (err) {
-      console.error("❌ Error sending index.html:", err);
-      // If index.html is missing, we must send a JSON error or the browser hangs
-      res
-        .status(500)
-        .send(
-          "Frontend build not found. Please run 'npm run build' in frontend."
-        );
-    }
   });
 });
 
