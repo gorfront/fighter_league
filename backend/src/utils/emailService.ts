@@ -130,7 +130,7 @@ const resend = resendApiKey ? new Resend(resendApiKey) : null;
 
 // Define a consistent sender address.
 // NOTE: Ensure 'valorleague.com' is verified in Resend, otherwise use 'onboarding@resend.dev'
-const FROM_EMAIL = "Valor League <noreply@valorleague.com>";
+const FROM_EMAIL = "Valor League <onboarding@resend.dev>";
 
 export const sendWelcomeEmail = async (toEmail: string, eventDetails: any) => {
   if (!resend) {
