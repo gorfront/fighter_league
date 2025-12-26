@@ -184,9 +184,24 @@ const FighterDashboard = () => {
                 <CardTitle>My Achievements</CardTitle>
               </CardHeader>
               <CardContent>
-                {fighter.achievements?.length > 0 ? (
+                {/* {fighter.achievements?.length > 0 ? (
                   <ul className="list-disc list-inside space-y-2">
                     {fighter?.achievements?.map((ach, index) => (
+                      <li key={index} className="flex items-center gap-2">
+                        <Award className="h-4 w-4 text-primary" />
+                        {ach}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-muted-foreground">
+                    No achievements listed yet.
+                  </p>
+                )} */}
+                {Array.isArray(fighter?.achievements) &&
+                fighter.achievements.length > 0 ? (
+                  <ul className="list-disc list-inside space-y-2">
+                    {fighter.achievements.map((ach, index) => (
                       <li key={index} className="flex items-center gap-2">
                         <Award className="h-4 w-4 text-primary" />
                         {ach}
@@ -206,7 +221,25 @@ const FighterDashboard = () => {
                 <CardTitle>My Sponsors</CardTitle>
               </CardHeader>
               <CardContent>
-                {fighter.sponsors?.length ? (
+                {/* {fighter.sponsors?.length > 0 ? (
+                  <ul className="list-disc list-inside space-y-2">
+                    {fighter.sponsors?.map((sponsor, index) => (
+                      <li key={index} className="flex items-center gap-2">
+                        <Award className="h-4 w-4 text-primary" />
+                        <span>
+                          {sponsor.name} ({sponsor.tier})
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-muted-foreground">
+                    No sponsors listed yet.
+                  </p>
+                )} */}
+
+                {Array.isArray(fighter?.sponsors) &&
+                fighter.sponsors.length > 0 ? (
                   <ul className="list-disc list-inside space-y-2">
                     {fighter.sponsors.map((sponsor, index) => (
                       <li key={index} className="flex items-center gap-2">
