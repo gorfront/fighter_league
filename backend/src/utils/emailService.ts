@@ -122,16 +122,24 @@ dotenv.config();
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,
-  secure: false, // Must be false for port 587
-  requireTLS: true, // Force TLS
+  secure: false, // true for 465, false for other ports
   auth: {
     user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS, // Ensure this is the App Password!
+    pass: process.env.EMAIL_PASS,
   },
-  logger: true, // Log to console
-  debug: true, // Include SMTP traffic in logs
-  connectionTimeout: 10000, // 10 seconds
-});
+  tls: {
+    rejectUnauthorized: false, // Helps if Render's IP is being flagged
+  },
+  // ⬇️ CRITICAL FIXES ⬇️
+  logger: true,
+  debug: true,
+  connectionTimeout: 60000, // Increase to 60 seconds (was 10s)
+  greetingTimeout: 30000, // Wait 30s for the server to say "Hello"
+  socketTimeout: 60000, // Wait 60s for data to flow
+  dns: {
+    useIPv4: true, // Force IPv4 to prevent IPv6 hanging issues
+  },
+} as nodemailer.TransportOptions);
 
 export const sendWelcomeEmail = async (toEmail: string, eventDetails: any) => {
   const eventName = eventDetails?.title || "Upcoming Championship";
