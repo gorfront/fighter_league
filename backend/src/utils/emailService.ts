@@ -111,12 +111,24 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+// const transporter = nodemailer.createTransport({
+//   service: "gmail",
+//   auth: {
+//     user: process.env.EMAIL_USER,
+//     pass: process.env.EMAIL_PASS,
+//   },
+// });
+
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true, // Use SSL
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
+  // Add a timeout setting to help with Render's network
+  connectionTimeout: 10000, // 10 seconds
 });
 
 export const sendWelcomeEmail = async (toEmail: string, eventDetails: any) => {
@@ -207,6 +219,18 @@ export const sendEventNotification = async (
       .sendMail(mailOptions)
       .catch((err) => console.error(`Failed to send to ${email}`, err));
   }
+
+  const emailPromises = subscribers.map((email) => {
+    const mailOptions = {
+      from: `"Valor League" <${process.env.EMAIL_USER}>`,
+      to: email,
+      subject: subject,
+      html: `...your html...`,
+    };
+    return transporter.sendMail(mailOptions);
+  });
+
+  await Promise.allSettled(emailPromises);
 };
 
 export const sendApplicationStatusEmail = async (
