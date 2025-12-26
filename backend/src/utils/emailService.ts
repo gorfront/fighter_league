@@ -121,13 +121,15 @@ dotenv.config();
 
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
-  port: 465,
-  secure: true, // Use SSL
+  port: 587,
+  secure: false, // Must be false for port 587
+  requireTLS: true, // Force TLS
   auth: {
     user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
+    pass: process.env.EMAIL_PASS, // Ensure this is the App Password!
   },
-  // Add a timeout setting to help with Render's network
+  logger: true, // Log to console
+  debug: true, // Include SMTP traffic in logs
   connectionTimeout: 10000, // 10 seconds
 });
 
@@ -149,16 +151,15 @@ export const sendWelcomeEmail = async (toEmail: string, eventDetails: any) => {
         <h2>📅 Next Event: ${eventName}</h2>
         <p><strong>Date:</strong> ${eventDate}</p>
         <p><strong>Location:</strong> ${eventLocation}</p>
-        <br />
-        <p style="font-size: 12px; color: #888;">Valor League Team</p>
       </div>
     `,
   };
 
   try {
     await transporter.sendMail(mailOptions);
+    console.log(`✅ Welcome email sent to ${toEmail}`);
   } catch (error) {
-    console.error("Error sending welcome email:", error);
+    console.error("❌ Error sending welcome email:", error);
   }
 };
 
@@ -172,16 +173,19 @@ export const sendEventNotification = async (
   const eventName = eventDetails.title || "Championship Event";
   const eventDate = new Date(eventDetails.event_date).toDateString();
   const eventLocation = eventDetails.location || "TBD";
-
+  const heading =
+    type === "NEW" ? "New Fight Night Announced!" : "Event Details Updated";
   const subject =
     type === "NEW"
       ? `🔥 NEW EVENT ANNOUNCED: ${eventName}`
       : `⚠️ UPDATE: Changes to ${eventName}`;
 
-  const heading =
-    type === "NEW" ? "New Fight Night Announced!" : "Event Details Updated";
+  // FIX 2: Removed the duplicate 'for' loop. Using ONLY Promise.allSettled
+  console.log(
+    `📧 Sending ${type} notification to ${subscribers.length} subscribers...`
+  );
 
-  for (const email of subscribers) {
+  const emailPromises = subscribers.map((email) => {
     const mailOptions = {
       from: `"Valor League" <${process.env.EMAIL_USER}>`,
       to: email,
@@ -189,48 +193,30 @@ export const sendEventNotification = async (
       html: `
         <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto;">
           <h1 style="color: #d97706;">${heading}</h1>
-          <p>We have exciting news for you. Check out the details below!</p>
-          
           <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; margin: 20px 0;">
             <h2 style="margin-top: 0;">${eventName}</h2>
             <p><strong>📅 Date:</strong> ${eventDate}</p>
             <p><strong>📍 Location:</strong> ${eventLocation}</p>
-            <p><strong>🥊 Division:</strong> ${
-              eventDetails.division || "Open Weight"
-            }</p>
           </div>
-          
-          <a href="${
-            process.env.FRONTEND_URL || "http://localhost:8080"
-          }/events/${eventDetails.id}" 
+           <a href="${
+             process.env.FRONTEND_URL || "http://localhost:8080"
+           }/events/${eventDetails.id}" 
              style="background-color: #d97706; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
              View Full Event
           </a>
-          
-          <br /><br />
-          <p style="font-size: 12px; color: #888;">
-            You received this because you are subscribed to Valor League updates.
-          </p>
         </div>
       `,
-    };
-
-    transporter
-      .sendMail(mailOptions)
-      .catch((err) => console.error(`Failed to send to ${email}`, err));
-  }
-
-  const emailPromises = subscribers.map((email) => {
-    const mailOptions = {
-      from: `"Valor League" <${process.env.EMAIL_USER}>`,
-      to: email,
-      subject: subject,
-      html: `...your html...`,
     };
     return transporter.sendMail(mailOptions);
   });
 
-  await Promise.allSettled(emailPromises);
+  const results = await Promise.allSettled(emailPromises);
+
+  // Log results
+  const successful = results.filter((r) => r.status === "fulfilled").length;
+  console.log(
+    `✅ Sent ${successful} emails. ❌ Failed ${results.length - successful}.`
+  );
 };
 
 export const sendApplicationStatusEmail = async (
