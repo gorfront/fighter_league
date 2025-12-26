@@ -111,7 +111,13 @@ import { Resend } from "resend";
 
 dotenv.config();
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resendApiKey = process.env.RESEND_API_KEY;
+
+if (!resendApiKey) {
+  console.warn("⚠️ RESEND_API_KEY is missing. Email sending will fail.");
+}
+
+const resend = resendApiKey ? new Resend(resendApiKey) : null;
 
 // Define a consistent sender address.
 // NOTE: You must verify this domain in your Resend Dashboard.
@@ -119,6 +125,10 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const FROM_EMAIL = "Valor League <noreply@valorleague.com>";
 
 export const sendWelcomeEmail = async (toEmail: string, eventDetails: any) => {
+  if (!resend) {
+    console.error("❌ Cannot send email: Resend is not initialized");
+    return;
+  }
   const eventName = eventDetails?.title || "Upcoming Championship";
   const rawDate = eventDetails?.event_date || eventDetails?.date;
   const eventDate = rawDate ? new Date(rawDate).toDateString() : "Date TBD";
@@ -174,6 +184,10 @@ export const sendEventNotification = async (
     `📧 Sending ${type} notification to ${subscribers.length} subscribers...`
   );
 
+  if (!resend) {
+    console.error("❌ Cannot send email: Resend is not initialized");
+    return;
+  }
   // Map subscribers to Resend API calls
   const emailPromises = subscribers.map((email) => {
     return resend.emails.send({
@@ -234,6 +248,10 @@ export const sendApplicationStatusEmail = async (
          <p>Thank you for your interest in <strong>${eventName}</strong>.</p>
          <p>After reviewing the fight card, we regret to inform you that we cannot offer you a spot on this specific event.</p>`;
 
+  if (!resend) {
+    console.error("❌ Cannot send email: Resend is not initialized");
+    return;
+  }
   try {
     const { data, error } = await resend.emails.send({
       from: FROM_EMAIL,
@@ -272,7 +290,10 @@ export const sendFightMatchEmail = async (
   location: string
 ) => {
   const subject = `🥊 Fight Confirmation: You vs ${opponentName}`;
-
+  if (!resend) {
+    console.error("❌ Cannot send email: Resend is not initialized");
+    return;
+  }
   try {
     const { data, error } = await resend.emails.send({
       from: FROM_EMAIL,
