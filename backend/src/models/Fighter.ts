@@ -19,6 +19,7 @@ class Fighter extends Model {
   public achievements!: string[];
   public sponsors!: string[];
   public status!: "pending" | "verified";
+  public ranking!: number;
 }
 
 Fighter.init(
@@ -39,6 +40,7 @@ Fighter.init(
     achievements: { type: DataTypes.JSONB, defaultValue: [] },
     sponsors: { type: DataTypes.JSONB, defaultValue: [] },
     status: { type: DataTypes.STRING(10), defaultValue: "pending" },
+    ranking: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
   },
   {
     sequelize,
