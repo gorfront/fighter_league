@@ -29,11 +29,11 @@ new ServerSocket(httpServer);
 application.use(
   cors({
     origin: [
-      "https://fighter-league-1.onrender.com/",
+      "https://fighter-league-1.onrender.com",
       "https://fighter-league.onrender.com",
       "http://localhost:8080",
       "http://localhost:3000",
-      process.env.FRONTEND_URL || "https://fighter-league-1.onrender.com/",
+      process.env.FRONTEND_URL || "https://fighter-league-1.onrender.com",
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
