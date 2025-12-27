@@ -24,7 +24,7 @@ dotenv.config();
 
 const transporter = nodemailer.createTransport({
   host: "smtp-relay.brevo.com",
-  port: 587,
+  port: 2525,
   secure: false, // TLS is used instead of SSL
   pool: true, // Keeps the connection open for multiple emails
   auth: {
@@ -40,7 +40,7 @@ export const sendWelcomeEmail = async (toEmail: string, eventDetails: any) => {
   const eventLocation = eventDetails?.location || "TBD";
 
   const mailOptions = {
-    from: `"Valor League" <${process.env.EMAIL_USER}>`,
+    from: `"Valor League" <${process.env.BREVO_USER}>`,
     to: toEmail,
     subject: "Welcome to the Fight Club! 🥊",
     html: `
@@ -86,7 +86,7 @@ export const sendEventNotification = async (
 
   const emailPromises = subscribers.map((email) => {
     const mailOptions = {
-      from: `"Valor League" <${process.env.EMAIL_USER}>`,
+      from: `"Valor League" <${process.env.BREVO_USER}>`,
       to: email,
       subject: subject,
       html: `
@@ -144,7 +144,7 @@ export const sendApplicationStatusEmail = async (
          <p>Please keep training and apply for future events!</p>`;
 
   const mailOptions = {
-    from: `"Valor League Matchmaker" <${process.env.EMAIL_USER}>`,
+    from: `"Valor League Matchmaker" <${process.env.BREVO_USER}>`,
     to: toEmail,
     subject: subject,
     html: `
@@ -213,7 +213,7 @@ export const sendFightMatchEmail = async (
 
   try {
     await transporter.sendMail({
-      from: `"Valor League Matchmaker" <${process.env.EMAIL_USER}>`,
+      from: `"Valor League Matchmaker" <${process.env.BREVO_USER}>`,
       to: toEmail,
       subject,
       html,
