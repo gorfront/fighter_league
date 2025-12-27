@@ -3,13 +3,13 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
+// const transporter = nodemailer.createTransport({
+//   service: "gmail",
+//   auth: {
+//     user: process.env.EMAIL_USER,
+//     pass: process.env.EMAIL_PASS,
+//   },
+// });
 
 // const transporter = nodemailer.createTransport({
 //   host: "smtp.gmail.com",
@@ -21,6 +21,17 @@ const transporter = nodemailer.createTransport({
 //   },
 //   connectionTimeout: 40000,
 // });
+
+const transporter = nodemailer.createTransport({
+  host: "smtp-relay.brevo.com",
+  port: 587,
+  secure: false, // TLS is used instead of SSL
+  pool: true, // Keeps the connection open for multiple emails
+  auth: {
+    user: process.env.BREVO_USER, // Your Brevo login email
+    pass: process.env.BREVO_KEY, // The Master Password/API Key you just generated
+  },
+});
 
 export const sendWelcomeEmail = async (toEmail: string, eventDetails: any) => {
   const eventName = eventDetails?.title || "Upcoming Championship";
