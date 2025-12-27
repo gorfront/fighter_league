@@ -1,4 +1,5 @@
 import dotenv from "dotenv";
+dotenv.config();
 import http from "http";
 import express, { Express, Request, Response, NextFunction } from "express";
 import cors from "cors";
@@ -19,8 +20,6 @@ import messageRoutes from "./routes/messageRoutes";
 import userActions from "./routes/userActions";
 import newsletterRoutes from "./routes/newsletterRoutes";
 import fightRoutes from "./routes/fightRoutes";
-
-dotenv.config();
 
 const application: Express = express();
 const httpServer = http.createServer(application);

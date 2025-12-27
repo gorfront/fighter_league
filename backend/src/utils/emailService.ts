@@ -3,24 +3,24 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-// const transporter = nodemailer.createTransport({
-//   service: "gmail",
-//   auth: {
-//     user: process.env.EMAIL_USER,
-//     pass: process.env.EMAIL_PASS,
-//   },
-// });
-
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true,
+  service: "gmail",
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
-  connectionTimeout: 40000,
 });
+
+// const transporter = nodemailer.createTransport({
+//   host: "smtp.gmail.com",
+//   port: 465,
+//   secure: true,
+//   auth: {
+//     user: process.env.EMAIL_USER,
+//     pass: process.env.EMAIL_PASS,
+//   },
+//   connectionTimeout: 40000,
+// });
 
 export const sendWelcomeEmail = async (toEmail: string, eventDetails: any) => {
   const eventName = eventDetails?.title || "Upcoming Championship";
@@ -212,3 +212,11 @@ export const sendFightMatchEmail = async (
     console.error("Error sending fight match email:", error);
   }
 };
+
+transporter.verify(function (error, success) {
+  if (error) {
+    console.log("❌ Mail Server Connection Error:", error);
+  } else {
+    console.log("✅ Mail Server is ready to take our messages");
+  }
+});
