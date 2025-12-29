@@ -156,7 +156,6 @@ const DonorEdit = () => {
               <CardTitle>Donor Information</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              {/* Logo Upload */}
               <div className="flex flex-col items-center gap-6 sm:flex-row">
                 <div className="relative h-28 w-28 shrink-0 overflow-hidden rounded-full border bg-white flex items-center justify-center shadow-sm">
                   {imagePreview ? (

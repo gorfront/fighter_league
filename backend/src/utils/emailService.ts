@@ -11,9 +11,6 @@ if (!process.env.SENDGRID_API_KEY) {
 
 const FROM_EMAIL = process.env.EMAIL_USER || "noreply@valorleague.com";
 
-/**
- * Sends a Welcome Email to new subscribers
- */
 export const sendWelcomeEmail = async (toEmail: string, eventDetails: any) => {
   const eventName = eventDetails?.title || "Upcoming Championship";
   const rawDate = eventDetails?.event_date || eventDetails?.date;
@@ -44,9 +41,6 @@ export const sendWelcomeEmail = async (toEmail: string, eventDetails: any) => {
   }
 };
 
-/**
- * Sends notifications to a batch of subscribers
- */
 export const sendEventNotification = async (
   subscribers: string[],
   eventDetails: any,
@@ -87,7 +81,6 @@ export const sendEventNotification = async (
   };
 
   try {
-    // isMultiple: true ensures users don't see each other's email addresses
     await sgMail.sendMultiple(msg);
     console.log(
       `✅ Event notification sent to ${subscribers.length} subscribers.`
@@ -97,9 +90,6 @@ export const sendEventNotification = async (
   }
 };
 
-/**
- * Sends status updates (Approved/Rejected)
- */
 export const sendApplicationStatusEmail = async (
   toEmail: string,
   fighterName: string,
@@ -142,9 +132,6 @@ export const sendApplicationStatusEmail = async (
   }
 };
 
-/**
- * Sends a confirmation email when a fight bout is officially set
- */
 export const sendFightMatchEmail = async (
   toEmail: string,
   fighterName: string,

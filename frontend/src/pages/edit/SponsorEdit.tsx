@@ -168,7 +168,6 @@ const SponsorEdit = () => {
               <CardTitle>Company Details</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              {/* Logo Upload */}
               <div className="flex flex-col items-center gap-6 sm:flex-row">
                 <div className="relative h-32 w-32 shrink-0 overflow-hidden rounded-lg border bg-white flex items-center justify-center">
                   {imagePreview ? (

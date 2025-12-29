@@ -123,7 +123,6 @@ const DonorDashboard = () => {
           </CardHeader>
 
           <CardContent className="p-8 space-y-8">
-            {/* Logo Section */}
             <div className="flex flex-col items-center justify-center space-y-4">
               <div className="h-40 w-40 rounded-full border-4 border-gray-100 overflow-hidden shadow-sm bg-white flex items-center justify-center">
                 {profileData?.logo_url ? (
@@ -147,7 +146,6 @@ const DonorDashboard = () => {
               )}
             </div>
 
-            {/* Info Grid */}
             <div className="grid gap-6 md:grid-cols-1 max-w-lg mx-auto">
               <div className="flex items-center p-4 bg-gray-50 rounded-lg border">
                 <Mail className="h-5 w-5 text-gray-500 mr-4" />

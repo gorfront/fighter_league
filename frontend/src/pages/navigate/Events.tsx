@@ -129,7 +129,6 @@ const Events = () => {
         </div>
       </div>
 
-      {/* Buttons Area - Pushed to bottom */}
       <div className="mt-6 flex flex-col gap-3">
         {event.status === "upcoming" && (
           <Button
@@ -140,7 +139,6 @@ const Events = () => {
           </Button>
         )}
 
-        {/* 🛠️ ADMIN EDIT BUTTON (Visible on Mobile) */}
         {userType === "ADMIN" && (
           <Button
             variant="secondary"
@@ -190,14 +188,12 @@ const Events = () => {
           </section>
         )}
 
-        {/* Upcoming Events Section */}
         {!loading && !error && (
           <section className="py-12">
             <div className="container">
               <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
                 <h2 className="text-3xl font-bold">Upcoming Events</h2>
 
-                {/* Global Create Button for Admin */}
                 {userType === "ADMIN" && (
                   <Button
                     onClick={() => navigate("/events/create")}
@@ -223,7 +219,6 @@ const Events = () => {
           </section>
         )}
 
-        {/* Past Events Section */}
         {!loading && !error && pastEvents.length > 0 && (
           <section className="py-12 bg-card">
             <div className="container">
@@ -237,7 +232,6 @@ const Events = () => {
           </section>
         )}
 
-        {/* Subscription Section */}
         <section
           className={`${show ? "pt-16 pb-4" : "py-16"} border-t border-border`}
         >

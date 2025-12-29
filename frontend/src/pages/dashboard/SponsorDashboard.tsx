@@ -119,7 +119,6 @@ const SponsorDashboard = () => {
             <p className="text-sm">
               Complete your sponsor information to appear on the site.
             </p>
-            {/* 🛠️ UPDATED: Now links to the Edit/Create page */}
             <Button className="mt-4" asChild>
               <Link to="/dashboard/sponsor/edit">Go to Profile Creation</Link>
             </Button>
@@ -137,7 +136,6 @@ const SponsorDashboard = () => {
     Bronze: "bg-amber-700 text-white",
     Partner: "bg-blue-600 text-white",
   };
-
 
   return (
     <div className="min-h-screen flex flex-col">

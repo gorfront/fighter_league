@@ -11,13 +11,15 @@ import {
   VolumeX,
   Volume2,
   Ban,
-  MoreVertical,
   Unlock,
+  MessageSquare,
+  Search,
+  MoreVertical,
 } from "lucide-react";
 import apiClient from "@/api/apiClient";
-import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import ChatWindow from "@/components/ChatWindow";
+import { Input } from "@/components/ui/input";
 
 const MessagesPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -32,55 +34,44 @@ const MessagesPage = () => {
   } = useChatStore();
 
   const token = useAuthStore((s) => s.token);
-  const [isInitializing, setIsInitializing] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const [contextMenu, setContextMenu] = useState<{
     visible: boolean;
     x: number;
     y: number;
     contactId: number | null;
-  }>({
-    visible: false,
-    x: 0,
-    y: 0,
-    contactId: null,
-  });
+  }>({ visible: false, x: 0, y: 0, contactId: null });
 
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (token) {
-      fetchContacts();
-    }
+    if (token) fetchContacts();
   }, [token, fetchContacts]);
 
   useEffect(() => {
     const initChat = async () => {
-      if (!contactIdParam) return;
-
+      if (!contactIdParam) {
+        useChatStore.setState({ activeChatUser: null });
+        return;
+      }
       const targetId = Number(contactIdParam);
       if (isNaN(targetId)) return;
-
-      if (activeChatUser === targetId) return;
-
-      setIsInitializing(true);
-
-      const existingContact = contacts.find((c) => c.id === targetId);
-
-      if (existingContact) {
-        joinChat(targetId);
-      } else {
-        try {
-          const { data: user } = await apiClient.get(`/messages/${targetId}`);
-          ensureContactInList(user);
+      if (activeChatUser !== targetId) {
+        const existingContact = contacts.find((c) => c.id === targetId);
+        if (existingContact) {
           joinChat(targetId);
-        } catch (error) {
-          console.error("Error fetching new contact details", error);
+        } else {
+          try {
+            const { data: user } = await apiClient.get(`/messages/${targetId}`);
+            ensureContactInList(user);
+            joinChat(targetId);
+          } catch (error) {
+            console.error("Error fetching contact", error);
+          }
         }
       }
-      setIsInitializing(false);
     };
-
     initChat();
   }, [contactIdParam, contacts, joinChat, activeChatUser, ensureContactInList]);
 
@@ -90,151 +81,121 @@ const MessagesPage = () => {
         setContextMenu((prev) => ({ ...prev, visible: false }));
       }
     };
-
-    if (contextMenu.visible) {
+    if (contextMenu.visible)
       document.addEventListener("mousedown", handleClickOutside);
-    }
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [contextMenu.visible]);
 
   const handleContactClick = (contactId: number) => {
     setSearchParams({ contactId: String(contactId) });
+    joinChat(contactId);
+  };
+
+  const handleBackToContacts = () => {
+    setSearchParams({});
+    useChatStore.setState({ activeChatUser: null });
   };
 
   const handleContextMenu = (e: React.MouseEvent, contactId: number) => {
     e.preventDefault();
-
+    e.stopPropagation();
     let x = e.clientX;
     let y = e.clientY;
-
-    if (x + 200 > window.innerWidth) x -= 200;
-    if (y + 150 > window.innerHeight) y -= 150;
-
-    setContextMenu({
-      visible: true,
-      x,
-      y,
-      contactId,
-    });
+    if (x + 220 > window.innerWidth) x = window.innerWidth - 230;
+    if (y + 200 > window.innerHeight) y = window.innerHeight - 210;
+    setContextMenu({ visible: true, x, y, contactId });
   };
 
-  const handleRemove = async (id: number) => {
+  const executeAction = async (
+    action: () => Promise<void>,
+    successMsg: string
+  ) => {
     try {
-      await apiClient.delete(`/users/conversations/${id}`);
-      toast.success("Conversation removed");
-
+      await action();
+      toast.success(successMsg);
       fetchContacts();
-      if (activeChatUser === id) {
-        setSearchParams({});
-        useChatStore.setState({ activeChatUser: null, messages: [] });
+      if (
+        successMsg.includes("removed") &&
+        activeChatUser === contextMenu.contactId
+      ) {
+        handleBackToContacts();
       }
-    } catch (error) {
-      console.error("Failed to remove chat", error);
-      toast.error("Failed to remove conversation");
+    } catch (e) {
+      toast.error("Action failed");
     } finally {
-      setContextMenu((prev) => ({ ...prev, visible: false }));
+      setContextMenu((p) => ({ ...p, visible: false }));
     }
   };
 
-  const handleMute = async (id: number) => {
-    try {
-      await apiClient.post("/users/mute", { targetId: id });
-      toast.success("Notifications muted");
-      fetchContacts();
-    } catch (error) {
-      console.error("Failed to mute user", error);
-      toast.error("Failed to mute user");
-    } finally {
-      setContextMenu((prev) => ({ ...prev, visible: false }));
-    }
-  };
-
-  const handleUnmute = async (id: number) => {
-    try {
-      await apiClient.post("/users/unmute", { targetId: id });
-      toast.success("Notifications unmuted");
-      fetchContacts();
-    } catch (error) {
-      console.error("Failed to unmute user", error);
-      toast.error("Failed to unmute user");
-    } finally {
-      setContextMenu((prev) => ({ ...prev, visible: false }));
-    }
-  };
-
-  const handleBlock = async (id: number) => {
-    try {
-      await apiClient.post("/users/block", { targetId: id });
-      toast.success("User blocked");
-      fetchContacts();
-      if (activeChatUser === id) {
-        setSearchParams({});
-        useChatStore.setState({ activeChatUser: null, messages: [] });
-      }
-    } catch (error) {
-      console.error("Failed to block user", error);
-      toast.error("Failed to block user");
-    } finally {
-      setContextMenu((prev) => ({ ...prev, visible: false }));
-    }
-  };
-
-  const handleUnblock = async (id: number) => {
-    try {
-      await apiClient.post("/users/unblock", { targetId: id });
-      toast.success("User unblocked");
-      fetchContacts();
-    } catch (error) {
-      console.error("Failed to unblock user", error);
-      toast.error("Failed to unblock user");
-    } finally {
-      setContextMenu((prev) => ({ ...prev, visible: false }));
-    }
-  };
+  const filteredContacts = contacts.filter((c) =>
+    c.name?.toLowerCase().includes(searchTerm?.toLowerCase())
+  );
 
   const selectedContact = contextMenu.contactId
     ? contacts.find((c) => c.id === contextMenu.contactId)
     : null;
-
-  const isBlocked = selectedContact
-    ? (selectedContact as any).isBlocked
-    : false;
-  const isMuted = selectedContact ? (selectedContact as any).isMuted : false;
+  const isBlocked = (selectedContact as any)?.isBlocked;
+  const isMuted = (selectedContact as any)?.isMuted;
 
   return (
-    <div className="flex flex-col h-screen bg-gray-50">
+    <div className="flex flex-col h-[100dvh] bg-slate-950 text-slate-100 overflow-hidden">
       <Header />
-      <main className="flex-1 container mx-auto py-6 max-w-6xl h-[calc(100vh-80px)] relative">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 h-full bg-white rounded-lg shadow-sm border overflow-hidden">
-          <div className="hidden md:flex flex-col border-r h-full bg-gray-50/50">
-            <div className="p-4 border-b bg-muted/50 flex justify-between items-center">
-              <h2 className="text-xl font-bold">Messages</h2>
+
+      <main className="flex-1 flex flex-col w-full h-full md:container md:mx-auto md:py-6 md:px-4 md:max-w-6xl min-h-0 relative">
+        <div className="flex-1 flex bg-slate-900 md:rounded-2xl md:shadow-xl md:border md:border-slate-800 overflow-hidden relative min-h-0 h-full w-full">
+          <div
+            className={`
+              flex-col h-full bg-slate-900 border-r border-slate-800 w-full md:w-[320px] lg:w-[380px] shrink-0
+              ${activeChatUser !== null ? "hidden md:flex" : "flex"} 
+            `}
+          >
+            <div className="p-3 md:p-4 border-b border-slate-800 space-y-3 shrink-0">
+              <div className="flex justify-between items-center">
+                <h2 className="text-xl font-bold tracking-tight text-white">
+                  Messages
+                </h2>
+                <div className="bg-primary/20 p-2 rounded-full">
+                  <MessageSquare size={18} className="text-primary" />
+                </div>
+              </div>
+              <div className="relative">
+                <Search
+                  className="absolute left-3 top-2.5 h-4 w-4 text-primary"
+                  style={{ zIndex: 1 }}
+                />
+                <Input
+                  placeholder="Search..."
+                  className="pl-9 bg-slate-950 border-slate-800 text-slate-200 placeholder:text-slate-500 focus-visible:ring-primary/50 h-9 md:h-10"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
             </div>
 
-            <div className="flex-1 overflow-y-auto">
+            <div className="flex-1 overflow-y-auto custom-scroll">
               {contacts.length === 0 ? (
-                <div className="p-4 text-center text-muted-foreground text-sm">
-                  No conversations yet. <br /> Visit Sponsors page to start one!
+                <div className="flex flex-col items-center justify-center h-48 text-slate-500 p-6 text-center">
+                  <MessageSquare size={40} className="mb-3 opacity-20" />
+                  <p className="text-sm">No conversations yet.</p>
                 </div>
               ) : (
-                <div className="flex flex-col pb-20">
-                  {contacts.map((contact) => (
+                <div className="flex flex-col pb-20 md:pb-0">
+                  {filteredContacts.map((contact) => (
                     <div
                       key={contact.id}
+                      onClick={() => handleContactClick(contact.id)}
                       onContextMenu={(e) => handleContextMenu(e, contact.id)}
-                      className="relative group select-none"
-                    >
-                      <button
-                        onClick={() => handleContactClick(contact.id)}
-                        className={`w-full flex items-center gap-3 p-4 text-left transition-colors hover:bg-gray-100 border-b border-gray-100 ${
+                      className={`
+                        relative group flex items-center gap-3 p-3 md:p-4 cursor-pointer transition-all border-b border-slate-800/50 hover:bg-slate-800
+                        ${
                           activeChatUser === contact.id
-                            ? "bg-blue-50 border-l-4 border-l-blue-500"
-                            : ""
-                        }`}
-                      >
-                        <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden shrink-0">
+                            ? "bg-slate-800/80 border-l-4 border-l-primary"
+                            : "border-l-4 border-l-transparent"
+                        }
+                      `}
+                    >
+                      <div className="relative shrink-0">
+                        <div className="h-10 w-10 md:h-12 md:w-12 rounded-full bg-slate-800 flex items-center justify-center overflow-hidden border border-slate-700">
                           {contact.avatar ? (
                             <img
                               src={contact.avatar}
@@ -242,36 +203,51 @@ const MessagesPage = () => {
                               className="h-full w-full object-cover"
                             />
                           ) : (
-                            <UserCircle2 className="h-6 w-6 text-gray-500" />
+                            <UserCircle2 className="h-6 w-6 md:h-7 md:w-7 text-slate-500" />
                           )}
                         </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex justify-between items-center">
-                            <p className="font-medium text-gray-900 truncate">
-                              {contact.name || `User #${contact.id}`}
-                            </p>
-                            {contact.unreadCount && contact.unreadCount > 0 ? (
-                              <span className="bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
-                                {contact.unreadCount}
-                              </span>
-                            ) : null}
-                          </div>
+                      </div>
 
-                          <div className="flex items-center gap-1">
-                            <p className="text-xs text-gray-500 capitalize truncate">
-                              {(contact as any).isBlocked ? (
-                                <span className="text-red-600 font-medium">
-                                  Blocked
-                                </span>
-                              ) : (
-                                contact.user_type?.toLowerCase()
-                              )}
-                            </p>
-                            {(contact as any).isMuted && (
-                              <VolumeX className="h-3 w-3 text-gray-400 ml-1" />
-                            )}
-                          </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex justify-between items-baseline mb-1">
+                          <p
+                            className={`text-sm font-semibold truncate ${
+                              (contact as any).isBlocked
+                                ? "text-slate-500"
+                                : "text-slate-200"
+                            }`}
+                          >
+                            {contact.name || `User #${contact.id}`}
+                          </p>
+                          {contact.unreadCount && contact.unreadCount > 0 ? (
+                            <span className="ml-2 bg-primary text-primary-foreground text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[1.25rem] text-center">
+                              {contact.unreadCount}
+                            </span>
+                          ) : null}
                         </div>
+                        <div className="flex items-center gap-2">
+                          <p className="text-xs text-slate-400 truncate">
+                            <span className="italic text-slate-500">
+                              {contact.user_type?.toLowerCase()}
+                            </span>
+                          </p>
+                          {(contact as any).isMuted && (
+                            <VolumeX
+                              size={12}
+                              className="text-slate-500 shrink-0"
+                            />
+                          )}
+                        </div>
+                      </div>
+
+                      <button
+                        className="md:hidden p-2 text-slate-500 hover:text-slate-300 -mr-2"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleContextMenu(e, contact.id);
+                        }}
+                      >
+                        <MoreVertical size={18} />
                       </button>
                     </div>
                   ))}
@@ -280,25 +256,32 @@ const MessagesPage = () => {
             </div>
           </div>
 
-          <div className="col-span-1 md:col-span-2 h-full bg-white flex flex-col max-h-[744px]">
+          <div
+            className={`
+              flex-col flex-1 h-full bg-slate-900 relative min-w-0
+              ${
+                activeChatUser !== null
+                  ? "flex fixed inset-0 z-50 md:static md:z-auto"
+                  : "hidden md:flex"
+              }
+            `}
+          >
             {activeChatUser !== null ? (
-              <>
-                <ChatWindow
-                  targetUserId={activeChatUser}
-                  myToken={token || ""}
-                />
-              </>
+              <ChatWindow
+                targetUserId={activeChatUser}
+                myToken={token || ""}
+                onBack={handleBackToContacts}
+              />
             ) : (
-              <div className="flex flex-col h-full items-center justify-center text-muted-foreground bg-gray-50/30 p-8 text-center">
-                <div className="h-16 w-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                  <UserCircle2 className="h-8 w-8 text-gray-400" />
+              <div className="hidden md:flex flex-col h-full items-center justify-center text-slate-500 bg-slate-950/30 p-8 text-center select-none">
+                <div className="bg-slate-900 p-6 rounded-full shadow-lg border border-slate-800 mb-6">
+                  <MessageSquare size={48} className="text-primary/40" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-700">
-                  Your Messages
+                <h3 className="text-xl font-bold text-slate-300 mb-2">
+                  Welcome to Messages
                 </h3>
-                <p className="max-w-xs mt-2">
-                  Select a contact from the left or start a new conversation
-                  from the Sponsors page.
+                <p className="max-w-xs text-sm text-slate-500">
+                  Select a conversation from the sidebar to start chatting.
                 </p>
               </div>
             )}
@@ -309,59 +292,78 @@ const MessagesPage = () => {
           <div
             ref={menuRef}
             style={{ top: contextMenu.y, left: contextMenu.x }}
-            className="fixed z-50 w-48 bg-white rounded-md shadow-lg border border-gray-200 py-1 animate-in fade-in zoom-in-95 duration-100"
+            className="fixed z-[60] w-52 bg-slate-900 rounded-lg shadow-2xl border border-slate-700 py-1.5 animate-in fade-in zoom-in-95 duration-100"
           >
-            <div className="px-3 py-2 border-b bg-gray-50 text-xs font-semibold text-gray-500">
-              Actions
+            <div className="px-3 py-1.5 border-b border-slate-800 mb-1">
+              <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                Manage Chat
+              </span>
             </div>
-
             <button
-              onClick={() => handleRemove(contextMenu.contactId!)}
-              className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
+              onClick={() =>
+                executeAction(
+                  () =>
+                    isMuted
+                      ? apiClient.post("/users/unmute", {
+                          targetId: contextMenu.contactId,
+                        })
+                      : apiClient.post("/users/mute", {
+                          targetId: contextMenu.contactId,
+                        }),
+                  isMuted ? "Unmuted" : "Muted"
+                )
+              }
+              className="w-full text-left px-4 py-3 text-sm text-slate-300 hover:bg-slate-800 flex items-center gap-3"
             >
-              <Trash2 size={16} className="text-gray-500" />
-              Remove chat
+              {isMuted ? <Volume2 size={16} /> : <VolumeX size={16} />}
+              {isMuted ? "Unmute" : "Mute"}
             </button>
-
-            {isMuted ? (
-              <button
-                onClick={() => handleUnmute(contextMenu.contactId!)}
-                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
-              >
-                <Volume2 size={16} className="text-gray-500" />
-                Unmute notifications
-              </button>
-            ) : (
-              <button
-                onClick={() => handleMute(contextMenu.contactId!)}
-                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
-              >
-                <VolumeX size={16} className="text-gray-500" />
-                Mute notifications
-              </button>
-            )}
-
-            {isBlocked ? (
-              <button
-                onClick={() => handleUnblock(contextMenu.contactId!)}
-                className="w-full text-left px-4 py-2 text-sm text-green-600 hover:bg-green-50 flex items-center gap-2 border-t mt-1"
-              >
-                <Unlock size={16} className="text-green-600" />
-                Unblock user
-              </button>
-            ) : (
-              <button
-                onClick={() => handleBlock(contextMenu.contactId!)}
-                className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2 border-t mt-1"
-              >
-                <Ban size={16} className="text-red-600" />
-                Block user
-              </button>
-            )}
+            <button
+              onClick={() =>
+                executeAction(
+                  () =>
+                    apiClient.delete(
+                      `/users/conversations/${contextMenu.contactId}`
+                    ),
+                  "Conversation removed"
+                )
+              }
+              className="w-full text-left px-4 py-3 text-sm text-slate-300 hover:bg-slate-800 flex items-center gap-3"
+            >
+              <Trash2 size={16} />
+              Delete
+            </button>
+            <div className="my-1 border-t border-slate-800" />
+            <button
+              onClick={() =>
+                executeAction(
+                  () =>
+                    isBlocked
+                      ? apiClient.post("/users/unblock", {
+                          targetId: contextMenu.contactId,
+                        })
+                      : apiClient.post("/users/block", {
+                          targetId: contextMenu.contactId,
+                        }),
+                  isBlocked ? "Unblocked" : "Blocked"
+                )
+              }
+              className={`w-full text-left px-4 py-3 text-sm flex items-center gap-3 ${
+                isBlocked
+                  ? "text-green-500 hover:bg-slate-800"
+                  : "text-red-500 hover:bg-slate-800"
+              }`}
+            >
+              {isBlocked ? <Unlock size={16} /> : <Ban size={16} />}
+              {isBlocked ? "Unblock" : "Block"}
+            </button>
           </div>
         )}
       </main>
-      <Footer />
+
+      <div className="hidden md:block">
+        <Footer />
+      </div>
     </div>
   );
 };
