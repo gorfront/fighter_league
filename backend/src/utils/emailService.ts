@@ -3,35 +3,27 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-// const transporter = nodemailer.createTransport({
-//   service: "gmail",
-//   auth: {
-//     user: process.env.EMAIL_USER,
-//     pass: process.env.EMAIL_PASS,
-//   },
-// });
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
 
 // const transporter = nodemailer.createTransport({
 //   host: "smtp.gmail.com",
-//   port: 465,
-//   secure: true,
+//   port: 587,
+//   secure: false,
+//   requireTLS: true,
 //   auth: {
 //     user: process.env.EMAIL_USER,
 //     pass: process.env.EMAIL_PASS,
 //   },
+//   logger: true,
+//   debug: true,
 //   connectionTimeout: 40000,
 // });
-
-const transporter = nodemailer.createTransport({
-  host: "smtp-relay.brevo.com",
-  port: 587,
-  secure: false, // TLS is used instead of SSL
-  pool: true, // Keeps the connection open for multiple emails
-  auth: {
-    user: process.env.BREVO_USER, // Your Brevo login email
-    pass: process.env.BREVO_KEY, // The Master Password/API Key you just generated
-  },
-});
 
 export const sendWelcomeEmail = async (toEmail: string, eventDetails: any) => {
   const eventName = eventDetails?.title || "Upcoming Championship";
@@ -40,7 +32,7 @@ export const sendWelcomeEmail = async (toEmail: string, eventDetails: any) => {
   const eventLocation = eventDetails?.location || "TBD";
 
   const mailOptions = {
-    from: `"Valor League" <${process.env.BREVO_USER}>`,
+    from: `"Valor League" <${process.env.EMAIL_USER}>`,
     to: toEmail,
     subject: "Welcome to the Fight Club! 🥊",
     html: `
@@ -86,7 +78,7 @@ export const sendEventNotification = async (
 
   const emailPromises = subscribers.map((email) => {
     const mailOptions = {
-      from: `"Valor League" <${process.env.BREVO_USER}>`,
+      from: `"Valor League" <${process.env.EMAIL_USER}>`,
       to: email,
       subject: subject,
       html: `
@@ -144,7 +136,7 @@ export const sendApplicationStatusEmail = async (
          <p>Please keep training and apply for future events!</p>`;
 
   const mailOptions = {
-    from: `"Valor League Matchmaker" <${process.env.BREVO_USER}>`,
+    from: `"Valor League Matchmaker" <${process.env.EMAIL_USER}>`,
     to: toEmail,
     subject: subject,
     html: `
@@ -213,7 +205,7 @@ export const sendFightMatchEmail = async (
 
   try {
     await transporter.sendMail({
-      from: `"Valor League Matchmaker" <${process.env.BREVO_USER}>`,
+      from: `"Valor League Matchmaker" <${process.env.EMAIL_USER}>`,
       to: toEmail,
       subject,
       html,
