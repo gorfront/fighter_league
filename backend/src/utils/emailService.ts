@@ -1,39 +1,28 @@
-import nodemailer from "nodemailer";
+import sgMail from "@sendgrid/mail";
 import dotenv from "dotenv";
 
 dotenv.config();
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
+if (!process.env.SENDGRID_API_KEY) {
+  console.warn("❌ SENDGRID_API_KEY is missing from environment variables.");
+} else {
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+}
 
-// const transporter = nodemailer.createTransport({
-//   host: "smtp.gmail.com",
-//   port: 587,
-//   secure: false,
-//   requireTLS: true,
-//   auth: {
-//     user: process.env.EMAIL_USER,
-//     pass: process.env.EMAIL_PASS,
-//   },
-//   logger: true,
-//   debug: true,
-//   connectionTimeout: 40000,
-// });
+const FROM_EMAIL = process.env.EMAIL_USER || "noreply@valorleague.com";
 
+/**
+ * Sends a Welcome Email to new subscribers
+ */
 export const sendWelcomeEmail = async (toEmail: string, eventDetails: any) => {
   const eventName = eventDetails?.title || "Upcoming Championship";
   const rawDate = eventDetails?.event_date || eventDetails?.date;
   const eventDate = rawDate ? new Date(rawDate).toDateString() : "Date TBD";
   const eventLocation = eventDetails?.location || "TBD";
 
-  const mailOptions = {
-    from: `"Valor League" <${process.env.EMAIL_USER}>`,
+  const msg = {
     to: toEmail,
+    from: `"Valor League" <${FROM_EMAIL}>`,
     subject: "Welcome to the Fight Club! 🥊",
     html: `
       <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto;">
@@ -48,13 +37,16 @@ export const sendWelcomeEmail = async (toEmail: string, eventDetails: any) => {
   };
 
   try {
-    await transporter.sendMail(mailOptions);
+    await sgMail.send(msg);
     console.log(`✅ Welcome email sent to ${toEmail}`);
   } catch (error) {
-    console.error("❌ Error sending welcome email:", error);
+    console.error("❌ SendGrid Error (Welcome):", error);
   }
 };
 
+/**
+ * Sends notifications to a batch of subscribers
+ */
 export const sendEventNotification = async (
   subscribers: string[],
   eventDetails: any,
@@ -72,16 +64,11 @@ export const sendEventNotification = async (
       ? `🔥 NEW EVENT ANNOUNCED: ${eventName}`
       : `⚠️ UPDATE: Changes to ${eventName}`;
 
-  console.log(
-    `📧 Sending ${type} notification to ${subscribers.length} subscribers...`
-  );
-
-  const emailPromises = subscribers.map((email) => {
-    const mailOptions = {
-      from: `"Valor League" <${process.env.EMAIL_USER}>`,
-      to: email,
-      subject: subject,
-      html: `
+  const msg = {
+    to: subscribers,
+    from: `"Valor League" <${FROM_EMAIL}>`,
+    subject: subject,
+    html: `
         <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto;">
           <h1 style="color: #d97706;">${heading}</h1>
           <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; margin: 20px 0;">
@@ -97,129 +84,60 @@ export const sendEventNotification = async (
           </a>
         </div>
       `,
-    };
-    return transporter.sendMail(mailOptions);
-  });
+  };
 
-  const results = await Promise.allSettled(emailPromises);
-
-  const successful = results.filter((r) => r.status === "fulfilled").length;
-  console.log(
-    `✅ Sent ${successful} emails. ❌ Failed ${results.length - successful}.`
-  );
+  try {
+    // isMultiple: true ensures users don't see each other's email addresses
+    await sgMail.sendMultiple(msg);
+    console.log(
+      `✅ Event notification sent to ${subscribers.length} subscribers.`
+    );
+  } catch (error) {
+    console.error("❌ SendGrid Error (Notification):", error);
+  }
 };
 
+/**
+ * Sends status updates (Approved/Rejected)
+ */
 export const sendApplicationStatusEmail = async (
   toEmail: string,
   fighterName: string,
   eventName: string,
   status: "approved" | "rejected"
 ) => {
-  const subject =
-    status === "approved"
-      ? `🎉 Action Required: You are approved for ${eventName}!`
-      : `Update regarding your application for ${eventName}`;
-
   const color = status === "approved" ? "#16a34a" : "#dc2626";
   const title =
     status === "approved" ? "Application Approved!" : "Application Status";
 
-  const messageBody =
-    status === "approved"
-      ? `<p>Congratulations <strong>${fighterName}</strong>!</p>
-         <p>Your application to fight in <strong>${eventName}</strong> has been <span style="color:${color}; font-weight:bold;">APPROVED</span>.</p>
-         <p>The matchmakers will be in touch shortly to confirm your opponent and bout details.</p>
-         <p>Get ready!</p>`
-      : `<p>Dear <strong>${fighterName}</strong>,</p>
-         <p>Thank you for your interest in <strong>${eventName}</strong>.</p>
-         <p>After reviewing the fight card, we regret to inform you that we cannot offer you a spot on this specific event.</p>
-         <p>Please keep training and apply for future events!</p>`;
-
-  const mailOptions = {
-    from: `"Valor League Matchmaker" <${process.env.EMAIL_USER}>`,
+  const msg = {
     to: toEmail,
-    subject: subject,
+    from: `"Valor League Matchmaker" <${FROM_EMAIL}>`,
+    subject:
+      status === "approved"
+        ? `🎉 Action Required: You are approved for ${eventName}!`
+        : `Update regarding your application for ${eventName}`,
     html: `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
-        <div style="background-color: ${color}; padding: 20px; text-align: center;">
-          <h1 style="color: white; margin: 0;">${title}</h1>
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 8px;">
+        <div style="background-color: ${color}; padding: 20px; text-align: center; color: white;">
+          <h1 style="margin: 0;">${title}</h1>
         </div>
-        <div style="padding: 20px; color: #333; line-height: 1.6;">
-          ${messageBody}
-        </div>
-        <div style="background-color: #f9fafb; padding: 15px; text-align: center; font-size: 12px; color: #6b7280;">
-          © ${new Date().getFullYear()} Valor League. All rights reserved.
+        <div style="padding: 20px; color: #333;">
+          <p>Hello <strong>${fighterName}</strong>,</p>
+          ${
+            status === "approved"
+              ? `<p>Your application for <strong>${eventName}</strong> is <b>APPROVED</b>. Matchmakers will contact you soon.</p>`
+              : `<p>We regret to inform you that we cannot offer you a spot on this specific event card.</p>`
+          }
         </div>
       </div>
     `,
   };
 
   try {
-    await transporter.sendMail(mailOptions);
-    console.log(`Application email sent to ${toEmail} for status: ${status}`);
+    await sgMail.send(msg);
+    console.log(`✅ Status email sent to ${toEmail}`);
   } catch (error) {
-    console.error("Error sending application status email:", error);
+    console.error("❌ SendGrid Error (Status):", error);
   }
 };
-
-export const sendFightMatchEmail = async (
-  toEmail: string,
-  fighterName: string,
-  opponentName: string,
-  eventName: string,
-  eventDate: string,
-  location: string
-) => {
-  const subject = `🥊 Fight Confirmation: You vs ${opponentName}`;
-
-  const html = `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
-      <div style="background-color: #d97706; padding: 20px; text-align: center;">
-        <h1 style="color: white; margin: 0;">Fight Confirmed!</h1>
-      </div>
-      
-      <div style="padding: 20px; color: #333; line-height: 1.6; text-align: center;">
-        <p style="font-size: 18px;">Hello <strong>${fighterName}</strong>,</p>
-        <p>Your bout for <strong>${eventName}</strong> has been officially set.</p>
-        
-        <div style="background-color: #f3f4f6; padding: 20px; margin: 20px 0; border-radius: 8px;">
-          <h2 style="color: #dc2626; margin: 0 0 10px 0;">VS</h2>
-          <p style="font-size: 20px; font-weight: bold; margin: 0;">${opponentName}</p>
-          <p style="color: #6b7280; margin-top: 5px;">(Opponent)</p>
-        </div>
-
-        <div style="text-align: left; background: #fff7ed; padding: 15px; border-radius: 5px; border: 1px solid #ffedd5;">
-          <p style="margin: 5px 0;"><strong>📅 Date:</strong> ${eventDate}</p>
-          <p style="margin: 5px 0;"><strong>📍 Location:</strong> ${location}</p>
-        </div>
-
-        <p>Please contact the matchmaker if you have any questions.</p>
-        <p style="font-weight: bold;">Good luck!</p>
-      </div>
-
-      <div style="background-color: #f9fafb; padding: 15px; text-align: center; font-size: 12px; color: #6b7280;">
-        © ${new Date().getFullYear()} Valor League. All rights reserved.
-      </div>
-    </div>
-  `;
-
-  try {
-    await transporter.sendMail({
-      from: `"Valor League Matchmaker" <${process.env.EMAIL_USER}>`,
-      to: toEmail,
-      subject,
-      html,
-    });
-    console.log(`Fight match email sent to ${toEmail}`);
-  } catch (error) {
-    console.error("Error sending fight match email:", error);
-  }
-};
-
-transporter.verify(function (error, success) {
-  if (error) {
-    console.log("❌ Mail Server Connection Error:", error);
-  } else {
-    console.log("✅ Mail Server is ready to take our messages");
-  }
-});
