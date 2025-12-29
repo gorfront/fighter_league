@@ -20,10 +20,12 @@ import messageRoutes from "./routes/messageRoutes";
 import userActions from "./routes/userActions";
 import newsletterRoutes from "./routes/newsletterRoutes";
 import fightRoutes from "./routes/fightRoutes";
+import { initCronJobs } from "./services/cronService";
 
 const application: Express = express();
 const httpServer = http.createServer(application);
 new ServerSocket(httpServer);
+initCronJobs();
 
 application.use(
   cors({
