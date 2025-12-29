@@ -141,3 +141,60 @@ export const sendApplicationStatusEmail = async (
     console.error("❌ SendGrid Error (Status):", error);
   }
 };
+
+/**
+ * Sends a confirmation email when a fight bout is officially set
+ */
+export const sendFightMatchEmail = async (
+  toEmail: string,
+  fighterName: string,
+  opponentName: string,
+  eventName: string,
+  eventDate: string,
+  location: string
+) => {
+  const subject = `🥊 Fight Confirmation: You vs ${opponentName}`;
+
+  const msg = {
+    to: toEmail,
+    from: `"Valor League Matchmaker" <${FROM_EMAIL}>`,
+    subject: subject,
+    html: `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
+      <div style="background-color: #d97706; padding: 20px; text-align: center;">
+        <h1 style="color: white; margin: 0;">Fight Confirmed!</h1>
+      </div>
+      
+      <div style="padding: 20px; color: #333; line-height: 1.6; text-align: center;">
+        <p style="font-size: 18px;">Hello <strong>${fighterName}</strong>,</p>
+        <p>Your bout for <strong>${eventName}</strong> has been officially set.</p>
+        
+        <div style="background-color: #f3f4f6; padding: 20px; margin: 20px 0; border-radius: 8px;">
+          <h2 style="color: #dc2626; margin: 0 0 10px 0;">VS</h2>
+          <p style="font-size: 20px; font-weight: bold; margin: 0;">${opponentName}</p>
+          <p style="color: #6b7280; margin-top: 5px;">(Opponent)</p>
+        </div>
+
+        <div style="text-align: left; background: #fff7ed; padding: 15px; border-radius: 5px; border: 1px solid #ffedd5;">
+          <p style="margin: 5px 0;"><strong>📅 Date:</strong> ${eventDate}</p>
+          <p style="margin: 5px 0;"><strong>📍 Location:</strong> ${location}</p>
+        </div>
+
+        <p>Please contact the matchmaker if you have any questions.</p>
+        <p style="font-weight: bold;">Good luck!</p>
+      </div>
+
+      <div style="background-color: #f9fafb; padding: 15px; text-align: center; font-size: 12px; color: #6b7280;">
+        © ${new Date().getFullYear()} Valor League. All rights reserved.
+      </div>
+    </div>
+  `,
+  };
+
+  try {
+    await sgMail.send(msg);
+    console.log(`✅ Fight match email sent to ${toEmail}`);
+  } catch (error) {
+    console.error("❌ SendGrid Error (Fight Match):", error);
+  }
+};
