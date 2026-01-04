@@ -1,35 +1,50 @@
 import cron from "node-cron";
 import { Op } from "sequelize";
 import Event from "../models/Event";
+import Subscriber from "../models/Subscriber";
+import { sendStatusChangeNotification } from "../utils/emailService";
 
 export const initCronJobs = () => {
-  // Check every minute
   cron.schedule("* * * * *", async () => {
     const now = new Date();
+    const dateOnly = now.toISOString().split("T")[0];
+    const timeOnly = now.toTimeString().slice(0, 5);
 
     try {
-      // Set to LIVE if start time has passed
-      await Event.update(
-        { status: "live" },
-        {
-          where: {
-            status: "upcoming",
-            event_date: { [Op.lte]: now },
-          },
-        }
-      );
+      const eventsToStart = await Event.findAll({
+        where: {
+          status: "upcoming",
+          [Op.or]: [
+            { event_date: { [Op.lt]: dateOnly } },
+            {
+              [Op.and]: [
+                { event_date: dateOnly },
+                { started_time: { [Op.lte]: timeOnly } },
+              ],
+            },
+          ],
+        },
+      });
 
-      // Optional: Set to COMPLETED if 6 hours passed
-      const sixHoursAgo = new Date(now.getTime() - 6 * 60 * 60 * 1000);
-      await Event.update(
-        { status: "completed" },
-        {
-          where: {
-            status: "live",
-            event_date: { [Op.lte]: sixHoursAgo },
-          },
+      if (eventsToStart.length > 0) {
+        const subs = await Subscriber.findAll({
+          where: { isActive: true },
+          attributes: ["email"],
+        });
+        const emailList = subs.map((s) => s.email);
+
+        for (const event of eventsToStart) {
+          console.log(`🔔 Transitioning event to LIVE: ${event.title}`);
+
+          await event.update({ status: "live" });
+
+          if (emailList.length > 0) {
+            sendStatusChangeNotification(emailList, event.toJSON()).catch(
+              (err) => console.error(`Email failed for ${event.title}:`, err)
+            );
+          }
         }
-      );
+      }
     } catch (error) {
       console.error("Cron Job Error:", error);
     }

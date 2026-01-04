@@ -185,3 +185,53 @@ export const sendFightMatchEmail = async (
     console.error("❌ SendGrid Error (Fight Match):", error);
   }
 };
+
+export const sendStatusChangeNotification = async (
+  subscribers: string[],
+  eventDetails: any
+) => {
+  if (subscribers.length === 0) return;
+
+  const eventName = eventDetails.title;
+  const status = eventDetails.status.toUpperCase();
+
+  const statusColor = status === "LIVE" ? "#16a34a" : "#374151";
+  const subject =
+    status === "LIVE"
+      ? `🚨 LIVE NOW: ${eventName} has started!`
+      : `🏁 Event Completed: ${eventName} results are in!`;
+
+  const msg = {
+    to: subscribers,
+    from: `"Valor League" <${FROM_EMAIL}>`,
+    subject: subject,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #eee; border-radius: 10px; overflow: hidden;">
+        <div style="background-color: ${statusColor}; padding: 20px; text-align: center; color: white;">
+          <h1 style="margin: 0;">EVENT IS ${status}</h1>
+        </div>
+        <div style="padding: 20px; text-align: center;">
+          <h2>${eventName}</h2>
+          <p>The status of this event has changed to <strong>${status}</strong>.</p>
+          <div style="margin: 30px 0;">
+            <a href="${
+              process.env.FRONTEND_URL || "http://localhost:8080"
+            }/events/${eventDetails.id}" 
+               style="background-color: #d97706; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">
+               ${status === "LIVE" ? "WATCH LIVE" : "VIEW RESULTS"}
+            </a>
+          </div>
+        </div>
+      </div>
+    `,
+  };
+
+  try {
+    await sgMail.sendMultiple(msg);
+    console.log(
+      `✅ Status notification sent to ${subscribers.length} subscribers.`
+    );
+  } catch (error) {
+    console.error("❌ SendGrid Error (Status Change):", error);
+  }
+};

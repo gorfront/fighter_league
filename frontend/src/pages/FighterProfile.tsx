@@ -94,7 +94,7 @@ const FighterProfile = () => {
             <Link to="/fighters">
               <Button
                 variant="ghost"
-                className="gap-2 pl-0 hover:bg-transparent hover:text-primary"
+                className="gap-2 hover:bg-transparent hover:text-primary"
               >
                 <ArrowLeft className="h-4 w-4" />
                 Back to Fighters

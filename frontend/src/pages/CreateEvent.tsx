@@ -17,14 +17,23 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
-import { Loader2, ArrowLeft, PlusCircle } from "lucide-react";
+import {
+  Loader2,
+  ArrowLeft,
+  PlusCircle,
+  MapPin,
+  Trophy,
+  Calendar,
+  Clock,
+} from "lucide-react";
 
 interface EventData {
   title: string;
   event_date: string;
+  started_time: string;
   location: string;
   division: string;
-  status: "upcoming" | "completed" | "live";
+  status: "upcoming";
 }
 
 interface Division {
@@ -42,6 +51,7 @@ const CreateEvent = () => {
   const [formData, setFormData] = useState<EventData>({
     title: "",
     event_date: "",
+    started_time: "",
     location: "",
     division: "",
     status: "upcoming",
@@ -49,26 +59,19 @@ const CreateEvent = () => {
 
   useEffect(() => {
     if (userType !== "ADMIN") {
-      toast({
-        title: "Access Denied",
-        description: "You do not have permission to view this page.",
-        variant: "destructive",
-      });
       navigate("/events");
       return;
     }
-
     const fetchDivisions = async () => {
       try {
         const res = await apiClient.get<Division[]>("/divisions");
         setDivisions(res.data);
       } catch (err) {
-        console.error("Failed to load divisions", err);
+        console.error(err);
       }
     };
-
     fetchDivisions();
-  }, [userType, navigate, toast]);
+  }, [userType, navigate]);
 
   const handleChange = (field: keyof EventData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -77,32 +80,18 @@ const CreateEvent = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSaving(true);
-
     try {
-      const safeDate = new Date(formData.event_date + ":00Z").toISOString();
-
-      const payload = {
-        ...formData,
-        event_date: safeDate,
-      };
-
-      await apiClient.post("/events", payload, {
+      await apiClient.post("/events", formData, {
         headers: { Authorization: `Bearer ${token}` },
       });
-
       toast({
         title: "Event Created",
-        description: "New event has been successfully scheduled.",
+        description:
+          "The system will automatically set the status based on the time.",
       });
-
       navigate("/events");
     } catch (error: any) {
-      console.error("Creation failed:", error);
-      toast({
-        title: "Creation Failed",
-        description: error.response?.data?.message || "Server error occurred.",
-        variant: "destructive",
-      });
+      toast({ title: "Error", variant: "destructive" });
     } finally {
       setIsSaving(false);
     }
@@ -111,15 +100,13 @@ const CreateEvent = () => {
   return (
     <div className="min-h-screen flex flex-col dark:bg-gray-900">
       <Header />
-
       <main className="flex-1 py-12 container max-w-2xl">
         <Button
           variant="ghost"
-          className="mb-6 pl-0 hover:bg-transparent hover:text-primary"
+          className="mb-6"
           onClick={() => navigate("/events")}
         >
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Back to Events
+          <ArrowLeft className="mr-2 h-4 w-4" /> Back to Events
         </Button>
 
         <Card className="shadow-lg border-t-4 border-t-green-600">
@@ -133,45 +120,70 @@ const CreateEvent = () => {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
                 <Label htmlFor="title">Event Title</Label>
-                <Input
-                  id="title"
-                  value={formData.title}
-                  onChange={(e) => handleChange("title", e.target.value)}
-                  placeholder="e.g. Valor Championship 51"
-                  required
-                />
+                <div className="relative">
+                  <Input
+                    id="title"
+                    value={formData.title}
+                    onChange={(e) => handleChange("title", e.target.value)}
+                    placeholder="e.g. Valor Championship 51"
+                    required
+                    className="pr-10"
+                  />
+                  <Trophy className="absolute right-3 top-2.5 h-5 w-5 text-muted-foreground" />
+                </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="date">Date & Time (UTC)</Label>
-                  <Input
-                    id="date"
-                    type="datetime-local"
-                    value={formData.event_date}
-                    onChange={(e) => handleChange("event_date", e.target.value)}
-                    required
-                  />
-                  <p className="text-[10px] text-muted-foreground">
-                    * Enter time as it should appear (saved as UTC).
-                  </p>
+                  <Label htmlFor="date">Date</Label>
+                  <div className="relative">
+                    <Input
+                      id="date"
+                      type="date"
+                      value={formData.event_date}
+                      onChange={(e) =>
+                        handleChange("event_date", e.target.value)
+                      }
+                      required
+                      className="pr-3 block"
+                    />
+                  </div>
                 </div>
+                <div className="space-y-2">
+                  <Label htmlFor="time">Start Time</Label>
+                  <div className="relative">
+                    <Input
+                      id="time"
+                      type="time"
+                      value={formData.started_time}
+                      onChange={(e) =>
+                        handleChange("started_time", e.target.value)
+                      }
+                      required
+                      className="pr-3 block"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="location">Location</Label>
-                  <Input
-                    id="location"
-                    value={formData.location}
-                    onChange={(e) => handleChange("location", e.target.value)}
-                    placeholder="e.g. Las Vegas, NV"
-                    required
-                  />
+                  <div className="relative">
+                    <Input
+                      id="location"
+                      value={formData.location}
+                      onChange={(e) => handleChange("location", e.target.value)}
+                      placeholder="e.g. Las Vegas, NV"
+                      required
+                      className="pr-10"
+                    />
+                    <MapPin className="absolute right-3 top-2.5 h-5 w-5 text-muted-foreground" />
+                  </div>
                 </div>
-              </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="division">Division / Weight Class</Label>
-
+                  <Label htmlFor="division">Division</Label>
                   <Select
                     value={formData.division}
                     onValueChange={(val) => handleChange("division", val)}
@@ -189,24 +201,12 @@ const CreateEvent = () => {
                     </SelectContent>
                   </Select>
                 </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="status">Initial Status</Label>
-                  <Select
-                    value={formData.status}
-                    onValueChange={(val: any) => handleChange("status", val)}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select Status" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="upcoming">Upcoming</SelectItem>
-                      <SelectItem value="live">Live Now</SelectItem>
-                      <SelectItem value="completed">Completed</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
               </div>
+
+              <p className="text-xs text-muted-foreground italic">
+                * Event status will be determined automatically based on the
+                scheduled time.
+              </p>
 
               <div className="pt-4 flex items-center justify-end">
                 <Button
@@ -226,7 +226,6 @@ const CreateEvent = () => {
           </CardContent>
         </Card>
       </main>
-
       <Footer />
     </div>
   );

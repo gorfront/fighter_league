@@ -4,7 +4,9 @@ import sequelize from "../config/sequelize";
 class Event extends Model {
   public id!: number;
   public title!: string;
-  public event_date!: Date;
+  public event_date!: string;
+  public started_time!: string;
+  public finished_time!: Date | null;
   public location!: string;
   public division!: string;
   public status!: "upcoming" | "completed" | "live";
@@ -22,6 +24,14 @@ Event.init(
       allowNull: false,
     },
     event_date: {
+      type: DataTypes.DATEONLY,
+      allowNull: true,
+    },
+    started_time: {
+      type: DataTypes.STRING(10),
+      allowNull: true,
+    },
+    finished_time: {
       type: DataTypes.DATE,
       allowNull: true,
     },
@@ -45,7 +55,7 @@ Event.init(
     sequelize,
     modelName: "Event",
     tableName: "events",
-    timestamps: false, 
+    timestamps: false,
   }
 );
 

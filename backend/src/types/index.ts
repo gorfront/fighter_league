@@ -38,4 +38,6 @@ export interface Event {
   division: string;
   has_applied?: boolean;
   status: "upcoming" | "completed" | "live";
+  started_time?: Date | null;
+  finished_time?: Date | null;
 }

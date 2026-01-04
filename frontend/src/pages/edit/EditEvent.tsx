@@ -50,10 +50,12 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { convertTo24Hour } from "@/hooks/convertTo24Hour";
 
 interface EventData {
   title: string;
   event_date: string;
+  started_time: string;
   location: string;
   division: string;
   status: "upcoming" | "completed" | "live";
@@ -105,7 +107,6 @@ const SortableFightItem = ({
         >
           <GripVertical className="h-5 w-5 text-muted-foreground" />
         </div>
-
         <div className="flex flex-col">
           <span className="font-semibold text-sm uppercase text-muted-foreground">
             {fight.weight_class}
@@ -115,7 +116,6 @@ const SortableFightItem = ({
           </span>
         </div>
       </div>
-
       <div className="flex items-center justify-center gap-4 flex-1">
         <div className="text-right font-bold text-red-700">
           {fight.redCorner?.name} {getFlagComponent(fight.redCorner?.country)}
@@ -125,13 +125,11 @@ const SortableFightItem = ({
           {getFlagComponent(fight.blueCorner?.country)} {fight.blueCorner?.name}
         </div>
       </div>
-
       {typeof fight.id === "string" && (
         <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
           New
         </Badge>
       )}
-
       <div className="flex gap-2 w-full md:w-auto justify-end">
         <Button
           type="button"
@@ -162,18 +160,16 @@ const EditEvent = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
-
   const [divisions, setDivisions] = useState<Division[]>([]);
-
   const [fights, setFights] = useState<any[]>([]);
   const [deletedFightIds, setDeletedFightIds] = useState<number[]>([]);
-
   const [isFightModalOpen, setIsFightModalOpen] = useState(false);
   const [selectedFight, setSelectedFight] = useState<any>(null);
 
   const [formData, setFormData] = useState<EventData>({
     title: "",
     event_date: "",
+    started_time: "",
     location: "",
     division: "",
     status: "upcoming",
@@ -204,14 +200,13 @@ const EditEvent = () => {
         setFights(fightsRes.data);
 
         const event = eventRes.data;
-        let formattedDate = "";
-        if (event.event_date) {
-          formattedDate = new Date(event.event_date).toISOString().slice(0, 16);
-        }
+
+        const safeTime = convertTo24Hour(event.started_time || "");
 
         setFormData({
           title: event.title,
-          event_date: formattedDate,
+          event_date: event.event_date || "",
+          started_time: safeTime,
           location: event.location,
           division: event.division,
           status: event.status,
@@ -229,7 +224,6 @@ const EditEvent = () => {
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
-
     if (active.id !== over?.id) {
       setFights((items) => {
         const oldIndex = items.findIndex((item) => item.id === active.id);
@@ -262,17 +256,11 @@ const EditEvent = () => {
     setIsSaving(true);
 
     try {
-      const safeDate = new Date(formData.event_date + ":00Z").toISOString();
-      await apiClient.put(
-        `/events/${id}`,
-        { ...formData, event_date: safeDate },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      await apiClient.put(`/events/${id}`, formData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       const promises: Promise<any>[] = [];
-
       deletedFightIds.forEach((delId) => {
         promises.push(apiClient.delete(`/fights/${delId}`));
       });
@@ -286,7 +274,6 @@ const EditEvent = () => {
           is_title_fight: f.is_title_fight,
           order_index: index,
         };
-
         if (typeof f.id === "number") {
           promises.push(apiClient.put(`/fights/${f.id}`, payload));
         } else {
@@ -358,16 +345,31 @@ const EditEvent = () => {
                   required
                 />
               </div>
+
               <div className="grid grid-cols-1 md-sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label>Date (UTC)</Label>
+                  <Label>Date</Label>
                   <Input
-                    type="datetime-local"
+                    type="date"
                     value={formData.event_date}
                     onChange={(e) => handleChange("event_date", e.target.value)}
                     required
                   />
                 </div>
+                <div className="space-y-2">
+                  <Label>Start Time</Label>
+                  <Input
+                    type="time"
+                    value={formData.started_time}
+                    onChange={(e) =>
+                      handleChange("started_time", e.target.value)
+                    }
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md-sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label>Location</Label>
                   <Input
@@ -376,8 +378,6 @@ const EditEvent = () => {
                     required
                   />
                 </div>
-              </div>
-              <div className="grid grid-cols-1 md-sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label>Division</Label>
                   <Select
@@ -394,22 +394,6 @@ const EditEvent = () => {
                         </SelectItem>
                       ))}
                       <SelectItem value="Open Weight">Open Weight</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="space-y-2">
-                  <Label>Status</Label>
-                  <Select
-                    value={formData.status}
-                    onValueChange={(val: any) => handleChange("status", val)}
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="upcoming">Upcoming</SelectItem>
-                      <SelectItem value="live">Live</SelectItem>
-                      <SelectItem value="completed">Completed</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

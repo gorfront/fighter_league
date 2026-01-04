@@ -7,6 +7,7 @@ import {
   deleteEvent,
   joinEvent,
   getApprovedFightersForEvent,
+  endEvent,
 } from "../controllers/eventController";
 import { protect } from "../middleware/authMiddleware";
 
@@ -21,5 +22,7 @@ router.delete("/:id", protect, deleteEvent);
 
 router.post("/:id/join", protect, joinEvent);
 router.get("/:id/fighters", protect, getApprovedFightersForEvent);
+
+router.post("/:id/end", protect, endEvent);
 
 export default router;
