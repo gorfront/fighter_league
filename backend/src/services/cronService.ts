@@ -5,27 +5,20 @@ import Subscriber from "../models/Subscriber";
 import { sendStatusChangeNotification } from "../utils/emailService";
 
 export const initCronJobs = () => {
-  // Runs every minute
   cron.schedule("* * * * *", async () => {
+    // Get the exact current moment in UTC
     const now = new Date();
+    const dateOnly = now.toISOString().split("T")[0]; // Always YYYY-MM-DD in UTC
+    const timeOnly = now.toISOString().split("T")[1].slice(0, 5); // Always HH:mm in UTC
 
-    // Use locale strings to respect the TZ environment variable
-    // This ensures dateOnly and timeOnly match your actual timezone
-    const dateOnly = now.toLocaleDateString("en-CA"); // Formats as YYYY-MM-DD
-    const timeOnly = now.toTimeString().slice(0, 5); // Formats as HH:mm
-
-    console.log(
-      `[Cron Check] Server Time: ${dateOnly} ${timeOnly} | Status: searching...`
-    );
+    console.log(`[Cron] Global UTC Time: ${dateOnly} ${timeOnly}`);
 
     try {
       const eventsToStart = await Event.findAll({
         where: {
           status: "upcoming",
           [Op.or]: [
-            // 1. Event date is strictly in the past (e.g., yesterday)
             { event_date: { [Op.lt]: dateOnly } },
-            // 2. Event date is today AND start time has arrived or passed
             {
               [Op.and]: [
                 { event_date: dateOnly },
