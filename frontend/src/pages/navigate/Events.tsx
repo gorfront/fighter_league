@@ -35,6 +35,34 @@ const Events = () => {
   const userType = useAuthStore((s) => s.userType);
   const navigate = useNavigate();
 
+  const formatEventDateTime = (dateStr: string, timeStr?: string) => {
+    try {
+      // 1. Format the Date - Treat as UTC to prevent the day from shifting
+      const dateDisplay = new Date(dateStr).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        timeZone: "UTC",
+      });
+
+      // 2. Format the Time
+      let timeDisplay = timeStr || "";
+      if (timeStr) {
+        // FIX: We manually create the display string to avoid automatic Timezone conversion
+        // This assumes started_time is "HH:mm" (e.g. "02:08")
+        const [hours, minutes] = timeStr.split(":");
+        const period = parseInt(hours) >= 12 ? "PM" : "AM";
+        const adjustedHour = parseInt(hours) % 12 || 12;
+
+        timeDisplay = `${adjustedHour}:${minutes} ${period}`;
+      }
+
+      return { dateDisplay, timeDisplay };
+    } catch (err) {
+      return { dateDisplay: dateStr, timeDisplay: timeStr || "" };
+    }
+  };
+
   const fetchEvents = useCallback(async (isSilent = false) => {
     if (!isSilent) setLoading(true);
     try {
@@ -58,11 +86,9 @@ const Events = () => {
 
   useEffect(() => {
     fetchEvents();
-
     const interval = setInterval(() => {
       fetchEvents(true);
     }, 30000);
-
     return () => clearInterval(interval);
   }, [fetchEvents]);
 
@@ -89,6 +115,10 @@ const Events = () => {
 
   const EventCard = ({ event }: { event: Event }) => {
     const isLive = event.status === "live";
+    const { dateDisplay, timeDisplay } = formatEventDateTime(
+      event.event_date,
+      (event as any).started_time
+    );
 
     return (
       <Card
@@ -132,22 +162,13 @@ const Events = () => {
         <div className="space-y-3 flex-1 mb-6">
           <div className="flex items-center gap-2 text-muted-foreground">
             <Calendar className="h-4 w-4 shrink-0 text-primary" />
-            <span className="text-sm font-medium">
-              {new Date(event.event_date).toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-                timeZone: "UTC",
-              })}
-            </span>
+            <span className="text-sm font-medium">{dateDisplay}</span>
           </div>
 
-          {(event as any).started_time && (
+          {timeDisplay && (
             <div className="flex items-center gap-2 text-muted-foreground">
               <Clock className="h-4 w-4 shrink-0 text-primary" />
-              <span className="text-sm font-medium">
-                {(event as any).started_time}
-              </span>
+              <span className="text-sm font-medium">{timeDisplay}</span>
             </div>
           )}
 
@@ -176,8 +197,8 @@ const Events = () => {
 
           {userType === "ADMIN" && (
             <Button
-              variant="secondary"
-              className="w-full border"
+              variant="outline"
+              className="w-full"
               onClick={(e) => {
                 e.stopPropagation();
                 navigate(`/events/edit/${event.id}`);
