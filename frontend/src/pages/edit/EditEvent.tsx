@@ -353,6 +353,7 @@ const EditEvent = () => {
                     type="date"
                     value={formData.event_date}
                     onChange={(e) => handleChange("event_date", e.target.value)}
+                    className="block pr-3"
                     required
                   />
                 </div>
@@ -364,6 +365,7 @@ const EditEvent = () => {
                     onChange={(e) =>
                       handleChange("started_time", e.target.value)
                     }
+                    className="block pr-3"
                     required
                   />
                 </div>
