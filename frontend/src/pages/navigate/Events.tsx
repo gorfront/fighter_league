@@ -37,7 +37,6 @@ const Events = () => {
 
   const formatEventDateTime = (dateStr: string, timeStr?: string) => {
     try {
-      // 1. Format the Date - Treat as UTC to prevent the day from shifting
       const dateDisplay = new Date(dateStr).toLocaleDateString("en-US", {
         year: "numeric",
         month: "long",
@@ -45,11 +44,8 @@ const Events = () => {
         timeZone: "UTC",
       });
 
-      // 2. Format the Time
       let timeDisplay = timeStr || "";
       if (timeStr) {
-        // FIX: We manually create the display string to avoid automatic Timezone conversion
-        // This assumes started_time is "HH:mm" (e.g. "02:08")
         const [hours, minutes] = timeStr.split(":");
         const period = parseInt(hours) >= 12 ? "PM" : "AM";
         const adjustedHour = parseInt(hours) % 12 || 12;

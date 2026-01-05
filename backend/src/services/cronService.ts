@@ -7,10 +7,9 @@ import { updateFighterRanks } from "./rankingService";
 
 export const initCronJobs = () => {
   cron.schedule("* * * * *", async () => {
-    // Get the exact current moment in UTC
     const now = new Date();
-    const dateOnly = now.toISOString().split("T")[0]; // Always YYYY-MM-DD in UTC
-    const timeOnly = now.toISOString().split("T")[1].slice(0, 5); // Always HH:mm in UTC
+    const dateOnly = now.toISOString().split("T")[0];
+    const timeOnly = now.toISOString().split("T")[1].slice(0, 5);
 
     console.log(`[Cron] Global UTC Time: ${dateOnly} ${timeOnly}`);
 

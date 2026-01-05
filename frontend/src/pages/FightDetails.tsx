@@ -10,7 +10,6 @@ import { Badge } from "@/components/ui/badge";
 import { Loader2, ArrowLeft, Swords, Trophy, ExternalLink } from "lucide-react";
 import { getFlagComponent } from "@/hooks/getFlagComponent";
 
-// Helper component for stats rows (defined outside to prevent re-renders)
 const StatRow = ({ label, redValue, blueValue }: any) => (
   <div className="grid grid-cols-3 py-3 border-b border-border/50 text-center items-center hover:bg-muted/10 transition-colors">
     <div className="font-bold text-red-600 dark:text-red-400 text-lg font-mono">
@@ -26,7 +25,6 @@ const StatRow = ({ label, redValue, blueValue }: any) => (
 );
 
 const FightDetails = () => {
-  // 🔥 1. Get the Supabase URL from your environment variables (Same as FighterProfile)
   const supabaseAnonKey = import.meta.env
     .VITE_SUPABASE_FIGHTER_IMAGES as string;
 
@@ -51,11 +49,9 @@ const FightDetails = () => {
     if (id) fetchFight();
   }, [id]);
 
-  // 🔥 2. Helper function to determine image source (Same logic as FighterProfile)
   const getFighterImage = (imagePath: string | null | undefined) => {
     if (!imagePath) return PLACEHOLDER_IMAGE;
 
-    // If it is the specific Imgur link (or any absolute URL), return it as is
     if (
       imagePath === "https://i.imgur.com/LpaY82x.png" ||
       imagePath.startsWith("http")
@@ -63,11 +59,9 @@ const FightDetails = () => {
       return imagePath;
     }
 
-    // Otherwise, prepend the Supabase Storage URL
     return supabaseAnonKey + imagePath;
   };
 
-  // Prevent Infinite Loop if placeholder is missing
   const handleImageError = (
     e: React.SyntheticEvent<HTMLImageElement, Event>
   ) => {
@@ -103,7 +97,6 @@ const FightDetails = () => {
           <ArrowLeft className="mr-2 h-4 w-4" /> Back to Event
         </Button>
 
-        {/* Fight Header */}
         <div className="text-center mb-10">
           <Badge
             variant="outline"
@@ -129,9 +122,7 @@ const FightDetails = () => {
           )}
         </div>
 
-        {/* Tale of the Tape */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start mt-12">
-          {/* --- RED CORNER CARD --- */}
           <Card
             className="border-t-4 border-t-red-600 shadow-lg overflow-hidden relative group cursor-pointer hover:border-red-400 transition-all duration-300 hover:shadow-2xl"
             onClick={() => navigate(`/fighter/${fight.redCorner?.id}`)}
@@ -144,7 +135,6 @@ const FightDetails = () => {
             <CardContent className="pt-8 text-center pb-8">
               <div className="relative mx-auto w-48 h-48 mb-6 rounded-full overflow-hidden border-4 border-red-600 shadow-xl group-hover:scale-105 transition-transform duration-300 bg-muted">
                 <img
-                  // 🔥 3. Use the helper function here
                   src={getFighterImage(fight.redCorner?.image)}
                   alt={fight.redCorner?.name}
                   onError={handleImageError}
@@ -163,7 +153,6 @@ const FightDetails = () => {
             </CardContent>
           </Card>
 
-          {/* --- STATS COMPARISON (CENTER) --- */}
           <Card className="md:col-span-1 shadow-2xl border-primary/20 relative z-10 md:mt-12">
             <CardContent className="pt-6 px-0 pb-2">
               <h3 className="text-center font-black mb-6 flex items-center justify-center gap-2 text-primary">
@@ -222,7 +211,6 @@ const FightDetails = () => {
             </CardContent>
           </Card>
 
-          {/* --- BLUE CORNER CARD --- */}
           <Card
             className="border-t-4 border-t-blue-600 shadow-lg overflow-hidden relative group cursor-pointer hover:border-blue-400 transition-all duration-300 hover:shadow-2xl"
             onClick={() => navigate(`/fighter/${fight.blueCorner?.id}`)}
@@ -235,7 +223,6 @@ const FightDetails = () => {
             <CardContent className="pt-8 text-center pb-8">
               <div className="relative mx-auto w-48 h-48 mb-6 rounded-full overflow-hidden border-4 border-blue-600 shadow-xl group-hover:scale-105 transition-transform duration-300 bg-muted">
                 <img
-                  // 🔥 3. Use the helper function here
                   src={getFighterImage(fight.blueCorner?.image)}
                   alt={fight.blueCorner?.name}
                   onError={handleImageError}

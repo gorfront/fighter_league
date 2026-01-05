@@ -19,7 +19,6 @@ import { supabase } from "@/lib/supabaseClient";
 import { X, Info } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-// Extended interface for the form state
 interface FighterFormData extends Partial<Fighter> {
   age?: number;
   height?: string;
@@ -59,7 +58,6 @@ const FighterForm = ({ name, email }: { name: string; email: string }) => {
   const [currentAchievement, setCurrentAchievement] = useState("");
   const navigation = useNavigate();
 
-  // 1. Fetch Divisions on Mount
   useEffect(() => {
     apiClient
       .get<Division[]>("/divisions")
@@ -67,7 +65,6 @@ const FighterForm = ({ name, email }: { name: string; email: string }) => {
       .catch((err) => console.error("Failed to fetch divisions", err));
   }, []);
 
-  // 2. Auto-select division based on Weight and Gender
   useEffect(() => {
     if (formData.weight && formData.gender && divisions.length > 0) {
       const weight = Number(formData.weight);
@@ -120,7 +117,6 @@ const FighterForm = ({ name, email }: { name: string; email: string }) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Basic Field Validation
     if (
       !formData.country ||
       !formData.gender ||
@@ -138,7 +134,6 @@ const FighterForm = ({ name, email }: { name: string; email: string }) => {
       return;
     }
 
-    // 🔥 LOGIC CHECK: Knockouts cannot be greater than Wins
     const wins = Number(formData.wins || 0);
     const knockouts = Number(formData.knockouts || 0);
 
@@ -226,7 +221,6 @@ const FighterForm = ({ name, email }: { name: string; email: string }) => {
   return (
     <Card className="p-8 shadow-md">
       <form onSubmit={handleSubmit} className="space-y-8">
-        {/* SECTION 1: BASIC INFO */}
         <div className="space-y-4">
           <h3 className="text-lg font-semibold border-b pb-2">
             Basic Information
@@ -274,7 +268,6 @@ const FighterForm = ({ name, email }: { name: string; email: string }) => {
           </div>
         </div>
 
-        {/* SECTION 2: PHYSICAL STATS */}
         <div className="space-y-4">
           <h3 className="text-lg font-semibold border-b pb-2">
             Physical Attributes
@@ -362,7 +355,6 @@ const FighterForm = ({ name, email }: { name: string; email: string }) => {
           </div>
         </div>
 
-        {/* SECTION 3: FIGHT RECORD */}
         <div className="space-y-4">
           <h3 className="text-lg font-semibold border-b pb-2">Fight Record</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -417,7 +409,6 @@ const FighterForm = ({ name, email }: { name: string; email: string }) => {
           </div>
         </div>
 
-        {/* SECTION 4: MEDIA & BIO */}
         <div className="space-y-4">
           <h3 className="text-lg font-semibold border-b pb-2">Media & Bio</h3>
           <div className="space-y-2 flex flex-col items-start">

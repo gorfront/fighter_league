@@ -453,7 +453,6 @@ const EventDetails = () => {
                         <div
                           key={fight.id}
                           className="p-4 flex flex-col items-center gap-2 relative"
-                          // onClick={() => navigate(`/fights/${fight.id}`)}
                         >
                           <div className="flex flex-col items-center gap-1">
                             <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">
