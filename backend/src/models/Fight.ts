@@ -1,7 +1,7 @@
 import { DataTypes, Model } from "sequelize";
-import sequelize from "../config/sequelize";
 import Fighter from "./Fighter";
 import Event from "./Event";
+import sequelize from "../config/sequelize";
 
 class Fight extends Model {
   public id!: number;
@@ -13,8 +13,8 @@ class Fight extends Model {
   public winner_id?: number;
   public method?: string;
   public order_index?: number;
-  public round?: number;
-  public time?: string;
+  public round?: number; // Added to init below
+  public time?: string; // Added to init below
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -30,17 +30,17 @@ Fight.init(
     event_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: { model: Event, key: "id" },
+      references: { model: "events", key: "id" }, // Changed 'Event' to string 'events' to prevent circular dependency issues
     },
     red_corner_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: { model: Fighter, key: "id" },
+      references: { model: "fighters", key: "id" },
     },
     blue_corner_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: { model: Fighter, key: "id" },
+      references: { model: "fighters", key: "id" },
     },
     weight_class: {
       type: DataTypes.STRING,
@@ -58,6 +58,15 @@ Fight.init(
       type: DataTypes.STRING,
       allowNull: true,
     },
+    // 🔥 ADDED THESE TWO SO YOU CAN SAVE RESULTS
+    round: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    time: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     order_index: {
       type: DataTypes.INTEGER,
       defaultValue: 0,
@@ -69,8 +78,10 @@ Fight.init(
   }
 );
 
+// Associations
 Fight.belongsTo(Event, { foreignKey: "event_id" });
 Fight.belongsTo(Fighter, { as: "redCorner", foreignKey: "red_corner_id" });
 Fight.belongsTo(Fighter, { as: "blueCorner", foreignKey: "blue_corner_id" });
+Fight.belongsTo(Fighter, { as: "winner", foreignKey: "winner_id" }); // Useful for results
 
 export default Fight;

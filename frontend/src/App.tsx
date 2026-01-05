@@ -29,6 +29,7 @@ import MessagesPage from "./pages/MessagesPage";
 import EditEvent from "./pages/edit/EditEvent";
 import CreateEvent from "./pages/CreateEvent";
 import EventDetails from "./pages/EventDetails";
+import FightDetails from "./pages/FightDetails";
 
 const queryClient = new QueryClient();
 
@@ -94,6 +95,8 @@ const App = () => {
                 {/* Admin Actions */}
                 <Route path="/events/create" element={<CreateEvent />} />
                 <Route path="/events/edit/:id" element={<EditEvent />} />
+
+                <Route path="/fights/:id" element={<FightDetails />} />
               </Route>
 
               {/* 404 */}

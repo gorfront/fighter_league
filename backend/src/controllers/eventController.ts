@@ -246,3 +246,31 @@ export const getApprovedFightersForEvent = async (
     res.status(500).json({ message: "Server Error" });
   }
 };
+
+export const getEventFighters = async (req: Request, res: Response) => {
+  const { id } = req.params; // The Event ID
+  const { division } = req.query; // The Division from the URL params
+
+  try {
+    // 1. Base filter: Must be a verified fighter
+    const whereClause: any = {
+      status: "verified",
+    };
+
+    // 2. 🔥 CRITICAL FIX: If a division is requested, filter by it
+    if (division && division !== "Open Weight" && division !== "") {
+      whereClause.division = division;
+    }
+
+    // 3. Query the database with the filter
+    const fighters = await Fighter.findAll({
+      where: whereClause,
+      order: [["wins", "DESC"]], // Optional: Sort by best record
+    });
+
+    res.json(fighters);
+  } catch (error) {
+    console.error("Error fetching event fighters:", error);
+    res.status(500).json({ message: "Server Error" });
+  }
+};

@@ -3,6 +3,7 @@ import { Op } from "sequelize";
 import Event from "../models/Event";
 import Subscriber from "../models/Subscriber";
 import { sendStatusChangeNotification } from "../utils/emailService";
+import { updateFighterRanks } from "./rankingService";
 
 export const initCronJobs = () => {
   cron.schedule("* * * * *", async () => {
@@ -53,5 +54,8 @@ export const initCronJobs = () => {
     } catch (error) {
       console.error("Cron Job Error:", error);
     }
+  });
+  cron.schedule("0 0 * * *", async () => {
+    await updateFighterRanks();
   });
 };

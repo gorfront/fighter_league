@@ -5,6 +5,7 @@ import {
   getFighterById,
   getMyFighterProfile,
   updateFighterProfile,
+  refreshAllRanks,
 } from "../controllers/fighterController";
 import { protect } from "../middleware/authMiddleware";
 import path from "path";
@@ -37,5 +38,7 @@ router.post(
 router.get("/:id", getFighterById);
 
 router.put("/me", protect, upload.single("image"), updateFighterProfile);
+
+router.post("/refresh-ranks", protect, refreshAllRanks);
 
 export default router;

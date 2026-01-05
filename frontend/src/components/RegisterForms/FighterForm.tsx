@@ -16,13 +16,21 @@ import apiClient from "@/api/apiClient";
 import UploadPhoto from "@/components/UploadPhoto";
 import { Division, Fighter } from "@/types/fighter";
 import { supabase } from "@/lib/supabaseClient";
-import { X } from "lucide-react";
+import { X, Info } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+
+// Extended interface for the form state
+interface FighterFormData extends Partial<Fighter> {
+  age?: number;
+  height?: string;
+  reach?: string;
+  knockouts?: number;
+}
 
 const FighterForm = ({ name, email }: { name: string; email: string }) => {
   const { toast } = useToast();
 
-  const initialFormState: Partial<Fighter> = {
+  const initialFormState: FighterFormData = {
     name,
     email,
     country: "",
@@ -33,11 +41,15 @@ const FighterForm = ({ name, email }: { name: string; email: string }) => {
     wins: 0,
     losses: 0,
     draws: 0,
+    knockouts: 0,
+    age: undefined,
+    height: "",
+    reach: "",
     image: "",
     bio: "",
   };
 
-  const [formData, setFormData] = useState(initialFormState);
+  const [formData, setFormData] = useState<FighterFormData>(initialFormState);
   const [preview, setPreview] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -47,12 +59,33 @@ const FighterForm = ({ name, email }: { name: string; email: string }) => {
   const [currentAchievement, setCurrentAchievement] = useState("");
   const navigation = useNavigate();
 
+  // 1. Fetch Divisions on Mount
   useEffect(() => {
     apiClient
       .get<Division[]>("/divisions")
       .then((res) => setDivisions(res.data))
       .catch((err) => console.error("Failed to fetch divisions", err));
   }, []);
+
+  // 2. Auto-select division based on Weight and Gender
+  useEffect(() => {
+    if (formData.weight && formData.gender && divisions.length > 0) {
+      const weight = Number(formData.weight);
+
+      const matchingDivision = divisions.find((div) => {
+        if (div.gender !== formData.gender) return false;
+        const min = Number(div.min_weight);
+        const max = Number(div.max_weight);
+        return weight >= min && weight <= max;
+      });
+
+      if (matchingDivision) {
+        setFormData((prev) => ({ ...prev, division: matchingDivision.name }));
+      } else {
+        setFormData((prev) => ({ ...prev, division: "" }));
+      }
+    }
+  }, [formData.weight, formData.gender, divisions]);
 
   const handleChange = (field: string, value: string | number | undefined) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -87,6 +120,7 @@ const FighterForm = ({ name, email }: { name: string; email: string }) => {
     e.preventDefault();
     setIsSubmitting(true);
 
+    // Basic Field Validation
     if (
       !formData.country ||
       !formData.gender ||
@@ -98,6 +132,20 @@ const FighterForm = ({ name, email }: { name: string; email: string }) => {
         title: "Missing required fields",
         description:
           "Please fill in all * required fields and upload an image.",
+        variant: "destructive",
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
+    // 🔥 LOGIC CHECK: Knockouts cannot be greater than Wins
+    const wins = Number(formData.wins || 0);
+    const knockouts = Number(formData.knockouts || 0);
+
+    if (knockouts > wins) {
+      toast({
+        title: "Invalid Stats",
+        description: `Knockouts (${knockouts}) cannot be higher than Wins (${wins}).`,
         variant: "destructive",
       });
       setIsSubmitting(false);
@@ -129,9 +177,13 @@ const FighterForm = ({ name, email }: { name: string; email: string }) => {
       const payload = {
         ...formData,
         weight: Number(formData.weight),
-        wins: Number(formData.wins || 0),
+        wins: wins,
         losses: Number(formData.losses || 0),
         draws: Number(formData.draws || 0),
+        knockouts: knockouts,
+        age: formData.age ? Number(formData.age) : null,
+        height: formData.height,
+        reach: formData.reach,
         image: imageUrl,
         achievements: achievements,
       };
@@ -150,7 +202,6 @@ const FighterForm = ({ name, email }: { name: string; email: string }) => {
       setImageFile(null);
       setAchievements([]);
       navigation("/dashboard/fighter");
-
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       const message =
@@ -167,38 +218,44 @@ const FighterForm = ({ name, email }: { name: string; email: string }) => {
       setIsSubmitting(false);
     }
   };
+
   const availableDivisions = divisions.filter(
     (d) => !formData.gender || d.gender === formData.gender
   );
 
   return (
-    <Card className="p-8">
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="space-y-2 flex flex-col items-start">
-          <Label htmlFor="walletAddress">Wallet Address</Label>
-          <Input
-            id="walletAddress"
-            value={formData.walletAddress ?? ""}
-            onChange={(e) => handleChange("walletAddress", e.target.value)}
-            placeholder="Your 0x... wallet address"
-          />
-          <p className="text-xs text-muted-foreground">
-            Link your profile to a user account (optional).
-          </p>
-        </div>
+    <Card className="p-8 shadow-md">
+      <form onSubmit={handleSubmit} className="space-y-8">
+        {/* SECTION 1: BASIC INFO */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold border-b pb-2">
+            Basic Information
+          </h3>
 
-        <div className="space-y-2 flex flex-col items-start">
-          <Label htmlFor="country">Country *</Label>
-          <Input
-            id="country"
-            value={formData.country ?? ""}
-            onChange={(e) => handleChange("country", e.target.value)}
-            placeholder="Enter your country"
-            required
-          />
-        </div>
+          <div className="space-y-2 flex flex-col items-start">
+            <Label htmlFor="walletAddress">Wallet Address</Label>
+            <Input
+              id="walletAddress"
+              value={formData.walletAddress ?? ""}
+              onChange={(e) => handleChange("walletAddress", e.target.value)}
+              placeholder="Your 0x... wallet address"
+            />
+            <p className="text-xs text-muted-foreground">
+              Link your profile to a user account (optional).
+            </p>
+          </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-2 flex flex-col items-start">
+            <Label htmlFor="country">Country *</Label>
+            <Input
+              id="country"
+              value={formData.country ?? ""}
+              onChange={(e) => handleChange("country", e.target.value)}
+              placeholder="Enter your country"
+              required
+            />
+          </div>
+
           <div className="space-y-2 flex flex-col items-start">
             <Label htmlFor="gender">Gender *</Label>
             <Select
@@ -215,132 +272,209 @@ const FighterForm = ({ name, email }: { name: string; email: string }) => {
               </SelectContent>
             </Select>
           </div>
-          <div className="space-y-2 flex flex-col items-start">
-            <Label htmlFor="weight">Weight (lbs) *</Label>
-            <Input
-              id="weight"
-              type="number"
-              value={formData.weight ?? ""}
-              onChange={(e) => handleChange("weight", Number(e.target.value))}
-              placeholder="Enter weight"
-              required
-            />
-          </div>
         </div>
 
-        <div className="space-y-2 flex flex-col items-start">
-          <Label htmlFor="division">Division *</Label>
-          <Select
-            value={formData.division ?? ""}
-            onValueChange={(value) => handleChange("division", value)}
-            disabled={!formData.gender || divisions.length === 0}
-            required
-          >
-            <SelectTrigger id="division">
-              <SelectValue
-                placeholder={
-                  !formData.gender ? "Select gender first" : "Select division"
-                }
+        {/* SECTION 2: PHYSICAL STATS */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold border-b pb-2">
+            Physical Attributes
+          </h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="space-y-2 flex flex-col items-start">
+              <Label htmlFor="age">Age *</Label>
+              <Input
+                id="age"
+                type="number"
+                value={formData.age ?? ""}
+                onChange={(e) => handleChange("age", Number(e.target.value))}
+                placeholder="e.g. 25"
+                className="pr-3"
               />
-            </SelectTrigger>
-            <SelectContent>
-              {availableDivisions.map((division) => (
-                <SelectItem key={division.id} value={division.name}>
-                  {division.name} ({division.min_weight} -{division.max_weight}{" "}
-                  lbs)
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+            </div>
 
-        <div className="space-y-2 flex flex-col items-start">
-          <Label htmlFor="fileUpload">Profile Image *</Label>
-          <UploadPhoto
-            preview={preview}
-            removeImage={removeImage}
-            handleFileChange={handleFileChange}
-          />
-        </div>
+            <div className="space-y-2 flex flex-col items-start">
+              <Label htmlFor="height">Height *</Label>
+              <Input
+                id="height"
+                value={formData.height ?? ""}
+                onChange={(e) => handleChange("height", e.target.value)}
+                placeholder='e.g. 5&#39;11"'
+                className="pr-3"
+              />
+            </div>
 
-        <div className="space-y-2 flex flex-col items-start">
-          <Label htmlFor="bio">Biography</Label>
-          <Textarea
-            id="bio"
-            value={formData.bio ?? ""}
-            onChange={(e) => handleChange("bio", e.target.value)}
-            placeholder="Tell us about your fighting background..."
-            rows={5}
-          />
-        </div>
+            <div className="space-y-2 flex flex-col items-start">
+              <Label htmlFor="reach">Reach *</Label>
+              <Input
+                id="reach"
+                value={formData.reach ?? ""}
+                onChange={(e) => handleChange("reach", e.target.value)}
+                placeholder='e.g. 72"'
+                className="pr-3"
+              />
+            </div>
 
-        <div className="space-y-4 flex flex-col items-start">
-          <Label>Achievements</Label>
-          <div className="flex gap-2 w-full">
-            <Input
-              value={currentAchievement}
-              onChange={(e) => setCurrentAchievement(e.target.value)}
-              placeholder="e.g., National Champion 2023"
-            />
-            <Button
-              type="button"
-              variant="outline"
-              onClick={handleAddAchievement}
+            <div className="space-y-2 flex flex-col items-start">
+              <Label htmlFor="weight">Weight (lbs) *</Label>
+              <Input
+                id="weight"
+                type="number"
+                value={formData.weight ?? ""}
+                onChange={(e) => handleChange("weight", Number(e.target.value))}
+                placeholder="e.g. 155"
+                className="pr-3"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2 flex flex-col items-start">
+            <Label htmlFor="division">Division (Auto-Selected) *</Label>
+            <Select
+              value={formData.division ?? ""}
+              onValueChange={(value) => handleChange("division", value)}
+              disabled={true}
+              required
             >
-              Add
-            </Button>
-          </div>
-          <div className="flex items-start justify-start gap-1 flex-wrap">
-            {achievements?.map((ach, index) => (
-              <div
-                key={index}
-                className="flex items-center justify-between p-2 text-sm bg-muted rounded-md"
-              >
-                <span>{ach}</span>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => handleRemoveAchievement(index)}
-                  className="h-6 w-6"
-                >
-                  <X className="h-4 w-4" />
-                </Button>
-              </div>
-            ))}
+              <SelectTrigger id="division" className="bg-muted/50">
+                <SelectValue
+                  placeholder={
+                    !formData.weight
+                      ? "Enter weight to select division"
+                      : formData.division || "No matching division"
+                  }
+                />
+              </SelectTrigger>
+              <SelectContent>
+                {availableDivisions.map((division) => (
+                  <SelectItem key={division.id} value={division.name}>
+                    {division.name} ({Number(division.min_weight)} -{" "}
+                    {Number(division.max_weight)} lbs)
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {formData.weight && !formData.division && (
+              <p className="text-xs text-red-500 mt-1">
+                Weight does not match any division for this gender.
+              </p>
+            )}
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-4">
+        {/* SECTION 3: FIGHT RECORD */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold border-b pb-2">Fight Record</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="space-y-2 flex flex-col items-start">
+              <Label htmlFor="wins">Wins *</Label>
+              <Input
+                id="wins"
+                type="number"
+                value={formData.wins ?? 0}
+                onChange={(e) => handleChange("wins", Number(e.target.value))}
+                className="pr-3"
+                required
+              />
+            </div>
+            <div className="space-y-2 flex flex-col items-start">
+              <Label htmlFor="losses">Losses *</Label>
+              <Input
+                id="losses"
+                type="number"
+                value={formData.losses ?? 0}
+                onChange={(e) => handleChange("losses", Number(e.target.value))}
+                className="pr-3"
+                required
+              />
+            </div>
+            <div className="space-y-2 flex flex-col items-start">
+              <Label htmlFor="draws">Draws *</Label>
+              <Input
+                id="draws"
+                type="number"
+                value={formData.draws ?? 0}
+                onChange={(e) => handleChange("draws", Number(e.target.value))}
+                className="pr-3"
+                required
+              />
+            </div>
+            <div className="space-y-2 flex flex-col items-start">
+              <Label htmlFor="knockouts" className="flex items-center gap-1">
+                Knockouts (KO){" "}
+                <Info className="h-3 w-3 text-muted-foreground" />
+              </Label>
+              <Input
+                id="knockouts"
+                type="number"
+                value={formData.knockouts ?? 0}
+                onChange={(e) =>
+                  handleChange("knockouts", Number(e.target.value))
+                }
+                className="pr-3"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* SECTION 4: MEDIA & BIO */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold border-b pb-2">Media & Bio</h3>
           <div className="space-y-2 flex flex-col items-start">
-            <Label htmlFor="wins">Wins *</Label>
-            <Input
-              id="wins"
-              type="number"
-              value={formData.wins ?? 0}
-              onChange={(e) => handleChange("wins", Number(e.target.value))}
-              required
+            <Label htmlFor="fileUpload">Profile Image *</Label>
+            <UploadPhoto
+              preview={preview}
+              removeImage={removeImage}
+              handleFileChange={handleFileChange}
             />
           </div>
+
           <div className="space-y-2 flex flex-col items-start">
-            <Label htmlFor="losses">Losses *</Label>
-            <Input
-              id="losses"
-              type="number"
-              value={formData.losses ?? 0}
-              onChange={(e) => handleChange("losses", Number(e.target.value))}
-              required
+            <Label htmlFor="bio">Biography</Label>
+            <Textarea
+              id="bio"
+              value={formData.bio ?? ""}
+              onChange={(e) => handleChange("bio", e.target.value)}
+              placeholder="Tell us about your fighting background..."
+              rows={5}
             />
           </div>
-          <div className="space-y-2 flex flex-col items-start">
-            <Label htmlFor="draws">Draws *</Label>
-            <Input
-              id="draws"
-              type="number"
-              value={formData.draws ?? 0}
-              onChange={(e) => handleChange("draws", Number(e.target.value))}
-              required
-            />
+
+          <div className="space-y-4 flex flex-col items-start">
+            <Label>Achievements</Label>
+            <div className="flex gap-2 w-full">
+              <Input
+                value={currentAchievement}
+                onChange={(e) => setCurrentAchievement(e.target.value)}
+                placeholder="e.g., National Champion 2023"
+              />
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handleAddAchievement}
+              >
+                Add
+              </Button>
+            </div>
+            <div className="flex items-start justify-start gap-1 flex-wrap">
+              {achievements?.map((ach, index) => (
+                <div
+                  key={index}
+                  className="flex items-center justify-between p-2 text-sm bg-muted rounded-md"
+                >
+                  <span>{ach}</span>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => handleRemoveAchievement(index)}
+                    className="h-6 w-6"
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 

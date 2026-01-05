@@ -11,6 +11,7 @@ const Divisions = () => {
   const [divisions, setDivisions] = useState<Division[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  console.log(divisions);
 
   useEffect(() => {
     const fetchDivisions = async () => {

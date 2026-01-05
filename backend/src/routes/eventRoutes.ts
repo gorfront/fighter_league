@@ -8,6 +8,7 @@ import {
   joinEvent,
   getApprovedFightersForEvent,
   endEvent,
+  getEventFighters,
 } from "../controllers/eventController";
 import { protect } from "../middleware/authMiddleware";
 
@@ -24,5 +25,11 @@ router.post("/:id/join", protect, joinEvent);
 router.get("/:id/fighters", protect, getApprovedFightersForEvent);
 
 router.post("/:id/end", protect, endEvent);
+router.get("/:id/fighters", getEventFighters);
+
+router.get("/:id/fighters", protect, getApprovedFightersForEvent);
+
+// 2. 🔥 RENAME this route to avoid conflict
+router.get("/:id/available-fighters", getEventFighters);
 
 export default router;

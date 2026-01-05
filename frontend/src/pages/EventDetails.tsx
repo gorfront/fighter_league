@@ -118,7 +118,7 @@ const EventDetails = () => {
         title: "Event Ended",
         description: "The event is now marked as completed.",
       });
-      fetchData(); 
+      fetchData();
     } catch (error) {
       console.error(error);
       toast({ title: "Failed to end event", variant: "destructive" });
@@ -375,7 +375,8 @@ const EventDetails = () => {
                           {fights.map((fight) => (
                             <tr
                               key={fight.id}
-                              className="hover:bg-muted/5 transition-colors group"
+                              className="hover:bg-muted/5 transition-colors group cursor-pointer"
+                              onClick={() => navigate(`/fights/${fight.id}`)}
                             >
                               <td className="px-4 py-4 text-right">
                                 <div className="flex flex-col items-end">
@@ -452,6 +453,7 @@ const EventDetails = () => {
                         <div
                           key={fight.id}
                           className="p-4 flex flex-col items-center gap-2 relative"
+                          // onClick={() => navigate(`/fights/${fight.id}`)}
                         >
                           <div className="flex flex-col items-center gap-1">
                             <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">

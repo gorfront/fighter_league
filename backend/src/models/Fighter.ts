@@ -11,9 +11,18 @@ class Fighter extends Model {
   public division!: string;
   public weight!: number;
   public gender!: "male" | "female";
+
+  // Stats
   public wins!: number;
   public losses!: number;
   public draws!: number;
+  public knockouts!: number; // 🔥 Added KO
+
+  // Physical Attributes
+  public age!: number; // 🔥 Added Age
+  public height!: string; // 🔥 Added Height (e.g. "5'11\"")
+  public reach!: string; // 🔥 Added Reach (e.g. "72\"")
+
   public image!: string;
   public bio!: string;
   public achievements!: string[];
@@ -32,9 +41,18 @@ Fighter.init(
     division: { type: DataTypes.STRING(255), allowNull: false },
     weight: { type: DataTypes.DECIMAL(6, 2), allowNull: false },
     gender: { type: DataTypes.STRING(10), allowNull: false },
+
+    // Stats
     wins: { type: DataTypes.INTEGER, defaultValue: 0 },
     losses: { type: DataTypes.INTEGER, defaultValue: 0 },
     draws: { type: DataTypes.INTEGER, defaultValue: 0 },
+    knockouts: { type: DataTypes.INTEGER, defaultValue: 0 }, // 🔥 New Column
+
+    // Physical Attributes
+    age: { type: DataTypes.INTEGER, allowNull: true }, // 🔥 New Column
+    height: { type: DataTypes.STRING(20), allowNull: true }, // 🔥 New Column
+    reach: { type: DataTypes.STRING(20), allowNull: true }, // 🔥 New Column
+
     image: { type: DataTypes.STRING(255), allowNull: false },
     bio: { type: DataTypes.TEXT },
     achievements: { type: DataTypes.JSONB, defaultValue: [] },

@@ -21,6 +21,7 @@ import userActions from "./routes/userActions";
 import newsletterRoutes from "./routes/newsletterRoutes";
 import fightRoutes from "./routes/fightRoutes";
 import { initCronJobs } from "./services/cronService";
+import { updateFighterRanks } from "./services/rankingService";
 
 const application: Express = express();
 const httpServer = http.createServer(application);
@@ -126,10 +127,12 @@ sequelize
     }
     return sequelize.sync({ alter: false });
   })
-  .then(() => {
+  .then(async () => {
     httpServer.listen(PORT, () => {
       console.info(`🚀 Server + Socket running on port ${PORT}`);
     });
+    console.log("Startup: Recalculating all ranks...");
+    await updateFighterRanks();
   })
   .catch((err) => {
     console.error("❌ Database connection failed:", err);
