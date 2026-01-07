@@ -30,6 +30,7 @@ import EditEvent from "./pages/edit/EditEvent";
 import CreateEvent from "./pages/CreateEvent";
 import EventDetails from "./pages/EventDetails";
 import FightDetails from "./pages/FightDetails";
+import { connectSocket, disconnectSocket } from "./socket/socket";
 
 const queryClient = new QueryClient();
 
@@ -38,6 +39,13 @@ const AppInitializer = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     initializeAuth();
+  }, []);
+
+  useEffect(() => {
+    connectSocket();
+    return () => {
+      disconnectSocket();
+    };
   }, []);
 
   return <>{children}</>;

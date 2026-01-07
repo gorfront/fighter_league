@@ -23,6 +23,7 @@ import { useAuthStore } from "@/stores/authStore";
 import { useNavigate } from "react-router-dom";
 import { toast } from "@/components/ui/use-toast";
 import { Input } from "@/components/ui/input";
+import socket from "@/socket/socket";
 
 const Events = () => {
   const [upcomingEvents, setUpcomingEvents] = useState<Event[]>([]);
@@ -82,12 +83,37 @@ const Events = () => {
     }
   }, []);
 
+  // useEffect(() => {
+  //   fetchEvents();
+  //   const interval = setInterval(() => {
+  //     fetchEvents(true);
+  //   }, 30000);
+  //   return () => clearInterval(interval);
+  // }, [fetchEvents]);
+
   useEffect(() => {
+    // 1. Initial Fetch
     fetchEvents();
-    const interval = setInterval(() => {
-      fetchEvents(true);
-    }, 30000);
-    return () => clearInterval(interval);
+
+    // 2. Define handler
+    const handleEventUpdate = () => {
+      console.log("⚡ Socket: Event update received");
+      fetchEvents(true); // Silent refresh
+
+      toast({
+        title: "Event Started!",
+        description: "An upcoming event is now LIVE.",
+        className: "bg-green-600 text-white",
+      });
+    };
+
+    // 3. Attach Listener
+    socket.on("events_updated", handleEventUpdate);
+
+    // 4. Cleanup
+    return () => {
+      socket.off("events_updated", handleEventUpdate);
+    };
   }, [fetchEvents]);
 
   const handleSubscribe = async () => {
