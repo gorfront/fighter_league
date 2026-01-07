@@ -208,7 +208,7 @@ const EventDetails = () => {
 
   if (loading)
     return (
-      <div className="h-screen flex center">
+      <div className="h-screen flex items-center justify-center">
         <Loader2 className="animate-spin" />
       </div>
     );
