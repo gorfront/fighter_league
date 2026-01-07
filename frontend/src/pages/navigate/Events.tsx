@@ -15,6 +15,8 @@ import {
   Eye,
   Radio,
   Clock,
+  Bell,
+  History,
 } from "lucide-react";
 import { Event } from "@/types/event";
 import { useAuthStore } from "@/stores/authStore";
@@ -133,12 +135,17 @@ const Events = () => {
               </Badge>
             ) : (
               <Badge
-                className={
+                className={`flex items-center gap-1.5 px-3 py-1 ${
                   event.status === "upcoming"
                     ? "bg-blue-600 text-white"
                     : "bg-muted"
-                }
+                }`}
               >
+                {event.status === "upcoming" ? (
+                  <Bell className="h-3 w-3" />
+                ) : (
+                  <History className="h-3 w-3" />
+                )}
                 {event.status === "upcoming" ? "Upcoming" : "Completed"}
               </Badge>
             )}

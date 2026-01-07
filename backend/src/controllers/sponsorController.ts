@@ -28,9 +28,9 @@ export const registerSponsor = async (
     });
   }
 
-  if (walletAddress && !/^0x[a-fA-F0-9]{40}$/.test(walletAddress)) {
-    return res.status(400).json({ message: "Invalid wallet address format." });
-  }
+  // if (walletAddress && !/^0x[a-fA-F0-9]{40}$/.test(walletAddress)) {
+  //   return res.status(400).json({ message: "Invalid wallet address format." });
+  // }
 
   const sponsorTier = tier || "Partner";
   let transaction: Transaction | undefined;

@@ -29,6 +29,7 @@ import {
   Users,
   Radio,
   CheckCircle2,
+  Bell,
 } from "lucide-react";
 
 import { Event } from "@/types/event";
@@ -244,8 +245,10 @@ const EventDetails = () => {
                         : "bg-gray-500"
                     }`}
                   >
-                    {event.status === "live" && (
+                    {event.status === "live" ? (
                       <Radio className="h-3 w-3 mr-1.5" />
+                    ) : (
+                      <Bell className="h-3 w-3 mr-1.5" />
                     )}
                     {event.status.toUpperCase()}
                   </Badge>
@@ -545,7 +548,7 @@ const EventDetails = () => {
                     <span className="text-sm text-muted-foreground block mb-1">
                       Start Time
                     </span>
-                    <div className="font-semibold flex items-center gap-2">
+                    <div className="font-semibold flex items-center justify-center gap-2">
                       <Clock className="h-4 w-4 text-primary" />
                       {event.started_time || "TBA"}
                     </div>
@@ -554,9 +557,14 @@ const EventDetails = () => {
                     <span className="text-sm text-muted-foreground block mb-1">
                       Status
                     </span>
-                    <span className="font-semibold capitalize">
+                    <div className="font-semibold flex items-center justify-center gap-2">
+                      {event.status === "live" ? (
+                        <Radio className="h-4 w-4 text-primary" />
+                      ) : (
+                        <Bell className="h-4 w-4 text-primary" />
+                      )}
                       {event.status}
-                    </span>
+                    </div>
                   </div>
                 </div>
 
@@ -593,17 +601,54 @@ const EventDetails = () => {
                 </Button>
               </CardContent>
             </Card>
-            <Card>
+            <Card className="overflow-hidden">
               <CardHeader>
                 <CardTitle className="text-base">Venue Map</CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="aspect-video bg-muted rounded-md flex items-center justify-center text-muted-foreground text-sm border-2 border-dashed">
-                  <MapPin className="h-6 w-6 mr-2 opacity-50" /> Map Preview
+              <CardContent className="p-0">
+                <div className="aspect-video w-full bg-muted relative">
+                  {event.location ? (
+                    <iframe
+                      title="Event Location"
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0 }}
+                      loading="lazy"
+                      allowFullScreen
+                      referrerPolicy="no-referrer-when-downgrade"
+                      src={`https://maps.google.com/maps?q=${encodeURIComponent(
+                        event.location
+                      )}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
+                    ></iframe>
+                  ) : (
+                    <div className="flex items-center justify-center h-full text-muted-foreground text-sm">
+                      <MapPin className="h-6 w-6 mr-2 opacity-50" /> No Location
+                      Provided
+                    </div>
+                  )}
                 </div>
-                <p className="mt-4 text-sm font-medium flex items-center gap-2">
-                  <MapPin className="h-4 w-4 text-primary" /> {event.location}
-                </p>
+
+                <div className="p-6">
+                  <p className="text-sm font-medium flex items-center gap-2 mb-4">
+                    <MapPin className="h-4 w-4 text-primary shrink-0" />
+                    {event.location}
+                  </p>
+
+                  <Button
+                    variant="outline"
+                    className="w-full"
+                    onClick={() =>
+                      window.open(
+                        `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                          event.location
+                        )}`,
+                        "_blank"
+                      )
+                    }
+                  >
+                    <MapPin className="mr-2 h-4 w-4" /> Get Directions
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           </div>

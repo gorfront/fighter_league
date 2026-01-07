@@ -12,10 +12,9 @@ import { Loader2, Save, ArrowLeft, UploadCloud } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { createClient } from "@supabase/supabase-js";
 
-const SUPABASE_URL = "https://eumlexrcxqgaudtsmavc.supabase.co";
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
-const IMAGE_BASE_URL =
-  "https://eumlexrcxqgaudtsmavc.supabase.co/storage/v1/object/public/sponsor-logos/";
+const IMAGE_BASE_URL = import.meta.env.VITE_SUPABASE_SPONSOR_IMAGES as string;
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
