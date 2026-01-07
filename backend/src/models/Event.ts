@@ -9,6 +9,7 @@ class Event extends Model {
   public finished_time!: Date | null;
   public location!: string;
   public division!: string;
+  public timezone!: string;
   public status!: "upcoming" | "completed" | "live";
 }
 
@@ -43,6 +44,7 @@ Event.init(
       type: DataTypes.STRING(255),
       allowNull: true,
     },
+    timezone: { type: DataTypes.STRING, defaultValue: "UTC" },
     status: {
       type: DataTypes.STRING(10),
       defaultValue: "upcoming",
