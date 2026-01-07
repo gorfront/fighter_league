@@ -14,12 +14,12 @@ export const Footer = () => {
             >
               <img
                 src={logo}
-                alt="Valor Fighter League"
+                alt="Global Fighter League"
                 className="h-12 w-12"
               />
             </Link>
             <p className="text-sm text-muted-foreground">
-              The premier valor fighting league uniting warriors from every
+              The premier Global fighting league uniting warriors from every
               nation.
             </p>
           </div>
@@ -119,7 +119,7 @@ export const Footer = () => {
 
         <div className="border-t border-border pt-8 text-center text-sm text-muted-foreground">
           <p>
-            &copy; {new Date().getFullYear()} Valor Fighter League. All rights
+            &copy; {new Date().getFullYear()} Global Fighter League. All rights
             reserved.
           </p>
         </div>

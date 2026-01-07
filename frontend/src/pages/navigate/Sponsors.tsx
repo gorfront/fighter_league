@@ -190,7 +190,7 @@ const Sponsors = () => {
                           <CardContent className="p-5 flex-1 flex flex-col justify-between bg-card">
                             <p className="text-sm text-muted-foreground line-clamp-3 mb-4">
                               {sponsor.description ||
-                                "Official sponsor of the Valor League."}
+                                "Official sponsor of the Global League."}
                             </p>
 
                             <div className="space-y-3 mt-auto">

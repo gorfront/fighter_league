@@ -9,7 +9,7 @@ if (!process.env.SENDGRID_API_KEY) {
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 }
 
-const FROM_EMAIL = process.env.EMAIL_USER || "noreply@valorleague.com";
+const FROM_EMAIL = process.env.EMAIL_USER;
 
 export const sendWelcomeEmail = async (toEmail: string, eventDetails: any) => {
   const eventName = eventDetails?.title || "Upcoming Championship";
@@ -19,7 +19,7 @@ export const sendWelcomeEmail = async (toEmail: string, eventDetails: any) => {
 
   const msg = {
     to: toEmail,
-    from: `"Valor League" <${FROM_EMAIL}>`,
+    from: `"Global League" <${FROM_EMAIL}>`,
     subject: "Welcome to the Fight Club! 🥊",
     html: `
       <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto;">
@@ -60,7 +60,7 @@ export const sendEventNotification = async (
 
   const msg = {
     to: subscribers,
-    from: `"Valor League" <${FROM_EMAIL}>`,
+    from: `"Global League" <${FROM_EMAIL}>`,
     subject: subject,
     html: `
         <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto;">
@@ -102,7 +102,7 @@ export const sendApplicationStatusEmail = async (
 
   const msg = {
     to: toEmail,
-    from: `"Valor League Matchmaker" <${FROM_EMAIL}>`,
+    from: `"Global League Matchmaker" <${FROM_EMAIL}>`,
     subject:
       status === "approved"
         ? `🎉 Action Required: You are approved for ${eventName}!`
@@ -144,7 +144,7 @@ export const sendFightMatchEmail = async (
 
   const msg = {
     to: toEmail,
-    from: `"Valor League Matchmaker" <${FROM_EMAIL}>`,
+    from: `"Global League Matchmaker" <${FROM_EMAIL}>`,
     subject: subject,
     html: `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
@@ -172,7 +172,7 @@ export const sendFightMatchEmail = async (
       </div>
 
       <div style="background-color: #f9fafb; padding: 15px; text-align: center; font-size: 12px; color: #6b7280;">
-        © ${new Date().getFullYear()} Valor League. All rights reserved.
+        © ${new Date().getFullYear()} Global League. All rights reserved.
       </div>
     </div>
   `,
@@ -203,7 +203,7 @@ export const sendStatusChangeNotification = async (
 
   const msg = {
     to: subscribers,
-    from: `"Valor League" <${FROM_EMAIL}>`,
+    from: `"Global League" <${FROM_EMAIL}>`,
     subject: subject,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #eee; border-radius: 10px; overflow: hidden;">

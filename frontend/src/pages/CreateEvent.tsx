@@ -125,7 +125,7 @@ const CreateEvent = () => {
                     id="title"
                     value={formData.title}
                     onChange={(e) => handleChange("title", e.target.value)}
-                    placeholder="e.g. Valor Championship 51"
+                    placeholder="e.g. Global Championship 51"
                     required
                     className="pr-10"
                   />

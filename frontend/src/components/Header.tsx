@@ -284,9 +284,9 @@ export const Header = () => {
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
         <Link to="/" className="flex items-center gap-2">
-          <img src={logo} alt="Valor League" className="h-10 w-10" />
+          <img src={logo} alt="Global League" className="h-10 w-10" />
           <span className="text-xl font-bold">
-            <span className="text-foreground">Valor </span>
+            <span className="text-foreground">Global </span>
             <span className="text-primary"> League</span>
           </span>
         </Link>
