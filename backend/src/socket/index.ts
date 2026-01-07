@@ -160,6 +160,8 @@
 //   }
 // }
 
+// --------------------------------------------------------------------------------
+
 import { Server, Socket } from "socket.io";
 import jwt from "jsonwebtoken";
 import Message from "../models/Message";
@@ -203,7 +205,7 @@ export class ServerSocket {
       const token = socket.handshake.auth.token;
 
       if (!token) {
-        return next();
+        return next(); // Guest
       }
 
       try {
@@ -211,6 +213,12 @@ export class ServerSocket {
           token,
           process.env.JWT_SECRET as string
         ) as DecodedToken;
+
+        // 🔥 FIX 1: Allow 0, but block undefined/null
+        if (decoded.id === undefined || decoded.id === null) {
+          return next(new Error("Authentication error: Invalid User ID"));
+        }
+
         socket.user = decoded;
         next();
       } catch (err) {
@@ -219,18 +227,21 @@ export class ServerSocket {
     });
 
     this.io.on("connection", (socket: AuthSocket) => {
+      // 🔥 FIX 2: Check for undefined specifically, because 0 is falsy
       if (socket.user?.id !== undefined) {
-        console.log(`User connected: ${socket.user.id}`);
+        console.log(`✅ User connected: ${socket.user.id}`);
         this.users[socket.user.id] = socket.id;
         socket.join(`user_${socket.user.id}`);
       } else {
-        console.log("Guest connected");
+        console.log("👤 Guest connected");
       }
 
       socket.on("join_chat", ({ targetUserId }) => {
         const myId = socket.user?.id;
 
-        if (!myId || !targetUserId) return;
+        // 🔥 FIX 3: Allow 0 in validation
+        if (myId === undefined || targetUserId === undefined) return;
+        if (myId === targetUserId) return;
 
         const roomId = [myId, targetUserId].sort((a, b) => a - b).join("_");
         socket.join(`chat_${roomId}`);
@@ -241,14 +252,21 @@ export class ServerSocket {
         async ({ targetUserId, content, attachmentUrl, attachmentType }) => {
           const myId = socket.user?.id;
 
-          if (!myId) {
-            socket.emit("error", {
-              message: "You must be logged in to send messages.",
-            });
+          // 🔥 FIX 4: Explicit undefined check to allow Admin (0) to send
+          if (myId === undefined) {
+            socket.emit("error", { message: "You must be logged in." });
             return;
           }
 
-          if (!targetUserId) return;
+          if (targetUserId === undefined) {
+            socket.emit("error", { message: "Invalid recipient." });
+            return;
+          }
+
+          if (Number(myId) === Number(targetUserId)) {
+            socket.emit("error", { message: "Cannot message yourself." });
+            return;
+          }
 
           try {
             const isBlockedByTarget = await BlockedUser.findOne({
@@ -297,9 +315,7 @@ export class ServerSocket {
             if (receiverSocketId) {
               const receiverSocket =
                 this.io.sockets.sockets.get(receiverSocketId);
-              const isReceiverInChat = receiverSocket?.rooms.has(chatRoomName);
-
-              if (!isReceiverInChat) {
+              if (receiverSocket && !receiverSocket.rooms.has(chatRoomName)) {
                 this.io
                   .to(receiverSocketId)
                   .emit("receive_message", newMessage);
@@ -313,11 +329,10 @@ export class ServerSocket {
       );
 
       socket.on("disconnect", () => {
+        // 🔥 FIX 5: Handle disconnect for ID 0
         if (socket.user?.id !== undefined) {
           delete this.users[socket.user.id];
           console.log(`User disconnected: ${socket.user.id}`);
-        } else {
-          console.log("Guest disconnected");
         }
       });
     });

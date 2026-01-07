@@ -1,15 +1,12 @@
 import { Request, Response } from "express";
-import { Op } from "sequelize";
 import Event from "../models/Event";
 import Subscriber from "../models/Subscriber";
-import {
-  sendEventNotification,
-  sendStatusChangeNotification,
-} from "../utils/emailService";
+import { sendStatusChangeNotification } from "../utils/emailService";
 import EventApplication from "../models/EventApplication";
 import jwt from "jsonwebtoken";
 import User from "../models/User";
 import Fighter from "../models/Fighter";
+import { ServerSocket } from "../socket";
 
 const getEventDateTime = (dateStr: string, timeStr: string) => {
   return new Date(`${dateStr}T${timeStr}:00`);
@@ -35,6 +32,14 @@ const updateEventStatuses = async () => {
           sendStatusChangeNotification(emailList, event.toJSON()).catch(
             console.error
           );
+        }
+
+        if (ServerSocket.instance) {
+          ServerSocket.instance.io.emit("events_updated", {
+            eventId: event.id,
+            status: "live",
+            message: "Event is now live",
+          });
         }
       }
     }
@@ -77,6 +82,14 @@ export const getAllEvents = async (req: Request, res: Response) => {
 export const createEvent = async (req: Request, res: Response) => {
   try {
     const newEvent = await Event.create(req.body);
+
+    if (ServerSocket.instance) {
+      ServerSocket.instance.io.emit("events_updated", {
+        eventId: newEvent.id,
+        message: "New event created",
+      });
+    }
+
     res.status(201).json(newEvent);
   } catch (error) {
     console.error(error);
@@ -115,6 +128,14 @@ export const updateEvent = async (req: Request, res: Response) => {
     }
 
     await event.update(req.body);
+
+    if (ServerSocket.instance) {
+      ServerSocket.instance.io.emit("events_updated", {
+        eventId: event.id,
+        message: "Event details updated",
+      });
+    }
+
     res.json(event);
   } catch (error) {
     console.error(error);
@@ -133,6 +154,14 @@ export const endEvent = async (req: Request, res: Response) => {
       finished_time: new Date(),
     });
 
+    if (ServerSocket.instance) {
+      ServerSocket.instance.io.emit("events_updated", {
+        eventId: event.id,
+        status: "completed",
+        message: "Event has ended",
+      });
+    }
+
     const subs = await Subscriber.findAll({
       where: { isActive: true },
       attributes: ["email"],
@@ -146,7 +175,26 @@ export const endEvent = async (req: Request, res: Response) => {
 
     res.json({ message: "Event marked as completed", event });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "Server Error" });
+  }
+};
+
+export const deleteEvent = async (req: Request, res: Response) => {
+  try {
+    const deleted = await Event.destroy({ where: { id: req.params.id } });
+    if (!deleted) return res.status(404).json({ message: "Event not found" });
+
+    if (ServerSocket.instance) {
+      ServerSocket.instance.io.emit("events_updated", {
+        eventId: req.params.id,
+        message: "Event deleted",
+      });
+    }
+
+    res.json({ message: "Event deleted" });
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -178,16 +226,6 @@ export const getEventById = async (req: Request, res: Response) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server Error" });
-  }
-};
-
-export const deleteEvent = async (req: Request, res: Response) => {
-  try {
-    const deleted = await Event.destroy({ where: { id: req.params.id } });
-    if (!deleted) return res.status(404).json({ message: "Event not found" });
-    res.json({ message: "Event deleted" });
-  } catch (err) {
-    res.status(500).json({ message: "Server error" });
   }
 };
 
