@@ -19,5 +19,5 @@ export const getFlagComponent = (countryName: string) => {
     );
   }
 
-  return <span className="text-xl">🏳️</span>;
+  return <span className="w-6 h-4 overflow-hidden">🏳️</span>;
 };
