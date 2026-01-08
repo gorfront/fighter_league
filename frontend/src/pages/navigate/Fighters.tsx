@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef, useCallback } from "react";
+import { useTranslation, Trans } from "react-i18next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { FighterCard } from "@/components/FighterCard";
@@ -32,6 +33,7 @@ interface FightersResponse {
 }
 
 const Fighters = () => {
+  const { t } = useTranslation();
   const [fighters, setFighters] = useState<FighterWithUserId[]>([]);
   const [divisions, setDivisions] = useState<Division[]>([]);
 
@@ -163,11 +165,12 @@ const Fighters = () => {
         <section className="py-12 bg-muted/30 border-b">
           <div className="container">
             <h1 className="text-4xl md:text-5xl font-bold mb-3 tracking-tight">
-              Roster <span className="text-primary">Exploration</span>
+              <Trans i18nKey="roster_exploration">
+                Roster <span className="text-primary">Exploration</span>
+              </Trans>
             </h1>
             <p className="text-xl text-muted-foreground">
-              Discover the next generation of champions across all weight
-              classes.
+              {t("roster_subtitle")}
             </p>
           </div>
         </section>
@@ -176,7 +179,7 @@ const Fighters = () => {
           <div className="container flex flex-col md:flex-row gap-4">
             <div className="relative flex-1">
               <Input
-                placeholder="Search by name or country..."
+                placeholder={t("search_placeholder")}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10 bg-muted/50 border-muted-foreground/20"
@@ -189,13 +192,15 @@ const Fighters = () => {
               onValueChange={setSelectedDivision}
             >
               <SelectTrigger className="w-full md:w-[240px] bg-muted/50 border-muted-foreground/20">
-                <SelectValue placeholder="Filter by Division" />
+                <SelectValue placeholder={t("filter_division")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Divisions</SelectItem>
+                <SelectItem value="all">{t("all_divisions")}</SelectItem>
                 {availableDivisions.map((division) => (
                   <SelectItem key={division.id} value={division.name}>
-                    {division.name}
+                    {t(`division_${division.name.toLowerCase().replace(/[^a-z0-9]/g, "_")}`, {
+                      defaultValue: division.name,
+                    })}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -211,9 +216,9 @@ const Fighters = () => {
               onValueChange={(val) => setSelectedGender(val)}
             >
               <TabsList className="mb-8">
-                <TabsTrigger value="all">All Fighters</TabsTrigger>
-                <TabsTrigger value="male">Men</TabsTrigger>
-                <TabsTrigger value="female">Women</TabsTrigger>
+                <TabsTrigger value="all">{t("all_fighters")}</TabsTrigger>
+                <TabsTrigger value="male">{t("men")}</TabsTrigger>
+                <TabsTrigger value="female">{t("women")}</TabsTrigger>
               </TabsList>
 
               {error && (
@@ -226,7 +231,7 @@ const Fighters = () => {
               {loading && fighters.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-20 gap-4">
                   <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                  <p className="text-muted-foreground">Scouting fighters...</p>
+                  <p className="text-muted-foreground">{t("scouting_fighters")}</p>
                 </div>
               ) : (
                 <div className="w-full">
@@ -253,10 +258,10 @@ const Fighters = () => {
                     <div className="text-center py-20 bg-muted/20 rounded-lg border border-dashed">
                       <Search className="h-12 w-12 mx-auto text-muted-foreground/30 mb-3" />
                       <h3 className="text-lg font-semibold">
-                        No fighters found
+                        {t("no_fighters_found")}
                       </h3>
                       <p className="text-muted-foreground">
-                        Try adjusting your search or filters.
+                        {t("try_adjusting")}
                       </p>
                       <button
                         onClick={() => {
@@ -265,7 +270,7 @@ const Fighters = () => {
                         }}
                         className="mt-4 text-primary hover:underline text-sm font-medium"
                       >
-                        Clear all filters
+                        {t("clear_filters")}
                       </button>
                     </div>
                   )}

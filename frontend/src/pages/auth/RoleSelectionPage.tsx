@@ -1,3 +1,5 @@
+import { useTranslation, Trans } from "react-i18next";
+
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -20,34 +22,44 @@ const RoleSection = ({ icon, title, children }) => (
   </div>
 );
 
-const FighterUpgrade = ({ name, email }) => (
-  <RoleSection
-    icon={<Trophy className="w-6 h-6 text-yellow-600" />}
-    title="Become a Fighter"
-  >
-    <FighterForm name={name} email={email} />
-  </RoleSection>
-);
+const FighterUpgrade = ({ name, email }) => {
+  const { t } = useTranslation();
+  return (
+    <RoleSection
+      icon={<Trophy className="w-6 h-6 text-yellow-600" />}
+      title={t("become_fighter")}
+    >
+      <FighterForm name={name} email={email} />
+    </RoleSection>
+  );
+};
 
-const SponsorUpgrade = ({ name, email }) => (
-  <RoleSection
-    icon={<Briefcase className="w-6 h-6 text-green-600" />}
-    title="Become a Sponsor"
-  >
-    <SponsorForm name={name} email={email} />
-  </RoleSection>
-);
+const SponsorUpgrade = ({ name, email }) => {
+  const { t } = useTranslation();
+  return (
+    <RoleSection
+      icon={<Briefcase className="w-6 h-6 text-green-600" />}
+      title={t("become_sponsor")}
+    >
+      <SponsorForm name={name} email={email} />
+    </RoleSection>
+  );
+};
 
-const DonorUpgrade = ({ name, email }) => (
-  <RoleSection
-    icon={<Briefcase className="w-6 h-6 text-blue-600" />}
-    title="Become a Donor"
-  >
-    <DonorForm name={name} email={email} />
-  </RoleSection>
-);
+const DonorUpgrade = ({ name, email }) => {
+  const { t } = useTranslation();
+  return (
+    <RoleSection
+      icon={<Briefcase className="w-6 h-6 text-blue-600" />}
+      title={t("become_donor")}
+    >
+      <DonorForm name={name} email={email} />
+    </RoleSection>
+  );
+};
 
 const RoleSelectionPage = () => {
+  const { t } = useTranslation();
   const { userType, currentUser } = useAuthStore();
 
   const isAlreadyUpgraded =
@@ -56,10 +68,13 @@ const RoleSelectionPage = () => {
   if (isAlreadyUpgraded) {
     return (
       <div className="min-h-screen flex flex-col justify-center items-center">
-        <h1 className="text-3xl font-bold">Access Granted</h1>
+        <h1 className="text-3xl font-bold">{t("access_granted")}</h1>
         <p>
-          You are already logged in as a <strong>{userType}</strong>. No upgrade
-          needed.
+          <Trans
+            i18nKey="already_logged_in_as"
+            values={{ role: userType }}
+            components={{ strong: <strong /> }}
+          />
         </p>
       </div>
     );
@@ -68,16 +83,16 @@ const RoleSelectionPage = () => {
   if (!currentUser) {
     return (
       <div className="min-h-screen flex flex-col justify-center items-center">
-        <h1 className="text-3xl font-bold">User not found</h1>
-        <p>Please log in to continue.</p>
+        <h1 className="text-3xl font-bold">{t("user_not_found")}</h1>
+        <p>{t("please_login_continue")}</p>
       </div>
     );
   }
 
   const roles = [
-    { value: "Fighter", title: "Become a Fighter" },
-    { value: "Sponsor", title: "Become a Sponsor" },
-    { value: "Donor", title: "Become a Donor" },
+    { value: "Fighter", title: t("become_fighter") },
+    { value: "Sponsor", title: t("become_sponsor") },
+    { value: "Donor", title: t("become_donor") },
   ];
 
   return (
@@ -89,10 +104,14 @@ const RoleSelectionPage = () => {
           <CardHeader className="text-center border-b pb-4">
             <CardTitle className="text-3xl font-extrabold text-primary flex justify-center items-center gap-2">
               <User className="h-7 w-7" />
-              Welcome, Guest! Select Your Role
+              {t("welcome_select_role")}
             </CardTitle>
             <p className="text-muted-foreground mt-2">
-              Your current account is <strong>{userType || "GUEST"}</strong>.
+              <Trans
+                i18nKey="current_account_is"
+                values={{ role: userType || "GUEST" }}
+                components={{ strong: <strong /> }}
+              />
             </p>
           </CardHeader>
 

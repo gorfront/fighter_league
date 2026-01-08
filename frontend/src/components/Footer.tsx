@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
 import { Facebook, Instagram, Twitter } from "lucide-react";
 import logo from "@/assets/logo.png";
+import { useTranslation } from "react-i18next";
 
 export const Footer = () => {
+  const { t } = useTranslation();
+
   return (
     <footer className="border-t border-border bg-card">
       <div className="container py-12">
@@ -19,20 +22,19 @@ export const Footer = () => {
               />
             </Link>
             <p className="text-sm text-muted-foreground">
-              The premier Global fighting league uniting warriors from every
-              nation.
+              {t("footer_desc")}
             </p>
           </div>
 
           <div>
-            <h3 className="font-bold mb-4">Quick Links</h3>
+            <h3 className="font-bold mb-4">{t("quick_links")}</h3>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
                   to="/fighters"
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
-                  Fighters
+                  {t("fighters")}
                 </Link>
               </li>
               <li>
@@ -40,7 +42,7 @@ export const Footer = () => {
                   to="/divisions"
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
-                  Divisions
+                  {t("divisions")}
                 </Link>
               </li>
               <li>
@@ -48,7 +50,7 @@ export const Footer = () => {
                   to="/events"
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
-                  Events
+                  {t("events")}
                 </Link>
               </li>
               <li>
@@ -56,21 +58,21 @@ export const Footer = () => {
                   to="/sponsors"
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
-                  Sponsors
+                  {t("sponsors")}
                 </Link>
               </li>
             </ul>
           </div>
 
           <div>
-            <h3 className="font-bold mb-4">Support</h3>
+            <h3 className="font-bold mb-4">{t("support")}</h3>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
                   to="#"
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
-                  Privacy Policy
+                  {t("privacy_policy")}
                 </Link>
               </li>
               <li>
@@ -78,7 +80,7 @@ export const Footer = () => {
                   to="#"
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
-                  Terms of Service
+                  {t("terms_of_service")}
                 </Link>
               </li>
               <li>
@@ -86,14 +88,14 @@ export const Footer = () => {
                   to="#"
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
-                  Contact Us
+                  {t("footer_contact_us")}
                 </Link>
               </li>
             </ul>
           </div>
 
           <div>
-            <h3 className="font-bold mb-4">Follow Us</h3>
+            <h3 className="font-bold mb-4">{t("follow_us")}</h3>
             <div className="flex gap-4 items-center justify-center">
               <a
                 href="#"
@@ -119,8 +121,7 @@ export const Footer = () => {
 
         <div className="border-t border-border pt-8 text-center text-sm text-muted-foreground">
           <p>
-            &copy; {new Date().getFullYear()} Global Fighter League. All rights
-            reserved.
+            &copy; {new Date().getFullYear()} Global Fighter League. {t("all_rights_reserved")}
           </p>
         </div>
       </div>

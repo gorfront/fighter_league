@@ -20,6 +20,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import apiClient from "@/api/apiClient";
 import { Fighter } from "@/types/fighter";
 import { Loader2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface FightDialogProps {
   isOpen: boolean;
@@ -41,6 +42,7 @@ export const FightDialog = ({
   fightToEdit,
   eventId,
 }: FightDialogProps) => {
+  const { t } = useTranslation();
   const [fighters, setFighters] = useState<Fighter[]>([]);
   const [divisions, setDivisions] = useState<Division[]>([]);
   const [loadingFighters, setLoadingFighters] = useState(false);
@@ -138,15 +140,15 @@ export const FightDialog = ({
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>
-            {fightToEdit ? "Edit Fight" : "Add New Fight"}
+            {fightToEdit ? t("dialog_edit_fight") : t("dialog_add_fight")}
           </DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="grid gap-4 py-4">
           <div className="grid gap-2">
-            <Label>Weight Class / Division</Label>
+            <Label>{t("dialog_weight_class")}</Label>
             <Select value={weight} onValueChange={handleWeightChange}>
               <SelectTrigger>
-                <SelectValue placeholder="Select Division First" />
+                <SelectValue placeholder={t("dialog_select_division")} />
               </SelectTrigger>
               <SelectContent>
                 {divisions.map((div) => (
@@ -154,13 +156,13 @@ export const FightDialog = ({
                     {div.name}
                   </SelectItem>
                 ))}
-                <SelectItem value="Open Weight">Open Weight</SelectItem>
+                <SelectItem value="Open Weight">{t("dialog_open_weight")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div className="grid gap-2">
-            <Label className="text-red-600">Red Corner</Label>
+            <Label className="text-red-600">{t("dialog_red_corner")}</Label>
             <Select
               value={redId}
               onValueChange={setRedId}
@@ -170,10 +172,10 @@ export const FightDialog = ({
                 <SelectValue
                   placeholder={
                     loadingFighters
-                      ? "Loading..."
+                      ? t("dialog_loading")
                       : fighters.length === 0
-                      ? "No approved fighters found"
-                      : "Select Fighter"
+                        ? t("dialog_no_fighters")
+                        : t("dialog_select_fighter")
                   }
                 />
               </SelectTrigger>
@@ -192,7 +194,7 @@ export const FightDialog = ({
           </div>
 
           <div className="grid gap-2">
-            <Label className="text-blue-600">Blue Corner</Label>
+            <Label className="text-blue-600">{t("dialog_blue_corner")}</Label>
             <Select
               value={blueId}
               onValueChange={setBlueId}
@@ -202,10 +204,10 @@ export const FightDialog = ({
                 <SelectValue
                   placeholder={
                     loadingFighters
-                      ? "Loading..."
+                      ? t("dialog_loading")
                       : fighters.length === 0
-                      ? "No approved fighters found"
-                      : "Select Fighter"
+                        ? t("dialog_no_fighters")
+                        : t("dialog_select_fighter")
                   }
                 />
               </SelectTrigger>
@@ -229,7 +231,7 @@ export const FightDialog = ({
               checked={isTitle}
               onCheckedChange={(c) => setIsTitle(!!c)}
             />
-            <Label htmlFor="title">Title Fight?</Label>
+            <Label htmlFor="title">{t("dialog_is_title")}</Label>
           </div>
 
           <DialogFooter>
@@ -240,7 +242,7 @@ export const FightDialog = ({
               {loadingFighters && (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               )}
-              {fightToEdit ? "Update Fight" : "Add Fight"}
+              {fightToEdit ? t("dialog_update") : t("dialog_add")}
             </Button>
           </DialogFooter>
         </form>

@@ -17,6 +17,7 @@ import EmojiPicker, { Theme } from "emoji-picker-react";
 import { supabase } from "@/lib/supabaseClient";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useTranslation } from "react-i18next";
 
 const ChatWindow = ({
   targetUserId,
@@ -27,6 +28,7 @@ const ChatWindow = ({
   myToken: string;
   onBack: () => void;
 }) => {
+  const { t } = useTranslation();
   const {
     connectSocket,
     joinChat,
@@ -139,7 +141,7 @@ const ChatWindow = ({
       attachmentUrl = await uploadFile(selectedFile);
       if (!attachmentUrl) {
         setIsUploading(false);
-        alert("Failed to upload file.");
+        alert(t("chat_upload_failed"));
         return;
       }
       if (selectedFile.type.startsWith("image/")) attachmentType = "image";
@@ -181,14 +183,13 @@ const ChatWindow = ({
 
         <div className="flex flex-col justify-center">
           <h3 className="font-semibold text-sm text-slate-100 leading-tight">
-            {currentContact?.name || `User #${targetUserId}`}
+            {currentContact?.name || t("user_default_name", { id: targetUserId })}
           </h3>
           <span
-            className={`text-[10px] flex items-center gap-1.5 ${
-              isConnected ? "text-green-500 font-medium" : "text-slate-500"
-            }`}
+            className={`text-[10px] flex items-center gap-1.5 ${isConnected ? "text-green-500 font-medium" : "text-slate-500"
+              }`}
           >
-            {isConnected ? "Active now" : "Offline"}
+            {isConnected ? t("chat_active_now") : t("chat_offline")}
           </span>
         </div>
       </div>
@@ -197,7 +198,7 @@ const ChatWindow = ({
         {isLoadingHistory ? (
           <div className="flex justify-center items-center h-full flex-col gap-2 text-slate-500">
             <Loader2 className="animate-spin text-primary" size={32} />
-            <span className="text-xs">Loading messages...</span>
+            <span className="text-xs">{t("chat_loading")}</span>
           </div>
         ) : (
           messages.map((msg: any) => {
@@ -205,16 +206,14 @@ const ChatWindow = ({
             return (
               <div
                 key={msg.id}
-                className={`flex w-full ${
-                  isMe ? "justify-end" : "justify-start"
-                }`}
+                className={`flex w-full ${isMe ? "justify-end" : "justify-start"
+                  }`}
               >
                 <div
-                  className={`relative max-w-[80%] md:max-w-[70%] rounded-2xl p-3 shadow-sm text-sm ${
-                    isMe
-                      ? "bg-primary text-primary-foreground rounded-tr-sm"
-                      : "bg-slate-800 border border-slate-700 text-slate-200 rounded-tl-sm"
-                  }`}
+                  className={`relative max-w-[80%] md:max-w-[70%] rounded-2xl p-3 shadow-sm text-sm ${isMe
+                    ? "bg-primary text-primary-foreground rounded-tr-sm"
+                    : "bg-slate-800 border border-slate-700 text-slate-200 rounded-tl-sm"
+                    }`}
                 >
                   {msg.attachmentUrl && (
                     <div className="mb-2 rounded-lg overflow-hidden border border-white/10">
@@ -226,7 +225,7 @@ const ChatWindow = ({
                         >
                           <img
                             src={msg.attachmentUrl}
-                            alt="Att"
+                            alt={t("chat_attachment_alt")}
                             className="max-h-64 w-full object-cover"
                           />
                         </a>
@@ -243,7 +242,7 @@ const ChatWindow = ({
                           rel="noopener noreferrer"
                           className="flex items-center gap-2 p-2 bg-slate-700/50 rounded border border-slate-600 text-slate-200 hover:bg-slate-700 transition-colors"
                         >
-                          <FileText size={16} /> <span>Download File</span>{" "}
+                          <FileText size={16} /> <span>{t("chat_download")}</span>{" "}
                           <Download size={14} />
                         </a>
                       )}
@@ -252,18 +251,16 @@ const ChatWindow = ({
 
                   {msg.content && (
                     <p
-                      className={`whitespace-pre-wrap break-words ${
-                        !isMe && "text-slate-200"
-                      }`}
+                      className={`whitespace-pre-wrap break-words ${!isMe && "text-slate-200"
+                        }`}
                     >
                       {msg.content}
                     </p>
                   )}
 
                   <div
-                    className={`text-[10px] text-right mt-1 ${
-                      isMe ? "text-primary-foreground/70" : "text-slate-500"
-                    }`}
+                    className={`text-[10px] text-right mt-1 ${isMe ? "text-primary-foreground/70" : "text-slate-500"
+                      }`}
                   >
                     {new Date(msg.createdAt).toLocaleTimeString([], {
                       hour: "2-digit",
@@ -300,7 +297,7 @@ const ChatWindow = ({
 
         {isBlocked || amIBlocked ? (
           <div className="p-3 text-center text-red-400 bg-red-900/10 rounded-lg text-sm border border-red-900/20">
-            <Ban size={16} className="inline mr-2" /> Messaging unavailable
+            <Ban size={16} className="inline mr-2" /> {t("chat_unavailable")}
           </div>
         ) : (
           <div className="flex items-center gap-1 md:gap-2 bg-slate-800 p-1 md:p-1.5 rounded-[26px] border border-slate-700">
@@ -325,7 +322,7 @@ const ChatWindow = ({
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="Message..."
+              placeholder={t("chat_placeholder")}
               className="flex-1 bg-transparent border-none focus:outline-none h-[40px] px-2 text-sm text-slate-200 placeholder:text-slate-500 min-w-0"
               disabled={!isConnected || isUploading}
             />

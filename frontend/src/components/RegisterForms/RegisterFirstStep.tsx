@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 
 const RegisterFirstStep = () => {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -50,31 +52,31 @@ const RegisterFirstStep = () => {
     };
 
     if (!formData.name.trim()) {
-      newErrors.name = "Full name is required.";
+      newErrors.name = t("name_required");
       isValid = false;
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = "Email is required.";
+      newErrors.email = t("email_required");
       isValid = false;
     } else if (!emailRegex.test(formData.email)) {
-      newErrors.email = "Invalid email format.";
+      newErrors.email = t("invalid_email");
       isValid = false;
     }
 
     if (!formData.password) {
-      newErrors.password = "Password is required.";
+      newErrors.password = t("password_required");
       isValid = false;
     } else if (!passwordRegex.test(formData.password)) {
-      newErrors.password = "Min 6 chars, 1 uppercase, 1 lowercase, 1 number.";
+      newErrors.password = t("password_requirements");
       isValid = false;
     }
 
     if (!formData.confirmPassword) {
-      newErrors.confirmPassword = "Confirm password is required.";
+      newErrors.confirmPassword = t("confirm_password_required");
       isValid = false;
     } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = "Passwords do not match.";
+      newErrors.confirmPassword = t("passwords_no_match");
       isValid = false;
     }
 
@@ -87,8 +89,8 @@ const RegisterFirstStep = () => {
 
     if (!validateForm()) {
       toast({
-        title: "Validation Error",
-        description: "Please check the highlighted fields.",
+        title: t("validation_error_title"),
+        description: t("validation_error_desc"),
         variant: "destructive",
       });
       return;
@@ -106,14 +108,14 @@ const RegisterFirstStep = () => {
       const res = await apiClient.post("/auth/register", payload);
 
       toast({
-        title: "Registration Submitted!",
-        description: "Thank you for joining! Please log in.",
+        title: t("registration_submitted"),
+        description: t("registration_success_desc"),
       });
 
       navigate("/login");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      const message = error.response?.data?.message || "Registration failed.";
+      const message = error.response?.data?.message || t("registration_failed");
       toast({ title: "Error", description: message, variant: "destructive" });
     } finally {
       setIsSubmitting(false);
@@ -129,11 +131,11 @@ const RegisterFirstStep = () => {
               htmlFor="fullName"
               className={errors.name ? "text-red-500" : ""}
             >
-              Full Name / Company Name *
+              {t("full_name_label")}
             </Label>
             <Input
               id="fullName"
-              placeholder="Enter your full name"
+              placeholder={t("enter_full_name")}
               value={formData.name}
               onChange={(e) => handleChange("name", e.target.value)}
               className={
@@ -150,7 +152,7 @@ const RegisterFirstStep = () => {
               htmlFor="email"
               className={errors.email ? "text-red-500" : ""}
             >
-              Email *
+              {t("email")} *
             </Label>
             <Input
               id="email"
@@ -172,7 +174,7 @@ const RegisterFirstStep = () => {
               htmlFor="password"
               className={errors.password ? "text-red-500" : ""}
             >
-              Password *
+              {t("password")} *
             </Label>
             <div className="relative w-full">
               <Input
@@ -180,11 +182,10 @@ const RegisterFirstStep = () => {
                 type={showPassword ? "text" : "password"}
                 value={formData.password}
                 onChange={(e) => handleChange("password", e.target.value)}
-                className={`pr-10 ${
-                  errors.password
-                    ? "border-red-500 focus-visible:ring-red-500"
-                    : ""
-                }`}
+                className={`pr-10 ${errors.password
+                  ? "border-red-500 focus-visible:ring-red-500"
+                  : ""
+                  }`}
               />
               <button
                 type="button"
@@ -201,7 +202,7 @@ const RegisterFirstStep = () => {
               </p>
             ) : (
               <p className="text-xs text-muted-foreground">
-                Min 6 chars, 1 uppercase, 1 lowercase, 1 number.
+                {t("password_requirements")}
               </p>
             )}
           </div>
@@ -211,7 +212,7 @@ const RegisterFirstStep = () => {
               htmlFor="confirmPassword"
               className={errors.confirmPassword ? "text-red-500" : ""}
             >
-              Confirm password *
+              {t("confirm_password_label")}
             </Label>
             <Input
               id="confirmPassword"
@@ -241,10 +242,10 @@ const RegisterFirstStep = () => {
               {isSubmitting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />{" "}
-                  Processing...
+                  {t("processing")}
                 </>
               ) : (
-                "Register"
+                t("register_button")
               )}
             </Button>
           </div>

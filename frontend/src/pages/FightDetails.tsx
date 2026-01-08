@@ -9,6 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Loader2, ArrowLeft, Swords, Trophy, ExternalLink } from "lucide-react";
 import { getFlagComponent } from "@/hooks/getFlagComponent";
+import { useTranslation } from "react-i18next";
 
 const StatRow = ({ label, redValue, blueValue }: any) => (
   <div className="grid grid-cols-3 py-3 border-b border-border/50 text-center items-center hover:bg-muted/10 transition-colors">
@@ -25,6 +26,7 @@ const StatRow = ({ label, redValue, blueValue }: any) => (
 );
 
 const FightDetails = () => {
+  const { t } = useTranslation();
   const supabaseAnonKey = import.meta.env
     .VITE_SUPABASE_FIGHTER_IMAGES as string;
 
@@ -83,7 +85,7 @@ const FightDetails = () => {
         <Loader2 className="animate-spin h-8 w-8 text-primary" />
       </div>
     );
-  if (!fight) return <div className="p-20 text-center">Fight not found.</div>;
+  if (!fight) return <div className="p-20 text-center">{t("fight_details_not_found")}</div>;
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -94,7 +96,7 @@ const FightDetails = () => {
           onClick={() => navigate(-1)}
           className="mb-6 pl-0 hover:bg-transparent hover:text-primary"
         >
-          <ArrowLeft className="mr-2 h-4 w-4" /> Back to Event
+          <ArrowLeft className="mr-2 h-4 w-4" /> {t("back_to_event")}
         </Button>
 
         <div className="text-center mb-10">
@@ -102,7 +104,7 @@ const FightDetails = () => {
             variant="outline"
             className="mb-4 uppercase tracking-widest px-4 py-1 border-primary/20"
           >
-            {fight.weight_class} Division
+            {fight.weight_class} {t("division_label")}
           </Badge>
           <h1 className="text-3xl md:text-5xl font-black italic uppercase flex flex-col md:flex-row items-center justify-center gap-2 md:gap-6">
             <span className="text-red-600 dark:text-red-500">
@@ -117,7 +119,7 @@ const FightDetails = () => {
           </h1>
           {fight.is_title_fight && (
             <div className="mt-4 flex items-center justify-center gap-2 text-yellow-500 font-bold bg-yellow-500/10 py-2 px-4 rounded-full inline-flex mx-auto">
-              <Trophy className="h-5 w-5" /> WORLD TITLE BOUT
+              <Trophy className="h-5 w-5" /> {t("world_title_bout")}
             </div>
           )}
         </div>
@@ -156,57 +158,57 @@ const FightDetails = () => {
           <Card className="md:col-span-1 shadow-2xl border-primary/20 relative z-10 md:mt-12">
             <CardContent className="pt-6 px-0 pb-2">
               <h3 className="text-center font-black mb-6 flex items-center justify-center gap-2 text-primary">
-                <Swords className="h-5 w-5" /> TALE OF THE TAPE
+                <Swords className="h-5 w-5" /> {t("tale_of_the_tape")}
               </h3>
 
               <StatRow
-                label="Record"
+                label={t("record_label")}
                 redValue={getRecord(fight.redCorner)}
                 blueValue={getRecord(fight.blueCorner)}
               />
 
               <StatRow
-                label="Knockouts"
+                label={t("stat_knockouts")}
                 redValue={fight.redCorner?.knockouts}
                 blueValue={fight.blueCorner?.knockouts}
               />
 
               <StatRow
-                label="Rank"
+                label={t("stat_rank")}
                 redValue={
                   fight.redCorner?.ranking
                     ? `#${fight.redCorner.ranking}`
-                    : "NR"
+                    : t("stat_nr")
                 }
                 blueValue={
                   fight.blueCorner?.ranking
                     ? `#${fight.blueCorner.ranking}`
-                    : "NR"
+                    : t("stat_nr")
                 }
               />
 
               <StatRow
-                label="Age"
+                label={t("stat_age")}
                 redValue={fight.redCorner?.age}
                 blueValue={fight.blueCorner?.age}
               />
 
               <StatRow
-                label="Height"
+                label={t("stat_height")}
                 redValue={fight.redCorner?.height}
                 blueValue={fight.blueCorner?.height}
               />
 
               <StatRow
-                label="Reach"
+                label={t("stat_reach")}
                 redValue={fight.redCorner?.reach}
                 blueValue={fight.blueCorner?.reach}
               />
 
               <StatRow
-                label="Weight"
-                redValue={`${fight.redCorner?.weight} lbs`}
-                blueValue={`${fight.blueCorner?.weight} lbs`}
+                label={t("weight_label")}
+                redValue={`${fight.redCorner?.weight} ${t("lbs_suffix")}`}
+                blueValue={`${fight.blueCorner?.weight} ${t("lbs_suffix")}`}
               />
             </CardContent>
           </Card>

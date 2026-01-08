@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   Menu,
   LogOut,
@@ -19,20 +20,22 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import logo from "@/assets/logo.png";
 import { useAuthStore } from "@/stores/authStore";
 import { useChatStore } from "@/stores/useChatStore";
-
-const navigation = [
-  { name: "Home", href: "/" },
-  { name: "Fighters", href: "/fighters" },
-  { name: "Divisions", href: "/divisions" },
-  { name: "Events", href: "/events" },
-  { name: "Sponsors", href: "/sponsors" },
-];
+import LanguageSwitcher from "./LanguageSwitcher";
 
 export const Header = () => {
+  const { t } = useTranslation();
   const token = useAuthStore((s) => s.token);
   const userType = useAuthStore((s) => s.userType);
   const logout = useAuthStore((s) => s.logout);
   const navigate = useNavigate();
+
+  const navigation = useMemo(() => [
+    { name: t("home"), href: "/" },
+    { name: t("fighters"), href: "/fighters" },
+    { name: t("divisions", { defaultValue: "Divisions" }), href: "/divisions" },
+    { name: t("events"), href: "/events" },
+    { name: t("sponsors", { defaultValue: "Sponsors" }), href: "/sponsors" },
+  ], [t]);
 
   const unreadCounts = useChatStore((state) => state.unreadCounts);
   const contacts = useChatStore((state) => state.contacts);
@@ -120,16 +123,16 @@ export const Header = () => {
       </PopoverTrigger>
       <PopoverContent className="w-80 p-0" align="end">
         <div className="flex items-center justify-between px-4 py-3 border-b bg-muted/40">
-          <h4 className="font-semibold text-sm">Messages</h4>
+          <h4 className="font-semibold text-sm">{t("header_messages_title")}</h4>
           <span className="text-xs text-muted-foreground">
-            {totalUnread} unread
+            {t("unread_count", { count: totalUnread })}
           </span>
         </div>
         <ScrollArea className="h-[300px]">
           {sortedContacts.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full py-8 text-center text-muted-foreground">
               <MessageSquare className="h-8 w-8 mb-2 opacity-50" />
-              <p className="text-sm">No conversations yet</p>
+              <p className="text-sm">{t("header_no_conversations")}</p>
             </div>
           ) : (
             <div className="flex flex-col">
@@ -139,9 +142,8 @@ export const Header = () => {
                   <button
                     key={contact.id}
                     onClick={() => handleContactClick(contact.id)}
-                    className={`flex items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-muted/50 border-b border-gray-50 last:border-0 ${
-                      unreadCount > 0 ? "bg-blue-50/60 dark:bg-blue-900/20" : ""
-                    }`}
+                    className={`flex items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-muted/50 border-b border-gray-50 last:border-0 ${unreadCount > 0 ? "bg-blue-50/60 dark:bg-blue-900/20" : ""
+                      }`}
                   >
                     <div className="relative shrink-0">
                       <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center overflow-hidden border">
@@ -162,20 +164,19 @@ export const Header = () => {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between gap-1">
                         <span
-                          className={`text-sm truncate ${
-                            unreadCount > 0
-                              ? "font-bold text-foreground"
-                              : "font-medium text-foreground/80"
-                          }`}
+                          className={`text-sm truncate ${unreadCount > 0
+                            ? "font-bold text-foreground"
+                            : "font-medium text-foreground/80"
+                            }`}
                         >
-                          {contact.name || `User #${contact.id}`}
+                          {contact.name || t("user_default_name", { id: contact.id })}
                         </span>
                       </div>
                       <p className="text-xs text-muted-foreground truncate capitalize">
                         {contact.user_type?.toLowerCase()}
                         {unreadCount > 0 && (
                           <span className="text-blue-600 font-medium ml-1">
-                            ({unreadCount} new)
+                            ({t("new_messages_indicator", { count: unreadCount })})
                           </span>
                         )}
                       </p>
@@ -195,7 +196,7 @@ export const Header = () => {
               navigate("/dashboard/messages");
             }}
           >
-            View all messages
+            {t("view_all_messages")}
           </Button>
         </div>
       </PopoverContent>
@@ -212,7 +213,7 @@ export const Header = () => {
         <Link to="/dashboard/messages">
           <div className="relative flex items-center">
             <MessageSquare className="h-5 w-5 mr-2" />
-            Messages
+            {t("header_messages_title")}
             {totalUnread > 0 && (
               <span className="ml-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">
                 {totalUnread > 99 ? "99+" : totalUnread}
@@ -235,7 +236,7 @@ export const Header = () => {
           <Button variant="ghost" asChild>
             <Link to="/dashboard/admin" className={commonClass}>
               <UserCog className={iconClass} />
-              Admin
+              {t("header_admin", { defaultValue: "Admin" })}
             </Link>
           </Button>
         );
@@ -244,7 +245,7 @@ export const Header = () => {
           <Button variant="ghost" asChild>
             <Link to="/dashboard/fighter" className={commonClass}>
               <User className={iconClass} />
-              My Profile
+              {t("header_my_profile", { defaultValue: "My Profile" })}
             </Link>
           </Button>
         );
@@ -253,7 +254,7 @@ export const Header = () => {
           <Button variant="ghost" asChild>
             <Link to="/dashboard/sponsor" className={commonClass}>
               <User className={iconClass} />
-              Sponsor Hub
+              {t("header_sponsor_hub", { defaultValue: "Sponsor Hub" })}
             </Link>
           </Button>
         );
@@ -262,7 +263,7 @@ export const Header = () => {
           <Button variant="ghost" asChild>
             <Link to="/dashboard/donor" className={commonClass}>
               <User className={iconClass} />
-              My Page
+              {t("header_my_page", { defaultValue: "My Page" })}
             </Link>
           </Button>
         );
@@ -271,7 +272,7 @@ export const Header = () => {
           <Button variant="ghost" asChild>
             <Link to="/dashboard/guest" className={commonClass}>
               <User className={iconClass} />
-              Select Role
+              {t("header_select_role", { defaultValue: "Select Role" })}
             </Link>
           </Button>
         );
@@ -304,6 +305,7 @@ export const Header = () => {
             ))}
           </nav>
           <div className="flex items-center gap-2">
+            <LanguageSwitcher />
             {token ? (
               <>
                 <MessagesPopover />
@@ -311,16 +313,16 @@ export const Header = () => {
                 {renderProfileLink()}
                 <Button variant="outline" onClick={handleLogout}>
                   <LogOut className="h-4 w-4 mr-2" />
-                  Logout
+                  {t("logout", { defaultValue: "Logout" })}
                 </Button>
               </>
             ) : (
               <>
                 <Button variant="ghost" asChild>
-                  <Link to="/login">Login</Link>
+                  <Link to="/login">{t("login", { defaultValue: "Login" })}</Link>
                 </Button>
                 <Button asChild>
-                  <Link to="/register">Register</Link>
+                  <Link to="/register">{t("register", { defaultValue: "Register" })}</Link>
                 </Button>
               </>
             )}
@@ -352,6 +354,9 @@ export const Header = () => {
             </nav>
             <hr className="my-6 border-border" />
             <div className="flex flex-col gap-4">
+              <div className="flex justify-end">
+                <LanguageSwitcher />
+              </div>
               {token ? (
                 <>
                   {renderMessagesLinkMobile()}
@@ -363,7 +368,7 @@ export const Header = () => {
                     className="text-lg font-medium w-full"
                   >
                     <LogOut className="h-5 w-5 mr-2" />
-                    Logout
+                    {t("logout", { defaultValue: "Logout" })}
                   </Button>
                 </>
               ) : (
@@ -373,10 +378,10 @@ export const Header = () => {
                     asChild
                     className="text-lg font-medium w-full"
                   >
-                    <Link to="/login">Login</Link>
+                    <Link to="/login">{t("login", { defaultValue: "Login" })}</Link>
                   </Button>
                   <Button asChild className="text-lg font-medium w-full">
-                    <Link to="/register">Register</Link>
+                    <Link to="/register">{t("register", { defaultValue: "Register" })}</Link>
                   </Button>
                 </>
               )}

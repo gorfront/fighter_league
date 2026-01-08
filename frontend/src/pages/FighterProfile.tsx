@@ -12,10 +12,11 @@ import { Fighter } from "@/types/fighter";
 import { useAuthStore } from "@/stores/authStore";
 import { Loader2 } from "@/components/Loaders/Loader2";
 
-import countryData from "@/assets/country.json";
 import { getFlagComponent } from "@/hooks/getFlagComponent";
+import { useTranslation } from "react-i18next";
 
 const FighterProfile = () => {
+  const { t } = useTranslation();
   const supabaseAnonKey = import.meta.env
     .VITE_SUPABASE_FIGHTER_IMAGES as string;
   const navigate = useNavigate();
@@ -53,7 +54,7 @@ const FighterProfile = () => {
         <Header />
         <main className="flex-1 flex items-center justify-center">
           <Loader2 className="h-8 w-8 animate-spin text-primary mr-2" />
-          <span className="text-xl font-medium">Loading Fighter...</span>
+          <span className="text-xl font-medium">{t("fighter_loading")}</span>
         </main>
         <Footer />
       </div>
@@ -67,11 +68,11 @@ const FighterProfile = () => {
         <main className="flex-1 flex items-center justify-center p-4">
           <div className="text-center">
             <h1 className="text-3xl font-bold mb-4">
-              {error ? "An Error Occurred" : "Fighter Not Found"}
+              {error ? t("fighter_error_title") : t("fighter_not_found")}
             </h1>
             {error && <p className="text-muted-foreground mb-4">{error}</p>}
             <Link to="/fighters">
-              <Button>Back to Fighters</Button>
+              <Button>{t("back_to_fighters")}</Button>
             </Link>
           </div>
         </main>
@@ -97,7 +98,7 @@ const FighterProfile = () => {
                 className="gap-2 hover:bg-transparent hover:text-primary"
               >
                 <ArrowLeft className="h-4 w-4" />
-                Back to Fighters
+                {t("back_to_fighters")}
               </Button>
             </Link>
           </div>
@@ -121,7 +122,7 @@ const FighterProfile = () => {
               <div className="text-center lg:text-left">
                 {fighter.ranking && (
                   <Badge className="bg-primary text-primary-foreground mb-3 text-sm md:text-lg px-3 py-1">
-                    Rank #{fighter.ranking}
+                    {t("fighter_rank_prefix")}{fighter.ranking}
                   </Badge>
                 )}
 
@@ -139,31 +140,36 @@ const FighterProfile = () => {
                 <div className="grid grid-cols-2 gap-3 md:gap-6 mb-8">
                   <Card className="p-4 md:p-6 bg-card/80 backdrop-blur border-none shadow-sm">
                     <p className="text-xs md:text-sm text-muted-foreground mb-1 uppercase tracking-wider">
-                      Division
+                      {t("division_label")}
                     </p>
                     <p
                       className="text-lg md:text-2xl font-bold truncate"
                       title={fighter.division}
                     >
-                      {fighter.division}
+                      {t(
+                        `division_${fighter.division
+                          .toLowerCase()
+                          .replace(/[^a-z0-9]/g, "_")}`,
+                        { defaultValue: fighter.division }
+                      )}
                     </p>
                   </Card>
 
                   <Card className="p-4 md:p-6 bg-card/80 backdrop-blur border-none shadow-sm">
                     <p className="text-xs md:text-sm text-muted-foreground mb-1 uppercase tracking-wider">
-                      Weight
+                      {t("weight_label")}
                     </p>
                     <p className="text-lg md:text-2xl font-bold">
                       {fighter.weight}{" "}
                       <span className="text-sm font-normal text-muted-foreground">
-                        lbs
+                        {t("lbs_suffix")}
                       </span>
                     </p>
                   </Card>
 
                   <Card className="p-4 md:p-6 bg-card/80 backdrop-blur border-none shadow-sm">
                     <p className="text-xs md:text-sm text-muted-foreground mb-1 uppercase tracking-wider">
-                      Record
+                      {t("record_label")}
                     </p>
                     <p className="text-lg md:text-2xl font-bold text-primary">
                       {fighter.record}
@@ -172,7 +178,7 @@ const FighterProfile = () => {
 
                   <Card className="p-4 md:p-6 bg-card/80 backdrop-blur border-none shadow-sm">
                     <p className="text-xs md:text-sm text-muted-foreground mb-1 uppercase tracking-wider">
-                      Win Rate
+                      {t("win_rate_label")}
                     </p>
                     <p className="text-lg md:text-2xl font-bold text-green-600">
                       {winRate}%
@@ -186,7 +192,7 @@ const FighterProfile = () => {
                     className="bg-gradient-gold hover:opacity-90 transition-opacity w-full sm:w-auto"
                   >
                     <ShieldCheck className="w-4 h-4 mr-2" />
-                    Sponsor Fighter
+                    {t("sponsor_fighter_action")}
                   </Button>
 
                   {userType && userType !== "GUEST" && (
@@ -201,7 +207,7 @@ const FighterProfile = () => {
                       }
                     >
                       <Mail className="w-4 h-4 mr-2" />
-                      Message
+                      {t("message_btn")}
                     </Button>
                   )}
                 </div>
@@ -214,7 +220,7 @@ const FighterProfile = () => {
           <section className="py-8 md:py-12 bg-card">
             <div className="container max-w-4xl">
               <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">
-                Biography
+                {t("biography_title")}
               </h2>
               <div className="prose dark:prose-invert max-w-none">
                 <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
@@ -230,7 +236,7 @@ const FighterProfile = () => {
             <div className="container max-w-4xl">
               <div className="flex items-center gap-3 mb-6">
                 <Trophy className="h-6 w-6 md:h-8 md:w-8 text-primary" />
-                <h2 className="text-2xl md:text-3xl font-bold">Achievements</h2>
+                <h2 className="text-2xl md:text-3xl font-bold">{t("achievements_title")}</h2>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                 {fighter?.achievements?.map((achievement, index) => (
@@ -253,7 +259,7 @@ const FighterProfile = () => {
           <section className="py-8 md:py-12 bg-card/50 border-t">
             <div className="container max-w-4xl">
               <h2 className="text-2xl md:text-3xl font-bold mb-6">
-                Current Sponsors
+                {t("current_sponsors_title")}
               </h2>
               <div className="flex flex-wrap gap-3">
                 {fighter.sponsors.map((sponsor) => (

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import {
@@ -24,6 +25,7 @@ interface DonorProfile {
 }
 
 const DonorDashboard = () => {
+  const { t } = useTranslation();
   const supabaseAnonKey = import.meta.env.VITE_SUPABASE_DONOR_IMAGES as string;
 
   const userType = useAuthStore((s) => s.userType);
@@ -52,8 +54,8 @@ const DonorDashboard = () => {
           setProfileExists(false);
         } else {
           toast({
-            title: "Error fetching profile",
-            description: "Could not load donor data.",
+            title: t("error_loading_profile"),
+            description: t("failed_update_status"),
             variant: "destructive",
           });
         }
@@ -68,8 +70,8 @@ const DonorDashboard = () => {
   if (userType !== "DONOR") {
     return (
       <div className="min-h-screen flex flex-col justify-center items-center">
-        <h1 className="text-3xl font-bold">Access Denied</h1>
-        <p>You must be logged in as a Donor to view this page.</p>
+        <h1 className="text-3xl font-bold">{t("access_denied")}</h1>
+        <p>{t("access_denied_donor")}</p>
       </div>
     );
   }
@@ -78,7 +80,7 @@ const DonorDashboard = () => {
     return (
       <div className="min-h-screen flex flex-col justify-center items-center">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
-        <p className="mt-2">Loading Donor Profile...</p>
+        <p className="mt-2">{t("loading_donor_profile")}</p>
       </div>
     );
   }
@@ -89,12 +91,12 @@ const DonorDashboard = () => {
         <Header />
         <main className="flex-1 flex items-center justify-center p-4">
           <Card className="p-8 text-center max-w-md w-full">
-            <h1 className="text-2xl font-bold mb-4">Welcome, Donor!</h1>
+            <h1 className="text-2xl font-bold mb-4">{t("welcome_donor")}</h1>
             <p className="text-muted-foreground mb-6">
-              Please set up your profile to continue.
+              {t("setup_profile_prompt")}
             </p>
             <Button asChild className="w-full">
-              <Link to="/dashboard/donor/edit">Create Profile</Link>
+              <Link to="/dashboard/donor/edit">{t("create_profile")}</Link>
             </Button>
           </Card>
         </main>
@@ -112,12 +114,12 @@ const DonorDashboard = () => {
           <CardHeader className="border-b flex flex-row items-center justify-between p-6 bg-gradient-stripe rounded-t-lg">
             <CardTitle className="text-2xl flex items-center gap-3">
               <User className="h-6 w-6 text-primary" />
-              Donor Dashboard
+              {t("donor_dashboard_title")}
             </CardTitle>
             <Button variant="outline" size="sm" asChild>
               <Link to="/dashboard/donor/edit">
                 <Edit className="h-4 w-4 mr-2" />
-                Edit Profile
+                {t("edit_profile")}
               </Link>
             </Button>
           </CardHeader>
@@ -132,7 +134,7 @@ const DonorDashboard = () => {
                         ? profileData.logo_url
                         : supabaseAnonKey + profileData.logo_url
                     }
-                    alt="Donor Logo"
+                    alt={t("logo_alt", { name: "Donor" })}
                     className="h-full w-full object-cover"
                   />
                 ) : (
@@ -141,7 +143,7 @@ const DonorDashboard = () => {
               </div>
               {!profileData?.logo_url && (
                 <p className="text-sm text-muted-foreground">
-                  No logo uploaded
+                  {t("no_logo")}
                 </p>
               )}
             </div>
@@ -151,7 +153,7 @@ const DonorDashboard = () => {
                 <Mail className="h-5 w-5 text-gray-500 mr-4" />
                 <div className="overflow-hidden">
                   <p className="text-sm font-medium text-gray-500">
-                    Email Address
+                    {t("email_address_label")}
                   </p>
                   <p className="text-base font-semibold truncate text-primary">
                     {profileData?.email}
@@ -163,13 +165,13 @@ const DonorDashboard = () => {
                 <Wallet className="h-5 w-5 text-gray-500 mr-4" />
                 <div className="overflow-hidden">
                   <p className="text-sm font-medium text-gray-500">
-                    Wallet Address
+                    {t("wallet_address_label")}
                   </p>
                   <p
                     className="text-sm font-mono font-semibold truncate text-primary"
                     title={profileData?.wallet_address}
                   >
-                    {profileData?.wallet_address || "No wallet connected"}
+                    {profileData?.wallet_address || t("no_wallet_connected")}
                   </p>
                 </div>
               </div>
@@ -178,7 +180,7 @@ const DonorDashboard = () => {
 
           <CardFooter className="bg-gray-50 p-4 rounded-b-lg border-t text-center justify-center">
             <p className="text-xs text-muted-foreground">
-              Thank you for supporting our fighters.
+              {t("thank_you_support")}
             </p>
           </CardFooter>
         </Card>

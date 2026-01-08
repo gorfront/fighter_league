@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 interface UploadPhotoProps {
   preview: string | null;
@@ -11,6 +12,8 @@ const UploadPhoto: React.FC<UploadPhotoProps> = ({
   removeImage,
   handleFileChange,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="w-full flex flex-col items-center bg-gray-50 p-6 rounded-xl">
       <label
@@ -31,7 +34,7 @@ const UploadPhoto: React.FC<UploadPhotoProps> = ({
           />
         </svg>
         <p className="text-gray-500 font-medium">
-          Click or drag image to upload
+          {t("upload_click_drag")}
         </p>
         <input
           id="fileUpload"
@@ -54,7 +57,7 @@ const UploadPhoto: React.FC<UploadPhotoProps> = ({
             onClick={removeImage}
             className="mt-4 px-4 py-2 text-sm font-medium text-white bg-red-500 hover:bg-red-600 rounded-lg shadow transition"
           >
-            Remove
+            {t("remove_image")}
           </button>
         </div>
       )}

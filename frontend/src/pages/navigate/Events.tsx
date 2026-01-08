@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, useCallback } from "react";
+import { useTranslation, Trans } from "react-i18next";
 import apiClient from "@/api/apiClient";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -26,6 +27,7 @@ import { Input } from "@/components/ui/input";
 import socket from "@/socket/socket";
 
 const Events = () => {
+  const { t } = useTranslation();
   const [upcomingEvents, setUpcomingEvents] = useState<Event[]>([]);
   const [liveEvents, setLiveEvents] = useState<Event[]>([]);
   const [pastEvents, setPastEvents] = useState<Event[]>([]);
@@ -147,39 +149,37 @@ const Events = () => {
     return (
       <Card
         className={`p-5 transition-all duration-300 flex flex-col h-full border 
-        ${
-          isLive
+        ${isLive
             ? "border-green-500 shadow-lg shadow-green-500/20 bg-green-950/5"
             : "border-border bg-card hover:border-primary/50 hover:shadow-md"
-        }`}
+          }`}
       >
         <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
           <div className="flex items-center gap-2">
             {isLive ? (
               <Badge className="bg-green-600 animate-pulse flex items-center gap-1.5 px-3 py-1 text-white">
-                <Radio className="h-3 w-3" /> LIVE
+                <Radio className="h-3 w-3" /> {t("live")}
               </Badge>
             ) : (
               <Badge
-                className={`flex items-center gap-1.5 px-3 py-1 ${
-                  event.status === "upcoming"
-                    ? "bg-blue-600 text-white"
-                    : "bg-muted"
-                }`}
+                className={`flex items-center gap-1.5 px-3 py-1 ${event.status === "upcoming"
+                  ? "bg-blue-600 text-white"
+                  : "bg-muted"
+                  }`}
               >
                 {event.status === "upcoming" ? (
                   <Bell className="h-3 w-3" />
                 ) : (
                   <History className="h-3 w-3" />
                 )}
-                {event.status === "upcoming" ? "Upcoming" : "Completed"}
+                {event.status === "upcoming" ? t("upcoming") : t("completed")}
               </Badge>
             )}
             <Badge
               variant="outline"
               className="text-xs font-medium border-primary/20"
             >
-              {event.division || "Open Weight"}
+              {event.division || t("open_weight")}
             </Badge>
           </div>
         </div>
@@ -212,15 +212,14 @@ const Events = () => {
         <div className="mt-auto flex flex-col gap-3">
           {(event.status === "upcoming" || event.status === "live") && (
             <Button
-              className={`w-full font-bold ${
-                isLive
-                  ? "bg-green-600 hover:bg-green-700 text-white"
-                  : "bg-gradient-gold text-black"
-              }`}
+              className={`w-full font-bold ${isLive
+                ? "bg-green-600 hover:bg-green-700 text-white"
+                : "bg-gradient-gold text-black"
+                }`}
               onClick={() => navigate(`/events/${event.id}`)}
             >
               <Eye className="mr-2 h-4 w-4" />
-              {isLive ? "Watch Now" : "View Details"}
+              {isLive ? t("watch_now") : t("view_details")}
             </Button>
           )}
 
@@ -233,7 +232,7 @@ const Events = () => {
                 navigate(`/events/edit/${event.id}`);
               }}
             >
-              <Edit className="mr-2 h-4 w-4" /> Edit Event
+              <Edit className="mr-2 h-4 w-4" /> {t("edit_event")}
             </Button>
           )}
         </div>
@@ -248,16 +247,17 @@ const Events = () => {
         <section className="py-16 bg-gradient-stripe border-b">
           <div className="container">
             <div
-              className={`flex flex-col md:flex-row justify-${
-                userType === "ADMIN" ? "between" : "center"
-              } items-center gap-6`}
+              className={`flex flex-col md:flex-row justify-${userType === "ADMIN" ? "between" : "center"
+                } items-center gap-6`}
             >
               <div>
                 <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                  Fight <span className="text-primary">Events</span>
+                  <Trans i18nKey="fight_events">
+                    Fight <span className="text-primary">Events</span>
+                  </Trans>
                 </h1>
                 <p className="text-lg text-muted-foreground">
-                  Upcoming championships and schedules
+                  {t("upcoming_schedules")}
                 </p>
               </div>
               {userType === "ADMIN" && (
@@ -265,7 +265,7 @@ const Events = () => {
                   onClick={() => navigate("/events/create")}
                   className="bg-green-600 hover:bg-green-700 h-12 px-6 text-lg"
                 >
-                  <PlusCircle className="mr-2 h-5 w-5" /> Create Event
+                  <PlusCircle className="mr-2 h-5 w-5" /> {t("create_event")}
                 </Button>
               )}
             </div>
@@ -275,7 +275,7 @@ const Events = () => {
         {loading && (
           <div className="py-20 container flex flex-col items-center gap-4">
             <Loader2 className="h-10 w-10 animate-spin text-primary" />
-            <p className="text-xl text-muted-foreground">Loading Events...</p>
+            <p className="text-xl text-muted-foreground">{t("loading_events")}</p>
           </div>
         )}
 
@@ -296,7 +296,7 @@ const Events = () => {
                       <span className="relative rounded-full h-4 w-4 bg-green-500"></span>
                     </span>
                     <h2 className="text-3xl font-bold text-green-600 dark:text-green-400">
-                      Live Now
+                      {t("live_now")}
                     </h2>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -312,8 +312,7 @@ const Events = () => {
               <section className="py-12 bg-background">
                 <div className="container">
                   <h2 className="text-3xl font-bold mb-8 flex items-center gap-2">
-                    <Calendar className="text-primary h-8 w-8" /> Upcoming
-                    Events
+                    <Calendar className="text-primary h-8 w-8" /> {t("upcoming_events")}
                   </h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {upcomingEvents.map((event) => (
@@ -328,7 +327,7 @@ const Events = () => {
               <section className="py-12 bg-muted/30 border-t">
                 <div className="container">
                   <h2 className="text-3xl font-bold mb-8 text-muted-foreground">
-                    Past Events
+                    {t("past_events")}
                   </h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 opacity-80">
                     {pastEvents.map((event) => (
@@ -342,13 +341,12 @@ const Events = () => {
         )}
 
         <section
-          className={`${
-            showSubscribe ? "pt-16 pb-4" : "py-16"
-          } border-t bg-background`}
+          className={`${showSubscribe ? "pt-16 pb-4" : "py-16"
+            } border-t bg-background`}
         >
           <div className="container max-w-4xl text-center">
             <h2 className="text-2xl md:text-3xl font-bold mb-6">
-              Want to Attend or Compete?
+              {t("attend_compete_title")}
             </h2>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               {!userType && (
@@ -357,7 +355,7 @@ const Events = () => {
                   className="bg-gradient-gold text-black font-bold"
                   onClick={() => navigate("/register")}
                 >
-                  Register as Fighter
+                  {t("register_fighter")}
                 </Button>
               )}
               <Button
@@ -365,7 +363,7 @@ const Events = () => {
                 variant="outline"
                 onClick={() => setShowSubscribe(!showSubscribe)}
               >
-                Subscribe to Updates
+                {t("subscribe_updates")}
               </Button>
             </div>
           </div>
@@ -376,7 +374,7 @@ const Events = () => {
             <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
               <Input
                 type="email"
-                placeholder="Enter your email"
+                placeholder={t("subscribe_placeholder")}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={subscribing}
@@ -389,7 +387,7 @@ const Events = () => {
                 {subscribing ? (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 ) : (
-                  "Subscribe"
+                  t("subscribe_button")
                 )}
               </Button>
             </div>

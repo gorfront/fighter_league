@@ -32,6 +32,7 @@ import {
   Bell,
 } from "lucide-react";
 
+import { useTranslation } from "react-i18next";
 import { Event } from "@/types/event";
 
 interface EventWithStatus extends Event {
@@ -41,6 +42,7 @@ interface EventWithStatus extends Event {
 }
 
 const EventDetails = () => {
+  const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { userType, token } = useAuthStore();
@@ -89,12 +91,12 @@ const EventDetails = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       toast({
-        title: "Request Sent!",
-        description: "Your application has been sent to the event organizers.",
+        title: t("event_join_success_title"),
+        description: t("event_join_success_desc"),
       });
       setAppStatus("pending");
     } catch (error: any) {
-      const msg = error.response?.data?.message || "Failed to join event.";
+      const msg = error.response?.data?.message || t("event_join_failed_desc");
       toast({ title: "Error", description: msg, variant: "destructive" });
     } finally {
       setIsJoining(false);
@@ -104,7 +106,7 @@ const EventDetails = () => {
   const handleEndEvent = async () => {
     if (
       !confirm(
-        "Are you sure you want to end this event? It will move to Past Events."
+        t("event_end_confirm")
       )
     )
       return;
@@ -116,8 +118,8 @@ const EventDetails = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       toast({
-        title: "Event Ended",
-        description: "The event is now marked as completed.",
+        title: t("event_ended_title"),
+        description: t("event_ended_desc"),
       });
       fetchData();
     } catch (error) {
@@ -129,16 +131,16 @@ const EventDetails = () => {
   };
 
   const handleDeleteEvent = async () => {
-    if (!confirm("Are you sure you want to delete this event?")) return;
+    if (!confirm(t("event_delete_confirm"))) return;
     setIsDeleting(true);
     try {
       await apiClient.delete(`/events/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      toast({ title: "Event Deleted" });
+      toast({ title: t("event_deleted_title") });
       navigate("/events");
     } catch (err) {
-      toast({ title: "Delete Failed", variant: "destructive" });
+      toast({ title: t("event_delete_failed"), variant: "destructive" });
       setIsDeleting(false);
     }
   };
@@ -151,7 +153,7 @@ const EventDetails = () => {
           disabled
           className="w-full md:w-auto min-w-[140px] bg-gradient-gold text-black"
         >
-          <Loader2 className="h-4 w-4 animate-spin mr-2" /> Sending...
+          <Loader2 className="h-4 w-4 animate-spin mr-2" /> {t("event_sending")}
         </Button>
       );
     if (appStatus === "pending")
@@ -160,7 +162,7 @@ const EventDetails = () => {
           disabled
           className="w-full md:w-auto min-w-[140px] bg-yellow-500 text-black opacity-100 cursor-default"
         >
-          <Clock className="h-4 w-4 mr-2" /> Application Pending
+          <Clock className="h-4 w-4 mr-2" /> {t("event_app_pending")}
         </Button>
       );
     if (appStatus === "approved")
@@ -171,10 +173,10 @@ const EventDetails = () => {
           </div>
           <div>
             <h4 className="font-bold text-green-800 text-lg">
-              You're on the card!
+              {t("event_app_approved_title")}
             </h4>
             <p className="text-sm text-green-700 leading-relaxed">
-              Congratulations! Your application has been approved.
+              {t("event_app_approved_desc")}
             </p>
           </div>
         </div>
@@ -187,10 +189,10 @@ const EventDetails = () => {
           </div>
           <div>
             <h4 className="font-bold text-red-800 text-lg">
-              Application Update
+              {t("event_app_rejected_title")}
             </h4>
             <p className="text-sm text-red-700 leading-relaxed">
-              We cannot offer you a spot on this card at this time.
+              {t("event_app_rejected_desc")}
             </p>
           </div>
         </div>
@@ -201,7 +203,7 @@ const EventDetails = () => {
           onClick={handleJoinEvent}
           className="w-full md:w-auto min-w-[140px] font-bold bg-gradient-gold hover:opacity-90 text-black shadow-lg"
         >
-          <UserPlus className="h-4 w-4 mr-2" /> Apply to Fight
+          <UserPlus className="h-4 w-4 mr-2" /> {t("event_apply_btn")}
         </Button>
       );
     return null;
@@ -228,7 +230,7 @@ const EventDetails = () => {
               className="mb-6"
               onClick={() => navigate("/events")}
             >
-              <ArrowLeft className="mr-2 h-4 w-4" /> Back to Events
+              <ArrowLeft className="mr-2 h-4 w-4" /> {t("back_to_events")}
             </Button>
 
             {renderStatusSection()}
@@ -237,13 +239,12 @@ const EventDetails = () => {
               <div className="w-full">
                 <div className="flex flex-wrap items-center gap-3 mb-4">
                   <Badge
-                    className={`px-3 py-1 text-sm border-none ${
-                      event.status === "upcoming"
-                        ? "bg-blue-600"
-                        : event.status === "live"
+                    className={`px-3 py-1 text-sm border-none ${event.status === "upcoming"
+                      ? "bg-blue-600"
+                      : event.status === "live"
                         ? "bg-green-600 animate-pulse"
                         : "bg-gray-500"
-                    }`}
+                      }`}
                   >
                     {event.status === "live" ? (
                       <Radio className="h-3 w-3 mr-1.5" />
@@ -256,7 +257,7 @@ const EventDetails = () => {
                     variant="secondary"
                     className="px-3 py-1 text-sm bg-white/10"
                   >
-                    {event.division || "Open Weight"}
+                    {event.division || t("open_weight")}
                   </Badge>
                 </div>
 
@@ -292,7 +293,7 @@ const EventDetails = () => {
                     }}
                     className="w-full sm:flex-1"
                   >
-                    <Share2 className="h-4 w-4 mr-2" /> Share
+                    <Share2 className="h-4 w-4 mr-2" /> {t("share_btn")}
                   </Button>
                   {userType === "ADMIN" && (
                     <>
@@ -307,7 +308,7 @@ const EventDetails = () => {
                           ) : (
                             <StopCircle className="h-4 w-4 mr-2" />
                           )}
-                          <span>End Event</span>
+                          <span>{t("end_event_btn")}</span>
                         </Button>
                       )}
 
@@ -316,7 +317,7 @@ const EventDetails = () => {
                         className="w-full sm:flex-1 flex items-center justify-center gap-2"
                       >
                         <Edit className="h-4 w-4" />
-                        <span>Edit</span>
+                        <span>{t("edit_btn")}</span>
                       </Button>
 
                       <Button
@@ -330,7 +331,7 @@ const EventDetails = () => {
                         ) : (
                           <Trash2 className="h-4 w-4" />
                         )}
-                        <span>Delete</span>
+                        <span>{t("delete_btn")}</span>
                       </Button>
                     </>
                   )}
@@ -346,13 +347,13 @@ const EventDetails = () => {
               <CardHeader className="bg-muted/20 pb-4 border-b">
                 <CardTitle className="flex items-center gap-2 text-2xl">
                   <Swords className="h-6 w-6 text-primary" />
-                  Official Fight Card
+                  {t("official_fight_card")}
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-0">
                 {fights.length === 0 ? (
                   <div className="p-8 text-center text-muted-foreground">
-                    No fights announced yet.
+                    {t("no_fights_announced")}
                   </div>
                 ) : (
                   <>
@@ -361,15 +362,15 @@ const EventDetails = () => {
                         <thead className="bg-muted/50 text-muted-foreground font-medium">
                           <tr>
                             <th className="px-4 py-3 text-right w-[35%]">
-                              Red Corner
+                              {t("red_corner_th")}
                             </th>
 
                             <th className="px-4 py-3 text-center w-[15%]">
-                              Vs
+                              VS
                             </th>
 
                             <th className="px-4 py-3 text-left w-[35%]">
-                              Blue Corner
+                              {t("blue_corner_th")}
                             </th>
                           </tr>
                         </thead>
@@ -468,7 +469,7 @@ const EventDetails = () => {
                                 className="bg-yellow-500/10 text-yellow-600 border-yellow-200 gap-1.5 py-0 h-6"
                               >
                                 <Trophy className="h-3 w-3 fill-yellow-600/20" />{" "}
-                                Title Fight
+                                {t("title_fight_badge")}
                               </Badge>
                             )}
                           </div>
@@ -528,34 +529,37 @@ const EventDetails = () => {
 
             <Card>
               <CardHeader>
-                <CardTitle>Event Overview</CardTitle>
+                <CardTitle>{t("event_overview_title")}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <p className="text-muted-foreground">
-                  Join us for {event.title} at {event.location}.
+                  {t("event_join_us_desc", {
+                    title: event.title,
+                    location: event.location,
+                  })}
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
                   <div className="p-4 bg-muted/30 rounded-lg">
                     <span className="text-sm text-muted-foreground block mb-1">
-                      Division
+                      {t("division_label")}
                     </span>
                     <div className="font-semibold flex items-center gap-2">
                       <Users className="h-4 w-4 text-primary" />
-                      {event.division || "Open Weight"}
+                      {event.division || t("open_weight")}
                     </div>
                   </div>
                   <div className="p-4 bg-muted/30 rounded-lg">
                     <span className="text-sm text-muted-foreground block mb-1">
-                      Start Time
+                      {t("start_time_label")}
                     </span>
                     <div className="font-semibold flex items-center justify-center gap-2">
                       <Clock className="h-4 w-4 text-primary" />
-                      {event.started_time || "TBA"}
+                      {event.started_time || t("tba_label")}
                     </div>
                   </div>
                   <div className="p-4 bg-muted/30 rounded-lg">
                     <span className="text-sm text-muted-foreground block mb-1">
-                      Status
+                      {t("status_label")}
                     </span>
                     <div className="font-semibold flex items-center justify-center gap-2">
                       {event.status === "live" ? (
@@ -573,10 +577,10 @@ const EventDetails = () => {
                     <CheckCircle2 className="h-5 w-5 text-green-600" />
                     <div>
                       <span className="text-xs text-green-700 font-bold uppercase tracking-wider">
-                        Event Concluded
+                        {t("event_concluded_title")}
                       </span>
                       <p className="text-sm text-green-800">
-                        Finished at:{" "}
+                        {t("event_finished_at")}{" "}
                         {new Date(event.finished_time).toLocaleString()}
                       </p>
                     </div>
@@ -589,21 +593,21 @@ const EventDetails = () => {
           <div className="space-y-6">
             <Card className="bg-primary text-primary-foreground border-none shadow-lg">
               <CardContent className="pt-6">
-                <h3 className="text-xl font-bold mb-2">Attend Live</h3>
+                <h3 className="text-xl font-bold mb-2">{t("attend_live_title")}</h3>
                 <p className="opacity-90 mb-6 text-sm">
-                  Experience the action live. Limited tickets available.
+                  {t("attend_live_desc")}
                 </p>
                 <Button
                   variant="secondary"
                   className="w-full font-bold shadow-sm hover:bg-white text-primary"
                 >
-                  Get Tickets
+                  {t("get_tickets_btn")}
                 </Button>
               </CardContent>
             </Card>
             <Card className="overflow-hidden">
               <CardHeader>
-                <CardTitle className="text-base">Venue Map</CardTitle>
+                <CardTitle className="text-base">{t("venue_map_title")}</CardTitle>
               </CardHeader>
               <CardContent className="p-0">
                 <div className="aspect-video w-full bg-muted relative">
@@ -622,8 +626,7 @@ const EventDetails = () => {
                     ></iframe>
                   ) : (
                     <div className="flex items-center justify-center h-full text-muted-foreground text-sm">
-                      <MapPin className="h-6 w-6 mr-2 opacity-50" /> No Location
-                      Provided
+                      <MapPin className="h-6 w-6 mr-2 opacity-50" /> {t("no_location_provided")}
                     </div>
                   )}
                 </div>
@@ -646,7 +649,7 @@ const EventDetails = () => {
                       )
                     }
                   >
-                    <MapPin className="mr-2 h-4 w-4" /> Get Directions
+                    <MapPin className="mr-2 h-4 w-4" /> {t("get_directions_btn")}
                   </Button>
                 </div>
               </CardContent>

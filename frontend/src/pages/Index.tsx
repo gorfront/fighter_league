@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation, Trans } from "react-i18next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { FighterCard } from "@/components/FighterCard";
@@ -19,6 +20,7 @@ interface FightersResponse {
 }
 
 const Index = () => {
+  const { t } = useTranslation();
   const [featuredFighters, setFeaturedFighters] = useState<Fighter[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -101,10 +103,12 @@ const Index = () => {
           <div className="container relative z-10">
             <div className="max-w-2xl">
               <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-                Global Warriors <span className="text-primary">Rise</span>
+                <Trans i18nKey="hero_title">
+                  Global Warriors <span className="text-primary">Rise</span>
+                </Trans>
               </h1>
               <p className="text-xl md:text-2xl mb-8 text-muted-foreground">
-                Every Nation. Every Challenge. One Ring.
+                {t("hero_subtitle")}
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 {userType ? (
@@ -114,7 +118,7 @@ const Index = () => {
                       variant="outline"
                       className="text-lg px-8"
                     >
-                      View All Fighters
+                      {t("view_fighters")}
                     </Button>
                   </Link>
                 ) : (
@@ -128,7 +132,7 @@ const Index = () => {
                         size="lg"
                         className="bg-gradient-gold hover:opacity-90 transition-opacity text-lg px-8"
                       >
-                        Register as Fighter
+                        {t("register_fighter")}
                         <ArrowRight className="ml-2 h-5 w-5" />
                       </Button>
                     </Link>
@@ -138,7 +142,7 @@ const Index = () => {
                         variant="outline"
                         className="text-lg px-8"
                       >
-                        View All Fighters
+                        {t("view_fighters")}
                       </Button>
                     </Link>
                   </>
@@ -156,21 +160,21 @@ const Index = () => {
                   <Globe className="h-8 w-8 text-primary" />
                 </div>
                 <h3 className="text-4xl font-bold text-primary mb-2">150+</h3>
-                <p className="text-muted-foreground">Countries Represented</p>
+                <p className="text-muted-foreground">{t("countries_represented", { defaultValue: "Countries Represented" })}</p>
               </div>
               <div className="text-center">
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-4">
                   <Users className="h-8 w-8 text-primary" />
                 </div>
                 <h3 className="text-4xl font-bold text-primary mb-2">2,500+</h3>
-                <p className="text-muted-foreground">Active Fighters</p>
+                <p className="text-muted-foreground">{t("active_fighters", { defaultValue: "Active Fighters" })}</p>
               </div>
               <div className="text-center">
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-4">
                   <Trophy className="h-8 w-8 text-primary" />
                 </div>
                 <h3 className="text-4xl font-bold text-primary mb-2">48</h3>
-                <p className="text-muted-foreground">Championship Events</p>
+                <p className="text-muted-foreground">{t("championship_events", { defaultValue: "Championship Events" })}</p>
               </div>
             </div>
           </div>
@@ -178,9 +182,9 @@ const Index = () => {
         <section className="py-20 bg-gradient-stripe">
           <div className="container">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold mb-4">Top Ranked Fighters</h2>
+              <h2 className="text-4xl font-bold mb-4">{t("top_fighters")}</h2>
               <p className="text-xl text-muted-foreground">
-                Meet the elite warriors competing for glory
+                {t("top_fighters_subtitle")}
               </p>
             </div>
 
@@ -213,7 +217,7 @@ const Index = () => {
                       size="lg"
                       className="bg-gradient-gold hover:opacity-90 transition-opacity"
                     >
-                      View All Fighters
+                      {t("view_fighters")}
                       <ArrowRight className="ml-2 h-5 w-5" />
                     </Button>
                   </Link>
@@ -227,11 +231,10 @@ const Index = () => {
           <div>
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold mb-4">
-                Where the World's Warriors Unite
+                {t("map_title")}
               </h2>
               <p className="text-xl text-muted-foreground">
-                Choose a country and witness its champions rise in the Fighter
-                League arena.
+                {t("map_subtitle")}
               </p>
             </div>
 
@@ -262,16 +265,15 @@ const Index = () => {
           <div className="container">
             <div className="max-w-2xl mx-auto text-center">
               <h2 className="text-3xl font-bold mb-4">
-                Stay Updated with the Latest Fights
+                {t("subscribe_title")}
               </h2>
               <p className="text-muted-foreground mb-8">
-                Get exclusive access to fight announcements, results, and
-                behind-the-scenes content
+                {t("subscribe_subtitle")}
               </p>
               <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
                 <Input
                   type="email"
-                  placeholder="Enter your email"
+                  placeholder={t("subscribe_placeholder")}
                   className="flex-1"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -289,7 +291,7 @@ const Index = () => {
                       Wait...
                     </>
                   ) : (
-                    "Subscribe"
+                    t("subscribe_button")
                   )}
                 </Button>
               </div>

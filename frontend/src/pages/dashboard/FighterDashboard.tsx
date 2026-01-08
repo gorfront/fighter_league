@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -13,6 +14,7 @@ import { useAuthStore } from "@/stores/authStore";
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_FIGHTER_IMAGES as string;
 
 const FighterDashboard = () => {
+  const { t } = useTranslation();
   const token = useAuthStore((s) => s.token);
   const { toast } = useToast();
   const [fighter, setFighter] = useState<Fighter | null>(null);
@@ -28,9 +30,9 @@ const FighterDashboard = () => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         toast({
-          title: "Error loading profile",
+          title: t("error_loading_profile"),
           description:
-            error?.response?.data?.message || "Could not fetch your data.",
+            error?.response?.data?.message || t("failed_update_status"),
           variant: "destructive",
         });
       } finally {
@@ -46,7 +48,7 @@ const FighterDashboard = () => {
       <div className="min-h-screen flex flex-col">
         <Header />
         <main className="flex-1 flex items-center justify-center">
-          <p>Loading your profile...</p>
+          <p>{t("loading_profile")}</p>
         </main>
         <Footer />
       </div>
@@ -59,10 +61,9 @@ const FighterDashboard = () => {
         <Header />
         <main className="flex-1 py-12 bg-muted/20 flex flex-col items-center justify-center">
           <Card className="p-8 text-center mb-6">
-            <h1 className="text-2xl font-bold mb-4">Profile Pending</h1>
+            <h1 className="text-2xl font-bold mb-4">{t("profile_pending")}</h1>
             <p className="text-muted-foreground mb-6">
-              Your profile is under review by the admin. Please wait for
-              approval.
+              {t("profile_pending_desc")}
             </p>
           </Card>
 
@@ -87,9 +88,9 @@ const FighterDashboard = () => {
         <Header />
         <main className="flex-1 flex items-center justify-center">
           <Card className="p-8 text-center">
-            <h1 className="text-2xl font-bold mb-4">Profile Not Found</h1>
+            <h1 className="text-2xl font-bold mb-4">{t("profile_not_found")}</h1>
             <p className="text-muted-foreground mb-6">
-              You haven’t created a fighter profile yet.
+              {t("profile_not_found_desc")}
             </p>
           </Card>
         </main>
@@ -146,7 +147,7 @@ const FighterDashboard = () => {
               <Button variant="outline" asChild>
                 <Link to="/dashboard/fighter/edit">
                   <Edit className="h-4 w-4 mr-2" />
-                  Edit Profile
+                  {t("edit_profile")}
                 </Link>
               </Button>
             </div>
@@ -155,37 +156,34 @@ const FighterDashboard = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Card>
               <CardHeader>
-                <CardTitle>My Stats</CardTitle>
+                <CardTitle>{t("my_stats")}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <StatItem
                   icon={<MapPin />}
-                  label="Country"
+                  label={t("country_label")}
                   value={fighter.country}
                 />
                 <StatItem
                   icon={<BarChart />}
-                  label="Gender"
-                  value={
-                    fighter.gender.charAt(0).toUpperCase() +
-                    fighter.gender.slice(1)
-                  }
+                  label={t("gender_label")}
+                  value={t(fighter.gender.toLowerCase())}
                 />
                 <StatItem
                   icon={<Weight />}
-                  label="Weight"
-                  value={`${fighter.weight} lbs`}
+                  label={t("weight_label")}
+                  value={`${fighter.weight} ${t("lbs_suffix")}`}
                 />
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader>
-                <CardTitle>My Achievements</CardTitle>
+                <CardTitle>{t("my_achievements")}</CardTitle>
               </CardHeader>
               <CardContent>
                 {Array.isArray(fighter?.achievements) &&
-                fighter.achievements.length > 0 ? (
+                  fighter.achievements.length > 0 ? (
                   <ul className="list-disc list-inside space-y-2">
                     {fighter.achievements.map((ach, index) => (
                       <li key={index} className="flex items-center gap-2">
@@ -196,7 +194,7 @@ const FighterDashboard = () => {
                   </ul>
                 ) : (
                   <p className="text-muted-foreground">
-                    No achievements listed yet.
+                    {t("no_achievements")}
                   </p>
                 )}
               </CardContent>
@@ -204,11 +202,11 @@ const FighterDashboard = () => {
 
             <Card>
               <CardHeader>
-                <CardTitle>My Sponsors</CardTitle>
+                <CardTitle>{t("my_sponsors")}</CardTitle>
               </CardHeader>
               <CardContent>
                 {Array.isArray(fighter?.sponsors) &&
-                fighter.sponsors.length > 0 ? (
+                  fighter.sponsors.length > 0 ? (
                   <ul className="list-disc list-inside space-y-2">
                     {fighter.sponsors.map((sponsor, index) => (
                       <li key={index} className="flex items-center gap-2">
@@ -221,7 +219,7 @@ const FighterDashboard = () => {
                   </ul>
                 ) : (
                   <p className="text-muted-foreground">
-                    No sponsors listed yet.
+                    {t("no_sponsors_list")}
                   </p>
                 )}
               </CardContent>

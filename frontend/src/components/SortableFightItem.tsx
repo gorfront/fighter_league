@@ -4,6 +4,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { GripVertical, Badge, Edit, Trash2 } from "lucide-react";
 import { CSS } from "@dnd-kit/utilities";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "react-i18next";
 
 export const SortableFightItem = ({
   fight,
@@ -14,6 +15,7 @@ export const SortableFightItem = ({
   onEdit: (f: any) => void;
   onDelete: (id: any) => void;
 }) => {
+  const { t } = useTranslation();
   const {
     attributes,
     listeners,
@@ -34,9 +36,8 @@ export const SortableFightItem = ({
     <div
       ref={setNodeRef}
       style={style}
-      className={`flex flex-col md:flex-row items-center justify-between p-4 bg-card border rounded hover:shadow-md gap-4 ${
-        isDragging ? "opacity-50 shadow-xl border-primary/50" : ""
-      }`}
+      className={`flex flex-col md:flex-row items-center justify-between p-4 bg-card border rounded hover:shadow-md gap-4 ${isDragging ? "opacity-50 shadow-xl border-primary/50" : ""
+        }`}
     >
       <div className="flex items-center gap-4 w-full md:w-auto">
         <div
@@ -50,7 +51,7 @@ export const SortableFightItem = ({
           <span className="font-semibold text-sm uppercase text-muted-foreground">
             {fight.weight_class}
             {fight.is_title_fight && (
-              <span className="text-yellow-600 ml-2">🏆 Title</span>
+              <span className="text-yellow-600 ml-2">🏆 {t("fight_title")}</span>
             )}
           </span>
         </div>
@@ -59,14 +60,14 @@ export const SortableFightItem = ({
         <div className="text-right font-bold text-red-700">
           {fight.redCorner?.name} {getFlagComponent(fight.redCorner?.country)}
         </div>
-        <span className="text-xs font-bold text-muted-foreground">VS</span>
+        <span className="text-xs font-bold text-muted-foreground">{t("fight_vs")}</span>
         <div className="text-left font-bold text-blue-700">
           {getFlagComponent(fight.blueCorner?.country)} {fight.blueCorner?.name}
         </div>
       </div>
       {typeof fight.id === "string" && (
         <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
-          New
+          {t("fight_new")}
         </Badge>
       )}
       <div className="flex gap-2 w-full md:w-auto justify-end">

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate, Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -13,6 +14,7 @@ import apiClient from "@/api/apiClient";
 import { useAuthStore } from "@/stores/authStore";
 
 const Login = () => {
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -79,10 +81,10 @@ const Login = () => {
       <main className="flex-1 flex items-center justify-center py-12">
         <Card className="p-8 max-w-sm w-full">
           <form onSubmit={handleEmailSubmit} className="space-y-6">
-            <h1 className="text-2xl font-bold text-center">Login</h1>
+            <h1 className="text-2xl font-bold text-center">{t("login")}</h1>
 
             <div className="space-y-2 flex flex-col items-start">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">{t("email")}</Label>
               <Input
                 id="email"
                 type="email"
@@ -93,7 +95,7 @@ const Login = () => {
             </div>
 
             <div className="space-y-2 flex flex-col items-start">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">{t("password")}</Label>
               <Input
                 id="password"
                 type="password"
@@ -103,14 +105,14 @@ const Login = () => {
             </div>
 
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Logging in..." : "Login"}
+              {loading ? t("logging_in") : t("login")}
             </Button>
           </form>
 
           <p className="text-xs text-center text-muted-foreground mt-6">
-            Don&apos;t have an account?{" "}
+            {t("dont_have_account")}{" "}
             <Link to="/register" className="text-primary hover:underline">
-              Register Here
+              {t("register_here")}
             </Link>
           </p>
         </Card>

@@ -1,8 +1,10 @@
+import { useTranslation, Trans } from "react-i18next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import RegisterFirstStep from "@/components/RegisterForms/RegisterFirstStep";
 
 const Register = () => {
+  const { t } = useTranslation();
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -11,10 +13,12 @@ const Register = () => {
         <section className="py-16 bg-gradient-stripe border-b border-border">
           <div className="container max-w-4xl">
             <h1 className="text-5xl font-bold mb-4">
-              Join the <span className="text-primary">League</span>
+              <Trans i18nKey="join_league">
+                Join the <span className="text-primary">League</span>
+              </Trans>
             </h1>
             <p className="text-xl text-muted-foreground">
-              Register as a fighter, sponsor, or donor to support the community.
+              {t("join_subtitle")}
             </p>
           </div>
         </section>

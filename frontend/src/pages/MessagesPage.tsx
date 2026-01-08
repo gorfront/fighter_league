@@ -20,8 +20,10 @@ import apiClient from "@/api/apiClient";
 import { toast } from "sonner";
 import ChatWindow from "@/components/ChatWindow";
 import { Input } from "@/components/ui/input";
+import { useTranslation } from "react-i18next";
 
 const MessagesPage = () => {
+  const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
   const contactIdParam = searchParams.get("contactId");
 
@@ -115,13 +117,13 @@ const MessagesPage = () => {
       toast.success(successMsg);
       fetchContacts();
       if (
-        successMsg.includes("removed") &&
+        successMsg === t("conversation_removed") &&
         activeChatUser === contextMenu.contactId
       ) {
         handleBackToContacts();
       }
     } catch (e) {
-      toast.error("Action failed");
+      toast.error(t("action_failed"));
     } finally {
       setContextMenu((p) => ({ ...p, visible: false }));
     }
@@ -152,7 +154,7 @@ const MessagesPage = () => {
             <div className="p-3 md:p-4 border-b border-slate-800 space-y-3 shrink-0">
               <div className="flex justify-between items-center">
                 <h2 className="text-xl font-bold tracking-tight text-white">
-                  Messages
+                  {t("messages_title")}
                 </h2>
                 <div className="bg-primary/20 p-2 rounded-full">
                   <MessageSquare size={18} className="text-primary" />
@@ -164,7 +166,7 @@ const MessagesPage = () => {
                   style={{ zIndex: 1 }}
                 />
                 <Input
-                  placeholder="Search..."
+                  placeholder={t("search_placeholder_short")}
                   className="pl-9 bg-slate-950 border-slate-800 text-slate-200 placeholder:text-slate-500 focus-visible:ring-primary/50 h-9 md:h-10"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
@@ -176,7 +178,7 @@ const MessagesPage = () => {
               {contacts.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-48 text-slate-500 p-6 text-center">
                   <MessageSquare size={40} className="mb-3 opacity-20" />
-                  <p className="text-sm">No conversations yet.</p>
+                  <p className="text-sm">{t("no_conversations")}</p>
                 </div>
               ) : (
                 <div className="flex flex-col pb-20 md:pb-0">
@@ -187,10 +189,9 @@ const MessagesPage = () => {
                       onContextMenu={(e) => handleContextMenu(e, contact.id)}
                       className={`
                         relative group flex items-center gap-3 p-3 md:p-4 cursor-pointer transition-all border-b border-slate-800/50 hover:bg-slate-800
-                        ${
-                          activeChatUser === contact.id
-                            ? "bg-slate-800/80 border-l-4 border-l-primary"
-                            : "border-l-4 border-l-transparent"
+                        ${activeChatUser === contact.id
+                          ? "bg-slate-800/80 border-l-4 border-l-primary"
+                          : "border-l-4 border-l-transparent"
                         }
                       `}
                     >
@@ -211,13 +212,12 @@ const MessagesPage = () => {
                       <div className="flex-1 min-w-0">
                         <div className="flex justify-between items-baseline mb-1">
                           <p
-                            className={`text-sm font-semibold truncate ${
-                              (contact as any).isBlocked
+                            className={`text-sm font-semibold truncate ${(contact as any).isBlocked
                                 ? "text-slate-500"
                                 : "text-slate-200"
-                            }`}
+                              }`}
                           >
-                            {contact.name || `User #${contact.id}`}
+                            {contact.name || t("user_default_name", { id: contact.id })}
                           </p>
                           {contact.unreadCount && contact.unreadCount > 0 ? (
                             <span className="ml-2 bg-primary text-primary-foreground text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[1.25rem] text-center">
@@ -259,10 +259,9 @@ const MessagesPage = () => {
           <div
             className={`
               flex-col flex-1 h-full bg-slate-900 relative min-w-0
-              ${
-                activeChatUser !== null
-                  ? "flex fixed inset-0 z-50 md:static md:z-auto"
-                  : "hidden md:flex"
+              ${activeChatUser !== null
+                ? "flex fixed inset-0 z-50 md:static md:z-auto"
+                : "hidden md:flex"
               }
             `}
           >
@@ -278,10 +277,10 @@ const MessagesPage = () => {
                   <MessageSquare size={48} className="text-primary/40" />
                 </div>
                 <h3 className="text-xl font-bold text-slate-300 mb-2">
-                  Welcome to Messages
+                  {t("welcome_messages")}
                 </h3>
                 <p className="max-w-xs text-sm text-slate-500">
-                  Select a conversation from the sidebar to start chatting.
+                  {t("select_conversation_prompt")}
                 </p>
               </div>
             )}
@@ -296,7 +295,7 @@ const MessagesPage = () => {
           >
             <div className="px-3 py-1.5 border-b border-slate-800 mb-1">
               <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                Manage Chat
+                {t("manage_chat_title")}
               </span>
             </div>
             <button
@@ -305,18 +304,18 @@ const MessagesPage = () => {
                   () =>
                     isMuted
                       ? apiClient.post("/users/unmute", {
-                          targetId: contextMenu.contactId,
-                        })
+                        targetId: contextMenu.contactId,
+                      })
                       : apiClient.post("/users/mute", {
-                          targetId: contextMenu.contactId,
-                        }),
-                  isMuted ? "Unmuted" : "Muted"
+                        targetId: contextMenu.contactId,
+                      }),
+                  isMuted ? t("chat_unmuted") : t("chat_muted")
                 )
               }
               className="w-full text-left px-4 py-3 text-sm text-slate-300 hover:bg-slate-800 flex items-center gap-3"
             >
               {isMuted ? <Volume2 size={16} /> : <VolumeX size={16} />}
-              {isMuted ? "Unmute" : "Mute"}
+              {isMuted ? t("chat_unmute") : t("chat_mute")}
             </button>
             <button
               onClick={() =>
@@ -325,13 +324,13 @@ const MessagesPage = () => {
                     apiClient.delete(
                       `/users/conversations/${contextMenu.contactId}`
                     ),
-                  "Conversation removed"
+                  t("conversation_removed")
                 )
               }
               className="w-full text-left px-4 py-3 text-sm text-slate-300 hover:bg-slate-800 flex items-center gap-3"
             >
               <Trash2 size={16} />
-              Delete
+              {t("delete_btn")}
             </button>
             <div className="my-1 border-t border-slate-800" />
             <button
@@ -340,22 +339,21 @@ const MessagesPage = () => {
                   () =>
                     isBlocked
                       ? apiClient.post("/users/unblock", {
-                          targetId: contextMenu.contactId,
-                        })
+                        targetId: contextMenu.contactId,
+                      })
                       : apiClient.post("/users/block", {
-                          targetId: contextMenu.contactId,
-                        }),
-                  isBlocked ? "Unblocked" : "Blocked"
+                        targetId: contextMenu.contactId,
+                      }),
+                  isBlocked ? t("chat_unblocked") : t("chat_blocked")
                 )
               }
-              className={`w-full text-left px-4 py-3 text-sm flex items-center gap-3 ${
-                isBlocked
+              className={`w-full text-left px-4 py-3 text-sm flex items-center gap-3 ${isBlocked
                   ? "text-green-500 hover:bg-slate-800"
                   : "text-red-500 hover:bg-slate-800"
-              }`}
+                }`}
             >
               {isBlocked ? <Unlock size={16} /> : <Ban size={16} />}
-              {isBlocked ? "Unblock" : "Block"}
+              {isBlocked ? t("chat_unblock") : t("chat_block")}
             </button>
           </div>
         )}

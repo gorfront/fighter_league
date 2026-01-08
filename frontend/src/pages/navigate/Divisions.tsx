@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation, Trans } from "react-i18next";
 import apiClient from "@/api/apiClient";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -8,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Division } from "@/types/fighter";
 
 const Divisions = () => {
+  const { t } = useTranslation();
   const [divisions, setDivisions] = useState<Division[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -36,25 +38,40 @@ const Divisions = () => {
   const DivisionCard = ({ division }: { division: Division }) => (
     <Card className="p-6 bg-gradient-stripe hover:shadow-gold transition-all duration-300">
       <div className="flex items-start justify-between mb-4">
-        <h3 className="text-2xl font-bold">{division.name}</h3>
+        <h3 className="text-2xl font-bold">
+          {t(`division_${division.name.toLowerCase().replace(/[^a-z0-9]/g, "_")}`, {
+            defaultValue: division.name,
+          })}
+        </h3>
         <Badge className="bg-primary text-primary-foreground">
-          {division.gender === "male" ? "Men" : "Women"}
+          {division.gender === "male" ? t("men") : t("women")}
         </Badge>
       </div>
       <div className="space-y-3">
         <div>
-          <p className="text-sm text-muted-foreground">Weight Range</p>
+          <p className="text-sm text-muted-foreground">{t("weight_range")}</p>
           <p className="text-xl font-semibold text-primary">
             {division.min_weight > 0 ? `${division.min_weight} - ` : "≤ "}
             {division.max_weight} lbs
           </p>
         </div>
         <div className="pt-4 border-t border-border">
-          <p className="text-sm text-muted-foreground mb-2">Description</p>
+          <p className="text-sm text-muted-foreground mb-2">{t("description")}</p>
           <p className="text-sm">
-            {division.gender === "male" ? "Male" : "Female"} fighters competing
-            in the {division.name.toLowerCase()} category. This division
-            showcases elite athletes with exceptional skill and determination.
+            {division.gender === "male"
+              ? t("male_fighters_desc", {
+                division: t(
+                  `division_${division.name.toLowerCase().replace(/[^a-z0-9]/g, "_")}`,
+                  { defaultValue: division.name }
+                ).toLowerCase(),
+              })
+              : t("female_fighters_desc", {
+                division: t(
+                  `division_${division.name.toLowerCase().replace(/[^a-z0-9]/g, "_")}`,
+                  { defaultValue: division.name }
+                ).toLowerCase(),
+              })}{" "}
+            {t("division_desc_suffix")}
           </p>
         </div>
       </div>
@@ -66,7 +83,7 @@ const Divisions = () => {
       <div className="min-h-screen flex flex-col">
         <Header />
         <main className="flex-1 flex items-center justify-center">
-          <h1 className="text-2xl font-bold">Loading Divisions...</h1>
+          <h1 className="text-2xl font-bold">{t("loading_divisions")}</h1>
         </main>
         <Footer />
       </div>
@@ -93,10 +110,12 @@ const Divisions = () => {
         <section className="py-16 bg-gradient-stripe border-b border-border">
           <div className="container">
             <h1 className="text-5xl font-bold mb-4">
-              Weight <span className="text-primary">Divisions</span>
+              <Trans i18nKey="weight_divisions_title">
+                Weight <span className="text-primary">Divisions</span>
+              </Trans>
             </h1>
             <p className="text-xl text-muted-foreground">
-              Explore our structured weight classes for male and female fighters
+              {t("weight_divisions_subtitle")}
             </p>
           </div>
         </section>
@@ -106,13 +125,13 @@ const Divisions = () => {
             <Tabs defaultValue="all" className="w-full">
               <TabsList className="mb-8">
                 <TabsTrigger value="all">
-                  All Divisions ({divisions.length})
+                  {t("all_divisions")} ({divisions.length})
                 </TabsTrigger>
                 <TabsTrigger value="male">
-                  Men's Divisions ({maleDivisions.length})
+                  {t("mens_divisions")} ({maleDivisions.length})
                 </TabsTrigger>
                 <TabsTrigger value="female">
-                  Women's Divisions ({femaleDivisions.length})
+                  {t("womens_divisions")} ({femaleDivisions.length})
                 </TabsTrigger>
               </TabsList>
 
@@ -145,23 +164,16 @@ const Divisions = () => {
 
         <section className="py-16 bg-card border-t border-border">
           <div className="container max-w-4xl">
-            <h2 className="text-3xl font-bold mb-6">About Our Divisions</h2>
+            <h2 className="text-3xl font-bold mb-6">{t("about_divisions_title")}</h2>
             <div className="space-y-4 text-muted-foreground">
               <p>
-                Our weight division system ensures fair and competitive matchups
-                across all categories. Fighters are matched based on their
-                weight class, gender, and skill level to create the most
-                exciting and equitable competitions.
+                {t("about_divisions_p1")}
               </p>
               <p>
-                Each division follows strict weight limits and verification
-                procedures. Fighters must weigh in within their designated
-                weight range to compete in official matches.
+                {t("about_divisions_p2")}
               </p>
               <p>
-                The division system allows fighters to compete nationally,
-                regionally, and globally within their weight class, creating
-                clear pathways to championship opportunities.
+                {t("about_divisions_p3")}
               </p>
             </div>
           </div>

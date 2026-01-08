@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import {
@@ -41,6 +42,7 @@ interface SponsorProfile {
 }
 
 const SponsorDashboard = () => {
+  const { t } = useTranslation();
   const supabaseAnonKey = import.meta.env
     .VITE_SUPABASE_SPONSOR_IMAGES as string;
 
@@ -74,9 +76,9 @@ const SponsorDashboard = () => {
           setProfileExists(false);
         } else {
           toast({
-            title: "Error fetching profile",
+            title: t("error_loading_profile"),
             description:
-              error.response?.data?.message || "Could not load sponsor data.",
+              error.response?.data?.message || t("failed_update_status"),
             variant: "destructive",
           });
         }
@@ -91,8 +93,8 @@ const SponsorDashboard = () => {
   if (userType !== "SPONSOR") {
     return (
       <div className="min-h-screen flex flex-col justify-center items-center">
-        <h1 className="text-3xl font-bold">Access Denied</h1>
-        <p>You must be logged in as a Sponsor to view this page.</p>
+        <h1 className="text-3xl font-bold">{t("access_denied")}</h1>
+        <p>{t("access_denied_sponsor")}</p>
       </div>
     );
   }
@@ -101,7 +103,7 @@ const SponsorDashboard = () => {
     return (
       <div className="min-h-screen flex flex-col justify-center items-center">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
-        <p className="mt-2">Loading Sponsor Hub...</p>
+        <p className="mt-2">{t("loading_sponsor_hub")}</p>
       </div>
     );
   }
@@ -112,15 +114,15 @@ const SponsorDashboard = () => {
         <Header />
         <main className="flex-1 flex items-center justify-center">
           <Card className="p-8 text-center max-w-md">
-            <h1 className="text-2xl font-bold mb-4">Profile Incomplete</h1>
+            <h1 className="text-2xl font-bold mb-4">{t("profile_incomplete")}</h1>
             <p className="text-muted-foreground mb-4">
-              Your sponsor profile has not been finalized.
+              {t("profile_incomplete_desc")}
             </p>
             <p className="text-sm">
-              Complete your sponsor information to appear on the site.
+              {t("complete_info_prompt")}
             </p>
             <Button className="mt-4" asChild>
-              <Link to="/dashboard/sponsor/edit">Go to Profile Creation</Link>
+              <Link to="/dashboard/sponsor/edit">{t("go_to_profile_creation")}</Link>
             </Button>
           </Card>
         </main>
@@ -146,23 +148,22 @@ const SponsorDashboard = () => {
           <CardHeader className="border-b flex-row flex-wrap items-center justify-between p-6">
             <CardTitle className="text-3xl flex items-center gap-3">
               <ShieldCheck className="h-7 w-7 text-primary" />
-              Sponsor Dashboard: {profileData?.company_name}
+              {t("sponsor_dashboard_title")}: {profileData?.company_name}
             </CardTitle>
 
             <div className="flex items-center gap-4">
               {profileData?.tier && (
                 <span
-                  className={`px-4 py-1 text-sm font-semibold uppercase rounded-full ${
-                    tierColors[profileData.tier]
-                  }`}
+                  className={`px-4 py-1 text-sm font-semibold uppercase rounded-full ${tierColors[profileData.tier]
+                    }`}
                 >
-                  {profileData.tier} Tier
+                  {t(`tier_${profileData.tier.toLowerCase()}`)} {t("tier_label")}
                 </span>
               )}
               <Button variant="outline" size="sm" asChild>
                 <Link to="/dashboard/sponsor/edit">
                   <Edit className="h-4 w-4 mr-2" />
-                  Edit Profile
+                  {t("edit_profile")}
                 </Link>
               </Button>
             </div>
@@ -171,7 +172,7 @@ const SponsorDashboard = () => {
           <CardContent className="p-6 grid md:grid-cols-2 gap-8">
             <div className="space-y-4">
               <h3 className="text-lg font-semibold border-b pb-2">
-                Public Profile
+                {t("public_profile")}
               </h3>
 
               {profileData?.logo_url ? (
@@ -181,35 +182,35 @@ const SponsorDashboard = () => {
                       ? profileData.logo_url
                       : supabaseAnonKey + profileData.logo_url
                   }
-                  alt={`${profileData.company_name} Logo`}
+                  alt={t("logo_alt", { name: profileData.company_name })}
                   className="w-full h-auto max-h-48 object-contain border rounded-lg p-2 bg-gray-50"
                 />
               ) : (
                 <div className="h-48 w-full flex items-center justify-center border rounded-lg bg-gray-100 text-muted-foreground">
-                  No Logo Uploaded
+                  {t("no_logo_uploaded")}
                 </div>
               )}
 
               <div className="space-y-1">
                 <h4 className="font-medium text-gray-800">
-                  Company Description:
+                  {t("company_description")}
                 </h4>
                 <p className="text-sm text-muted-foreground">
                   {profileData?.description ||
-                    "No public description provided."}
+                    t("no_description")}
                 </p>
               </div>
             </div>
 
             <div className="space-y-4">
               <h3 className="text-lg font-semibold border-b pb-2">
-                Contact & Links
+                {t("contact_links")}
               </h3>
 
               <div className="flex items-center space-x-3">
                 <User className="w-5 h-5 text-gray-500" />
                 <div className="text-sm">
-                  <p className="font-medium">Company Name</p>
+                  <p className="font-medium">{t("company_name_label")}</p>
                   <p className="text-muted-foreground">
                     {profileData?.company_name}
                   </p>
@@ -219,7 +220,7 @@ const SponsorDashboard = () => {
               <div className="flex items-center space-x-3">
                 <Mail className="w-5 h-5 text-gray-500" />
                 <div className="text-sm">
-                  <p className="font-medium">Contact Email</p>
+                  <p className="font-medium">{t("contact_email_label")}</p>
                   <p className="text-muted-foreground">{profileData?.email}</p>
                 </div>
               </div>
@@ -228,7 +229,7 @@ const SponsorDashboard = () => {
                 <div className="flex items-center space-x-3">
                   <LinkIcon className="w-5 h-5 text-gray-500" />
                   <div className="text-sm">
-                    <p className="font-medium">Website</p>
+                    <p className="font-medium">{t("website_label")}</p>
                     <a
                       href={
                         profileData.website.startsWith("http")
@@ -251,12 +252,12 @@ const SponsorDashboard = () => {
                 <CardHeader className="border-b p-4">
                   <CardTitle className="text-xl flex items-center gap-2">
                     <Trophy className="h-5 w-5 text-primary" />
-                    Sponsored Fighters
+                    {t("sponsored_fighters")}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="p-4 space-y-3">
                   {profileData?.my_fighters &&
-                  profileData.my_fighters.length > 0 ? (
+                    profileData.my_fighters.length > 0 ? (
                     profileData.my_fighters.map((fighter) => (
                       <div
                         key={fighter.id}
@@ -266,14 +267,14 @@ const SponsorDashboard = () => {
                         <Button variant="ghost" size="sm" asChild>
                           <Link to={`/fighter/${fighter.id}`}>
                             <Eye className="h-4 w-4 mr-1" />
-                            View
+                            {t("view_button")}
                           </Link>
                         </Button>
                       </div>
                     ))
                   ) : (
                     <p className="text-muted-foreground text-sm">
-                      No active fighter sponsorships found.
+                      {t("no_active_sponsorships")}
                     </p>
                   )}
                 </CardContent>
@@ -283,7 +284,7 @@ const SponsorDashboard = () => {
 
           <CardFooter className="justify-end p-4 border-t">
             <p className="text-sm text-muted-foreground">
-              Data verified by League Admin.
+              {t("data_verified")}
             </p>
           </CardFooter>
         </Card>

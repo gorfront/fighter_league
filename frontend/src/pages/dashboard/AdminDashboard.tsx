@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation, Trans } from "react-i18next";
 import apiClient from "@/api/apiClient";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -60,6 +61,7 @@ interface EventApplication {
 }
 
 const AdminDashboard = () => {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const token = useAuthStore((s) => s.token);
 
@@ -195,11 +197,11 @@ const AdminDashboard = () => {
       setPending((prev) => prev.filter((f) => f.id !== id));
       if (approved && fetched.verified)
         setVerified((prev) => [approved, ...prev]);
-      toast({ title: "Success", description: "Fighter approved." });
+      toast({ title: t("success_title"), description: t("fighter_approved") });
     } catch (err) {
       toast({
-        title: "Error",
-        description: "Approval failed.",
+        title: t("error_title"),
+        description: t("registration_failed"),
         variant: "destructive",
       });
     }
@@ -209,11 +211,11 @@ const AdminDashboard = () => {
     try {
       await apiClient.delete(`dashboard/admin/fighters/${id}`, authHeaders);
       setPending((prev) => prev.filter((f) => f.id !== id));
-      toast({ title: "Success", description: "Fighter rejected." });
+      toast({ title: t("success_title"), description: t("fighter_rejected") });
     } catch (err) {
       toast({
-        title: "Error",
-        description: "Rejection failed.",
+        title: t("error_title"),
+        description: t("registration_failed"),
         variant: "destructive",
       });
     }
@@ -223,11 +225,11 @@ const AdminDashboard = () => {
     try {
       await apiClient.delete(`dashboard/admin/fighters/${id}`, authHeaders);
       setVerified((prev) => prev.filter((f) => f.id !== id));
-      toast({ title: "Success", description: "Fighter deleted." });
+      toast({ title: t("success_title"), description: t("fighter_deleted") });
     } catch (err) {
       toast({
-        title: "Error",
-        description: "Deletion failed.",
+        title: t("error_title"),
+        description: t("event_delete_failed"),
         variant: "destructive",
       });
     }
@@ -237,11 +239,11 @@ const AdminDashboard = () => {
     try {
       await apiClient.delete(`dashboard/admin/sponsors/${id}`, authHeaders);
       setSponsors((prev) => prev.filter((s) => s.id !== id));
-      toast({ title: "Success", description: "Sponsor deleted." });
+      toast({ title: t("success_title"), description: t("sponsor_deleted") });
     } catch (err) {
       toast({
-        title: "Error",
-        description: "Deletion failed.",
+        title: t("error_title"),
+        description: t("event_delete_failed"),
         variant: "destructive",
       });
     }
@@ -251,11 +253,11 @@ const AdminDashboard = () => {
     try {
       await apiClient.delete(`dashboard/admin/donors/${id}`, authHeaders);
       setDonors((prev) => prev.filter((d) => d.id !== id));
-      toast({ title: "Success", description: "Donor deleted." });
+      toast({ title: t("success_title"), description: t("donor_deleted") });
     } catch (err) {
       toast({
-        title: "Error",
-        description: "Deletion failed.",
+        title: t("error_title"),
+        description: t("event_delete_failed"),
         variant: "destructive",
       });
     }
@@ -273,13 +275,13 @@ const AdminDashboard = () => {
       );
       setApplications((prev) => prev.filter((app) => app.id !== id));
       toast({
-        title: status === "approved" ? "Approved" : "Rejected",
-        description: `Application marked as ${status}.`,
+        title: status === "approved" ? t("approved") : t("rejected"),
+        description: t("application_updated", { status: t(status) }),
       });
     } catch (err) {
       toast({
-        title: "Error",
-        description: "Failed to update status.",
+        title: t("error_title"),
+        description: t("failed_update_status"),
         variant: "destructive",
       });
     }
@@ -314,7 +316,7 @@ const AdminDashboard = () => {
 
       <main className="flex-1 py-12">
         <div className="container max-w-5xl">
-          <h1 className="text-3xl font-bold mb-8">Admin Dashboard</h1>
+          <h1 className="text-3xl font-bold mb-8">{t("admin_dashboard")}</h1>
 
           <Tabs
             defaultValue="pending"
@@ -322,17 +324,17 @@ const AdminDashboard = () => {
             className="w-full"
           >
             <TabsList className="grid w-full grid-cols-5 mb-8">
-              <TabsTrigger value="pending">Pending</TabsTrigger>
-              <TabsTrigger value="applications">Event Req.</TabsTrigger>
-              <TabsTrigger value="fighters">Fighters</TabsTrigger>
-              <TabsTrigger value="sponsors">Sponsors</TabsTrigger>
-              <TabsTrigger value="donors">Donors</TabsTrigger>
+              <TabsTrigger value="pending">{t("pending_tab")}</TabsTrigger>
+              <TabsTrigger value="applications">{t("event_requests_tab")}</TabsTrigger>
+              <TabsTrigger value="fighters">{t("fighters_tab")}</TabsTrigger>
+              <TabsTrigger value="sponsors">{t("sponsors_tab")}</TabsTrigger>
+              <TabsTrigger value="donors">{t("donors_tab")}</TabsTrigger>
             </TabsList>
 
             <TabsContent value="pending">
               <Card>
                 <CardHeader>
-                  <CardTitle>Pending User Registrations</CardTitle>
+                  <CardTitle>{t("pending_registrations")}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   {loading.pending ? (
@@ -340,7 +342,7 @@ const AdminDashboard = () => {
                       <Loader2 className="animate-spin text-primary" />
                     </div>
                   ) : pending.length === 0 ? (
-                    <EmptyState message="No pending registrations." />
+                    <EmptyState message={t("no_pending_registrations")} />
                   ) : (
                     <div className="space-y-3">
                       {pending.map((f) => (
@@ -360,14 +362,14 @@ const AdminDashboard = () => {
                               variant="destructive"
                               onClick={() => handleRejectFighter(f.id)}
                             >
-                              <X className="w-4 h-4 mr-1" /> Reject
+                              <X className="w-4 h-4 mr-1" /> {t("reject")}
                             </Button>
                             <Button
                               size="sm"
                               className="bg-green-600 hover:bg-green-700"
                               onClick={() => handleApproveFighter(f.id)}
                             >
-                              <Check className="w-4 h-4 mr-1" /> Approve
+                              <Check className="w-4 h-4 mr-1" /> {t("approve")}
                             </Button>
                           </div>
                         </div>
@@ -381,7 +383,7 @@ const AdminDashboard = () => {
             <TabsContent value="applications">
               <Card>
                 <CardHeader>
-                  <CardTitle>Event Fight Requests</CardTitle>
+                  <CardTitle>{t("event_fight_requests")}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   {loading.applications ? (
@@ -389,7 +391,7 @@ const AdminDashboard = () => {
                       <Loader2 className="animate-spin text-primary" />
                     </div>
                   ) : applications.length === 0 ? (
-                    <EmptyState message="No pending event applications." />
+                    <EmptyState message={t("no_pending_applications")} />
                   ) : (
                     <div className="space-y-3">
                       {applications.map((app) => (
@@ -411,7 +413,7 @@ const AdminDashboard = () => {
                             <div>
                               <div className="flex items-center gap-2">
                                 <p className="font-bold text-lg text-primary">
-                                  {app.User.Fighter?.name || "Unknown Fighter"}
+                                  {app.User.Fighter?.name || t("unknown_fighter")}
                                 </p>
 
                                 <Badge variant="outline">
@@ -421,7 +423,7 @@ const AdminDashboard = () => {
                                 </Badge>
                               </div>
                               <p className="text-sm text-muted-foreground">
-                                Applied for:{" "}
+                                {t("applied_for")}{" "}
                                 <span className="font-semibold text-foreground">
                                   {app.Event.title}
                                 </span>
@@ -441,7 +443,7 @@ const AdminDashboard = () => {
                                 handleReviewApplication(app.id, "rejected")
                               }
                             >
-                              <X className="w-4 h-4 mr-1" /> Reject
+                              <X className="w-4 h-4 mr-1" /> {t("reject")}
                             </Button>
                             <Button
                               size="sm"
@@ -450,7 +452,7 @@ const AdminDashboard = () => {
                                 handleReviewApplication(app.id, "approved")
                               }
                             >
-                              <Check className="w-4 h-4 mr-1" /> Approve
+                              <Check className="w-4 h-4 mr-1" /> {t("approve")}
                             </Button>
                           </div>
                         </div>
@@ -464,7 +466,7 @@ const AdminDashboard = () => {
             <TabsContent value="fighters">
               <Card>
                 <CardHeader>
-                  <CardTitle>Approved Fighters</CardTitle>
+                  <CardTitle>{t("approved_fighters")}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   {loading.verified ? (
@@ -472,7 +474,7 @@ const AdminDashboard = () => {
                       <Loader2 className="animate-spin" />
                     </div>
                   ) : verified.length === 0 ? (
-                    <EmptyState message="No approved fighters." />
+                    <EmptyState message={t("no_approved_fighters")} />
                   ) : (
                     <div className="space-y-3">
                       {verified.map((f) => (
@@ -505,7 +507,7 @@ const AdminDashboard = () => {
             <TabsContent value="sponsors">
               <Card>
                 <CardHeader>
-                  <CardTitle>Registered Sponsors</CardTitle>
+                  <CardTitle>{t("registered_sponsors")}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   {loading.sponsors ? (
@@ -513,7 +515,7 @@ const AdminDashboard = () => {
                       <Loader2 className="animate-spin" />
                     </div>
                   ) : sponsors.length === 0 ? (
-                    <EmptyState message="No sponsors registered." />
+                    <EmptyState message={t("no_sponsors_registered")} />
                   ) : (
                     <div className="space-y-3">
                       {sponsors.map((s) => (
@@ -534,11 +536,10 @@ const AdminDashboard = () => {
                           </div>
                           <div className="flex items-center gap-4">
                             <span
-                              className={`text-xs font-semibold px-2 py-1 rounded ${
-                                tierColors[s.tier]
-                              }`}
+                              className={`text-xs font-semibold px-2 py-1 rounded ${tierColors[s.tier]
+                                }`}
                             >
-                              {s.tier}
+                              {t(`tier_${s.tier.toLowerCase()}`)}
                             </span>
                             <Button
                               size="icon"
@@ -560,7 +561,7 @@ const AdminDashboard = () => {
             <TabsContent value="donors">
               <Card>
                 <CardHeader>
-                  <CardTitle>Registered Donors</CardTitle>
+                  <CardTitle>{t("registered_donors")}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   {loading.donors ? (
@@ -568,7 +569,7 @@ const AdminDashboard = () => {
                       <Loader2 className="animate-spin" />
                     </div>
                   ) : donors.length === 0 ? (
-                    <EmptyState message="No donors registered." />
+                    <EmptyState message={t("no_donors_registered")} />
                   ) : (
                     <div className="space-y-3">
                       {donors.map((d) => (
@@ -583,7 +584,7 @@ const AdminDashboard = () => {
                                 {d.email}
                               </p>
                               <p className="text-xs text-muted-foreground font-mono">
-                                {d.wallet_address || "No Wallet"}
+                                {d.wallet_address || t("no_wallet")}
                               </p>
                             </div>
                           </div>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -23,6 +24,7 @@ interface PublicSponsor {
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_SPONSOR_IMAGES as string;
 
 const Sponsors = () => {
+  const { t } = useTranslation();
   const [sponsors, setSponsors] = useState<PublicSponsor[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -98,18 +100,17 @@ const Sponsors = () => {
           <div className="mb-10 text-center md:text-left">
             <h1 className="text-4xl md:text-5xl font-extrabold mb-4 flex items-center justify-center md:justify-start gap-3 text-foreground">
               <DollarSign className="h-10 w-10 text-primary" />
-              Our Partners
+              {t("our_partners")}
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl">
-              Proudly supported by leading organizations committed to the future
-              of combat sports.
+              {t("partners_subtitle")}
             </p>
           </div>
 
           <div className="mb-12 sticky top-20 z-10 bg-background/95 p-4 rounded-xl border shadow-sm backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="relative max-w-full">
               <Input
-                placeholder="Search sponsors by company name..."
+                placeholder={t("search_sponsors_placeholder")}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10 h-12 text-lg"
@@ -122,14 +123,14 @@ const Sponsors = () => {
             <div className="flex flex-col justify-center items-center py-20">
               <Loader2 className="h-10 w-10 animate-spin text-primary mb-4" />
               <p className="text-muted-foreground">
-                Connecting with partners...
+                {t("connecting_partners")}
               </p>
             </div>
           )}
 
           {error && !loading && (
             <div className="text-center py-20 text-red-500">
-              <p>{error}</p>
+              <p>{t("failed_fetch_sponsors")}</p>
             </div>
           )}
 
@@ -155,7 +156,9 @@ const Sponsors = () => {
                           "bg-"
                         )}`}
                       ></span>
-                      {tier} Sponsors
+                      {t("tier_sponsors_label", {
+                        tier: t(`tier_${tier.toLowerCase()}`),
+                      })}
                     </h2>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -173,7 +176,9 @@ const Sponsors = () => {
                                       ? sponsor.logo_url
                                       : supabaseAnonKey + sponsor.logo_url
                                   }
-                                  alt={sponsor.company_name}
+                                  alt={t("logo_alt", {
+                                    name: sponsor.company_name,
+                                  })}
                                   className="max-h-full max-w-full object-contain drop-shadow-sm"
                                 />
                               ) : (
@@ -190,7 +195,7 @@ const Sponsors = () => {
                           <CardContent className="p-5 flex-1 flex flex-col justify-between bg-card">
                             <p className="text-sm text-muted-foreground line-clamp-3 mb-4">
                               {sponsor.description ||
-                                "Official sponsor of the Global League."}
+                                t("official_sponsor_desc")}
                             </p>
 
                             <div className="space-y-3 mt-auto">
@@ -206,7 +211,7 @@ const Sponsors = () => {
                                   className="flex items-center justify-center text-sm font-medium text-primary hover:underline w-full py-1"
                                 >
                                   <LinkIcon className="h-3.5 w-3.5 mr-2" />
-                                  Visit Website
+                                  {t("visit_website")}
                                 </a>
                               )}
 
@@ -223,7 +228,7 @@ const Sponsors = () => {
                                     }
                                   >
                                     <Mail className="w-4 h-4" />
-                                    Contact
+                                    {t("contact_button")}
                                   </Button>
                                 )}
                             </div>
@@ -239,10 +244,10 @@ const Sponsors = () => {
                 <div className="text-center py-20 bg-muted/10 rounded-xl border border-dashed">
                   <Search className="h-12 w-12 mx-auto text-muted-foreground/30 mb-3" />
                   <h3 className="text-xl font-semibold text-gray-700">
-                    No sponsors found
+                    {t("no_sponsors_found")}
                   </h3>
                   <p className="text-muted-foreground mt-2">
-                    Try adjusting your search terms.
+                    {t("try_adjusting_search")}
                   </p>
                   {searchQuery && (
                     <Button
@@ -250,7 +255,7 @@ const Sponsors = () => {
                       onClick={() => setSearchQuery("")}
                       className="mt-2"
                     >
-                      Clear Search
+                      {t("clear_search")}
                     </Button>
                   )}
                 </div>

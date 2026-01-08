@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 import { useAuthStore } from "@/stores/authStore";
 import { Mail, Heart } from "lucide-react";
 import { getFlagComponent } from "@/hooks/getFlagComponent";
+import { useTranslation } from "react-i18next";
 
 interface FighterCardProps {
   id: string;
@@ -25,6 +26,7 @@ export const FighterCard = ({
   image,
   user_id,
 }: FighterCardProps) => {
+  const { t } = useTranslation();
   const supabaseAnonKey = import.meta.env
     .VITE_SUPABASE_FIGHTER_IMAGES as string;
   const userType = useAuthStore((s) => s.userType);
@@ -57,11 +59,15 @@ export const FighterCard = ({
 
         <div className="flex items-center justify-between text-sm mb-4">
           <div>
-            <p className="text-muted-foreground">Division</p>
-            <p className="font-semibold">{division}</p>
+            <p className="text-muted-foreground">{t("division_label")}</p>
+            <p className="font-semibold">
+              {t(`division_${division.toLowerCase().replace(/[^a-z0-9]/g, "_")}`, {
+                defaultValue: division,
+              })}
+            </p>
           </div>
           <div className="text-right">
-            <p className="text-muted-foreground">Record</p>
+            <p className="text-muted-foreground">{t("record_label")}</p>
             <p className="font-semibold text-primary">{record}</p>
           </div>
         </div>
@@ -69,13 +75,13 @@ export const FighterCard = ({
         <div className="flex flex-col gap-3">
           <Link to={`/fighter/${id}`}>
             <Button className="w-full bg-gradient-gold hover:opacity-90 transition-opacity">
-              View Profile
+              {t("view_profile_btn")}
             </Button>
           </Link>
           {userType === "SPONSOR" ? (
             <Link to={`#`}>
               <Button className="w-full bg-gradient-gold hover:opacity-90 transition-opacity">
-                Sponsor a Fighter
+                {t("sponsor_fighter_btn")}
               </Button>
             </Link>
           ) : (
@@ -89,7 +95,7 @@ export const FighterCard = ({
               }}
             >
               <Mail className="w-4 h-4 mr-2" />
-              Message
+              {t("message_btn")}
             </Button>
           ) : (
             <></>
@@ -98,7 +104,7 @@ export const FighterCard = ({
           {userType && userType === "DONOR" ? (
             <Button className="w-full bg-gradient-gold hover:opacity-90 transition-opacity">
               <Heart className="w-4 h-4 mr-2" />
-              Donate
+              {t("donate_btn")}
             </Button>
           ) : (
             <></>
