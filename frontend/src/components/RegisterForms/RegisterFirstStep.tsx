@@ -116,7 +116,7 @@ const RegisterFirstStep = () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       const message = error.response?.data?.message || t("registration_failed");
-      toast({ title: "Error", description: message, variant: "destructive" });
+      toast({ title: t("error_title"), description: message, variant: "destructive" });
     } finally {
       setIsSubmitting(false);
     }
@@ -157,7 +157,7 @@ const RegisterFirstStep = () => {
             <Input
               id="email"
               type="email"
-              placeholder="your@email.com"
+              placeholder={t("email_placeholder")}
               value={formData.email}
               onChange={(e) => handleChange("email", e.target.value)}
               className={

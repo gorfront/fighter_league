@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/stores/authStore";
 import apiClient from "@/api/apiClient";
@@ -42,6 +43,7 @@ interface Division {
 }
 
 const CreateEvent = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { toast } = useToast();
   const { userType, token } = useAuthStore();
@@ -94,13 +96,12 @@ const CreateEvent = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       toast({
-        title: "Event Created",
-        description:
-          "The system will automatically set the status based on the time.",
+        title: t("event_created_title"),
+        description: t("event_created_desc"),
       });
       navigate("/events");
     } catch (error: any) {
-      toast({ title: "Error", variant: "destructive" });
+      toast({ title: t("error_title"), variant: "destructive" });
     } finally {
       setIsSaving(false);
     }
@@ -115,26 +116,26 @@ const CreateEvent = () => {
           className="mb-6"
           onClick={() => navigate("/events")}
         >
-          <ArrowLeft className="mr-2 h-4 w-4" /> Back to Events
+          <ArrowLeft className="mr-2 h-4 w-4" /> {t("back_to_events")}
         </Button>
 
         <Card className="shadow-lg border-t-4 border-t-green-600">
           <CardHeader>
             <CardTitle className="text-2xl flex items-center gap-2">
               <PlusCircle className="h-6 w-6 text-green-600" />
-              Create New Event
+              {t("create_new_event")}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="title">Event Title</Label>
+                <Label htmlFor="title">{t("event_title_label")}</Label>
                 <div className="relative">
                   <Input
                     id="title"
                     value={formData.title}
                     onChange={(e) => handleChange("title", e.target.value)}
-                    placeholder="e.g. Global Championship 51"
+                    placeholder={t("event_title_placeholder")}
                     required
                     className="pr-10"
                   />
@@ -159,7 +160,7 @@ const CreateEvent = () => {
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="time">Start Time</Label>
+                  <Label htmlFor="time">{t("start_time_label")}</Label>
                   <div className="relative">
                     <Input
                       id="time"
@@ -174,14 +175,14 @@ const CreateEvent = () => {
                   </div>
                   <div className="flex items-center gap-1 mt-1 text-xs text-muted-foreground">
                     <Globe className="h-3 w-3" />
-                    <span>Timezone: {userTimezone}</span>
+                    <span>{t("timezone_label", { timezone: userTimezone })}</span>
                   </div>
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="location">Location</Label>
+                  <Label htmlFor="location">{t("location_label")}</Label>
                   <div className="relative">
                     <Input
                       id="location"
@@ -196,13 +197,13 @@ const CreateEvent = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="division">Division</Label>
+                  <Label htmlFor="division">{t("division_label")}</Label>
                   <Select
                     value={formData.division}
                     onValueChange={(val) => handleChange("division", val)}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Select Division" />
+                      <SelectValue placeholder={t("select_placeholder")} />
                     </SelectTrigger>
                     <SelectContent>
                       {divisions.map((div) => (
@@ -210,15 +211,14 @@ const CreateEvent = () => {
                           {div.name}
                         </SelectItem>
                       ))}
-                      <SelectItem value="Open Weight">Open Weight</SelectItem>
+                      <SelectItem value="Open Weight">{t("open_weight")}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               </div>
 
               <p className="text-xs text-muted-foreground italic">
-                * Event status will be determined automatically based on the
-                scheduled time.
+                {t("event_status_auto_hint")}
               </p>
 
               <div className="pt-4 flex items-center justify-end">
@@ -232,7 +232,7 @@ const CreateEvent = () => {
                   ) : (
                     <PlusCircle className="h-4 w-4" />
                   )}
-                  {isSaving ? "Creating..." : "Create Event"}
+                  {isSaving ? t("creating_btn") : t("create_new_event")}
                 </Button>
               </div>
             </form>

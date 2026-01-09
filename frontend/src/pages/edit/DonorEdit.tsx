@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import apiClient from "@/api/apiClient";
 import { Header } from "@/components/Header";
@@ -26,6 +27,7 @@ interface DonorFormData {
 }
 
 const DonorEdit = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -112,14 +114,14 @@ const DonorEdit = () => {
 
       await apiClient.put("/donor/me", payload);
 
-      toast({ title: "Success", description: "Donor profile updated!" });
+      toast({ title: t("success_title"), description: t("donor_update_success") });
       navigate("/dashboard/donor");
     } catch (error: any) {
       console.error("Update failed", error);
       toast({
         variant: "destructive",
-        title: "Update Failed",
-        description: error.message || "Could not save changes.",
+        title: t("update_failed"),
+        description: error.message || t("update_failed"),
       });
     } finally {
       setIsSaving(false);
@@ -147,13 +149,13 @@ const DonorEdit = () => {
           >
             <ArrowLeft className="h-5 w-5" />
           </Button>
-          <h1 className="text-3xl font-bold">Edit Profile</h1>
+          <h1 className="text-3xl font-bold">{t("edit_profile")}</h1>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Donor Information</CardTitle>
+              <CardTitle>{t("donor_info_title")}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="flex flex-col items-center gap-6 sm:flex-row">
@@ -170,7 +172,7 @@ const DonorEdit = () => {
                 </div>
                 <div className="w-full">
                   <Label htmlFor="logo" className="mb-2 block">
-                    Avatar / Logo
+                    {t("avatar_logo_label")}
                   </Label>
                   <Input
                     id="logo"
@@ -182,7 +184,7 @@ const DonorEdit = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="email">Email Address</Label>
+                <Label htmlFor="email">{t("email_address_label")}</Label>
                 <Input
                   id="email"
                   name="email"
@@ -194,13 +196,13 @@ const DonorEdit = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="wallet_address">Wallet Address</Label>
+                <Label htmlFor="wallet_address">{t("wallet_address_label")}</Label>
                 <Input
                   id="wallet_address"
                   name="wallet_address"
                   value={formData.wallet_address}
                   onChange={handleChange}
-                  placeholder="0x..."
+                  placeholder={t("wallet_address_placeholder")}
                 />
               </div>
             </CardContent>
@@ -212,7 +214,7 @@ const DonorEdit = () => {
               variant="outline"
               onClick={() => navigate("/dashboard/donor")}
             >
-              Cancel
+              {t("cancel_btn")}
             </Button>
             <Button
               type="submit"
@@ -221,11 +223,11 @@ const DonorEdit = () => {
             >
               {isSaving ? (
                 <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Saving...
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> {t("processing")}
                 </>
               ) : (
                 <>
-                  <Save className="mr-2 h-4 w-4" /> Save Changes
+                  <Save className="mr-2 h-4 w-4" /> {t("save_changes")}
                 </>
               )}
             </Button>

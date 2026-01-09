@@ -1,4 +1,5 @@
 import { useState, ChangeEvent } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -26,6 +27,7 @@ interface SponsorProfile {
 }
 
 const SponsorForm = ({ name, email }: { name: string; email: string }) => {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const navigate = useNavigate();
   const [preview, setPreview] = useState<string | null>(null);
@@ -57,8 +59,8 @@ const SponsorForm = ({ name, email }: { name: string; email: string }) => {
 
     if (!formData.name || !imageFile) {
       toast({
-        title: "Missing required fields",
-        description: "Please fill in Company Name and upload a Logo.",
+        title: t("missing_fields_error"),
+        description: t("fill_company_logo"),
         variant: "destructive",
       });
       setIsSubmitting(false);
@@ -103,8 +105,8 @@ const SponsorForm = ({ name, email }: { name: string; email: string }) => {
       }
 
       toast({
-        title: "Registration Complete!",
-        description: "You are now logged in as a Sponsor.",
+        title: t("registration_submitted"),
+        description: t("login_success_sponsor"),
       });
 
       navigate("/dashboard/sponsor");
@@ -124,8 +126,8 @@ const SponsorForm = ({ name, email }: { name: string; email: string }) => {
       const message =
         error.response?.data?.message ||
         error.message ||
-        "An unknown error occurred.";
-      toast({ title: "Error", description: message, variant: "destructive" });
+        t("registration_failed");
+      toast({ title: t("error_title"), description: message, variant: "destructive" });
     } finally {
       setIsSubmitting(false);
     }
@@ -150,17 +152,17 @@ const SponsorForm = ({ name, email }: { name: string; email: string }) => {
     <Card className="p-8 w-full">
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-2 flex flex-col items-start">
-          <Label htmlFor="companyName">Company Name *</Label>
+          <Label htmlFor="companyName">{t("company_name_label")} *</Label>
           <Input
             id="companyName"
-            placeholder="Enter your company name"
+            placeholder={t("company_name_placeholder")}
             value={formData.name}
             onChange={(e) => handleChange("name", e.target.value)}
             required
           />
         </div>
         <div className="space-y-2 flex flex-col items-start">
-          <Label htmlFor="companyName">Logo or Your Image *</Label>
+          <Label htmlFor="companyName">{t("logo_image_label")}</Label>
           <UploadPhoto
             preview={preview}
             removeImage={removeImage}
@@ -169,39 +171,39 @@ const SponsorForm = ({ name, email }: { name: string; email: string }) => {
         </div>
 
         <div className="space-y-2 flex flex-col items-start">
-          <Label htmlFor="walletAddress">Wallet Address *</Label>
+          <Label htmlFor="walletAddress">{t("wallet_address_label")} *</Label>
           <Input
             id="walletAddress"
             value={formData.walletAddress ?? ""}
             onChange={(e) => handleChange("walletAddress", e.target.value)}
-            placeholder="Your 0x... wallet address"
+            placeholder={t("wallet_address_placeholder")}
           />
           <p className="text-xs text-muted-foreground">
-            Link your profile to a user account (optional).
+            {t("wallet_address_hint")}
           </p>
         </div>
         <div className="space-y-2 flex flex-col items-start">
-          <Label htmlFor="sponsorLevel">Sponsorship Tier</Label>
+          <Label htmlFor="sponsorLevel">{t("tier_label")}</Label>
           <Select value={formData.tier} onValueChange={handleSelectChange}>
             <SelectTrigger id="tier">
-              <SelectValue placeholder="Select Tier" />
+              <SelectValue placeholder={t("select_placeholder")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="Platinum">Platinum</SelectItem>
-              <SelectItem value="Gold">Gold</SelectItem>
-              <SelectItem value="Silver">Silver</SelectItem>
-              <SelectItem value="Bronze">Bronze</SelectItem>
-              <SelectItem value="Partner">Partner (Default)</SelectItem>
+              <SelectItem value="Platinum">{t("tier_platinum")}</SelectItem>
+              <SelectItem value="Gold">{t("tier_gold")}</SelectItem>
+              <SelectItem value="Silver">{t("tier_silver")}</SelectItem>
+              <SelectItem value="Bronze">{t("tier_bronze")}</SelectItem>
+              <SelectItem value="Partner">{t("tier_partner")} ({t("default_label")})</SelectItem>
             </SelectContent>
           </Select>
         </div>
         <div className="space-y-2 flex flex-col items-start">
-          <Label htmlFor="bio">About Company / You</Label>
+          <Label htmlFor="bio">{t("about_company_title")}</Label>
           <Textarea
             id="bio"
             value={formData.description ?? ""}
             onChange={(e) => handleChange("description", e.target.value)}
-            placeholder="Tell us about your company/you..."
+            placeholder={t("about_company_placeholder")}
             rows={5}
           />
         </div>
@@ -212,7 +214,7 @@ const SponsorForm = ({ name, email }: { name: string; email: string }) => {
             className="w-full"
             disabled={isSubmitting}
           >
-            {isSubmitting ? "Submitting..." : "Submit Application"}
+            {isSubmitting ? t("submitting_btn") : t("submit_app_btn")}
           </Button>
         </div>
       </form>

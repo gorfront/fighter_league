@@ -1,4 +1,5 @@
 import { useState, ChangeEvent } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/stores/authStore";
 
 const DonorForm = ({ name, email }: { name: string; email: string }) => {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -36,8 +38,8 @@ const DonorForm = ({ name, email }: { name: string; email: string }) => {
 
     if (!formData.walletAddress) {
       toast({
-        title: "Missing fields",
-        description: "Wallet Address is required.",
+        title: t("missing_fields_error"),
+        description: t("missing_fields_wallet"),
         variant: "destructive",
       });
       setIsSubmitting(false);
@@ -82,8 +84,8 @@ const DonorForm = ({ name, email }: { name: string; email: string }) => {
       }
 
       toast({
-        title: "Success!",
-        description: "You are now logged in as a Donor.",
+        title: t("success_title"),
+        description: t("login_success_donor"),
       });
 
       navigate("/dashboard/donor");
@@ -95,8 +97,8 @@ const DonorForm = ({ name, email }: { name: string; email: string }) => {
     } catch (error: any) {
       console.error(error);
       const message =
-        error.response?.data?.message || error.message || "Error occurred.";
-      toast({ title: "Error", description: message, variant: "destructive" });
+        error.response?.data?.message || error.message || t("update_failed");
+      toast({ title: t("error_title"), description: message, variant: "destructive" });
     } finally {
       setIsSubmitting(false);
     }
@@ -121,7 +123,7 @@ const DonorForm = ({ name, email }: { name: string; email: string }) => {
     <Card className="p-8 w-full">
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-2 flex flex-col items-start">
-          <Label>Profile Image (Optional)</Label>
+          <Label>{t("donor_image_label")}</Label>
           <UploadPhoto
             preview={preview}
             removeImage={removeImage}
@@ -129,12 +131,12 @@ const DonorForm = ({ name, email }: { name: string; email: string }) => {
           />
         </div>
         <div className="space-y-2 flex flex-col items-start">
-          <Label htmlFor="walletAddress">Wallet Address *</Label>
+          <Label htmlFor="walletAddress">{t("wallet_address_label")} *</Label>
           <Input
             id="walletAddress"
             value={formData.walletAddress ?? ""}
             onChange={(e) => handleChange("walletAddress", e.target.value)}
-            placeholder="Your 0x... wallet address"
+            placeholder={t("wallet_address_placeholder")}
           />
         </div>
 
@@ -145,7 +147,7 @@ const DonorForm = ({ name, email }: { name: string; email: string }) => {
             className="w-full"
             disabled={isSubmitting}
           >
-            {isSubmitting ? "Submitting..." : "Submit Application"}
+            {isSubmitting ? t("submitting_btn") : t("submit_app_btn")}
           </Button>
         </div>
       </form>

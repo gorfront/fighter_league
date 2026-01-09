@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/stores/authStore";
 import apiClient from "@/api/apiClient";
@@ -55,6 +56,7 @@ interface Division {
 }
 
 const EditEvent = () => {
+  const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -186,8 +188,8 @@ const EditEvent = () => {
       await Promise.all(promises);
 
       toast({
-        title: "Success",
-        description: "Event and Fights saved successfully.",
+        title: t("success_title"),
+        description: t("event_save_success"),
       });
 
       const refreshedFights = await apiClient.get(`/fights/event/${id}`);
@@ -195,7 +197,7 @@ const EditEvent = () => {
       setDeletedFightIds([]);
     } catch (error: any) {
       console.error("Batch Update failed:", error);
-      toast({ title: "Update Failed", variant: "destructive" });
+      toast({ title: t("update_failed"), variant: "destructive" });
     } finally {
       setIsSaving(false);
     }
@@ -226,21 +228,21 @@ const EditEvent = () => {
       <main className="flex-1 py-12 container max-w-4xl">
         <div className="mb-6 flex justify-between">
           <Button variant="ghost" onClick={() => navigate("/events")}>
-            <ArrowLeft className="mr-2 h-4 w-4" /> Back
+            <ArrowLeft className="mr-2 h-4 w-4" /> {t("back_btn")}
           </Button>
           <Button variant="outline" onClick={() => navigate(`/events/${id}`)}>
-            View Public Page
+            {t("view_public_page")}
           </Button>
         </div>
 
         <form onSubmit={handleSubmit} className="grid gap-8">
           <Card className="shadow-lg border-t-4 border-t-primary">
             <CardHeader>
-              <CardTitle>Edit Event Details</CardTitle>
+              <CardTitle>{t("edit_event_details")}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-2">
-                <Label>Event Title</Label>
+                <Label>{t("event_title_label")}</Label>
                 <Input
                   value={formData.title}
                   onChange={(e) => handleChange("title", e.target.value)}
@@ -250,7 +252,7 @@ const EditEvent = () => {
 
               <div className="grid grid-cols-1 md-sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label>Date</Label>
+                  <Label>{t("date_label")}</Label>
                   <Input
                     type="date"
                     value={formData.event_date}
@@ -260,7 +262,7 @@ const EditEvent = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label>Start Time</Label>
+                  <Label>{t("start_time_label")}</Label>
                   <Input
                     type="time"
                     value={formData.started_time}
@@ -275,7 +277,7 @@ const EditEvent = () => {
 
               <div className="grid grid-cols-1 md-sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label>Location</Label>
+                  <Label>{t("location_label")}</Label>
                   <Input
                     value={formData.location}
                     onChange={(e) => handleChange("location", e.target.value)}
@@ -283,13 +285,13 @@ const EditEvent = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label>Division</Label>
+                  <Label>{t("division_label")}</Label>
                   <Select
                     value={formData.division}
                     onValueChange={(val) => handleChange("division", val)}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Select" />
+                      <SelectValue placeholder={t("select_placeholder")} />
                     </SelectTrigger>
                     <SelectContent>
                       {divisions.map((d) => (
@@ -297,7 +299,7 @@ const EditEvent = () => {
                           {d.name}
                         </SelectItem>
                       ))}
-                      <SelectItem value="Open Weight">Open Weight</SelectItem>
+                      <SelectItem value="Open Weight">{t("open_weight")}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -308,7 +310,7 @@ const EditEvent = () => {
           <Card className="shadow-lg border-t-4 border-t-red-600">
             <CardHeader className="flex flex-row justify-between pb-2">
               <CardTitle className="flex items-center gap-2">
-                <Swords className="text-red-600" /> Fight Card
+                <Swords className="text-red-600" /> {t("official_fight_card")}
               </CardTitle>
               <Button
                 type="button"
@@ -316,13 +318,13 @@ const EditEvent = () => {
                 size="sm"
                 className="bg-red-600 hover:bg-red-700 text-white"
               >
-                <Plus className="mr-2 h-4 w-4" /> Add Bout
+                <Plus className="mr-2 h-4 w-4" /> {t("add_bout")}
               </Button>
             </CardHeader>
             <CardContent>
               {fights.length === 0 ? (
                 <div className="text-center py-8 text-muted-foreground border-2 border-dashed rounded">
-                  No fights added.
+                  {t("no_fights_added")}
                 </div>
               ) : (
                 <DndContext
@@ -362,7 +364,7 @@ const EditEvent = () => {
               ) : (
                 <Save className="mr-2" />
               )}
-              Save All Changes
+              {t("save_changes")}
             </Button>
           </div>
         </form>

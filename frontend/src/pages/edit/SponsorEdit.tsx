@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import apiClient from "@/api/apiClient";
 import { Header } from "@/components/Header";
@@ -26,6 +27,7 @@ interface SponsorFormData {
 }
 
 const SponsorEdit = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -64,8 +66,8 @@ const SponsorEdit = () => {
         console.error("Failed to load profile", error);
         toast({
           variant: "destructive",
-          title: "Error",
-          description: "Could not load sponsor profile.",
+          title: t("error_title"),
+          description: t("load_profile_error"),
         });
       } finally {
         setIsLoading(false);
@@ -122,15 +124,15 @@ const SponsorEdit = () => {
 
       await apiClient.put("/dashboard/sponsor/me", payload);
 
-      toast({ title: "Success", description: "Profile updated successfully!" });
+      toast({ title: t("success_title"), description: t("profile_update_success") });
       navigate("/dashboard/sponsor");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error("Update failed", error);
       toast({
         variant: "destructive",
-        title: "Update Failed",
-        description: error.message || "Could not save changes.",
+        title: t("update_failed"),
+        description: error.message || t("update_failed"),
       });
     } finally {
       setIsSaving(false);
@@ -158,13 +160,13 @@ const SponsorEdit = () => {
           >
             <ArrowLeft className="h-5 w-5" />
           </Button>
-          <h1 className="text-3xl font-bold">Edit Company Profile</h1>
+          <h1 className="text-3xl font-bold">{t("edit_company_profile")}</h1>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Company Details</CardTitle>
+              <CardTitle>{t("company_details_title")}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="flex flex-col items-center gap-6 sm:flex-row">
@@ -181,7 +183,7 @@ const SponsorEdit = () => {
                 </div>
                 <div className="w-full">
                   <Label htmlFor="logo" className="mb-2 block">
-                    Company Logo
+                    {t("company_logo_label")}
                   </Label>
                   <Input
                     id="logo"
@@ -190,14 +192,14 @@ const SponsorEdit = () => {
                     onChange={handleImageChange}
                   />
                   <p className="text-xs text-muted-foreground mt-2">
-                    Upload a transparent PNG or high-quality JPG.
+                    {t("upload_logo_hint")}
                   </p>
                 </div>
               </div>
 
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-2">
-                  <Label htmlFor="company_name">Company Name</Label>
+                  <Label htmlFor="company_name">{t("company_name_label")}</Label>
                   <Input
                     id="company_name"
                     name="company_name"
@@ -208,7 +210,7 @@ const SponsorEdit = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="email">Contact Email</Label>
+                  <Label htmlFor="email">{t("contact_email_label")}</Label>
                   <Input
                     id="email"
                     name="email"
@@ -221,12 +223,12 @@ const SponsorEdit = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="description">Company Description</Label>
+                <Label htmlFor="description">{t("company_description_label")}</Label>
                 <Textarea
                   id="description"
                   name="description"
                   rows={5}
-                  placeholder="Tell us about your brand..."
+                  placeholder={t("brand_description_placeholder")}
                   value={formData.description}
                   onChange={handleChange}
                 />
@@ -240,7 +242,7 @@ const SponsorEdit = () => {
               variant="outline"
               onClick={() => navigate("/dashboard/sponsor")}
             >
-              Cancel
+              {t("cancel_btn")}
             </Button>
             <Button
               type="submit"
@@ -249,11 +251,11 @@ const SponsorEdit = () => {
             >
               {isSaving ? (
                 <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Saving...
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> {t("processing")}
                 </>
               ) : (
                 <>
-                  <Save className="mr-2 h-4 w-4" /> Save Changes
+                  <Save className="mr-2 h-4 w-4" /> {t("save_changes")}
                 </>
               )}
             </Button>

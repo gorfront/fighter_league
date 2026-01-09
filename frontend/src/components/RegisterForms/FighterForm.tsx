@@ -1,4 +1,5 @@
 import { useState, ChangeEvent, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -27,6 +28,7 @@ interface FighterFormData extends Partial<Fighter> {
 }
 
 const FighterForm = ({ name, email }: { name: string; email: string }) => {
+  const { t } = useTranslation();
   const { toast } = useToast();
 
   const initialFormState: FighterFormData = {
@@ -125,9 +127,8 @@ const FighterForm = ({ name, email }: { name: string; email: string }) => {
       !imageFile
     ) {
       toast({
-        title: "Missing required fields",
-        description:
-          "Please fill in all * required fields and upload an image.",
+        title: t("missing_fields_error"),
+        description: t("fill_required_fields"),
         variant: "destructive",
       });
       setIsSubmitting(false);
@@ -139,8 +140,8 @@ const FighterForm = ({ name, email }: { name: string; email: string }) => {
 
     if (knockouts > wins) {
       toast({
-        title: "Invalid Stats",
-        description: `Knockouts (${knockouts}) cannot be higher than Wins (${wins}).`,
+        title: t("invalid_stats_error"),
+        description: t("ko_higher_than_wins", { ko: knockouts, wins: wins }),
         variant: "destructive",
       });
       setIsSubmitting(false);
@@ -186,10 +187,9 @@ const FighterForm = ({ name, email }: { name: string; email: string }) => {
       const response = await apiClient.post("/fighters/register", payload);
 
       toast({
-        title: "Registration Submitted!",
+        title: t("registration_submitted"),
         description:
-          response.data.message ||
-          "Your profile is being reviewed. We'll contact you soon.",
+          response.data.message || t("reg_success_fighter"),
       });
 
       setFormData(initialFormState);
@@ -205,7 +205,7 @@ const FighterForm = ({ name, email }: { name: string; email: string }) => {
         "An unknown error occurred.";
 
       toast({
-        title: "Registration Failed",
+        title: t("registration_failed"),
         description: message,
         variant: "destructive",
       });
@@ -223,46 +223,46 @@ const FighterForm = ({ name, email }: { name: string; email: string }) => {
       <form onSubmit={handleSubmit} className="space-y-8">
         <div className="space-y-4">
           <h3 className="text-lg font-semibold border-b pb-2">
-            Basic Information
+            {t("basic_info_title")}
           </h3>
 
           <div className="space-y-2 flex flex-col items-start">
-            <Label htmlFor="walletAddress">Wallet Address</Label>
+            <Label htmlFor="walletAddress">{t("wallet_address_label")}</Label>
             <Input
               id="walletAddress"
               value={formData.walletAddress ?? ""}
               onChange={(e) => handleChange("walletAddress", e.target.value)}
-              placeholder="Your 0x... wallet address"
+              placeholder={t("wallet_address_placeholder")}
             />
             <p className="text-xs text-muted-foreground">
-              Link your profile to a user account (optional).
+              {t("wallet_address_hint")}
             </p>
           </div>
 
           <div className="space-y-2 flex flex-col items-start">
-            <Label htmlFor="country">Country *</Label>
+            <Label htmlFor="country">{t("country_label")} *</Label>
             <Input
               id="country"
               value={formData.country ?? ""}
               onChange={(e) => handleChange("country", e.target.value)}
-              placeholder="Enter your country"
+              placeholder={t("country_placeholder")}
               required
             />
           </div>
 
           <div className="space-y-2 flex flex-col items-start">
-            <Label htmlFor="gender">Gender *</Label>
+            <Label htmlFor="gender">{t("gender_label")} *</Label>
             <Select
               value={formData.gender ?? ""}
               onValueChange={(value) => handleChange("gender", value)}
               required
             >
               <SelectTrigger id="gender">
-                <SelectValue placeholder="Select gender" />
+                <SelectValue placeholder={t("select_gender_placeholder")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="male">Male</SelectItem>
-                <SelectItem value="female">Female</SelectItem>
+                <SelectItem value="male">{t("male")}</SelectItem>
+                <SelectItem value="female">{t("female")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -270,51 +270,51 @@ const FighterForm = ({ name, email }: { name: string; email: string }) => {
 
         <div className="space-y-4">
           <h3 className="text-lg font-semibold border-b pb-2">
-            Physical Attributes
+            {t("physical_attributes_title")}
           </h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="space-y-2 flex flex-col items-start">
-              <Label htmlFor="age">Age *</Label>
+              <Label htmlFor="age">{t("stat_age")} *</Label>
               <Input
                 id="age"
                 type="number"
                 value={formData.age ?? ""}
                 onChange={(e) => handleChange("age", Number(e.target.value))}
-                placeholder="e.g. 25"
+                placeholder={t("age_placeholder")}
                 className="pr-3"
               />
             </div>
 
             <div className="space-y-2 flex flex-col items-start">
-              <Label htmlFor="height">Height *</Label>
+              <Label htmlFor="height">{t("stat_height")} *</Label>
               <Input
                 id="height"
                 value={formData.height ?? ""}
                 onChange={(e) => handleChange("height", e.target.value)}
-                placeholder='e.g. 5&#39;11"'
+                placeholder={t("height_placeholder")}
                 className="pr-3"
               />
             </div>
 
             <div className="space-y-2 flex flex-col items-start">
-              <Label htmlFor="reach">Reach *</Label>
+              <Label htmlFor="reach">{t("stat_reach")} *</Label>
               <Input
                 id="reach"
                 value={formData.reach ?? ""}
                 onChange={(e) => handleChange("reach", e.target.value)}
-                placeholder='e.g. 72"'
+                placeholder={t("reach_placeholder")}
                 className="pr-3"
               />
             </div>
 
             <div className="space-y-2 flex flex-col items-start">
-              <Label htmlFor="weight">Weight (lbs) *</Label>
+              <Label htmlFor="weight">{t("weight_hint_lbs")}</Label>
               <Input
                 id="weight"
                 type="number"
                 value={formData.weight ?? ""}
                 onChange={(e) => handleChange("weight", Number(e.target.value))}
-                placeholder="e.g. 155"
+                placeholder={t("weight_placeholder")}
                 className="pr-3"
                 required
               />
@@ -322,7 +322,7 @@ const FighterForm = ({ name, email }: { name: string; email: string }) => {
           </div>
 
           <div className="space-y-2 flex flex-col items-start">
-            <Label htmlFor="division">Division (Auto-Selected) *</Label>
+            <Label htmlFor="division">{t("division_auto_label")}</Label>
             <Select
               value={formData.division ?? ""}
               onValueChange={(value) => handleChange("division", value)}
@@ -333,8 +333,8 @@ const FighterForm = ({ name, email }: { name: string; email: string }) => {
                 <SelectValue
                   placeholder={
                     !formData.weight
-                      ? "Enter weight to select division"
-                      : formData.division || "No matching division"
+                      ? t("enter_weight_division")
+                      : formData.division || t("no_matching_division")
                   }
                 />
               </SelectTrigger>
@@ -349,17 +349,17 @@ const FighterForm = ({ name, email }: { name: string; email: string }) => {
             </Select>
             {formData.weight && !formData.division && (
               <p className="text-xs text-red-500 mt-1">
-                Weight does not match any division for this gender.
+                {t("weight_mismatch_error")}
               </p>
             )}
           </div>
         </div>
 
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold border-b pb-2">Fight Record</h3>
+          <h3 className="text-lg font-semibold border-b pb-2">{t("fight_record_title")}</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="space-y-2 flex flex-col items-start">
-              <Label htmlFor="wins">Wins *</Label>
+              <Label htmlFor="wins">{t("wins_label")} *</Label>
               <Input
                 id="wins"
                 type="number"
@@ -370,7 +370,7 @@ const FighterForm = ({ name, email }: { name: string; email: string }) => {
               />
             </div>
             <div className="space-y-2 flex flex-col items-start">
-              <Label htmlFor="losses">Losses *</Label>
+              <Label htmlFor="losses">{t("losses_label")} *</Label>
               <Input
                 id="losses"
                 type="number"
@@ -381,7 +381,7 @@ const FighterForm = ({ name, email }: { name: string; email: string }) => {
               />
             </div>
             <div className="space-y-2 flex flex-col items-start">
-              <Label htmlFor="draws">Draws *</Label>
+              <Label htmlFor="draws">{t("draws_label")} *</Label>
               <Input
                 id="draws"
                 type="number"
@@ -393,7 +393,7 @@ const FighterForm = ({ name, email }: { name: string; email: string }) => {
             </div>
             <div className="space-y-2 flex flex-col items-start">
               <Label htmlFor="knockouts" className="flex items-center gap-1">
-                Knockouts (KO){" "}
+                {t("knockouts_label")}
                 <Info className="h-3 w-3 text-muted-foreground" />
               </Label>
               <Input
@@ -410,9 +410,9 @@ const FighterForm = ({ name, email }: { name: string; email: string }) => {
         </div>
 
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold border-b pb-2">Media & Bio</h3>
+          <h3 className="text-lg font-semibold border-b pb-2">{t("media_bio_title")}</h3>
           <div className="space-y-2 flex flex-col items-start">
-            <Label htmlFor="fileUpload">Profile Image *</Label>
+            <Label htmlFor="fileUpload">{t("profile_image_label")}</Label>
             <UploadPhoto
               preview={preview}
               removeImage={removeImage}
@@ -421,30 +421,30 @@ const FighterForm = ({ name, email }: { name: string; email: string }) => {
           </div>
 
           <div className="space-y-2 flex flex-col items-start">
-            <Label htmlFor="bio">Biography</Label>
+            <Label htmlFor="bio">{t("biography_title")}</Label>
             <Textarea
               id="bio"
               value={formData.bio ?? ""}
               onChange={(e) => handleChange("bio", e.target.value)}
-              placeholder="Tell us about your fighting background..."
+              placeholder={t("bio_placeholder")}
               rows={5}
             />
           </div>
 
           <div className="space-y-4 flex flex-col items-start">
-            <Label>Achievements</Label>
+            <Label>{t("achievements_title")}</Label>
             <div className="flex gap-2 w-full">
               <Input
                 value={currentAchievement}
                 onChange={(e) => setCurrentAchievement(e.target.value)}
-                placeholder="e.g., National Champion 2023"
+                placeholder={t("achievement_placeholder")}
               />
               <Button
                 type="button"
                 variant="outline"
                 onClick={handleAddAchievement}
               >
-                Add
+                {t("add_btn")}
               </Button>
             </div>
             <div className="flex items-start justify-start gap-1 flex-wrap">
@@ -476,11 +476,11 @@ const FighterForm = ({ name, email }: { name: string; email: string }) => {
             className="w-full bg-gradient-gold hover:opacity-90 transition-opacity"
             disabled={isSubmitting}
           >
-            {isSubmitting ? "Submitting..." : "Submit Registration"}
+            {isSubmitting ? t("submitting_btn") : t("submit_reg_btn")}
           </Button>
         </div>
         <p className="text-sm text-muted-foreground text-center">
-          By registering, you agree to our terms and conditions.
+          {t("terms_agreement")}
         </p>
       </form>
     </Card>

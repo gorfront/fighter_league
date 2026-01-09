@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import apiClient from "@/api/apiClient";
 import { Header } from "@/components/Header";
@@ -39,6 +40,7 @@ interface FighterData {
 }
 
 const FighterEdit = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -184,15 +186,15 @@ const FighterEdit = () => {
 
       await apiClient.put("/fighters/me", payload);
 
-      toast({ title: "Success", description: "Profile updated successfully!" });
+      toast({ title: t("success_title"), description: t("profile_update_success") });
       navigate("/dashboard/fighter");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error("Update failed", error);
       toast({
         variant: "destructive",
-        title: "Update Failed",
-        description: error.message || "Could not save changes.",
+        title: t("update_failed"),
+        description: error.message || t("update_failed"),
       });
     } finally {
       setIsSaving(false);
@@ -214,13 +216,13 @@ const FighterEdit = () => {
           <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
             <ArrowLeft className="h-5 w-5" />
           </Button>
-          <h1 className="text-3xl font-bold">Edit Profile</h1>
+          <h1 className="text-3xl font-bold">{t("edit_profile")}</h1>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-8">
           <Card>
             <CardHeader>
-              <CardTitle>Basic Information</CardTitle>
+              <CardTitle>{t("basic_info_title")}</CardTitle>
             </CardHeader>
             <CardContent className="grid gap-6">
               <div className="flex flex-col items-center gap-4 sm:flex-row">
@@ -232,12 +234,12 @@ const FighterEdit = () => {
                     />
                   ) : (
                     <div className="flex h-full items-center justify-center text-gray-400">
-                      No Image
+                      {t("no_image")}
                     </div>
                   )}
                 </div>
                 <div className="w-full max-w-sm">
-                  <Label htmlFor="image">Profile Image</Label>
+                  <Label htmlFor="image">{t("profile_image_label")}</Label>
                   <Input
                     id="image"
                     type="file"
@@ -248,7 +250,7 @@ const FighterEdit = () => {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label>Full Name</Label>
+                  <Label>{t("full_name_label")}</Label>
                   <Input
                     name="name"
                     value={formData.name}
@@ -257,7 +259,7 @@ const FighterEdit = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label>Country</Label>
+                  <Label>{t("country_label")}</Label>
                   <Input
                     name="country"
                     value={formData.country}
@@ -266,13 +268,13 @@ const FighterEdit = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label>Division</Label>
+                  <Label>{t("division_label")}</Label>
                   <Select
                     value={formData.division_id?.toString()}
                     onValueChange={handleDivisionChange}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Select Division" />
+                      <SelectValue placeholder={t("select_placeholder")} />
                     </SelectTrigger>
                     <SelectContent>
                       {divisions.map((div) => (
@@ -284,7 +286,7 @@ const FighterEdit = () => {
                   </Select>
                 </div>
                 <div className="space-y-2">
-                  <Label>Weight</Label>
+                  <Label>{t("weight_label")}</Label>
                   <Input
                     name="weight"
                     type="number"
@@ -294,7 +296,7 @@ const FighterEdit = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label>Gender</Label>
+                  <Label>{t("gender_label")}</Label>
                   <Select
                     value={formData.gender}
                     onValueChange={handleGenderChange}
@@ -303,8 +305,8 @@ const FighterEdit = () => {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="male">Male</SelectItem>
-                      <SelectItem value="female">Female</SelectItem>
+                      <SelectItem value="male">{t("male")}</SelectItem>
+                      <SelectItem value="female">{t("female")}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -314,7 +316,7 @@ const FighterEdit = () => {
 
           <Card>
             <CardHeader>
-              <CardTitle>Biography</CardTitle>
+              <CardTitle>{t("biography_title")}</CardTitle>
             </CardHeader>
             <CardContent>
               <Textarea
@@ -327,10 +329,10 @@ const FighterEdit = () => {
 
           <Card>
             <CardHeader className="flex flex-row justify-between items-center">
-              <CardTitle>Achievements</CardTitle>
+              <CardTitle>{t("achievements_title")}</CardTitle>
               <Button type="button" size="sm" onClick={addAchievement}>
                 <Plus className="w-4 h-4 mr-2" />
-                Add
+                {t("add_btn")}
               </Button>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -358,14 +360,14 @@ const FighterEdit = () => {
               variant="outline"
               onClick={() => navigate("/dashboard/fighter")}
             >
-              Cancel
+              {t("cancel_btn")}
             </Button>
             <Button
               type="submit"
               disabled={isSaving}
               className="bg-gradient-gold"
             >
-              {isSaving ? "Saving..." : "Save Changes"}
+              {isSaving ? t("processing") : t("save_changes")}
             </Button>
           </div>
         </form>

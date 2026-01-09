@@ -42,8 +42,8 @@ const Login = () => {
 
     if (!email || !password) {
       toast({
-        title: "Error",
-        description: "Please enter email and password.",
+        title: t("error_title"),
+        description: t("missing_login_fields"),
         variant: "destructive",
       });
       return;
@@ -58,14 +58,14 @@ const Login = () => {
         apiClient.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       }
 
-      toast({ title: "Success", description: "Logged in successfully!" });
+      toast({ title: t("success_title"), description: t("login_success") });
 
       navigateBasedOnRole(user_type);
     } catch (error: any) {
       const message =
         error?.response?.data?.message || "Login failed. Check console.";
       toast({
-        title: "Login Failed",
+        title: t("login_failed_general"),
         description: message,
         variant: "destructive",
       });
@@ -88,7 +88,7 @@ const Login = () => {
               <Input
                 id="email"
                 type="email"
-                placeholder="you@company.com"
+                placeholder={t("login_email_placeholder")}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
