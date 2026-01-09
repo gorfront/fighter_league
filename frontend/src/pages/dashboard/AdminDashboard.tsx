@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import { useTranslation, Trans } from "react-i18next";
 import apiClient from "@/api/apiClient";
 import { Header } from "@/components/Header";
@@ -86,11 +86,12 @@ const AdminDashboard = () => {
     applications: false,
   });
 
-  const authHeaders = token
-    ? { headers: { Authorization: `Bearer ${token}` } }
-    : undefined;
+  const authHeaders = useMemo(() =>
+    token ? { headers: { Authorization: `Bearer ${token}` } } : undefined,
+    [token]
+  );
 
-  const fetchPendingFighters = async () => {
+  const fetchPendingFighters = useCallback(async () => {
     if (!token) return;
     try {
       setLoading((prev) => ({ ...prev, pending: true }));
@@ -104,7 +105,7 @@ const AdminDashboard = () => {
     } finally {
       setLoading((prev) => ({ ...prev, pending: false }));
     }
-  };
+  }, [token, authHeaders]);
 
   const fetchVerifiedFighters = async () => {
     try {
@@ -289,7 +290,7 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     if (token) fetchPendingFighters();
-  }, [token]);
+  }, [token, fetchPendingFighters]);
 
   const onTabChange = (value: string) => {
     if (value === "fighters" && !fetched.verified) fetchVerifiedFighters();

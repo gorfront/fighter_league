@@ -28,6 +28,9 @@ const FighterProfile = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  console.log(fighter);
+  
+
   useEffect(() => {
     if (!id) return;
 
@@ -187,15 +190,17 @@ const FighterProfile = () => {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-3">
-                  <Button
+                  {userType && userType !== "GUEST" && (
+                 <>
+                  {
+                    (userType === "SPONSOR" || userType === "ADMIN") && <Button
                     size="lg"
                     className="bg-gradient-gold hover:opacity-90 transition-opacity w-full sm:w-auto"
                   >
                     <ShieldCheck className="w-4 h-4 mr-2" />
                     {t("sponsor_fighter_action")}
                   </Button>
-
-                  {userType && userType !== "GUEST" && (
+                  }
                     <Button
                       size="lg"
                       variant="outline"
@@ -209,6 +214,7 @@ const FighterProfile = () => {
                       <Mail className="w-4 h-4 mr-2" />
                       {t("message_btn")}
                     </Button>
+                 </>
                   )}
                 </div>
               </div>

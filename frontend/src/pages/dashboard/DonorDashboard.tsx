@@ -65,7 +65,7 @@ const DonorDashboard = () => {
     };
 
     if (token) fetchProfile();
-  }, [userType, token, toast]);
+  }, [userType, token, toast, t]);
 
   if (userType !== "DONOR") {
     return (

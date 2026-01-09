@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import {
   Send,
   Loader2,
@@ -55,6 +55,14 @@ const ChatWindow = ({
   const isBlocked = (currentContact as any)?.isBlocked;
   const amIBlocked = (currentContact as any)?.amIBlocked;
 
+  const clearAttachment = useCallback(() => {
+    setSelectedFile(null);
+    if (previewUrl && fileType === "image") URL.revokeObjectURL(previewUrl);
+    setPreviewUrl(null);
+    setFileType("file");
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  }, [previewUrl, fileType]);
+
   useEffect(() => {
     if (myToken) connectSocket(myToken);
   }, [myToken, connectSocket]);
@@ -65,7 +73,7 @@ const ChatWindow = ({
       setShowEmojiPicker(false);
       clearAttachment();
     }
-  }, [targetUserId, joinChat]);
+  }, [targetUserId, joinChat, clearAttachment]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -103,13 +111,6 @@ const ChatWindow = ({
     }
   };
 
-  const clearAttachment = () => {
-    setSelectedFile(null);
-    if (previewUrl && fileType === "image") URL.revokeObjectURL(previewUrl);
-    setPreviewUrl(null);
-    setFileType("file");
-    if (fileInputRef.current) fileInputRef.current.value = "";
-  };
 
   const uploadFile = async (file: File): Promise<string | null> => {
     try {

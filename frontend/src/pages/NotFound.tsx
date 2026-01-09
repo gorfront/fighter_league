@@ -73,9 +73,8 @@ const FighterFigure = ({
   const bodyColor = isCpu ? "bg-zinc-900" : "bg-blue-600";
   const gloveColor = isCpu ? "bg-emerald-500" : "bg-red-600";
 
-  const transformStyle = `translateY(-${yPos}px) ${
-    !facingRight ? "scaleX(-1)" : ""
-  }`;
+  const transformStyle = `translateY(-${yPos}px) ${!facingRight ? "scaleX(-1)" : ""
+    }`;
 
   return (
     <div
@@ -118,8 +117,8 @@ const FighterFigure = ({
           state === "ATTACK"
             ? "w-28 translate-x-10"
             : state === "BLOCK"
-            ? "-rotate-45"
-            : "rotate-[100deg]"
+              ? "-rotate-45"
+              : "rotate-[100deg]"
         )}
       >
         <div
@@ -256,18 +255,32 @@ export default function NotFoundGame() {
           const targetSquatting = targetAction === "SQUAT";
           const heightDiff = Math.abs(attackerY - targetY);
 
-          if (targetSquatting && attackerY < 10) {
-            setLog(isPlayer ? "CPU DUCKED" : "YOU DUCKED");
-          } else if (heightDiff < 40) {
+          if (heightDiff < 40) {
+            if (targetSquatting && attackerY < 10) {
+              setLog(isPlayer ? "CPU DUCKED" : "YOU DUCKED");
+            }
+
+            let finalPlayerHp = playerHp;
+            let finalCpuHp = cpuHp;
+
             if (isPlayer) {
-              setCpuHp((h) => Math.max(0, h - 8));
+              finalCpuHp = Math.max(0, cpuHp - 8);
+              setCpuHp(finalCpuHp);
               setCpuAction("HIT");
               setCpuVelX(playerPos < cpuPos ? 8 : -8);
             } else {
-              setPlayerHp((h) => Math.max(0, h - CPU_DAMAGE));
+              finalPlayerHp = Math.max(0, playerHp - CPU_DAMAGE);
+              setPlayerHp(finalPlayerHp);
               setPlayerAction("HIT");
             }
             setLog(isPlayer ? "HIT!" : "SPEED BLITZ!");
+
+            if (finalPlayerHp <= 0 || finalCpuHp <= 0) {
+              setGameActive(false);
+              setLog(finalPlayerHp <= 0 ? "DEFEAT" : "VICTORY");
+              if (finalPlayerHp <= 0) setPlayerAction("LOSE");
+              else setCpuAction("LOSE");
+            }
           }
         }
         setTimeout(() => {
@@ -278,7 +291,17 @@ export default function NotFoundGame() {
         }, 150);
       }, 100);
     },
-    [gameActive, playerAction, cpuAction, cpuPos, playerPos, playerY, cpuY]
+    [
+      gameActive,
+      playerAction,
+      cpuAction,
+      cpuPos,
+      playerPos,
+      playerY,
+      cpuY,
+      playerHp,
+      cpuHp,
+    ]
   );
 
   useEffect(() => {
@@ -342,6 +365,21 @@ export default function NotFoundGame() {
     performAttack,
   ]);
 
+  const resetGame = useCallback(() => {
+    setPlayerHp(MAX_HP);
+    setCpuHp(MAX_HP);
+    setPlayerPos(20);
+    setCpuPos(80);
+    setPlayerY(0);
+    setCpuY(0);
+    setCpuVelX(0);
+    setPlayerAction("IDLE");
+    setCpuAction("IDLE");
+    setGameActive(true);
+    setLog("FIGHT!");
+    cpuCooldown.current = 0;
+  }, []);
+
   useEffect(() => {
     const handleDown = (e: KeyboardEvent) => {
       keysPressed.current.add(e.code);
@@ -366,31 +404,8 @@ export default function NotFoundGame() {
       window.removeEventListener("keydown", handleDown);
       window.removeEventListener("keyup", handleUp);
     };
-  }, [gameActive, playerY, playerAction, performAttack]);
+  }, [gameActive, playerY, playerAction, performAttack, resetGame]);
 
-  const resetGame = () => {
-    setPlayerHp(MAX_HP);
-    setCpuHp(MAX_HP);
-    setPlayerPos(20);
-    setCpuPos(80);
-    setPlayerY(0);
-    setCpuY(0);
-    setCpuVelX(0);
-    setPlayerAction("IDLE");
-    setCpuAction("IDLE");
-    setGameActive(true);
-    setLog("FIGHT!");
-    cpuCooldown.current = 0;
-  };
-
-  useEffect(() => {
-    if (playerHp <= 0 || cpuHp <= 0) {
-      setGameActive(false);
-      setLog(playerHp <= 0 ? "DEFEAT" : "VICTORY");
-      if (playerHp <= 0) setPlayerAction("LOSE");
-      else setCpuAction("LOSE");
-    }
-  }, [playerHp, cpuHp]);
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-zinc-950 text-white p-4 font-mono select-none overflow-hidden">

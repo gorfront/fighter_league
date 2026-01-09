@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import apiClient from "@/api/apiClient";
 import { Header } from "@/components/Header";
@@ -57,16 +57,15 @@ const EventDetails = () => {
   const [isEnding, setIsEnding] = useState(false);
   const [appStatus, setAppStatus] = useState<string | null>(null);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
-      const [eventRes, fightsRes] = await Promise.all([
-        apiClient.get<EventWithStatus>(`/events/${id}`),
-        apiClient.get(`/fights/event/${id}`),
-      ]);
-      setEvent(eventRes.data);
-      setFights(fightsRes.data);
+      const response = await apiClient.get(`/events/${id}`);
+      setEvent(response.data);
 
-      if (eventRes.data.application_status) {
+      if (token) {
+        const eventRes = await apiClient.get(`/events/${id}/status`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setAppStatus(eventRes.data.application_status);
       }
     } catch (err) {
@@ -75,11 +74,11 @@ const EventDetails = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id, token]);
 
   useEffect(() => {
     if (id) fetchData();
-  }, [id]);
+  }, [id, fetchData]);
 
   const handleJoinEvent = async () => {
     if (!token) return;
@@ -663,3 +662,6 @@ const EventDetails = () => {
 };
 
 export default EventDetails;
+
+
+

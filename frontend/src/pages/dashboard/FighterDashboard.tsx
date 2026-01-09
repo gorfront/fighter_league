@@ -41,7 +41,7 @@ const FighterDashboard = () => {
     };
 
     fetchMyProfile();
-  }, [token, toast]);
+  }, [token, toast, t]);
 
   if (loading) {
     return (

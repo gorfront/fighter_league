@@ -220,6 +220,7 @@ export const getFighterById = async (req: Request, res: Response) => {
       bio: fighter.bio ?? undefined,
       achievements: fighter.achievements || [],
       sponsors: fighter.sponsors || [],
+      user_id: fighter.user_id
     };
 
     res.status(200).json(result);

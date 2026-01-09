@@ -75,7 +75,7 @@ const SponsorEdit = () => {
     };
 
     fetchProfile();
-  }, [toast]);
+  }, [toast, t]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

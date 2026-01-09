@@ -88,7 +88,7 @@ const SponsorDashboard = () => {
     };
 
     if (token) fetchProfile();
-  }, [userType, token, toast]);
+  }, [userType, token, toast, t]);
 
   if (userType !== "SPONSOR") {
     return (

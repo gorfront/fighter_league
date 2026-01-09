@@ -27,7 +27,7 @@ const FighterGlobe: React.FC = () => {
   const maxVal = useMemo(() => {
     if (!countries.features.length) return 0;
     return Math.max(...countries.features.map(getVal));
-  }, [countries]);
+  }, []);
 
   colorScale.domain([0, maxVal]);
 
@@ -62,31 +62,26 @@ const FighterGlobe: React.FC = () => {
       const visible = fList.slice(0, 2);
       visible.forEach((f) => {
         html += `<img src=
-      ${
-        f.image === "https://i.imgur.com/LpaY82x.png"
-          ? f.image
-          : f.image?.startsWith("http")
-          ? f.image
-          : `${supabaseAnonKey}${f.image}`
-      }
-        style="width:32px;height:32px;border-radius:50%;margin-right:4px;object-fit:cover;" title="${
-          f.name
-        }" />`;
+      ${f.image === "https://i.imgur.com/LpaY82x.png"
+            ? f.image
+            : f.image?.startsWith("http")
+              ? f.image
+              : `${supabaseAnonKey}${f.image}`
+          }
+        style="width:32px;height:32px;border-radius:50%;margin-right:4px;object-fit:cover;" title="${f.name
+          }" />`;
       });
 
       if (fList.length > 3) {
-        html += `<span style="display:inline-block;width:32px;height:32px;border-radius:50%;background:#555;color:white;text-align:center;line-height:32px;font-size:12px;margin-left:2px;">+${
-          fList.length - 2
-        }</span>`;
+        html += `<span style="display:inline-block;width:32px;height:32px;border-radius:50%;background:#555;color:white;text-align:center;line-height:32px;font-size:12px;margin-left:2px;">+${fList.length - 2
+          }</span>`;
       } else if (fList.length === 3) {
         const third = fList[2];
-        html += `<img src="${
-          third.image?.startsWith("http")
-            ? third.image
-            : `${supabaseAnonKey}${third.image}`
-        }" style="width:32px;height:32px;border-radius:50%;margin-left:2px;object-fit:cover;" title="${
-          third.name
-        }" />`;
+        html += `<img src="${third.image?.startsWith("http")
+          ? third.image
+          : `${supabaseAnonKey}${third.image}`
+          }" style="width:32px;height:32px;border-radius:50%;margin-left:2px;object-fit:cover;" title="${third.name
+          }" />`;
       }
 
       labels[country] = `
@@ -125,7 +120,7 @@ const FighterGlobe: React.FC = () => {
         )}
         polygonAltitude={(d: any) => (d === hoverD ? 0.12 : 0.06)}
         polygonCapColor={(d: any) =>
-          d === hoverD ? "steelblue" : colorScale(getVal(d))
+          (d === hoverD ? "steelblue" : colorScale(getVal(d))) as string
         }
         polygonSideColor={() => "rgba(0, 100, 0, 0.15)"}
         polygonStrokeColor={() => "#111"}
