@@ -107,7 +107,7 @@ const Sponsors = () => {
             </p>
           </div>
 
-          <div className="mb-12 sticky top-20 z-10 bg-background/95 p-4 rounded-xl border shadow-sm backdrop-blur supports-[backdrop-filter]:bg-background/60">
+          <div className="mb-12 sticky top-16 z-10 bg-background/95 p-4 rounded-xl border shadow-sm backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="relative max-w-full">
               <Input
                 placeholder={t("search_sponsors_placeholder")}

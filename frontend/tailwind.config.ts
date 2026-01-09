@@ -99,7 +99,7 @@ export default {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       screens: {
-        "sm-md": "900px",
+        "sm-md": "1030px",
         "md-sm": "568px"
       },
     },

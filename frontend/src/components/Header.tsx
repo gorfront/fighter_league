@@ -35,6 +35,7 @@ export const Header = () => {
     { name: t("divisions", { defaultValue: "Divisions" }), href: "/divisions" },
     { name: t("events"), href: "/events" },
     { name: t("sponsors", { defaultValue: "Sponsors" }), href: "/sponsors" },
+    { name: t("shop", { defaultValue: "Shop" }), href: "https://fight-store-5307.myshopify.com/", target: "_blank" },
   ], [t]);
 
   const unreadCounts = useChatStore((state) => state.unreadCounts);
@@ -298,6 +299,7 @@ export const Header = () => {
               <Link
                 key={item.name}
                 to={item.href}
+                target={item.href.startsWith("http") ? "_blank" : "_self"}
                 className="text-sm font-medium transition-colors hover:text-primary"
               >
                 {item.name}
@@ -305,7 +307,7 @@ export const Header = () => {
             ))}
           </nav>
           <div className="flex items-center gap-2">
-            <LanguageSwitcher />
+            <LanguageSwitcher showLabel={false} />
             {token ? (
               <>
                 <MessagesPopover />
@@ -354,7 +356,7 @@ export const Header = () => {
             </nav>
             <hr className="my-6 border-border" />
             <div className="flex flex-col gap-4">
-              <div className="flex justify-end">
+              <div className="flex justify-center">
                 <LanguageSwitcher />
               </div>
               {token ? (
