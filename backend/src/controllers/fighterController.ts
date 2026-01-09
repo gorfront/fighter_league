@@ -206,7 +206,7 @@ export const getFighterById = async (req: Request, res: Response) => {
 
     const result = {
       id: fighter.id.toString(),
-      user_id: fighter.user_id, // 🔥 ADDED THIS
+      // user_id: fighter.user_id,
       name: fighter.name,
       country: fighter.country,
       division: fighter.division,
