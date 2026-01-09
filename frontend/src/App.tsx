@@ -68,7 +68,9 @@ const App = () => {
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          
           <ScrollToTop />
+
           <AppInitializer>
             <Routes>
               {/* --- PUBLIC ROUTES --- */}
