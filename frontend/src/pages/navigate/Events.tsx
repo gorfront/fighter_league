@@ -85,22 +85,11 @@ const Events = () => {
     }
   }, []);
 
-  // useEffect(() => {
-  //   fetchEvents();
-  //   const interval = setInterval(() => {
-  //     fetchEvents(true);
-  //   }, 30000);
-  //   return () => clearInterval(interval);
-  // }, [fetchEvents]);
-
   useEffect(() => {
-    // 1. Initial Fetch
     fetchEvents();
 
-    // 2. Define handler
     const handleEventUpdate = () => {
-      console.log("⚡ Socket: Event update received");
-      fetchEvents(true); // Silent refresh
+      fetchEvents(true);
 
       toast({
         title: "Event Started!",
@@ -109,10 +98,8 @@ const Events = () => {
       });
     };
 
-    // 3. Attach Listener
     socket.on("events_updated", handleEventUpdate);
 
-    // 4. Cleanup
     return () => {
       socket.off("events_updated", handleEventUpdate);
     };

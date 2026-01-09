@@ -26,10 +26,7 @@ const FighterProfile = () => {
 
   const [fighter, setFighter] = useState<Fighter | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  console.log(fighter);
-  
+  const [error, setError] = useState<string | null>(null);  
 
   useEffect(() => {
     if (!id) return;
