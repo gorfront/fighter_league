@@ -35,7 +35,7 @@ router.post(
   registerFighter
 );
 
-// router.get("/:id", getFighterById);
+router.get("/:id", getFighterById);
 
 router.put("/me", protect, upload.single("image"), updateFighterProfile);
 
