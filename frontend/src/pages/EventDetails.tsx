@@ -289,7 +289,7 @@ const EventDetails = () => {
                     variant="outline"
                     onClick={() => {
                       navigator.clipboard.writeText(window.location.href);
-                      toast({ title: "Link Copied" });
+                      toast({ title: t("link_copy_title") });
                     }}
                     className="w-full sm:flex-1"
                   >

@@ -30,6 +30,9 @@ import EditEvent from "./pages/edit/EditEvent";
 import CreateEvent from "./pages/CreateEvent";
 import EventDetails from "./pages/EventDetails";
 import FightDetails from "./pages/FightDetails";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
+import ContactUs from "./pages/ContactUs";
 import { connectSocket, disconnectSocket } from "./socket/socket";
 
 const queryClient = new QueryClient();
@@ -83,6 +86,9 @@ const App = () => {
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
               <Route path="/events/:id" element={<EventDetails />} />
+              <Route path="/privacy" element={<PrivacyPolicy />} />
+              <Route path="/terms" element={<TermsOfService />} />
+              <Route path="/contact" element={<ContactUs />} />
 
               <Route element={<ProtectedRoutes />}>
                 {/* Dashboards */}

@@ -61,6 +61,14 @@ export const Footer = () => {
                   {t("sponsors")}
                 </Link>
               </li>
+              <li>
+                <Link
+                  to="/sponsors"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
+                  {t("shop")}
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -69,7 +77,7 @@ export const Footer = () => {
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
-                  to="#"
+                  to="/privacy"
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
                   {t("privacy_policy")}
@@ -77,7 +85,7 @@ export const Footer = () => {
               </li>
               <li>
                 <Link
-                  to="#"
+                  to="/terms"
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
                   {t("terms_of_service")}
@@ -85,7 +93,7 @@ export const Footer = () => {
               </li>
               <li>
                 <Link
-                  to="#"
+                  to="/contact"
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
                   {t("footer_contact_us")}
