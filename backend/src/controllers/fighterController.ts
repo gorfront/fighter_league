@@ -354,7 +354,6 @@
 //   }
 // };
 
-
 import { Request, Response } from "express";
 import Fighter from "../models/Fighter";
 import User from "../models/User";
@@ -549,7 +548,7 @@ export const getFighterById = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   try {
-    // 🔥 FIX 1: Removed `status: "verified"` check so you can view pending fighters too
+    // 🔥 FIX 1: Removed `status: 'verified'` check so pending fighters can be viewed
     const fighter = await Fighter.findOne({
       where: { id }, 
       include: [
@@ -564,7 +563,7 @@ export const getFighterById = async (req: Request, res: Response) => {
 
     const result = {
       id: fighter.id.toString(),
-      user_id: fighter.user_id, // 🔥 FIX 2: Added user_id here
+      user_id: fighter.user_id, // 🔥 FIX 2: Added user_id
       name: fighter.name,
       country: fighter.country,
       division: fighter.division,
@@ -579,7 +578,7 @@ export const getFighterById = async (req: Request, res: Response) => {
       bio: fighter.bio ?? undefined,
       achievements: fighter.achievements || [],
       sponsors: fighter.sponsors || [],
-      status: fighter.status // Added status so frontend can show "Pending" badge if needed
+      status: fighter.status, // Added status so frontend knows if they are pending
     };
 
     res.status(200).json(result);
@@ -614,7 +613,7 @@ export const getMyFighterProfile = async (req: Request, res: Response) => {
 
     const result = {
       id: fighter.id.toString(),
-      user_id: fighter.user_id, // 🔥 FIX 3: Added user_id here too for consistency
+      user_id: fighter.user_id, // 🔥 FIX 3: Added user_id
       name: fighter.name,
       country: fighter.country,
       division: fighter.division,
