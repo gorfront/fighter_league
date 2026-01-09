@@ -206,6 +206,7 @@ export const getFighterById = async (req: Request, res: Response) => {
 
     const result = {
       id: fighter.id.toString(),
+      user_id: fighter.user_id, // 🔥 ADDED THIS
       name: fighter.name,
       country: fighter.country,
       division: fighter.division,
@@ -220,7 +221,6 @@ export const getFighterById = async (req: Request, res: Response) => {
       bio: fighter.bio ?? undefined,
       achievements: fighter.achievements || [],
       sponsors: fighter.sponsors || [],
-      user_id: fighter.user_id
     };
 
     res.status(200).json(result);
