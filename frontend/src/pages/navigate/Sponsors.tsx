@@ -85,11 +85,11 @@ const Sponsors = () => {
   const tierOrder = ["Platinum", "Gold", "Silver", "Bronze", "Partner"];
 
   const tierStyles: Record<string, { color: string; ring: string }> = {
-    Platinum: { color: "text-gray-900", ring: "ring-gray-300" },
-    Gold: { color: "text-yellow-600", ring: "ring-yellow-500" },
-    Silver: { color: "text-gray-500", ring: "ring-gray-400" },
-    Bronze: { color: "text-amber-700", ring: "ring-amber-600" },
-    Partner: { color: "text-blue-600", ring: "ring-blue-500" },
+    Platinum: { color: "text-gray-900 dark:text-gray-100", ring: "ring-gray-300 dark:ring-gray-700" },
+    Gold: { color: "text-yellow-600 dark:text-yellow-400", ring: "ring-yellow-500" },
+    Silver: { color: "text-gray-500 dark:text-gray-400", ring: "ring-gray-400 dark:ring-gray-600" },
+    Bronze: { color: "text-amber-700 dark:text-amber-500", ring: "ring-amber-600" },
+    Partner: { color: "text-blue-600 dark:text-blue-400", ring: "ring-blue-500" },
   };
 
   return (
@@ -219,8 +219,8 @@ const Sponsors = () => {
                                 userType !== "GUEST" &&
                                 sponsor.user_id && (
                                   <Button
-                                    className="w-full gap-2"
-                                    variant="secondary"
+                                    className="w-full bg-gradient-gold hover:opacity-90 transition-opacity"
+                                    // variant="secondary"
                                     onClick={() =>
                                       navigate(
                                         `/dashboard/messages?contactId=${sponsor.user_id}`
@@ -243,7 +243,7 @@ const Sponsors = () => {
               {filteredSponsors.length === 0 && (
                 <div className="text-center py-20 bg-muted/10 rounded-xl border border-dashed">
                   <Search className="h-12 w-12 mx-auto text-muted-foreground/30 mb-3" />
-                  <h3 className="text-xl font-semibold text-gray-700">
+                  <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-300">
                     {t("no_sponsors_found")}
                   </h3>
                   <p className="text-muted-foreground mt-2">

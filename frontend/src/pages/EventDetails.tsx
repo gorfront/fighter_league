@@ -59,13 +59,24 @@ const EventDetails = () => {
 
   const fetchData = useCallback(async () => {
     try {
-      const response = await apiClient.get(`/events/${id}`);
-      setEvent(response.data);
+      // const response = await apiClient.get(`/events/${id}`);
+      // setEvent(response.data);
 
-      if (token) {
-        const eventRes = await apiClient.get(`/events/${id}/status`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+      // if (token) {
+      //   const eventRes = await apiClient.get(`/events/${id}/status`, {
+      //     headers: { Authorization: `Bearer ${token}` },
+      //   });
+      //   setAppStatus(eventRes.data.application_status);
+      // }
+
+      const [eventRes, fightsRes] = await Promise.all([
+        apiClient.get<EventWithStatus>(`/events/${id}`),
+        apiClient.get(`/fights/event/${id}`),
+      ]);
+      setEvent(eventRes.data);
+      setFights(fightsRes.data);
+
+      if (eventRes.data.application_status) {
         setAppStatus(eventRes.data.application_status);
       }
     } catch (err) {
@@ -166,15 +177,15 @@ const EventDetails = () => {
       );
     if (appStatus === "approved")
       return (
-        <div className="w-full bg-green-100 border border-green-200 rounded-lg p-4 mb-4 flex items-start gap-3 shadow-sm">
-          <div className="bg-green-600 p-2 rounded-full text-white mt-1">
+        <div className="w-full bg-green-100 dark:bg-green-900/20 border border-green-200 dark:border-green-900/50 rounded-lg p-4 mb-4 flex items-start gap-3 shadow-sm">
+          <div className="bg-green-500/20 dark:bg-green-600/20 p-2 rounded-full text-green-700 dark:text-green-400 mt-1">
             <PartyPopper className="h-5 w-5" />
           </div>
           <div>
-            <h4 className="font-bold text-green-800 text-lg">
+            <h4 className="font-bold text-green-800 dark:text-green-400 text-lg">
               {t("event_app_approved_title")}
             </h4>
-            <p className="text-sm text-green-700 leading-relaxed">
+            <p className="text-sm text-green-700 dark:text-green-300 leading-relaxed">
               {t("event_app_approved_desc")}
             </p>
           </div>
@@ -182,15 +193,15 @@ const EventDetails = () => {
       );
     if (appStatus === "rejected")
       return (
-        <div className="w-full bg-red-50 border border-red-100 rounded-lg p-4 mb-4 flex items-start gap-3 shadow-sm">
-          <div className="bg-red-200 p-2 rounded-full text-red-600 mt-1">
+        <div className="w-full bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900/50 rounded-lg p-4 mb-4 flex items-start gap-3 shadow-sm">
+          <div className="bg-red-100 dark:bg-red-500/20 p-2 rounded-full text-red-600 dark:text-red-400 mt-1">
             <Info className="h-5 w-5" />
           </div>
           <div>
-            <h4 className="font-bold text-red-800 text-lg">
+            <h4 className="font-bold text-red-500 text-lg">
               {t("event_app_rejected_title")}
             </h4>
-            <p className="text-sm text-red-700 leading-relaxed">
+            <p className="text-sm text-red-400 leading-relaxed">
               {t("event_app_rejected_desc")}
             </p>
           </div>
@@ -254,7 +265,7 @@ const EventDetails = () => {
                   </Badge>
                   <Badge
                     variant="secondary"
-                    className="px-3 py-1 text-sm bg-white/10"
+                    className="px-3 py-1 text-sm bg-muted"
                   >
                     {event.division || t("open_weight")}
                   </Badge>
@@ -572,13 +583,13 @@ const EventDetails = () => {
                 </div>
 
                 {event.status === "completed" && event.finished_time && (
-                  <div className="p-4 bg-green-50 border border-green-100 rounded-lg flex items-center gap-3">
-                    <CheckCircle2 className="h-5 w-5 text-green-600" />
+                  <div className="p-4 bg-green-500/10 dark:bg-green-900/10 border border-green-200 dark:border-green-900/20 rounded-lg flex items-center gap-3">
+                    <CheckCircle2 className="h-5 w-5 text-green-600 dark:text-green-500" />
                     <div>
-                      <span className="text-xs text-green-700 font-bold uppercase tracking-wider">
+                      <span className="text-xs text-green-600 dark:text-green-500 font-bold uppercase tracking-wider">
                         {t("event_concluded_title")}
                       </span>
-                      <p className="text-sm text-green-800">
+                      <p className="text-sm text-green-700 dark:text-green-400">
                         {t("event_finished_at")}{" "}
                         {new Date(event.finished_time).toLocaleString()}
                       </p>
@@ -598,7 +609,7 @@ const EventDetails = () => {
                 </p>
                 <Button
                   variant="secondary"
-                  className="w-full font-bold shadow-sm hover:bg-white text-primary"
+                  className="w-full font-bold shadow-sm hover:bg-muted text-primary"
                 >
                   {t("get_tickets_btn")}
                 </Button>

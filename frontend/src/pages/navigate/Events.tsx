@@ -166,7 +166,9 @@ const Events = () => {
               variant="outline"
               className="text-xs font-medium border-primary/20"
             >
-              {event.division || t("open_weight")}
+              {t(`division_${event.division.toLowerCase().replace(/[^a-z0-9]/g, "_")}`, {
+                defaultValue: event.division,
+              })}
             </Badge>
           </div>
         </div>

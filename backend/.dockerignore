@@ -1,0 +1,7 @@
+node_modules
+dist
+.git
+.env
+yarn-error.log
+logs
+coverage

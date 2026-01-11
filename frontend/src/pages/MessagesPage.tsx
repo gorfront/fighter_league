@@ -140,20 +140,20 @@ const MessagesPage = () => {
   const isMuted = (selectedContact as any)?.isMuted;
 
   return (
-    <div className="flex flex-col h-[100dvh] bg-slate-950 text-slate-100 overflow-hidden">
+    <div className="flex flex-col h-[100dvh] bg-background text-foreground overflow-hidden">
       <Header />
 
       <main className="flex-1 flex flex-col w-full h-full md:container md:mx-auto md:py-6 md:px-4 md:max-w-6xl min-h-0 relative">
-        <div className="flex-1 flex bg-slate-900 md:rounded-2xl md:shadow-xl md:border md:border-slate-800 overflow-hidden relative min-h-0 h-full w-full">
+        <div className="flex-1 flex bg-card md:rounded-2xl md:shadow-xl md:border md:border-border overflow-hidden relative min-h-0 h-full w-full">
           <div
             className={`
-              flex-col h-full bg-slate-900 border-r border-slate-800 w-full md:w-[320px] lg:w-[380px] shrink-0
+              flex-col h-full bg-card border-r border-border w-full md:w-[320px] lg:w-[380px] shrink-0
               ${activeChatUser !== null ? "hidden md:flex" : "flex"} 
             `}
           >
-            <div className="p-3 md:p-4 border-b border-slate-800 space-y-3 shrink-0">
+            <div className="p-3 md:p-4 border-b border-border space-y-3 shrink-0">
               <div className="flex justify-between items-center">
-                <h2 className="text-xl font-bold tracking-tight text-white">
+                <h2 className="text-xl font-bold tracking-tight text-foreground">
                   {t("messages_title")}
                 </h2>
                 <div className="bg-primary/20 p-2 rounded-full">
@@ -167,7 +167,7 @@ const MessagesPage = () => {
                 />
                 <Input
                   placeholder={t("search_placeholder_short")}
-                  className="pl-9 bg-slate-950 border-slate-800 text-slate-200 placeholder:text-slate-500 focus-visible:ring-primary/50 h-9 md:h-10"
+                  className="pl-9 bg-muted/50 border-input text-foreground placeholder:text-muted-foreground focus-visible:ring-primary/50 h-9 md:h-10"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
@@ -176,7 +176,7 @@ const MessagesPage = () => {
 
             <div className="flex-1 overflow-y-auto custom-scroll">
               {contacts.length === 0 ? (
-                <div className="flex flex-col items-center justify-center h-48 text-slate-500 p-6 text-center">
+                <div className="flex flex-col items-center justify-center h-48 text-muted-foreground p-6 text-center">
                   <MessageSquare size={40} className="mb-3 opacity-20" />
                   <p className="text-sm">{t("no_conversations")}</p>
                 </div>
@@ -188,15 +188,15 @@ const MessagesPage = () => {
                       onClick={() => handleContactClick(contact.id)}
                       onContextMenu={(e) => handleContextMenu(e, contact.id)}
                       className={`
-                        relative group flex items-center gap-3 p-3 md:p-4 cursor-pointer transition-all border-b border-slate-800/50 hover:bg-slate-800
+                        relative group flex items-center gap-3 p-3 md:p-4 cursor-pointer transition-all border-b border-border/50 hover:bg-muted/50
                         ${activeChatUser === contact.id
-                          ? "bg-slate-800/80 border-l-4 border-l-primary"
+                          ? "bg-muted/80 border-l-4 border-l-primary"
                           : "border-l-4 border-l-transparent"
                         }
                       `}
                     >
                       <div className="relative shrink-0">
-                        <div className="h-10 w-10 md:h-12 md:w-12 rounded-full bg-slate-800 flex items-center justify-center overflow-hidden border border-slate-700">
+                        <div className="h-10 w-10 md:h-12 md:w-12 rounded-full bg-muted flex items-center justify-center overflow-hidden border border-border">
                           {contact.avatar ? (
                             <img
                               src={contact.avatar}
@@ -204,7 +204,7 @@ const MessagesPage = () => {
                               className="h-full w-full object-cover"
                             />
                           ) : (
-                            <UserCircle2 className="h-6 w-6 md:h-7 md:w-7 text-slate-500" />
+                            <UserCircle2 className="h-6 w-6 md:h-7 md:w-7 text-muted-foreground" />
                           )}
                         </div>
                       </div>
@@ -213,8 +213,8 @@ const MessagesPage = () => {
                         <div className="flex justify-between items-baseline mb-1">
                           <p
                             className={`text-sm font-semibold truncate ${(contact as any).isBlocked
-                                ? "text-slate-500"
-                                : "text-slate-200"
+                              ? "text-muted-foreground"
+                              : "text-foreground"
                               }`}
                           >
                             {contact.name || t("user_default_name", { id: contact.id })}
@@ -226,22 +226,22 @@ const MessagesPage = () => {
                           ) : null}
                         </div>
                         <div className="flex items-center gap-2">
-                          <p className="text-xs text-slate-400 truncate">
-                            <span className="italic text-slate-500">
+                          <p className="text-xs text-muted-foreground truncate">
+                            <span className="italic text-muted-foreground">
                               {contact.user_type?.toLowerCase()}
                             </span>
                           </p>
                           {(contact as any).isMuted && (
                             <VolumeX
                               size={12}
-                              className="text-slate-500 shrink-0"
+                              className="text-muted-foreground shrink-0"
                             />
                           )}
                         </div>
                       </div>
 
                       <button
-                        className="md:hidden p-2 text-slate-500 hover:text-slate-300 -mr-2"
+                        className="md:hidden p-2 text-muted-foreground hover:text-foreground -mr-2"
                         onClick={(e) => {
                           e.stopPropagation();
                           handleContextMenu(e, contact.id);
@@ -258,7 +258,7 @@ const MessagesPage = () => {
 
           <div
             className={`
-              flex-col flex-1 h-full bg-slate-900 relative min-w-0
+              flex-col flex-1 h-full bg-card relative min-w-0
               ${activeChatUser !== null
                 ? "flex fixed inset-0 z-50 md:static md:z-auto"
                 : "hidden md:flex"
@@ -272,14 +272,14 @@ const MessagesPage = () => {
                 onBack={handleBackToContacts}
               />
             ) : (
-              <div className="hidden md:flex flex-col h-full items-center justify-center text-slate-500 bg-slate-950/30 p-8 text-center select-none">
-                <div className="bg-slate-900 p-6 rounded-full shadow-lg border border-slate-800 mb-6">
+              <div className="hidden md:flex flex-col h-full items-center justify-center text-muted-foreground bg-muted/30 p-8 text-center select-none">
+                <div className="bg-muted p-6 rounded-full shadow-lg border border-border mb-6">
                   <MessageSquare size={48} className="text-primary/40" />
                 </div>
-                <h3 className="text-xl font-bold text-slate-300 mb-2">
+                <h3 className="text-xl font-bold text-foreground mb-2">
                   {t("welcome_messages")}
                 </h3>
-                <p className="max-w-xs text-sm text-slate-500">
+                <p className="max-w-xs text-sm text-muted-foreground">
                   {t("select_conversation_prompt")}
                 </p>
               </div>
@@ -291,10 +291,10 @@ const MessagesPage = () => {
           <div
             ref={menuRef}
             style={{ top: contextMenu.y, left: contextMenu.x }}
-            className="fixed z-[60] w-52 bg-slate-900 rounded-lg shadow-2xl border border-slate-700 py-1.5 animate-in fade-in zoom-in-95 duration-100"
+            className="fixed z-[60] w-52 bg-popover rounded-lg shadow-2xl border border-border py-1.5 animate-in fade-in zoom-in-95 duration-100"
           >
-            <div className="px-3 py-1.5 border-b border-slate-800 mb-1">
-              <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+            <div className="px-3 py-1.5 border-b border-border mb-1">
+              <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                 {t("manage_chat_title")}
               </span>
             </div>
@@ -312,7 +312,7 @@ const MessagesPage = () => {
                   isMuted ? t("chat_unmuted") : t("chat_muted")
                 )
               }
-              className="w-full text-left px-4 py-3 text-sm text-slate-300 hover:bg-slate-800 flex items-center gap-3"
+              className="w-full text-left px-4 py-3 text-sm text-foreground hover:bg-muted/50 flex items-center gap-3"
             >
               {isMuted ? <Volume2 size={16} /> : <VolumeX size={16} />}
               {isMuted ? t("chat_unmute") : t("chat_mute")}
@@ -327,12 +327,12 @@ const MessagesPage = () => {
                   t("conversation_removed")
                 )
               }
-              className="w-full text-left px-4 py-3 text-sm text-slate-300 hover:bg-slate-800 flex items-center gap-3"
+              className="w-full text-left px-4 py-3 text-sm text-foreground hover:bg-muted/50 flex items-center gap-3"
             >
               <Trash2 size={16} />
               {t("delete_btn")}
             </button>
-            <div className="my-1 border-t border-slate-800" />
+            <div className="my-1 border-t border-border" />
             <button
               onClick={() =>
                 executeAction(
@@ -348,8 +348,8 @@ const MessagesPage = () => {
                 )
               }
               className={`w-full text-left px-4 py-3 text-sm flex items-center gap-3 ${isBlocked
-                  ? "text-green-500 hover:bg-slate-800"
-                  : "text-red-500 hover:bg-slate-800"
+                ? "text-green-500 hover:bg-muted/50"
+                : "text-red-500 hover:bg-muted/50"
                 }`}
             >
               {isBlocked ? <Unlock size={16} /> : <Ban size={16} />}

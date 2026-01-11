@@ -132,9 +132,9 @@ const SponsorDashboard = () => {
   }
 
   const tierColors = {
-    Platinum: "bg-gray-200 text-black",
+    Platinum: "bg-muted text-foreground",
     Gold: "bg-yellow-500 text-black",
-    Silver: "bg-gray-400 text-black",
+    Silver: "bg-muted/80 text-foreground",
     Bronze: "bg-amber-700 text-white",
     Partner: "bg-blue-600 text-white",
   };
@@ -183,16 +183,16 @@ const SponsorDashboard = () => {
                       : supabaseAnonKey + profileData.logo_url
                   }
                   alt={t("logo_alt", { name: profileData.company_name })}
-                  className="w-full h-auto max-h-48 object-contain border rounded-lg p-2 bg-gray-50"
+                  className="w-full h-auto max-h-48 object-contain border rounded-lg p-2 bg-muted/50"
                 />
               ) : (
-                <div className="h-48 w-full flex items-center justify-center border rounded-lg bg-gray-100 text-muted-foreground">
+                <div className="h-48 w-full flex items-center justify-center border rounded-lg bg-muted text-muted-foreground">
                   {t("no_logo_uploaded")}
                 </div>
               )}
 
               <div className="space-y-1">
-                <h4 className="font-medium text-gray-800">
+                <h4 className="font-medium text-foreground">
                   {t("company_description")}
                 </h4>
                 <p className="text-sm text-muted-foreground">
@@ -208,7 +208,7 @@ const SponsorDashboard = () => {
               </h3>
 
               <div className="flex items-center space-x-3">
-                <User className="w-5 h-5 text-gray-500" />
+                <User className="w-5 h-5 text-muted-foreground" />
                 <div className="text-sm">
                   <p className="font-medium">{t("company_name_label")}</p>
                   <p className="text-muted-foreground">
@@ -218,7 +218,7 @@ const SponsorDashboard = () => {
               </div>
 
               <div className="flex items-center space-x-3">
-                <Mail className="w-5 h-5 text-gray-500" />
+                <Mail className="w-5 h-5 text-muted-foreground" />
                 <div className="text-sm">
                   <p className="font-medium">{t("contact_email_label")}</p>
                   <p className="text-muted-foreground">{profileData?.email}</p>
@@ -227,7 +227,7 @@ const SponsorDashboard = () => {
 
               {profileData?.website && (
                 <div className="flex items-center space-x-3">
-                  <LinkIcon className="w-5 h-5 text-gray-500" />
+                  <LinkIcon className="w-5 h-5 text-muted-foreground" />
                   <div className="text-sm">
                     <p className="font-medium">{t("website_label")}</p>
                     <a

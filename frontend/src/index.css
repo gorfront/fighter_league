@@ -2,57 +2,102 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    --background: 0 0% 7%;
-    --foreground: 0 0% 98%;
+:root {
+  --background: 220 15% 80%;
+  /* Even darker gray background */
+  --foreground: 222 47% 11%;
 
-    --card: 0 0% 10%;
-    --card-foreground: 0 0% 98%;
+  --card: 220deg 4.56% 88.98%;
+  /* Off-white/light gray cards, not pure white */
+  --card-foreground: 222 47% 11%;
 
-    --popover: 0 0% 10%;
-    --popover-foreground: 0 0% 98%;
+  --popover: 220 15% 96%;
+  --popover-foreground: 222 47% 11%;
 
-    --primary: 43 96% 56%;
-    --primary-foreground: 0 0% 7%;
+  --primary: 43 96% 45%;
+  --primary-foreground: 210 40% 98%;
 
-    --secondary: 0 0% 15%;
-    --secondary-foreground: 0 0% 98%;
+  --secondary: 220 15% 88%;
+  /* Darker secondary to match background depth */
+  --secondary-foreground: 222 47% 11%;
 
-    --muted: 0 0% 20%;
-    --muted-foreground: 0 0% 60%;
+  --muted: 220 15% 88%;
+  --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 43 96% 56%;
-    --accent-foreground: 0 0% 7%;
+  --accent: 43 96% 45%;
+  --accent-foreground: 222 47% 11%;
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 98%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
 
-    --border: 0 0% 20%;
-    --input: 0 0% 15%;
-    --ring: 43 96% 56%;
+  --border: 220 15% 70%;
+  /* Stronger border for visibility on darker gray */
+  --input: 220 15% 90%;
+  --ring: 43 96% 45%;
 
-    --radius: 0.5rem;
+  --radius: 0.5rem;
 
-    --gold: 43 96% 56%;
-    --gold-dark: 38 92% 50%;
-    --gold-light: 48 100% 67%;
+  --gold: 43 96% 45%;
+  --gold-dark: 38 92% 40%;
+  --gold-light: 48 100% 50%;
 
-    --gradient-gold: linear-gradient(135deg, hsl(38 92% 50%), hsl(43 96% 56%));
-    --gradient-dark: linear-gradient(180deg, hsl(0 0% 7%), hsl(0 0% 4%));
-    --gradient-stripe: repeating-linear-gradient(
-      45deg,
+  --gradient-gold: linear-gradient(135deg, hsl(38 92% 50%), hsl(43 96% 56%));
+  --gradient-dark: linear-gradient(180deg, hsl(220 15% 80%), hsl(220 15% 75%));
+  --gradient-stripe: repeating-linear-gradient(45deg,
+      hsl(220 15% 80%),
+      hsl(220 15% 80%) 10px,
+      hsl(220 15% 75%) 10px,
+      hsl(220 15% 75%) 20px);
+
+  --shadow-gold: 0 10px 40px -10px hsl(43 96% 56% / 0.3);
+  --shadow-strong: 0 25px 50px -12px hsl(222 47% 11% / 0.1);
+
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark {
+  --background: 0 0% 7%;
+  --foreground: 0 0% 98%;
+
+  --card: 0 0% 10%;
+  --card-foreground: 0 0% 98%;
+
+  --popover: 0 0% 10%;
+  --popover-foreground: 0 0% 98%;
+
+  --primary: 43 96% 56%;
+  --primary-foreground: 0 0% 7%;
+
+  --secondary: 0 0% 15%;
+  --secondary-foreground: 0 0% 98%;
+
+  --muted: 0 0% 20%;
+  --muted-foreground: 0 0% 60%;
+
+  --accent: 43 96% 56%;
+  --accent-foreground: 0 0% 7%;
+
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 98%;
+
+  --border: 0 0% 20%;
+  --input: 0 0% 15%;
+  --ring: 43 96% 56%;
+
+  --gold: 43 96% 56%;
+  --gold-dark: 38 92% 50%;
+  --gold-light: 48 100% 67%;
+
+  --gradient-gold: linear-gradient(135deg, hsl(38 92% 50%), hsl(43 96% 56%));
+  --gradient-dark: linear-gradient(180deg, hsl(0 0% 7%), hsl(0 0% 4%));
+  --gradient-stripe: repeating-linear-gradient(45deg,
       hsl(0 0% 7%),
       hsl(0 0% 7%) 10px,
       hsl(0 0% 10%) 10px,
-      hsl(0 0% 10%) 20px
-    );
+      hsl(0 0% 10%) 20px);
 
-    --shadow-gold: 0 10px 40px -10px hsl(43 96% 56% / 0.5);
-    --shadow-strong: 0 25px 50px -12px hsl(0 0% 0% / 0.8);
-
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
+  --shadow-gold: 0 10px 40px -10px hsl(43 96% 56% / 0.5);
+  --shadow-strong: 0 25px 50px -12px hsl(0 0% 0% / 0.8);
 }
 
 @layer base {

@@ -98,7 +98,7 @@ export const createEvent = async (req: Request, res: Response) => {
 };
 
 export const updateEvent = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const id = req.params.id as string;
 
   try {
     const event = await Event.findByPk(id);
@@ -144,7 +144,7 @@ export const updateEvent = async (req: Request, res: Response) => {
 };
 
 export const endEvent = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const id = req.params.id as string;
   try {
     const event = await Event.findByPk(id);
     if (!event) return res.status(404).json({ message: "Event not found" });
@@ -182,7 +182,7 @@ export const endEvent = async (req: Request, res: Response) => {
 
 export const deleteEvent = async (req: Request, res: Response) => {
   try {
-    const deleted = await Event.destroy({ where: { id: req.params.id } });
+    const deleted = await Event.destroy({ where: { id: req.params.id as string } });
     if (!deleted) return res.status(404).json({ message: "Event not found" });
 
     if (ServerSocket.instance) {
@@ -199,7 +199,7 @@ export const deleteEvent = async (req: Request, res: Response) => {
 };
 
 export const getEventById = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const id = req.params.id as string;
   try {
     await updateEventStatuses();
     const event = await Event.findByPk(id);
@@ -219,7 +219,7 @@ export const getEventById = async (req: Request, res: Response) => {
           where: { event_id: id, user_id: decoded.id },
         });
         if (application) application_status = application.status;
-      } catch (error) {}
+      } catch (error) { }
     }
 
     res.json({ ...event.toJSON(), application_status });
@@ -230,7 +230,7 @@ export const getEventById = async (req: Request, res: Response) => {
 };
 
 export const joinEvent = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const id = req.params.id as string;
   // @ts-ignore
   const userId = req.user.id;
 
@@ -265,7 +265,7 @@ export const getApprovedFightersForEvent = async (
   req: Request,
   res: Response
 ) => {
-  const { id } = req.params;
+  const id = req.params.id as string;
   try {
     const applications = await EventApplication.findAll({
       where: { event_id: id, status: "approved" },
@@ -286,7 +286,7 @@ export const getApprovedFightersForEvent = async (
 };
 
 export const getEventFighters = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const id = req.params.id as string;
   const { division } = req.query;
 
   try {

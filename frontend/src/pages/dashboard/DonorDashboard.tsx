@@ -126,7 +126,7 @@ const DonorDashboard = () => {
 
           <CardContent className="p-8 space-y-8">
             <div className="flex flex-col items-center justify-center space-y-4">
-              <div className="h-40 w-40 rounded-full border-4 border-gray-100 overflow-hidden shadow-sm bg-white flex items-center justify-center">
+              <div className="h-40 w-40 rounded-full border-4 border-border overflow-hidden shadow-sm bg-muted flex items-center justify-center">
                 {profileData?.logo_url ? (
                   <img
                     src={
@@ -138,7 +138,7 @@ const DonorDashboard = () => {
                     className="h-full w-full object-cover"
                   />
                 ) : (
-                  <User className="h-16 w-16 text-gray-300" />
+                  <User className="h-16 w-16 text-muted-foreground" />
                 )}
               </div>
               {!profileData?.logo_url && (
@@ -149,10 +149,10 @@ const DonorDashboard = () => {
             </div>
 
             <div className="grid gap-6 md:grid-cols-1 max-w-lg mx-auto">
-              <div className="flex items-center p-4 bg-gray-50 rounded-lg border">
-                <Mail className="h-5 w-5 text-gray-500 mr-4" />
+              <div className="flex items-center p-4 bg-muted/50 rounded-lg border">
+                <Mail className="h-5 w-5 text-muted-foreground mr-4" />
                 <div className="overflow-hidden">
-                  <p className="text-sm font-medium text-gray-500">
+                  <p className="text-sm font-medium text-muted-foreground">
                     {t("email_address_label")}
                   </p>
                   <p className="text-base font-semibold truncate text-primary">
@@ -161,10 +161,10 @@ const DonorDashboard = () => {
                 </div>
               </div>
 
-              <div className="flex items-center p-4 bg-gray-50 rounded-lg border">
-                <Wallet className="h-5 w-5 text-gray-500 mr-4" />
+              <div className="flex items-center p-4 bg-muted/50 rounded-lg border">
+                <Wallet className="h-5 w-5 text-muted-foreground mr-4" />
                 <div className="overflow-hidden">
-                  <p className="text-sm font-medium text-gray-500">
+                  <p className="text-sm font-medium text-muted-foreground">
                     {t("wallet_address_label")}
                   </p>
                   <p
@@ -178,7 +178,7 @@ const DonorDashboard = () => {
             </div>
           </CardContent>
 
-          <CardFooter className="bg-gray-50 p-4 rounded-b-lg border-t text-center justify-center">
+          <CardFooter className="bg-muted/50 p-4 rounded-b-lg border-t text-center justify-center">
             <p className="text-xs text-muted-foreground">
               {t("thank_you_support")}
             </p>

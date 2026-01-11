@@ -7,7 +7,7 @@ import Event from "../models/Event";
 import { updateFighterRanks } from "../services/rankingService";
 
 export const getFightById = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const id = req.params.id as string;
   try {
     const fight = await Fight.findByPk(id, {
       include: [
@@ -116,7 +116,7 @@ export const createFight = async (req: Request, res: Response) => {
 };
 
 export const updateFight = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const id = req.params.id as string;
   try {
     const fight = await Fight.findByPk(id);
     if (!fight) return res.status(404).json({ message: "Fight not found" });
@@ -137,7 +137,7 @@ export const updateFight = async (req: Request, res: Response) => {
 };
 
 export const deleteFight = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const id = req.params.id as string;
   try {
     const deleted = await Fight.destroy({ where: { id } });
     if (!deleted) return res.status(404).json({ message: "Fight not found" });

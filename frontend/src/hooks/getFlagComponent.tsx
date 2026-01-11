@@ -13,7 +13,7 @@ export const getFlagComponent = (countryName: string) => {
       <img
         src={`https://flagcdn.com/w40/${found.code.toLowerCase()}.png`}
         alt={countryName}
-        className="h-4 w-6 object-cover rounded-sm shadow-sm inline-block"
+        className="h-4 w-6 object-cover rounded-sm shadow-sm border border-gray-200 dark:border-border inline-block"
         title={countryName}
       />
     );

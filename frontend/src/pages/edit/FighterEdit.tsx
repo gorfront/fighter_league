@@ -226,14 +226,14 @@ const FighterEdit = () => {
             </CardHeader>
             <CardContent className="grid gap-6">
               <div className="flex flex-col items-center gap-4 sm:flex-row">
-                <div className="relative h-32 w-32 shrink-0 overflow-hidden rounded-lg border bg-gray-100">
+                <div className="relative h-32 w-32 shrink-0 overflow-hidden rounded-lg border bg-muted">
                   {imagePreview ? (
                     <img
                       src={imagePreview}
                       className="h-full w-full object-cover"
                     />
                   ) : (
-                    <div className="flex h-full items-center justify-center text-gray-400">
+                    <div className="flex h-full items-center justify-center text-muted-foreground">
                       {t("no_image")}
                     </div>
                   )}

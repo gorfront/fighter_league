@@ -137,7 +137,7 @@ const DonorEdit = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50/50">
+    <div className="min-h-screen flex flex-col bg-background">
       <Header />
 
       <main className="flex-1 container max-w-2xl py-10">
@@ -159,7 +159,7 @@ const DonorEdit = () => {
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="flex flex-col items-center gap-6 sm:flex-row">
-                <div className="relative h-28 w-28 shrink-0 overflow-hidden rounded-full border bg-white flex items-center justify-center shadow-sm">
+                <div className="relative h-28 w-28 shrink-0 overflow-hidden rounded-full border bg-muted flex items-center justify-center shadow-sm">
                   {imagePreview ? (
                     <img
                       src={imagePreview}
@@ -167,7 +167,7 @@ const DonorEdit = () => {
                       className="h-full w-full object-cover"
                     />
                   ) : (
-                    <UploadCloud className="h-8 w-8 text-gray-300" />
+                    <UploadCloud className="h-8 w-8 text-muted-foreground" />
                   )}
                 </div>
                 <div className="w-full">

@@ -60,7 +60,7 @@ export const getVerifiedFighters = async (req: Request, res: Response) => {
 };
 
 export const approveFighter = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const id = req.params.id as string;
 
   try {
     const fighter = await Fighter.findOne({ where: { id, status: "pending" } });
@@ -113,7 +113,7 @@ export const getAllDonors = async (req: Request, res: Response) => {
 };
 
 export const rejectFighter = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const id = req.params.id as string;
 
   try {
     const fighter = await Fighter.findByPk(id);
@@ -144,7 +144,7 @@ export const rejectFighter = async (req: Request, res: Response) => {
 };
 
 export const deleteSponsor = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const id = req.params.id as string;
   try {
     const sponsor = await Sponsor.findByPk(id);
     if (!sponsor) {
@@ -174,7 +174,7 @@ export const deleteSponsor = async (req: Request, res: Response) => {
 };
 
 export const deleteDonor = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const id = req.params.id as string;
   try {
     const donor = await Donor.findByPk(id);
     if (!donor) {
@@ -233,7 +233,7 @@ export const getEventApplications = async (req: Request, res: Response) => {
 };
 
 export const updateApplicationStatus = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const id = req.params.id as string;
   const { status } = req.body;
 
   try {

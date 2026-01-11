@@ -465,7 +465,7 @@ export default function NotFoundGame() {
           {!gameActive ? (
             <button
               onClick={resetGame}
-              className="bg-white text-black px-16 py-3 font-black uppercase tracking-tighter hover:bg-emerald-500 hover:text-white transition-all"
+              className="bg-emerald-600 text-white px-16 py-3 font-black uppercase tracking-tighter hover:bg-emerald-500 hover:text-white transition-all"
             >
               Ready (Enter)
             </button>
@@ -486,7 +486,7 @@ export default function NotFoundGame() {
       </div>
       <button
         onClick={() => navigate("/")}
-        className="mt-8 text-zinc-600 hover:text-white transition-colors text-xs font-bold uppercase flex items-center gap-2"
+        className="mt-8 text-zinc-400 hover:text-white transition-colors text-xs font-bold uppercase flex items-center gap-2"
       >
         <Home size={14} /> Exit Arena
       </button>

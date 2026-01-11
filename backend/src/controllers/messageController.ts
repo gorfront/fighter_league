@@ -119,7 +119,7 @@ export const conversetions = async (req: Request, res: Response) => {
 export const getMessagesById = async (req: Request, res: Response) => {
   try {
     const myId = req.user!.id;
-    const targetId = parseInt(req.params.targetId);
+    const targetId = parseInt(req.params.targetId as string);
 
     if (isNaN(targetId)) {
       return res.status(400).json({ message: "Invalid user ID" });

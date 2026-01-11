@@ -15,7 +15,7 @@ const UploadPhoto: React.FC<UploadPhotoProps> = ({
   const { t } = useTranslation();
 
   return (
-    <div className="w-full flex flex-col items-center bg-gray-50 p-6 rounded-xl">
+    <div className="w-full flex flex-col items-center bg-muted/50 p-6 rounded-xl">
       <label
         htmlFor="fileUpload"
         className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-blue-500 transition"

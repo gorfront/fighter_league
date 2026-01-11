@@ -170,7 +170,7 @@ const SponsorEdit = () => {
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="flex flex-col items-center gap-6 sm:flex-row">
-                <div className="relative h-32 w-32 shrink-0 overflow-hidden rounded-lg border bg-white flex items-center justify-center">
+                <div className="relative h-32 w-32 shrink-0 overflow-hidden rounded-lg border bg-muted flex items-center justify-center">
                   {imagePreview ? (
                     <img
                       src={imagePreview}
@@ -178,7 +178,7 @@ const SponsorEdit = () => {
                       className="h-full w-full object-contain p-2"
                     />
                   ) : (
-                    <UploadCloud className="h-10 w-10 text-gray-300" />
+                    <UploadCloud className="h-10 w-10 text-muted-foreground" />
                   )}
                 </div>
                 <div className="w-full">

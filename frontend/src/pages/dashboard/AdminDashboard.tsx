@@ -304,15 +304,15 @@ const AdminDashboard = () => {
   );
 
   const tierColors: Record<string, string> = {
-    Platinum: "bg-gray-200 text-black",
+    Platinum: "bg-muted text-foreground",
     Gold: "bg-yellow-500 text-black",
-    Silver: "bg-gray-400 text-black",
+    Silver: "bg-muted/50 text-foreground",
     Bronze: "bg-amber-700 text-white",
     Partner: "bg-blue-600 text-white",
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50/50">
+    <div className="min-h-screen flex flex-col bg-background">
       <Header />
 
       <main className="flex-1 py-12">
@@ -333,7 +333,7 @@ const AdminDashboard = () => {
             </TabsList>
 
             <TabsContent value="pending">
-              <Card>
+              <Card className="bg-transparent border-0 shadow-none">
                 <CardHeader>
                   <CardTitle>{t("pending_registrations")}</CardTitle>
                 </CardHeader>
@@ -349,10 +349,10 @@ const AdminDashboard = () => {
                       {pending.map((f) => (
                         <div
                           key={f.id}
-                          className="flex items-center justify-between p-4 bg-white border rounded-lg shadow-sm"
+                          className="flex items-center justify-between p-4 bg-card border rounded-lg shadow-sm"
                         >
                           <div>
-                            <p className="font-bold text-primary">{f.name}</p>
+                            <p className="font-bold text-primary text-start">{f.name}</p>
                             <p className="text-sm text-muted-foreground">
                               {f.country} • {f.division} • {f.weight}lbs
                             </p>
@@ -382,7 +382,7 @@ const AdminDashboard = () => {
             </TabsContent>
 
             <TabsContent value="applications">
-              <Card>
+              <Card className="bg-transparent border-0 shadow-none">
                 <CardHeader>
                   <CardTitle>{t("event_fight_requests")}</CardTitle>
                 </CardHeader>
@@ -398,7 +398,7 @@ const AdminDashboard = () => {
                       {applications.map((app) => (
                         <div
                           key={app.id}
-                          className="flex flex-col md:flex-row md:items-center justify-between p-4 bg-white border rounded-lg shadow-sm gap-4"
+                          className="flex flex-col md:flex-row md:items-center justify-between p-4 bg-card border rounded-lg shadow-sm gap-4"
                         >
                           <div className="flex items-start gap-4">
                             <div className="flex flex-col items-center justify-center bg-muted p-2 rounded w-16 text-center">
@@ -439,7 +439,7 @@ const AdminDashboard = () => {
                             <Button
                               size="sm"
                               variant="outline"
-                              className="border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700"
+                              className="border-red-200 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-700 dark:hover:text-red-400"
                               onClick={() =>
                                 handleReviewApplication(app.id, "rejected")
                               }
@@ -465,7 +465,7 @@ const AdminDashboard = () => {
             </TabsContent>
 
             <TabsContent value="fighters">
-              <Card>
+              <Card className="bg-transparent border-0 shadow-none">
                 <CardHeader>
                   <CardTitle>{t("approved_fighters")}</CardTitle>
                 </CardHeader>
@@ -481,10 +481,10 @@ const AdminDashboard = () => {
                       {verified.map((f) => (
                         <div
                           key={f.id}
-                          className="flex items-center justify-between p-4 bg-white border rounded-lg shadow-sm"
+                          className="flex items-center justify-between p-4 bg-card border rounded-lg shadow-sm"
                         >
                           <div>
-                            <p className="font-bold text-primary">{f.name}</p>
+                            <p className="font-bold text-primary text-start">{f.name}</p>
                             <p className="text-sm text-muted-foreground">
                               {f.country} • {f.division}
                             </p>
@@ -506,7 +506,7 @@ const AdminDashboard = () => {
             </TabsContent>
 
             <TabsContent value="sponsors">
-              <Card>
+              <Card className="bg-transparent border-0 shadow-none">
                 <CardHeader>
                   <CardTitle>{t("registered_sponsors")}</CardTitle>
                 </CardHeader>
@@ -522,12 +522,12 @@ const AdminDashboard = () => {
                       {sponsors.map((s) => (
                         <div
                           key={s.id}
-                          className="flex items-center justify-between p-4 bg-white border rounded-lg shadow-sm"
+                          className="flex items-center justify-between p-4 bg-card border rounded-lg shadow-sm"
                         >
                           <div className="flex items-center gap-3">
-                            <Shield className="w-8 h-8 text-blue-500 bg-blue-50 p-1.5 rounded-full" />
+                            <Shield className="w-8 h-8 text-blue-500 bg-blue-50 dark:bg-blue-500/10 p-1.5 rounded-full" />
                             <div>
-                              <p className="font-bold text-primary">
+                              <p className="font-bold text-primary text-start">
                                 {s.company_name}
                               </p>
                               <p className="text-sm text-muted-foreground">
@@ -560,7 +560,7 @@ const AdminDashboard = () => {
             </TabsContent>
 
             <TabsContent value="donors">
-              <Card>
+              <Card className="bg-transparent border-0 shadow-none">
                 <CardHeader>
                   <CardTitle>{t("registered_donors")}</CardTitle>
                 </CardHeader>
@@ -576,15 +576,15 @@ const AdminDashboard = () => {
                       {donors.map((d) => (
                         <div
                           key={d.id}
-                          className="flex items-center justify-between p-4 bg-white border rounded-lg shadow-sm"
+                          className="flex items-center justify-between p-4 bg-card border rounded-lg shadow-sm"
                         >
                           <div className="flex items-center gap-3">
-                            <User className="w-8 h-8 text-green-500 bg-green-50 p-1.5 rounded-full" />
+                            <User className="w-8 h-8 text-green-500 bg-green-50 dark:bg-green-500/10 p-1.5 rounded-full" />
                             <div>
-                              <p className="font-bold text-primary">
+                              <p className="font-bold text-primary text-start">
                                 {d.email}
                               </p>
-                              <p className="text-xs text-muted-foreground font-mono">
+                              <p className="text-xs text-muted-foreground font-mono text-start">
                                 {d.wallet_address || t("no_wallet")}
                               </p>
                             </div>
