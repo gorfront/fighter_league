@@ -59,16 +59,6 @@ const EventDetails = () => {
 
   const fetchData = useCallback(async () => {
     try {
-      // const response = await apiClient.get(`/events/${id}`);
-      // setEvent(response.data);
-
-      // if (token) {
-      //   const eventRes = await apiClient.get(`/events/${id}/status`, {
-      //     headers: { Authorization: `Bearer ${token}` },
-      //   });
-      //   setAppStatus(eventRes.data.application_status);
-      // }
-
       const [eventRes, fightsRes] = await Promise.all([
         apiClient.get<EventWithStatus>(`/events/${id}`),
         apiClient.get(`/fights/event/${id}`),

@@ -192,9 +192,8 @@ export const getFighterById = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   try {
-    // 🔥 FIX 1: Removed `status: 'verified'` check so pending fighters can be viewed
     const fighter = await Fighter.findOne({
-      where: { id }, 
+      where: { id },
       include: [
         {
           model: Division,
@@ -207,7 +206,7 @@ export const getFighterById = async (req: Request, res: Response) => {
 
     const result = {
       id: fighter.id.toString(),
-      user_id: fighter.user_id, // 🔥 FIX 2: Added user_id
+      user_id: fighter.user_id,
       name: fighter.name,
       country: fighter.country,
       division: fighter.division,
@@ -222,7 +221,7 @@ export const getFighterById = async (req: Request, res: Response) => {
       bio: fighter.bio ?? undefined,
       achievements: fighter.achievements || [],
       sponsors: fighter.sponsors || [],
-      status: fighter.status, // Added status so frontend knows if they are pending
+      status: fighter.status,
     };
 
     res.status(200).json(result);
@@ -257,7 +256,7 @@ export const getMyFighterProfile = async (req: Request, res: Response) => {
 
     const result = {
       id: fighter.id.toString(),
-      user_id: fighter.user_id, // 🔥 FIX 3: Added user_id
+      user_id: fighter.user_id,
       name: fighter.name,
       country: fighter.country,
       division: fighter.division,

@@ -7,6 +7,7 @@ import helmet from "helmet";
 import sequelize from "./config/sequelize";
 import { ServerSocket } from "./socket";
 import path from "path";
+import { initAssociations } from "./models";
 
 import adminRoutes from "./routes/adminRoutes";
 import authRoutes from "./routes/authRoutes";
@@ -20,12 +21,14 @@ import messageRoutes from "./routes/messageRoutes";
 import userActions from "./routes/userActions";
 import newsletterRoutes from "./routes/newsletterRoutes";
 import fightRoutes from "./routes/fightRoutes";
+import commentRoutes from "./routes/commentRoutes";
 import { initCronJobs } from "./services/cronService";
 import { updateFighterRanks } from "./services/rankingService";
 
 const application: Express = express();
 const httpServer = http.createServer(application);
 new ServerSocket(httpServer);
+initAssociations();
 initCronJobs();
 
 application.use(
@@ -94,6 +97,7 @@ application.use("/api/v1/dashboard/admin", adminRoutes);
 application.use("/api/v1/users", userActions);
 application.use("/api/v1/newsletter", newsletterRoutes);
 application.use("/api/v1/fights", fightRoutes);
+application.use("/api/v1/comments", commentRoutes);
 
 application.use("/api", (req: Request, res: Response) => {
   res.status(404).json({

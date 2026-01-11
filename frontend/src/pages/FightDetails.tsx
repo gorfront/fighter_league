@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Loader2, ArrowLeft, Swords, Trophy, ExternalLink } from "lucide-react";
 import { getFlagComponent } from "@/hooks/getFlagComponent";
 import { useTranslation } from "react-i18next";
+import CommentsSection from "@/components/CommentsSection";
 
 const StatRow = ({ label, redValue, blueValue }: any) => (
   <div className="grid grid-cols-3 py-3 border-b border-border/50 text-center items-center hover:bg-muted/10 transition-colors">
@@ -243,6 +244,8 @@ const FightDetails = () => {
             </CardContent>
           </Card>
         </div>
+
+        {id && <CommentsSection fightId={id} />}
       </main>
       <Footer />
     </div>

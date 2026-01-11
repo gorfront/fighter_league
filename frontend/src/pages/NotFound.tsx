@@ -25,7 +25,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { Home, Swords, ArrowUp, ArrowDown, Wind } from "lucide-react";
+import { Home, Swords, ArrowUp, ArrowDown, Wind, ArrowLeft, ArrowRight } from "lucide-react";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -380,31 +380,45 @@ export default function NotFoundGame() {
     cpuCooldown.current = 0;
   }, []);
 
-  useEffect(() => {
-    const handleDown = (e: KeyboardEvent) => {
-      keysPressed.current.add(e.code);
-      const isJump = e.code === "ArrowUp" || e.code === "KeyW";
-      const isDuck = e.code === "ArrowDown" || e.code === "KeyS";
+  /* INPUT HANDLERS */
+  const handlePress = useCallback(
+    (code: string) => {
+      keysPressed.current.add(code);
+
+      const isJump = code === "ArrowUp" || code === "KeyW";
+      const isDuck = code === "ArrowDown" || code === "KeyS";
+
       if (isJump && playerY === 0) {
         setPlayerVelY(JUMP_FORCE);
         setPlayerAction("JUMP");
       }
       if (isDuck && playerY === 0) setPlayerAction("SQUAT");
-      if (e.code === "Space") performAttack(true);
-      if (e.code === "Enter" && !gameActive) resetGame();
-    };
-    const handleUp = (e: KeyboardEvent) => {
-      keysPressed.current.delete(e.code);
-      const isDuck = e.code === "ArrowDown" || e.code === "KeyS";
+      if (code === "Space") performAttack(true);
+      if (code === "Enter" && !gameActive) resetGame();
+    },
+    [gameActive, playerY, performAttack, resetGame]
+  );
+
+  const handleRelease = useCallback(
+    (code: string) => {
+      keysPressed.current.delete(code);
+      const isDuck = code === "ArrowDown" || code === "KeyS";
       if (isDuck && playerAction === "SQUAT") setPlayerAction("IDLE");
-    };
+    },
+    [playerAction]
+  );
+
+  useEffect(() => {
+    const handleDown = (e: KeyboardEvent) => handlePress(e.code);
+    const handleUp = (e: KeyboardEvent) => handleRelease(e.code);
+
     window.addEventListener("keydown", handleDown);
     window.addEventListener("keyup", handleUp);
     return () => {
       window.removeEventListener("keydown", handleDown);
       window.removeEventListener("keyup", handleUp);
     };
-  }, [gameActive, playerY, playerAction, performAttack, resetGame]);
+  }, [handlePress, handleRelease]);
 
 
   return (
@@ -484,6 +498,89 @@ export default function NotFoundGame() {
           )}
         </div>
       </div>
+
+      {/* Mobile Controls */}
+      <div className="mt-8 grid grid-cols-2 gap-8 lg:hidden w-full max-w-sm">
+        {/* D-Pad */}
+        <div className="relative h-36 w-36 mx-auto bg-zinc-900/50 rounded-full border border-white/5 p-2">
+          {/* Up */}
+          <button
+            className="absolute top-1 left-1/2 -translate-x-1/2 h-10 w-10 bg-zinc-800 rounded-t-lg flex items-center justify-center active:bg-emerald-600 active:scale-95 transition-all text-zinc-400 active:text-white"
+            onTouchStart={(e) => {
+              e.preventDefault();
+              handlePress("ArrowUp");
+            }}
+            onTouchEnd={(e) => {
+              e.preventDefault();
+              handleRelease("ArrowUp");
+            }}
+          >
+            <ArrowUp size={24} />
+          </button>
+          {/* Down */}
+          <button
+            className="absolute bottom-1 left-1/2 -translate-x-1/2 h-10 w-10 bg-zinc-800 rounded-b-lg flex items-center justify-center active:bg-emerald-600 active:scale-95 transition-all text-zinc-400 active:text-white"
+            onTouchStart={(e) => {
+              e.preventDefault();
+              handlePress("ArrowDown");
+            }}
+            onTouchEnd={(e) => {
+              e.preventDefault();
+              handleRelease("ArrowDown");
+            }}
+          >
+            <ArrowDown size={24} />
+          </button>
+          {/* Left */}
+          <button
+            className="absolute top-1/2 left-1 -translate-y-1/2 h-10 w-10 bg-zinc-800 rounded-l-lg flex items-center justify-center active:bg-emerald-600 active:scale-95 transition-all text-zinc-400 active:text-white"
+            onTouchStart={(e) => {
+              e.preventDefault();
+              handlePress("ArrowLeft");
+            }}
+            onTouchEnd={(e) => {
+              e.preventDefault();
+              handleRelease("ArrowLeft");
+            }}
+          >
+            <ArrowLeft size={24} />
+          </button>
+          {/* Right */}
+          <button
+            className="absolute top-1/2 right-1 -translate-y-1/2 h-10 w-10 bg-zinc-800 rounded-r-lg flex items-center justify-center active:bg-emerald-600 active:scale-95 transition-all text-zinc-400 active:text-white"
+            onTouchStart={(e) => {
+              e.preventDefault();
+              handlePress("ArrowRight");
+            }}
+            onTouchEnd={(e) => {
+              e.preventDefault();
+              handleRelease("ArrowRight");
+            }}
+          >
+            <ArrowRight size={24} />
+          </button>
+          {/* Center decorative */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-8 w-8 bg-black/50 rounded-full" />
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex items-center justify-center gap-4">
+          <button
+            className="h-24 w-24 bg-red-900/30 rounded-full border-4 border-red-800/50 flex items-center justify-center active:bg-red-600 active:scale-95 transition-all text-red-500 active:text-white shadow-[0_0_30px_rgba(220,38,38,0.2)] active:shadow-[0_0_50px_rgba(220,38,38,0.6)]"
+            onTouchStart={(e) => {
+              e.preventDefault();
+              handlePress("Space");
+            }}
+            onTouchEnd={(e) => {
+              e.preventDefault();
+              handleRelease("Space");
+            }}
+          >
+            <Swords size={40} />
+          </button>
+        </div>
+      </div>
+
       <button
         onClick={() => navigate("/")}
         className="mt-8 text-zinc-400 hover:text-white transition-colors text-xs font-bold uppercase flex items-center gap-2"

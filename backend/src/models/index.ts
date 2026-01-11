@@ -3,6 +3,8 @@ import Fighter from "./Fighter";
 import Sponsor from "./Sponsor";
 import Donor from "./Donor";
 import Message from "./Message";
+import Comment from "./Comment";
+import Fight from "./Fight";
 
 export function initAssociations() {
   // --- Fighter ---
@@ -13,9 +15,14 @@ export function initAssociations() {
   User.hasOne(Sponsor, { foreignKey: "user_id" });
   Sponsor.belongsTo(User, { foreignKey: "user_id" });
 
-  // --- Donor ---
   User.hasOne(Donor, { foreignKey: "user_id" });
   Donor.belongsTo(User, { foreignKey: "user_id" });
+
+  Fight.hasMany(Comment, { foreignKey: 'fight_id', as: 'comments' });
+  Comment.belongsTo(Fight, { foreignKey: 'fight_id' });
+
+  User.hasMany(Comment, { foreignKey: 'user_id' });
+  Comment.belongsTo(User, { foreignKey: 'user_id', as: 'author' });
 
   // --- Messages ---
 

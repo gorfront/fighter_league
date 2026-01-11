@@ -71,5 +71,4 @@ export const useTheme = () => {
     return context
 }
 
-// Helper to fix props spreading issue in definition above
 const props = {}

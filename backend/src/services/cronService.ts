@@ -41,7 +41,6 @@ export const initCronJobs = () => {
 
         await event.update({ status: "live" });
 
-        // 🔥 NEW: Broadcast to all connected clients (Guests & Users)
         if (ServerSocket.instance) {
           ServerSocket.instance.io.emit("events_updated", {
             message: "Event started",

@@ -456,5 +456,14 @@
     "contact_us_info_title": "معلومات الاتصال",
     "contact_us_email": "البريد الإلكتروني: support@fighterleague.com",
     "contact_us_address": "العنوان: 123 Fighter St, Las Vegas, NV",
-    "contact_us_success": "شكراً لك! تم إرسال رسالتك."
+    "contact_us_success": "شكراً لك! تم إرسال رسالتك.",
+    "guest_comment_error": "لا يمكن للضيوف التعليق",
+    "comment_posted_success": "تم نشر التعليق!",
+    "comment_post_error": "فشل نشر التعليق",
+    "comments_title": "التعليقات",
+    "login_to_comment": "يرجى تسجيل الدخول لكتابة تعليق.",
+    "guest_comment_restriction": "لا يمكن للضيوف نشر التعليقات.",
+    "write_comment_placeholder": "اكتب تعليقاً...",
+    "post_comment_btn": "نشر التعليق",
+    "no_comments_yet": "لا توجد تعليقات بعد. كن أول من يشارك أفكاره!"
 }
