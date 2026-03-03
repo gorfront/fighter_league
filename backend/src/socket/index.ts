@@ -148,9 +148,12 @@ export class ServerSocket {
             const msgData = newMessage.toJSON ? newMessage.toJSON() : newMessage;
 
             this.io.to(chatRoomName).to(personalRoomName).emit("receive_message", msgData);
-          } catch (error) {
-            console.error("Error saving message:", error);
-            socket.emit("error", { message: "Failed to send message" });
+          } catch (error: any) {
+            console.error("❌ ФАТАЛЬНАЯ ОШИБКА ПРИ СОХРАНЕНИИ СООБЩЕНИЯ:");
+            console.error(error.message || error);
+
+            // Отправляем текст ошибки прямо на фронтенд, чтобы ты увидел alert
+            socket.emit("error", { message: "Ошибка базы данных: " + (error.message || "Неизвестно") });
           }
         }
       );

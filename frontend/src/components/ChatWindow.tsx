@@ -74,10 +74,11 @@ const ChatWindow = ({
       setShowEmojiPicker(false);
       clearAttachment();
     }
+
     return () => {
       leaveChat();
     };
-  }, [targetUserId, joinChat, clearAttachment]);
+  }, [targetUserId]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -119,45 +120,66 @@ const ChatWindow = ({
   const uploadFile = async (file: File): Promise<string | null> => {
     try {
       const fileExt = file.name.split(".").pop();
-      const fileName = `${Date.now()}_${Math.random()
-        .toString(36)
-        .substr(2, 9)}.${fileExt}`;
+      const fileName = `${Date.now()}_${Math.random().toString(36).substr(2, 9)}.${fileExt}`;
       const filePath = `${userId}/${fileName}`;
-      const { error: uploadError } = await supabase.storage
+
+      console.log(`📡 Отправляем в Supabase: bucket="chat-attachments", path="${filePath}"`);
+
+      const { data, error: uploadError } = await supabase.storage
         .from("chat-attachments")
         .upload(filePath, file);
-      if (uploadError) throw uploadError;
-      const { data } = supabase.storage
+
+      if (uploadError) {
+        console.error("🛑 Ошибка Supabase Storage:", uploadError.message, uploadError);
+        throw uploadError;
+      }
+
+      const { data: publicData } = supabase.storage
         .from("chat-attachments")
         .getPublicUrl(filePath);
-      return data.publicUrl;
+
+      console.log("✅ Файл успешно загружен:", publicData.publicUrl);
+      return publicData.publicUrl;
     } catch (error) {
-      console.error("Upload failed:", error);
+      console.error("❌ Полный провал загрузки uploadFile:", error);
       return null;
     }
   };
 
   const handleSend = async () => {
     if ((!inputValue.trim() && !selectedFile) || isUploading) return;
+
     let attachmentUrl = null;
     let attachmentType = null;
-    if (selectedFile) {
-      setIsUploading(true);
-      attachmentUrl = await uploadFile(selectedFile);
-      if (!attachmentUrl) {
-        setIsUploading(false);
-        alert(t("chat_upload_failed"));
-        return;
+
+    try {
+      if (selectedFile) {
+        setIsUploading(true);
+        console.log("⏳ Начинаем загрузку файла..."); // Лог для отладки
+
+        attachmentUrl = await uploadFile(selectedFile);
+
+        if (!attachmentUrl) {
+          // Если вернулся null, значит загрузка сорвалась
+          alert(t("chat_upload_failed", "Ошибка загрузки файла. Проверьте консоль."));
+          return; // finally сам выключит isUploading!
+        }
+
+        if (selectedFile.type.startsWith("image/")) attachmentType = "image";
+        else if (selectedFile.type.startsWith("video/")) attachmentType = "video";
+        else attachmentType = "file";
       }
-      if (selectedFile.type.startsWith("image/")) attachmentType = "image";
-      else if (selectedFile.type.startsWith("video/")) attachmentType = "video";
-      else attachmentType = "file";
+
+      sendMessage(inputValue, attachmentUrl, attachmentType);
+      setInputValue("");
+      setShowEmojiPicker(false);
+      clearAttachment();
+    } catch (error) {
+      console.error("❌ Критическая ошибка при отправке:", error);
+    } finally {
+      // Магия здесь: лоадер выключится В ЛЮБОМ СЛУЧАЕ
       setIsUploading(false);
     }
-    sendMessage(inputValue, attachmentUrl, attachmentType);
-    setInputValue("");
-    setShowEmojiPicker(false);
-    clearAttachment();
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {

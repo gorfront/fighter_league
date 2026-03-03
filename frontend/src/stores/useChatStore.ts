@@ -140,6 +140,13 @@ export const useChatStore = create<ChatState>((set, get) => ({
       }
     });
 
+    socket.on("error", (error: { message: string }) => {
+      console.error("❌ Ошибка от сервера:", error.message);
+      // Если используешь библиотеку тостов (у тебя есть Toaster), 
+      // лучше вывести ошибку через неё. Но для теста сойдет и обычный alert:
+      alert("Ошибка чата: " + error.message);
+    });
+
     set({ socket });
   },
 
