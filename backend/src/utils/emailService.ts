@@ -1,10 +1,12 @@
 import sgMail from "@sendgrid/mail";
 import dotenv from "dotenv";
+import { emailQueue } from "../services/emailQueue";
+import { logger } from "./logger";
 
 dotenv.config();
 
 if (!process.env.SENDGRID_API_KEY) {
-  console.warn("❌ SENDGRID_API_KEY is missing from environment variables.");
+  logger.warn("❌ SENDGRID_API_KEY is missing from environment variables.");
 } else {
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 }
@@ -17,27 +19,26 @@ export const sendWelcomeEmail = async (toEmail: string, eventDetails: any) => {
   const eventDate = rawDate ? new Date(rawDate).toDateString() : "Date TBD";
   const eventLocation = eventDetails?.location || "TBD";
 
-  const msg = {
-    to: toEmail,
-    from: `"Global League" <${FROM_EMAIL}>`,
-    subject: "Welcome to the Fight Club! 🥊",
-    html: `
-      <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto;">
-        <h1 style="color: #d97706;">You're in!</h1>
-        <p>Thanks for subscribing. You'll be the first to know about fight announcements.</p>
-        <hr style="border: 1px solid #eee; margin: 20px 0;" />
-        <h2>📅 Next Event: ${eventName}</h2>
-        <p><strong>Date:</strong> ${eventDate}</p>
-        <p><strong>Location:</strong> ${eventLocation}</p>
-      </div>
-    `,
-  };
+  const html = `
+    <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto;">
+      <h1 style="color: #d97706;">You're in!</h1>
+      <p>Thanks for subscribing. You'll be the first to know about fight announcements.</p>
+      <hr style="border: 1px solid #eee; margin: 20px 0;" />
+      <h2>📅 Next Event: ${eventName}</h2>
+      <p><strong>Date:</strong> ${eventDate}</p>
+      <p><strong>Location:</strong> ${eventLocation}</p>
+    </div>
+  `;
 
   try {
-    await sgMail.send(msg);
-    console.log(`✅ Welcome email sent to ${toEmail}`);
-  } catch (error) {
-    console.error("❌ SendGrid Error (Welcome):", error);
+    await emailQueue.add("send-welcome-email", {
+      to: toEmail,
+      subject: "Welcome to the Fight Club! 🥊",
+      html,
+    });
+    logger.info(`✅ Welcome email enqueued for ${toEmail}`);
+  } catch (error: any) {
+    logger.error(`❌ Queue Error (Welcome): ${error.message}`);
   }
 };
 
@@ -58,35 +59,37 @@ export const sendEventNotification = async (
       ? `🔥 NEW EVENT ANNOUNCED: ${eventName}`
       : `⚠️ UPDATE: Changes to ${eventName}`;
 
-  const msg = {
-    to: subscribers,
-    from: `"Global League" <${FROM_EMAIL}>`,
-    subject: subject,
-    html: `
-        <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto;">
-          <h1 style="color: #d97706;">${heading}</h1>
-          <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; margin: 20px 0;">
-            <h2 style="margin-top: 0;">${eventName}</h2>
-            <p><strong>📅 Date:</strong> ${eventDate}</p>
-            <p><strong>📍 Location:</strong> ${eventLocation}</p>
-          </div>
-           <a href="${
-             process.env.FRONTEND_URL || "http://localhost:8080"
-           }/events/${eventDetails.id}" 
-             style="background-color: #d97706; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
-             View Full Event
-          </a>
-        </div>
-      `,
-  };
+  const html = `
+    <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto;">
+      <h1 style="color: #d97706;">${heading}</h1>
+      <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; margin: 20px 0;">
+        <h2 style="margin-top: 0;">${eventName}</h2>
+        <p><strong>📅 Date:</strong> ${eventDate}</p>
+        <p><strong>📍 Location:</strong> ${eventLocation}</p>
+      </div>
+       <a href="${process.env.FRONTEND_URL || "http://localhost:8080"
+    }/events/${eventDetails.id}" 
+         style="background-color: #d97706; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
+         View Full Event
+      </a>
+    </div>
+  `;
 
   try {
-    await sgMail.sendMultiple(msg);
-    console.log(
-      `✅ Event notification sent to ${subscribers.length} subscribers.`
+    await Promise.all(
+      subscribers.map((subscriber) =>
+        emailQueue.add("send-event-notification", {
+          to: subscriber,
+          subject,
+          html,
+        })
+      )
     );
-  } catch (error) {
-    console.error("❌ SendGrid Error (Notification):", error);
+    logger.info(
+      `✅ Event notification enqueued for ${subscribers.length} subscribers.`
+    );
+  } catch (error: any) {
+    logger.error(`❌ Queue Error (Notification): ${error.message}`);
   }
 };
 
@@ -100,35 +103,35 @@ export const sendApplicationStatusEmail = async (
   const title =
     status === "approved" ? "Application Approved!" : "Application Status";
 
-  const msg = {
-    to: toEmail,
-    from: `"Global League Matchmaker" <${FROM_EMAIL}>`,
-    subject:
-      status === "approved"
-        ? `🎉 Action Required: You are approved for ${eventName}!`
-        : `Update regarding your application for ${eventName}`,
-    html: `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 8px;">
-        <div style="background-color: ${color}; padding: 20px; text-align: center; color: white;">
-          <h1 style="margin: 0;">${title}</h1>
-        </div>
-        <div style="padding: 20px; color: #333;">
-          <p>Hello <strong>${fighterName}</strong>,</p>
-          ${
-            status === "approved"
-              ? `<p>Your application for <strong>${eventName}</strong> is <b>APPROVED</b>. Matchmakers will contact you soon.</p>`
-              : `<p>We regret to inform you that we cannot offer you a spot on this specific event card.</p>`
-          }
-        </div>
+  const subject =
+    status === "approved"
+      ? `🎉 Action Required: You are approved for ${eventName}!`
+      : `Update regarding your application for ${eventName}`;
+
+  const html = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 8px;">
+      <div style="background-color: ${color}; padding: 20px; text-align: center; color: white;">
+        <h1 style="margin: 0;">${title}</h1>
       </div>
-    `,
-  };
+      <div style="padding: 20px; color: #333;">
+        <p>Hello <strong>${fighterName}</strong>,</p>
+        ${status === "approved"
+      ? `<p>Your application for <strong>${eventName}</strong> is <b>APPROVED</b>. Matchmakers will contact you soon.</p>`
+      : `<p>We regret to inform you that we cannot offer you a spot on this specific event card.</p>`
+    }
+      </div>
+    </div>
+  `;
 
   try {
-    await sgMail.send(msg);
-    console.log(`✅ Status email sent to ${toEmail}`);
-  } catch (error) {
-    console.error("❌ SendGrid Error (Status):", error);
+    await emailQueue.add("send-application-status", {
+      to: toEmail,
+      subject,
+      html,
+    });
+    logger.info(`✅ Status email enqueued for ${toEmail}`);
+  } catch (error: any) {
+    logger.error(`❌ Queue Error (Status): ${error.message}`);
   }
 };
 
@@ -142,47 +145,46 @@ export const sendFightMatchEmail = async (
 ) => {
   const subject = `🥊 Fight Confirmation: You vs ${opponentName}`;
 
-  const msg = {
-    to: toEmail,
-    from: `"Global League Matchmaker" <${FROM_EMAIL}>`,
-    subject: subject,
-    html: `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
-      <div style="background-color: #d97706; padding: 20px; text-align: center;">
-        <h1 style="color: white; margin: 0;">Fight Confirmed!</h1>
-      </div>
-      
-      <div style="padding: 20px; color: #333; line-height: 1.6; text-align: center;">
-        <p style="font-size: 18px;">Hello <strong>${fighterName}</strong>,</p>
-        <p>Your bout for <strong>${eventName}</strong> has been officially set.</p>
-        
-        <div style="background-color: #f3f4f6; padding: 20px; margin: 20px 0; border-radius: 8px;">
-          <h2 style="color: #dc2626; margin: 0 0 10px 0;">VS</h2>
-          <p style="font-size: 20px; font-weight: bold; margin: 0;">${opponentName}</p>
-          <p style="color: #6b7280; margin-top: 5px;">(Opponent)</p>
-        </div>
-
-        <div style="text-align: left; background: #fff7ed; padding: 15px; border-radius: 5px; border: 1px solid #ffedd5;">
-          <p style="margin: 5px 0;"><strong>📅 Date:</strong> ${eventDate}</p>
-          <p style="margin: 5px 0;"><strong>📍 Location:</strong> ${location}</p>
-        </div>
-
-        <p>Please contact the matchmaker if you have any questions.</p>
-        <p style="font-weight: bold;">Good luck!</p>
-      </div>
-
-      <div style="background-color: #f9fafb; padding: 15px; text-align: center; font-size: 12px; color: #6b7280;">
-        © ${new Date().getFullYear()} Global League. All rights reserved.
-      </div>
+  const html = `
+  <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
+    <div style="background-color: #d97706; padding: 20px; text-align: center;">
+      <h1 style="color: white; margin: 0;">Fight Confirmed!</h1>
     </div>
-  `,
-  };
+    
+    <div style="padding: 20px; color: #333; line-height: 1.6; text-align: center;">
+      <p style="font-size: 18px;">Hello <strong>${fighterName}</strong>,</p>
+      <p>Your bout for <strong>${eventName}</strong> has been officially set.</p>
+      
+      <div style="background-color: #f3f4f6; padding: 20px; margin: 20px 0; border-radius: 8px;">
+        <h2 style="color: #dc2626; margin: 0 0 10px 0;">VS</h2>
+        <p style="font-size: 20px; font-weight: bold; margin: 0;">${opponentName}</p>
+        <p style="color: #6b7280; margin-top: 5px;">(Opponent)</p>
+      </div>
+
+      <div style="text-align: left; background: #fff7ed; padding: 15px; border-radius: 5px; border: 1px solid #ffedd5;">
+        <p style="margin: 5px 0;"><strong>📅 Date:</strong> ${eventDate}</p>
+        <p style="margin: 5px 0;"><strong>📍 Location:</strong> ${location}</p>
+      </div>
+
+      <p>Please contact the matchmaker if you have any questions.</p>
+      <p style="font-weight: bold;">Good luck!</p>
+    </div>
+
+    <div style="background-color: #f9fafb; padding: 15px; text-align: center; font-size: 12px; color: #6b7280;">
+      © ${new Date().getFullYear()} Global League. All rights reserved.
+    </div>
+  </div>
+`;
 
   try {
-    await sgMail.send(msg);
-    console.log(`✅ Fight match email sent to ${toEmail}`);
-  } catch (error) {
-    console.error("❌ SendGrid Error (Fight Match):", error);
+    await emailQueue.add("send-fight-match-email", {
+      to: toEmail,
+      subject,
+      html,
+    });
+    logger.info(`✅ Fight match email enqueued for ${toEmail}`);
+  } catch (error: any) {
+    logger.error(`❌ Queue Error (Fight Match): ${error.message}`);
   }
 };
 
@@ -201,37 +203,39 @@ export const sendStatusChangeNotification = async (
       ? `🚨 LIVE NOW: ${eventName} has started!`
       : `🏁 Event Completed: ${eventName} results are in!`;
 
-  const msg = {
-    to: subscribers,
-    from: `"Global League" <${FROM_EMAIL}>`,
-    subject: subject,
-    html: `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #eee; border-radius: 10px; overflow: hidden;">
-        <div style="background-color: ${statusColor}; padding: 20px; text-align: center; color: white;">
-          <h1 style="margin: 0;">EVENT IS ${status}</h1>
-        </div>
-        <div style="padding: 20px; text-align: center;">
-          <h2>${eventName}</h2>
-          <p>The status of this event has changed to <strong>${status}</strong>.</p>
-          <div style="margin: 30px 0;">
-            <a href="${
-              process.env.FRONTEND_URL || "http://localhost:8080"
-            }/events/${eventDetails.id}" 
-               style="background-color: #d97706; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">
-               ${status === "LIVE" ? "WATCH LIVE" : "VIEW RESULTS"}
-            </a>
-          </div>
+  const html = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #eee; border-radius: 10px; overflow: hidden;">
+      <div style="background-color: ${statusColor}; padding: 20px; text-align: center; color: white;">
+        <h1 style="margin: 0;">EVENT IS ${status}</h1>
+      </div>
+      <div style="padding: 20px; text-align: center;">
+        <h2>${eventName}</h2>
+        <p>The status of this event has changed to <strong>${status}</strong>.</p>
+        <div style="margin: 30px 0;">
+          <a href="${process.env.FRONTEND_URL || "http://localhost:8080"
+    }/events/${eventDetails.id}" 
+             style="background-color: #d97706; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">
+             ${status === "LIVE" ? "WATCH LIVE" : "VIEW RESULTS"}
+          </a>
         </div>
       </div>
-    `,
-  };
+    </div>
+  `;
 
   try {
-    await sgMail.sendMultiple(msg);
-    console.log(
-      `✅ Status notification sent to ${subscribers.length} subscribers.`
+    await Promise.all(
+      subscribers.map((subscriber) =>
+        emailQueue.add("send-status-change-notification", {
+          to: subscriber,
+          subject,
+          html,
+        })
+      )
     );
-  } catch (error) {
-    console.error("❌ SendGrid Error (Status Change):", error);
+    logger.info(
+      `✅ Status notification enqueued for ${subscribers.length} subscribers.`
+    );
+  } catch (error: any) {
+    logger.error(`❌ Queue Error (Status Change): ${error.message}`);
   }
 };

@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import User from "../models/User";
+import TokenBlacklist from "../models/TokenBlacklist";
 
 declare module "express-serve-static-core" {
   interface Request {
@@ -30,6 +31,11 @@ export const protect = async (
   const token = authHeader.split(" ")[1];
 
   try {
+    const isBlacklisted = await TokenBlacklist.findOne({ where: { token } });
+    if (isBlacklisted) {
+      return res.status(401).json({ message: "Not authorized, token revoked" });
+    }
+
     const decoded = jwt.verify(
       token,
       process.env.JWT_SECRET as string

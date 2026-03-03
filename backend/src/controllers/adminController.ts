@@ -8,261 +8,273 @@ import Message from "../models/Message";
 import EventApplication from "../models/EventApplication";
 import Event from "../models/Event";
 import { sendApplicationStatusEmail } from "../utils/emailService";
+import { asyncHandler, AppError } from "../utils/errorHandling";
 
-export const getPendingFighters = async (req: Request, res: Response) => {
-  try {
-    const fighters = await Fighter.findAll({
-      where: { status: "pending" },
-      order: [["id", "ASC"]],
-      attributes: [
-        "id",
-        "name",
-        "country",
-        "division",
-        "weight",
-        "gender",
-        "wins",
-        "losses",
-        "draws",
-      ],
-    });
+export const getPendingFighters = asyncHandler(async (req: Request, res: Response) => {
+  const page = parseInt(req.query.page as string) || 1;
+  const limit = parseInt(req.query.limit as string) || 10;
+  const offset = (page - 1) * limit;
 
-    res.status(200).json(fighters);
-  } catch (error) {
-    console.error("getPendingFighters Sequelize error:", error);
-    res.status(500).json({ message: "Server Error" });
-  }
-};
+  const { count, rows } = await Fighter.findAndCountAll({
+    where: { status: "pending" },
+    order: [["id", "ASC"]],
+    limit,
+    offset,
+    attributes: [
+      "id",
+      "name",
+      "country",
+      "division",
+      "weight",
+      "gender",
+      "wins",
+      "losses",
+      "draws",
+    ],
+  });
 
-export const getVerifiedFighters = async (req: Request, res: Response) => {
-  try {
-    const fighters = await Fighter.findAll({
-      where: { status: "verified" },
-      order: [["name", "ASC"]],
-      attributes: [
-        "id",
-        "name",
-        "country",
-        "division",
-        "weight",
-        "gender",
-        "wins",
-        "losses",
-        "draws",
-      ],
-    });
+  res.status(200).json({
+    data: rows,
+    total: count,
+    page,
+    limit,
+    totalPages: Math.ceil(count / limit),
+  });
+});
 
-    res.status(200).json(fighters);
-  } catch (error) {
-    console.error("getVerifiedFighters Sequelize error:", error);
-    res.status(500).json({ message: "Server Error" });
-  }
-};
+export const getVerifiedFighters = asyncHandler(async (req: Request, res: Response) => {
+  const page = parseInt(req.query.page as string) || 1;
+  const limit = parseInt(req.query.limit as string) || 10;
+  const offset = (page - 1) * limit;
 
-export const approveFighter = async (req: Request, res: Response) => {
+  const { count, rows } = await Fighter.findAndCountAll({
+    where: { status: "verified" },
+    order: [["name", "ASC"]],
+    limit,
+    offset,
+    attributes: [
+      "id",
+      "name",
+      "country",
+      "division",
+      "weight",
+      "gender",
+      "wins",
+      "losses",
+      "draws",
+    ],
+  });
+
+  res.status(200).json({
+    data: rows,
+    total: count,
+    page,
+    limit,
+    totalPages: Math.ceil(count / limit),
+  });
+});
+
+export const approveFighter = asyncHandler(async (req: Request, res: Response) => {
   const id = req.params.id as string;
 
-  try {
-    const fighter = await Fighter.findOne({ where: { id, status: "pending" } });
-    if (!fighter) {
-      return res
-        .status(404)
-        .json({ message: "Fighter not found or was not pending." });
+  const fighter = await Fighter.findOne({ where: { id, status: "pending" } });
+  if (!fighter) {
+    throw new AppError("Fighter not found or was not pending.", 404);
+  }
+
+  await fighter.update({ status: "verified" });
+
+  if (fighter.user_id) {
+    const user = await User.findByPk(fighter.user_id);
+    if (user) {
+      await user.update({ user_type: "FIGHTER" });
     }
-
-    await fighter.update({ status: "verified" });
-
-    if (fighter.user_id) {
-      const user = await User.findByPk(fighter.user_id);
-      if (user) {
-        await user.update({ user_type: "FIGHTER" });
-      }
-    }
-
-    res.status(200).json({ message: `Fighter ${id} approved.` });
-  } catch (error) {
-    console.error("approveFighter Sequelize error:", error);
-    res.status(500).json({ message: "Server Error" });
   }
-};
 
-export const getAllSponsors = async (req: Request, res: Response) => {
-  try {
-    const sponsors = await Sponsor.findAll({
-      order: [["company_name", "ASC"]],
-      attributes: ["id", "company_name", "email", "tier", "user_id"],
-    });
-    res.status(200).json(sponsors);
-  } catch (error) {
-    console.error("getAllSponsors error:", error);
-    res.status(500).json({ message: "Server Error" });
-  }
-};
+  res.status(200).json({ message: `Fighter ${id} approved.` });
+});
 
-export const getAllDonors = async (req: Request, res: Response) => {
-  try {
-    const donors = await Donor.findAll({
-      order: [["email", "ASC"]],
-      attributes: ["id", "email", "wallet_address", "user_id"],
-    });
-    res.status(200).json(donors);
-  } catch (error) {
-    console.error("getAllDonors error:", error);
-    res.status(500).json({ message: "Server Error" });
-  }
-};
+export const getAllSponsors = asyncHandler(async (req: Request, res: Response) => {
+  const page = parseInt(req.query.page as string) || 1;
+  const limit = parseInt(req.query.limit as string) || 10;
+  const offset = (page - 1) * limit;
 
-export const rejectFighter = async (req: Request, res: Response) => {
+  const { count, rows } = await Sponsor.findAndCountAll({
+    order: [["company_name", "ASC"]],
+    limit,
+    offset,
+    attributes: ["id", "company_name", "email", "tier", "user_id"],
+  });
+
+  res.status(200).json({
+    data: rows,
+    total: count,
+    page,
+    limit,
+    totalPages: Math.ceil(count / limit),
+  });
+});
+
+export const getAllDonors = asyncHandler(async (req: Request, res: Response) => {
+  const page = parseInt(req.query.page as string) || 1;
+  const limit = parseInt(req.query.limit as string) || 10;
+  const offset = (page - 1) * limit;
+
+  const { count, rows } = await Donor.findAndCountAll({
+    order: [["email", "ASC"]],
+    limit,
+    offset,
+    attributes: ["id", "email", "wallet_address", "user_id"],
+  });
+
+  res.status(200).json({
+    data: rows,
+    total: count,
+    page,
+    limit,
+    totalPages: Math.ceil(count / limit),
+  });
+});
+
+export const rejectFighter = asyncHandler(async (req: Request, res: Response) => {
   const id = req.params.id as string;
 
-  try {
-    const fighter = await Fighter.findByPk(id);
-    if (!fighter) {
-      return res.status(404).json({ message: "Fighter not found." });
-    }
-
-    const userId = fighter.user_id;
-
-    await fighter.destroy();
-
-    if (userId) {
-      await Message.destroy({
-        where: {
-          [Op.or]: [{ senderId: userId }, { receiverId: userId }],
-        },
-      });
-
-      const user = await User.findByPk(userId);
-      if (user) await user.destroy();
-    }
-
-    res.status(200).json({ message: `Fighter ${id} deleted.` });
-  } catch (error) {
-    console.error("rejectFighter Sequelize error:", error);
-    res.status(500).json({ message: "Server Error" });
+  const fighter = await Fighter.findByPk(id);
+  if (!fighter) {
+    throw new AppError("Fighter not found.", 404);
   }
-};
 
-export const deleteSponsor = async (req: Request, res: Response) => {
-  const id = req.params.id as string;
-  try {
-    const sponsor = await Sponsor.findByPk(id);
-    if (!sponsor) {
-      return res.status(404).json({ message: "Sponsor not found." });
-    }
+  const userId = fighter.user_id;
 
-    const userId = sponsor.user_id;
+  await fighter.destroy();
 
-    await sponsor.destroy();
-
-    if (userId) {
-      await Message.destroy({
-        where: {
-          [Op.or]: [{ senderId: userId }, { receiverId: userId }],
-        },
-      });
-
-      const user = await User.findByPk(userId);
-      if (user) await user.destroy();
-    }
-
-    res.status(200).json({ message: "Sponsor deleted successfully." });
-  } catch (error) {
-    console.error("deleteSponsor error:", error);
-    res.status(500).json({ message: "Server Error" });
-  }
-};
-
-export const deleteDonor = async (req: Request, res: Response) => {
-  const id = req.params.id as string;
-  try {
-    const donor = await Donor.findByPk(id);
-    if (!donor) {
-      return res.status(404).json({ message: "Donor not found." });
-    }
-
-    const userId = donor.user_id;
-
-    await donor.destroy();
-
-    if (userId) {
-      await Message.destroy({
-        where: {
-          [Op.or]: [{ senderId: userId }, { receiverId: userId }],
-        },
-      });
-
-      const user = await User.findByPk(userId);
-      if (user) await user.destroy();
-    }
-
-    res.status(200).json({ message: "Donor deleted successfully." });
-  } catch (error) {
-    console.error("deleteDonor error:", error);
-    res.status(500).json({ message: "Server Error" });
-  }
-};
-
-export const getEventApplications = async (req: Request, res: Response) => {
-  try {
-    const apps = await EventApplication.findAll({
-      where: { status: "pending" },
-      include: [
-        {
-          model: Event,
-          attributes: ["title", "event_date"],
-        },
-        {
-          model: User,
-          attributes: ["id", "email"],
-          include: [
-            {
-              model: Fighter,
-              attributes: ["name", "wins", "losses", "draws", "country"],
-            },
-          ],
-        },
-      ],
-      order: [["createdAt", "ASC"]],
+  if (userId) {
+    await Message.destroy({
+      where: {
+        [Op.or]: [{ senderId: userId }, { receiverId: userId }],
+      },
     });
-    res.json(apps);
-  } catch (error) {
-    console.error("getEventApplications error:", error);
-    res.status(500).json({ message: "Server Error" });
-  }
-};
 
-export const updateApplicationStatus = async (req: Request, res: Response) => {
+    const user = await User.findByPk(userId);
+    if (user) await user.destroy();
+  }
+
+  res.status(200).json({ message: `Fighter ${id} deleted.` });
+});
+
+export const deleteSponsor = asyncHandler(async (req: Request, res: Response) => {
+  const id = req.params.id as string;
+  const sponsor = await Sponsor.findByPk(id);
+  if (!sponsor) {
+    throw new AppError("Sponsor not found.", 404);
+  }
+
+  const userId = sponsor.user_id;
+
+  await sponsor.destroy();
+
+  if (userId) {
+    await Message.destroy({
+      where: {
+        [Op.or]: [{ senderId: userId }, { receiverId: userId }],
+      },
+    });
+
+    const user = await User.findByPk(userId);
+    if (user) await user.destroy();
+  }
+
+  res.status(200).json({ message: "Sponsor deleted successfully." });
+});
+
+export const deleteDonor = asyncHandler(async (req: Request, res: Response) => {
+  const id = req.params.id as string;
+  const donor = await Donor.findByPk(id);
+  if (!donor) {
+    throw new AppError("Donor not found.", 404);
+  }
+
+  const userId = donor.user_id;
+
+  await donor.destroy();
+
+  if (userId) {
+    await Message.destroy({
+      where: {
+        [Op.or]: [{ senderId: userId }, { receiverId: userId }],
+      },
+    });
+
+    const user = await User.findByPk(userId);
+    if (user) await user.destroy();
+  }
+
+  res.status(200).json({ message: "Donor deleted successfully." });
+});
+
+export const getEventApplications = asyncHandler(async (req: Request, res: Response) => {
+  const page = parseInt(req.query.page as string) || 1;
+  const limit = parseInt(req.query.limit as string) || 10;
+  const offset = (page - 1) * limit;
+
+  const { count, rows } = await EventApplication.findAndCountAll({
+    where: { status: "pending" },
+    limit,
+    offset,
+    include: [
+      {
+        model: Event,
+        attributes: ["title", "event_date"],
+      },
+      {
+        model: User,
+        attributes: ["id", "email"],
+        include: [
+          {
+            model: Fighter,
+            attributes: ["name", "wins", "losses", "draws", "country"],
+          },
+        ],
+      },
+    ],
+    order: [["createdAt", "ASC"]],
+  });
+
+  res.json({
+    data: rows,
+    total: count,
+    page,
+    limit,
+    totalPages: Math.ceil(count / limit),
+  });
+});
+
+export const updateApplicationStatus = asyncHandler(async (req: Request, res: Response) => {
   const id = req.params.id as string;
   const { status } = req.body;
 
-  try {
-    const app = await EventApplication.findByPk(id, {
-      include: [
-        {
-          model: User,
-          attributes: ["email"],
-          include: [{ model: Fighter, attributes: ["name"] }],
-        },
-        { model: Event, attributes: ["title"] },
-      ],
-    });
+  const app = await EventApplication.findByPk(id, {
+    include: [
+      {
+        model: User,
+        attributes: ["email"],
+        include: [{ model: Fighter, attributes: ["name"] }],
+      },
+      { model: Event, attributes: ["title"] },
+    ],
+  });
 
-    if (!app) return res.status(404).json({ message: "Application not found" });
+  if (!app) throw new AppError("Application not found", 404);
 
-    await app.update({ status });
+  await app.update({ status });
 
-    const userEmail = (app as any).User?.email;
-    const fighterName = (app as any).User?.Fighter?.name || "Fighter";
-    const eventTitle = (app as any).Event?.title || "the event";
+  const userEmail = (app as any).User?.email;
+  const fighterName = (app as any).User?.Fighter?.name || "Fighter";
+  const eventTitle = (app as any).Event?.title || "the event";
 
-    if (userEmail) {
-      sendApplicationStatusEmail(userEmail, fighterName, eventTitle, status);
-    }
-
-    res.json({ message: `Application marked as ${status} and email sent.` });
-  } catch (error) {
-    console.error("updateApplicationStatus error:", error);
-    res.status(500).json({ message: "Server Error" });
+  if (userEmail) {
+    sendApplicationStatusEmail(userEmail, fighterName, eventTitle, status);
   }
-};
+
+  res.json({ message: `Application marked as ${status} and email sent.` });
+});

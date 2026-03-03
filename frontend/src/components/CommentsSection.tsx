@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useTranslation } from "react-i18next";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { toast } from "sonner";
+import { useToast } from "@/components/ui/use-toast";
 
 interface CommentAuthor {
     id: number;
@@ -33,6 +33,7 @@ interface CommentsSectionProps {
 
 const CommentsSection = ({ fightId }: CommentsSectionProps) => {
     const { t } = useTranslation();
+    const { toast } = useToast();
     const { token, userType, currentUser } = useAuthStore();
     const [comments, setComments] = useState<Comment[]>([]);
     const [loading, setLoading] = useState(true);
@@ -57,7 +58,11 @@ const CommentsSection = ({ fightId }: CommentsSectionProps) => {
         if (!newComment.trim()) return;
 
         if (userType === "GUEST") {
-            toast.error(t("guest_comment_error", "Guest users cannot comment"));
+            toast({
+                title: t("error_title", "Error"),
+                description: t("guest_comment_error", "Guest users cannot comment"),
+                variant: "destructive"
+            });
             return;
         }
 
@@ -69,17 +74,24 @@ const CommentsSection = ({ fightId }: CommentsSectionProps) => {
             });
             setComments([res.data, ...comments]);
             setNewComment("");
-            toast.success(t("comment_posted_success", "Comment posted!"));
+            toast({
+                title: t("success_title", "Success"),
+                description: t("comment_posted_success", "Comment posted!")
+            });
         } catch (err) {
             console.error("Failed to post comment", err);
-            toast.error(t("comment_post_error", "Failed to post comment"));
+            toast({
+                title: t("error_title", "Error"),
+                description: t("comment_post_error", "Failed to post comment"),
+                variant: "destructive"
+            });
         } finally {
             setSubmitting(false);
         }
     };
 
     const getUserAvatar = (avatar: string | null) => {
-        if (!avatar) return undefined;
+        if (!avatar) return "https://api.dicebear.com/7.x/avataaars/svg?seed=fighter";
         if (avatar.startsWith("http")) return avatar;
         const supabaseAnonKey = import.meta.env.VITE_SUPABASE_FIGHTER_IMAGES as string;
         return supabaseAnonKey ? supabaseAnonKey + avatar : avatar;
@@ -108,7 +120,7 @@ const CommentsSection = ({ fightId }: CommentsSectionProps) => {
                         <div className="flex flex-col gap-3 md:flex-row md:gap-4">
                             <div className="hidden md:block">
                                 <Avatar className="h-10 w-10">
-                                    <AvatarImage src={getUserAvatar(currentUser?.avatar || null)} />
+                                    <AvatarImage src={getUserAvatar((currentUser as any)?.avatar || (currentUser as any)?.image || null)} />
                                     <AvatarFallback>{currentUser?.name?.charAt(0) || "U"}</AvatarFallback>
                                 </Avatar>
                             </div>
@@ -146,7 +158,7 @@ const CommentsSection = ({ fightId }: CommentsSectionProps) => {
                         {t("no_comments_yet", "No comments yet. Be the first to share your thoughts!")}
                     </div>
                 ) : (
-                    <ScrollArea className="h-[400px] md:h-[500px] pr-3 md:pr-4">
+                    <ScrollArea className="!h-auto md:h-[500px] pr-3 md:pr-4">
                         <div className="space-y-4 md:space-y-6">
                             {comments.map((comment) => (
                                 <div key={comment.id} className="flex gap-3 md:gap-4 group items-start">

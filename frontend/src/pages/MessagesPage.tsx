@@ -17,13 +17,14 @@ import {
   MoreVertical,
 } from "lucide-react";
 import apiClient from "@/api/apiClient";
-import { toast } from "sonner";
+import { useToast } from "@/components/ui/use-toast";
 import ChatWindow from "@/components/ChatWindow";
 import { Input } from "@/components/ui/input";
 import { useTranslation } from "react-i18next";
 
 const MessagesPage = () => {
   const { t } = useTranslation();
+  const { toast } = useToast();
   const [searchParams, setSearchParams] = useSearchParams();
   const contactIdParam = searchParams.get("contactId");
 
@@ -114,7 +115,10 @@ const MessagesPage = () => {
   ) => {
     try {
       await action();
-      toast.success(successMsg);
+      toast({
+        title: t("success_title", "Success"),
+        description: successMsg
+      });
       fetchContacts();
       if (
         successMsg === t("conversation_removed") &&
@@ -123,7 +127,11 @@ const MessagesPage = () => {
         handleBackToContacts();
       }
     } catch (e) {
-      toast.error(t("action_failed"));
+      toast({
+        title: t("error_title", "Error"),
+        description: t("action_failed", "Action failed"),
+        variant: "destructive"
+      });
     } finally {
       setContextMenu((p) => ({ ...p, visible: false }));
     }

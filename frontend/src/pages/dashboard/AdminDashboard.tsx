@@ -19,6 +19,14 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useAuthStore } from "@/stores/authStore";
 import { Badge } from "@/components/ui/badge";
 
+interface PaginatedResponse<T> {
+  data: T[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
 interface FighterListing {
   id: number;
   name: string;
@@ -86,20 +94,38 @@ const AdminDashboard = () => {
     applications: false,
   });
 
+  const [pages, setPages] = useState({
+    pending: 1,
+    verified: 1,
+    sponsors: 1,
+    donors: 1,
+    applications: 1,
+  });
+
+  const [totalPages, setTotalPages] = useState({
+    pending: 1,
+    verified: 1,
+    sponsors: 1,
+    donors: 1,
+    applications: 1,
+  });
+
   const authHeaders = useMemo(() =>
     token ? { headers: { Authorization: `Bearer ${token}` } } : undefined,
     [token]
   );
 
-  const fetchPendingFighters = useCallback(async () => {
+  const fetchPendingFighters = useCallback(async (pageToFetch = 1) => {
     if (!token) return;
     try {
       setLoading((prev) => ({ ...prev, pending: true }));
-      const res = await apiClient.get<FighterListing[]>(
-        "dashboard/admin/fighters/pending",
+      const res = await apiClient.get<PaginatedResponse<FighterListing>>(
+        `dashboard/admin/fighters/pending?page=${pageToFetch}&limit=10`,
         authHeaders
       );
-      setPending(res.data);
+      setPending(res.data.data);
+      setTotalPages((prev) => ({ ...prev, pending: res.data.totalPages || 1 }));
+      setPages((prev) => ({ ...prev, pending: pageToFetch }));
     } catch (err) {
       console.error(err);
     } finally {
@@ -107,14 +133,16 @@ const AdminDashboard = () => {
     }
   }, [token, authHeaders]);
 
-  const fetchVerifiedFighters = async () => {
+  const fetchVerifiedFighters = async (pageToFetch = 1) => {
     try {
       setLoading((prev) => ({ ...prev, verified: true }));
-      const res = await apiClient.get<FighterListing[]>(
-        "dashboard/admin/fighters/verified",
+      const res = await apiClient.get<PaginatedResponse<FighterListing>>(
+        `dashboard/admin/fighters/verified?page=${pageToFetch}&limit=10`,
         authHeaders
       );
-      setVerified(res.data);
+      setVerified(res.data.data);
+      setTotalPages((prev) => ({ ...prev, verified: res.data.totalPages || 1 }));
+      setPages((prev) => ({ ...prev, verified: pageToFetch }));
       setFetched((prev) => ({ ...prev, verified: true }));
     } catch (err) {
       toast({
@@ -127,14 +155,16 @@ const AdminDashboard = () => {
     }
   };
 
-  const fetchSponsors = async () => {
+  const fetchSponsors = async (pageToFetch = 1) => {
     try {
       setLoading((prev) => ({ ...prev, sponsors: true }));
-      const res = await apiClient.get<SponsorListing[]>(
-        "dashboard/admin/sponsors",
+      const res = await apiClient.get<PaginatedResponse<SponsorListing>>(
+        `dashboard/admin/sponsors?page=${pageToFetch}&limit=10`,
         authHeaders
       );
-      setSponsors(res.data);
+      setSponsors(res.data.data);
+      setTotalPages((prev) => ({ ...prev, sponsors: res.data.totalPages || 1 }));
+      setPages((prev) => ({ ...prev, sponsors: pageToFetch }));
       setFetched((prev) => ({ ...prev, sponsors: true }));
     } catch (err) {
       toast({
@@ -147,14 +177,16 @@ const AdminDashboard = () => {
     }
   };
 
-  const fetchDonors = async () => {
+  const fetchDonors = async (pageToFetch = 1) => {
     try {
       setLoading((prev) => ({ ...prev, donors: true }));
-      const res = await apiClient.get<DonorListing[]>(
-        "dashboard/admin/donors",
+      const res = await apiClient.get<PaginatedResponse<DonorListing>>(
+        `dashboard/admin/donors?page=${pageToFetch}&limit=10`,
         authHeaders
       );
-      setDonors(res.data);
+      setDonors(res.data.data);
+      setTotalPages((prev) => ({ ...prev, donors: res.data.totalPages || 1 }));
+      setPages((prev) => ({ ...prev, donors: pageToFetch }));
       setFetched((prev) => ({ ...prev, donors: true }));
     } catch (err) {
       toast({
@@ -167,14 +199,16 @@ const AdminDashboard = () => {
     }
   };
 
-  const fetchApplications = async () => {
+  const fetchApplications = async (pageToFetch = 1) => {
     try {
       setLoading((prev) => ({ ...prev, applications: true }));
-      const res = await apiClient.get<EventApplication[]>(
-        "dashboard/admin/applications",
+      const res = await apiClient.get<PaginatedResponse<EventApplication>>(
+        `dashboard/admin/applications?page=${pageToFetch}&limit=10`,
         authHeaders
       );
-      setApplications(res.data);
+      setApplications(res.data.data);
+      setTotalPages((prev) => ({ ...prev, applications: res.data.totalPages || 1 }));
+      setPages((prev) => ({ ...prev, applications: pageToFetch }));
       setFetched((prev) => ({ ...prev, applications: true }));
     } catch (err) {
       toast({
@@ -289,14 +323,14 @@ const AdminDashboard = () => {
   };
 
   useEffect(() => {
-    if (token) fetchPendingFighters();
+    if (token) fetchPendingFighters(1);
   }, [token, fetchPendingFighters]);
 
   const onTabChange = (value: string) => {
-    if (value === "fighters" && !fetched.verified) fetchVerifiedFighters();
-    if (value === "sponsors" && !fetched.sponsors) fetchSponsors();
-    if (value === "donors" && !fetched.donors) fetchDonors();
-    if (value === "applications" && !fetched.applications) fetchApplications();
+    if (value === "fighters" && !fetched.verified) fetchVerifiedFighters(1);
+    if (value === "sponsors" && !fetched.sponsors) fetchSponsors(1);
+    if (value === "donors" && !fetched.donors) fetchDonors(1);
+    if (value === "applications" && !fetched.applications) fetchApplications(1);
   };
 
   const EmptyState = ({ message }: { message: string }) => (
@@ -309,6 +343,41 @@ const AdminDashboard = () => {
     Silver: "bg-muted/50 text-foreground",
     Bronze: "bg-amber-700 text-white",
     Partner: "bg-blue-600 text-white",
+  };
+
+  const PaginationControls = ({
+    currentPage,
+    totalPages,
+    onPageChange,
+  }: {
+    currentPage: number;
+    totalPages: number;
+    onPageChange: (p: number) => void;
+  }) => {
+    if (totalPages <= 1) return null;
+    return (
+      <div className="flex justify-center items-center space-x-4 mt-6">
+        <Button
+          variant="outline"
+          size="sm"
+          disabled={currentPage <= 1}
+          onClick={() => onPageChange(currentPage - 1)}
+        >
+          {t("previous", "Prev")}
+        </Button>
+        <span className="text-sm">
+          {t("page", "Page")} {currentPage} {t("of", "of")} {totalPages}
+        </span>
+        <Button
+          variant="outline"
+          size="sm"
+          disabled={currentPage >= totalPages}
+          onClick={() => onPageChange(currentPage + 1)}
+        >
+          {t("next", "Next")}
+        </Button>
+      </div>
+    );
   };
 
   return (
@@ -375,6 +444,11 @@ const AdminDashboard = () => {
                           </div>
                         </div>
                       ))}
+                      <PaginationControls
+                        currentPage={pages.pending}
+                        totalPages={totalPages.pending}
+                        onPageChange={fetchPendingFighters}
+                      />
                     </div>
                   )}
                 </CardContent>
@@ -458,6 +532,11 @@ const AdminDashboard = () => {
                           </div>
                         </div>
                       ))}
+                      <PaginationControls
+                        currentPage={pages.applications}
+                        totalPages={totalPages.applications}
+                        onPageChange={fetchApplications}
+                      />
                     </div>
                   )}
                 </CardContent>
@@ -499,6 +578,11 @@ const AdminDashboard = () => {
                           </Button>
                         </div>
                       ))}
+                      <PaginationControls
+                        currentPage={pages.verified}
+                        totalPages={totalPages.verified}
+                        onPageChange={fetchVerifiedFighters}
+                      />
                     </div>
                   )}
                 </CardContent>
@@ -553,6 +637,11 @@ const AdminDashboard = () => {
                           </div>
                         </div>
                       ))}
+                      <PaginationControls
+                        currentPage={pages.sponsors}
+                        totalPages={totalPages.sponsors}
+                        onPageChange={fetchSponsors}
+                      />
                     </div>
                   )}
                 </CardContent>
@@ -599,6 +688,11 @@ const AdminDashboard = () => {
                           </Button>
                         </div>
                       ))}
+                      <PaginationControls
+                        currentPage={pages.donors}
+                        totalPages={totalPages.donors}
+                        onPageChange={fetchDonors}
+                      />
                     </div>
                   )}
                 </CardContent>

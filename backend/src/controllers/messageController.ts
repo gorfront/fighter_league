@@ -5,147 +5,133 @@ import Message from "../models/Message";
 import User from "../models/User";
 import BlockedUser from "../models/BlockedUser";
 import MutedUser from "../models/MutedUser";
+import { asyncHandler, AppError } from "../utils/errorHandling";
 
-export const markAsRead = async (req: Request, res: Response) => {
-  try {
-    const myId = req.user!.id;
-    const { senderId } = req.body;
+export const markAsRead = asyncHandler(async (req: Request, res: Response) => {
+  const myId = req.user!.id;
+  const { senderId } = req.body;
 
-    if (senderId === undefined || senderId === null) {
-      return res.status(400).json({ message: "senderId is required" });
+  if (senderId === undefined || senderId === null) {
+    throw new AppError("senderId is required", 400);
+  }
+
+  await Message.update(
+    { isRead: true },
+    {
+      where: {
+        senderId: senderId,
+        receiverId: myId,
+        isRead: false,
+      },
     }
+  );
 
-    await Message.update(
-      { isRead: true },
-      {
+  res.json({ success: true });
+});
+
+export const conversetions = asyncHandler(async (req: Request, res: Response) => {
+  const myId = req.user!.id;
+
+  const conversationPartners = await Message.findAll({
+    attributes: [
+      [
+        sequelize.literal(
+          `CASE WHEN "senderId" = ${myId} THEN "receiverId" ELSE "senderId" END`
+        ),
+        "partnerId",
+      ],
+    ],
+    where: {
+      [Op.or]: [
+        { senderId: myId, deletedBySender: { [Op.not]: true } },
+        { receiverId: myId, deletedByReceiver: { [Op.not]: true } },
+      ],
+    },
+    group: ["partnerId"],
+  });
+
+  const partnerIds = conversationPartners.map((p: any) =>
+    p.getDataValue("partnerId")
+  );
+
+  if (partnerIds.length === 0) {
+    return res.json([]);
+  }
+
+  const users = await User.findAll({
+    where: { id: { [Op.in]: partnerIds } },
+    attributes: ["id", "name", "email", "user_type", "country", "avatar"],
+  });
+
+  const usersWithDetails = await Promise.all(
+    users.map(async (user) => {
+      const unreadCount = await Message.count({
         where: {
-          senderId: senderId,
+          senderId: user.id,
           receiverId: myId,
           isRead: false,
         },
-      }
-    );
+      });
 
-    res.json({ success: true });
-  } catch (error) {
-    console.error("Error marking messages as read:", error);
-    res.status(500).json({ message: "Internal server error" });
+      const blockedByMeEntry = await BlockedUser.findOne({
+        where: {
+          blockerId: myId,
+          blockedId: user.id,
+        },
+      });
+
+      const blockedByThemEntry = await BlockedUser.findOne({
+        where: {
+          blockerId: user.id,
+          blockedId: myId,
+        },
+      });
+
+      const mutedEntry = await MutedUser.findOne({
+        where: {
+          userId: myId,
+          mutedUserId: user.id,
+        },
+      });
+
+      return {
+        ...user.get({ plain: true }),
+        unreadCount,
+        isBlocked: !!blockedByMeEntry,
+        amIBlocked: !!blockedByThemEntry,
+        isMuted: !!mutedEntry,
+      };
+    })
+  );
+
+  res.json(usersWithDetails);
+});
+
+export const getMessagesById = asyncHandler(async (req: Request, res: Response) => {
+  const myId = req.user!.id;
+  const targetId = parseInt(req.params.targetId as string);
+
+  if (isNaN(targetId)) {
+    throw new AppError("Invalid user ID", 400);
   }
-};
 
-export const conversetions = async (req: Request, res: Response) => {
-  try {
-    const myId = req.user!.id;
-
-    const conversationPartners = await Message.findAll({
-      attributes: [
-        [
-          sequelize.literal(
-            `CASE WHEN "senderId" = ${myId} THEN "receiverId" ELSE "senderId" END`
-          ),
-          "partnerId",
-        ],
+  const messages = await Message.findAll({
+    where: {
+      [Op.or]: [
+        {
+          senderId: myId,
+          receiverId: targetId,
+          deletedBySender: { [Op.not]: true },
+        },
+        {
+          senderId: targetId,
+          receiverId: myId,
+          deletedByReceiver: { [Op.not]: true },
+        },
       ],
-      where: {
-        [Op.or]: [
-          { senderId: myId, deletedBySender: { [Op.not]: true } },
-          { receiverId: myId, deletedByReceiver: { [Op.not]: true } },
-        ],
-      },
-      group: ["partnerId"],
-    });
+    },
+    order: [["createdAt", "ASC"]],
+  });
 
-    const partnerIds = conversationPartners.map((p: any) =>
-      p.getDataValue("partnerId")
-    );
-
-    if (partnerIds.length === 0) {
-      return res.json([]);
-    }
-
-    const users = await User.findAll({
-      where: { id: { [Op.in]: partnerIds } },
-      attributes: ["id", "name", "email", "user_type", "country", "avatar"],
-    });
-
-    const usersWithDetails = await Promise.all(
-      users.map(async (user) => {
-        const unreadCount = await Message.count({
-          where: {
-            senderId: user.id,
-            receiverId: myId,
-            isRead: false,
-          },
-        });
-
-        const blockedByMeEntry = await BlockedUser.findOne({
-          where: {
-            blockerId: myId,
-            blockedId: user.id,
-          },
-        });
-
-        const blockedByThemEntry = await BlockedUser.findOne({
-          where: {
-            blockerId: user.id,
-            blockedId: myId,
-          },
-        });
-
-        const mutedEntry = await MutedUser.findOne({
-          where: {
-            userId: myId,
-            mutedUserId: user.id,
-          },
-        });
-
-        return {
-          ...user.get({ plain: true }),
-          unreadCount,
-          isBlocked: !!blockedByMeEntry,
-          amIBlocked: !!blockedByThemEntry,
-          isMuted: !!mutedEntry,
-        };
-      })
-    );
-
-    res.json(usersWithDetails);
-  } catch (error) {
-    console.error("Error fetching conversations:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-};
-
-export const getMessagesById = async (req: Request, res: Response) => {
-  try {
-    const myId = req.user!.id;
-    const targetId = parseInt(req.params.targetId as string);
-
-    if (isNaN(targetId)) {
-      return res.status(400).json({ message: "Invalid user ID" });
-    }
-
-    const messages = await Message.findAll({
-      where: {
-        [Op.or]: [
-          {
-            senderId: myId,
-            receiverId: targetId,
-            deletedBySender: { [Op.not]: true },
-          },
-          {
-            senderId: targetId,
-            receiverId: myId,
-            deletedByReceiver: { [Op.not]: true },
-          },
-        ],
-      },
-      order: [["createdAt", "ASC"]],
-    });
-
-    return res.json(messages);
-  } catch (error) {
-    console.error("Error fetching messages:", error);
-    return res.status(500).json({ message: "Internal server error" });
-  }
-};
+  res.json(messages);
+});

@@ -22,7 +22,6 @@ import { createClient } from "@supabase/supabase-js";
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
-const IMAGE_BASE_URL = import.meta.env.VITE_SUPABASE_FIGHTER_IMAGES as string;
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -88,9 +87,14 @@ const FighterEdit = () => {
 
         if (data.image) {
           const isExternal = data.image.startsWith("http");
-          setImagePreview(
-            isExternal ? data.image : IMAGE_BASE_URL + data.image
-          );
+          if (isExternal) {
+            setImagePreview(data.image);
+          } else {
+            const { data: publicUrlData } = supabase.storage
+              .from("fighter-images")
+              .getPublicUrl(data.image);
+            setImagePreview(publicUrlData.publicUrl);
+          }
         }
       } catch (error) {
         console.error("Failed to load profile", error);
@@ -161,7 +165,7 @@ const FighterEdit = () => {
         const fileName = `${Date.now()}.${fileExt}`;
         const filePath = `${fileName}`;
 
-        const { error: uploadError } = await supabase.storage
+        const { data: uploadData, error: uploadError } = await supabase.storage
           .from("fighter-images")
           .upload(filePath, file);
 
@@ -169,7 +173,11 @@ const FighterEdit = () => {
           throw new Error("Image upload failed: " + uploadError.message);
         }
 
-        finalImageName = filePath;
+        const { data: publicUrlData } = supabase.storage
+          .from("fighter-images")
+          .getPublicUrl(uploadData.path);
+
+        finalImageName = publicUrlData.publicUrl;
       }
 
       const payload = {

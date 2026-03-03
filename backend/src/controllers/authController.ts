@@ -1,7 +1,9 @@
 import { Request, Response } from "express";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import User from "../models/User";
+import TokenBlacklist from "../models/TokenBlacklist";
+import { asyncHandler, AppError } from "../utils/errorHandling";
 
 declare global {
   namespace Express {
@@ -24,92 +26,66 @@ const generateToken = (
   );
 };
 
-export const registerUser = async (req: Request, res: Response) => {
+export const registerUser = asyncHandler(async (req: Request, res: Response) => {
   const { name, email, password } = req.body;
 
-  if (!email || !password || !name) {
-    return res
-      .status(400)
-      .json({ message: "Please provide all required fields" });
+  const existingUser = await User.findOne({ where: { email } });
+
+  if (existingUser) {
+    throw new AppError("User with this email already exists", 409);
   }
 
-  try {
-    const existingUser = await User.findOne({ where: { email } });
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(password, salt);
 
-    if (existingUser) {
-      return res
-        .status(409)
-        .json({ message: "User with this email already exists" });
-    }
+  const newUser = await User.create({
+    name,
+    email,
+    password: hashedPassword,
+    wallet_address: null,
+    nonce: null,
+    country: null,
+    is_military: false,
+  });
 
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+  const token = generateToken(newUser.id, email, newUser.user_type, name);
 
-    const newUser = await User.create({
-      name,
-      email,
-      password: hashedPassword,
-      wallet_address: null,
-      nonce: null,
-      country: null,
-      is_military: false,
-    });
+  res.status(201).json({
+    message: "User registered successfully",
+    token,
+  });
+});
 
-    const token = generateToken(newUser.id, email, name);
-
-    res.status(201).json({
-      message: "User registered successfully",
-      token,
-    });
-  } catch (error) {
-    console.error("Registration failed:", error);
-    res.status(500).json({ message: "Server Error" });
-  }
-};
-
-export const loginUser = async (req: Request, res: Response) => {
+export const loginUser = asyncHandler(async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
-  if (!email || !password) {
-    return res
-      .status(400)
-      .json({ message: "Please provide email and password" });
+  const user = await User.findOne({ where: { email } });
+
+  if (!user) {
+    throw new AppError("Invalid credentials", 401);
   }
 
-  try {
-    const user = await User.findOne({ where: { email } });
+  const isMatch = await bcrypt.compare(password, user.password);
 
-    if (!user) {
-      return res.status(401).json({ message: "Invalid credentials" });
-    }
+  if (!isMatch) {
+    throw new AppError("Invalid credentials. No match users", 401);
+  }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+  const token = generateToken(user.id, user.email, user.user_type, user.name);
 
-    if (!isMatch) {
-      return res
-        .status(401)
-        .json({ message: "Invalid credentials. No match users" });
-    }
-
-    const token = generateToken(user.id, user.email, user.user_type, user.name);
-
-    res.status(200).json({
-      message: "Authentication successful",
-      token,
+  res.status(200).json({
+    message: "Authentication successful",
+    token,
+    user_type: user.user_type,
+    user: {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      wallet_address: user.wallet_address,
       user_type: user.user_type,
-      user: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        wallet_address: user.wallet_address,
-        user_type: user.user_type,
-      },
-    });
-  } catch (error) {
-    console.error("Login failed:", error);
-    res.status(500).json({ message: "Server Error" });
-  }
-};
+    },
+  });
+});
 
 export const connectWallet = async (req: Request, res: Response) => {
   res.status(501).json({ message: "Not implemented yet" });
@@ -119,9 +95,32 @@ export const verifySignature = async (req: Request, res: Response) => {
   res.status(501).json({ message: "Not implemented yet" });
 };
 
-export const getCurrentUser = async (req: Request, res: Response) => {
+export const getCurrentUser = asyncHandler(async (req: Request, res: Response) => {
   if (!req.user) {
-    return res.status(401).json({ message: "Not authorized" });
+    throw new AppError("Not authorized", 401);
   }
   res.status(200).json(req.user);
-};
+});
+
+export const logoutUser = asyncHandler(async (req: Request, res: Response) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    throw new AppError("No token provided", 400);
+  }
+
+  const token = authHeader.split(" ")[1];
+
+  const decoded = jwt.decode(token) as JwtPayload;
+  if (!decoded || !decoded.exp) {
+    throw new AppError("Invalid token structure", 400);
+  }
+
+  const expiresAt = new Date(decoded.exp * 1000);
+
+  const isBlacklisted = await TokenBlacklist.findOne({ where: { token } });
+  if (!isBlacklisted) {
+    await TokenBlacklist.create({ token, expires_at: expiresAt });
+  }
+
+  res.status(200).json({ message: "Logged out successfully" });
+});

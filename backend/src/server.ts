@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config();
+import { logger } from "./utils/logger";
 import http from "http";
 import express, { Express, Request, Response, NextFunction } from "express";
 import cors from "cors";
@@ -12,6 +13,7 @@ import { initAssociations } from "./models";
 import adminRoutes from "./routes/adminRoutes";
 import authRoutes from "./routes/authRoutes";
 import divisionRoutes from "./routes/divisionRoutes";
+import { AppError } from "./utils/errorHandling";
 import donorRoutes from "./routes/donorRoutes";
 import eventRoutes from "./routes/eventRoutes";
 import fighterRoutes from "./routes/fighterRoutes";
@@ -24,6 +26,7 @@ import fightRoutes from "./routes/fightRoutes";
 import commentRoutes from "./routes/commentRoutes";
 import { initCronJobs } from "./services/cronService";
 import { updateFighterRanks } from "./services/rankingService";
+import "./services/emailQueue"; // Initialize email worker
 
 const application: Express = express();
 const httpServer = http.createServer(application);
@@ -59,11 +62,11 @@ application.use(express.urlencoded({ extended: true }));
 application.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 application.use((req: Request, res: Response, next: NextFunction) => {
-  console.info(
+  logger.info(
     `METHOD: [${req.method}] - URL: [${req.url}] - IP: [${req.socket.remoteAddress}]`
   );
   res.on("finish", () => {
-    console.info(
+    logger.info(
       `METHOD: [${req.method}] - URL: [${req.url}] - STATUS: [${res.statusCode}] - IP: [${req.socket.remoteAddress}]`
     );
   });
@@ -80,7 +83,6 @@ application.get("/status", (_, res) => {
   return res.status(200).json({
     server: "running",
     online_users: users.length,
-    users_ids: users,
   });
 });
 
@@ -105,12 +107,25 @@ application.use("/api", (req: Request, res: Response) => {
   });
 });
 
+// Global Error Handling Middleware
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 application.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  console.error("Internal error:", err);
-  res
-    .status(500)
-    .json({ message: "Internal server error", error: err.message });
+  logger.error(`Error caught by global handler: ${err.message}`, { error: err });
+
+  // If it's a known operational error, send its specific status and message
+  if (err instanceof AppError) {
+    return res.status(err.statusCode).json({
+      status: "error",
+      message: err.message,
+    });
+  }
+
+  // Fallback for unexpected errors
+  res.status(500).json({
+    status: "error",
+    message: "Internal server error",
+    error: process.env.NODE_ENV === 'development' ? err.message : undefined
+  });
 });
 
 const PORT = process.env.PORT || 3000;
@@ -118,7 +133,7 @@ const PORT = process.env.PORT || 3000;
 sequelize
   .authenticate()
   .then(async () => {
-    console.log("✅ Database connected successfully.");
+    logger.info("✅ Database connected successfully.");
     try {
       await sequelize.query(
         "SELECT setval('events_id_seq', (SELECT MAX(id) FROM events))"
@@ -131,27 +146,26 @@ sequelize
       await sequelize.query(
         'ALTER TABLE "users" ADD COLUMN IF NOT EXISTS "is_military" BOOLEAN DEFAULT false;'
       );
-    } catch (seqErr) {
-      console.warn(
-        "⚠️ Could not sync sequence (This is normal if tables are empty):",
-        seqErr
+    } catch (seqErr: any) {
+      logger.warn(
+        `⚠️ Could not sync sequence (This is normal if tables are empty): ${seqErr.message}`
       );
     }
     return sequelize.sync({ alter: false });
   })
   .then(async () => {
     httpServer.listen(PORT, () => {
-      console.info(`🚀 Server + Socket running on port ${PORT}`);
+      logger.info(`🚀 Server + Socket running on port ${PORT}`);
     });
-    console.log("Startup: Recalculating all ranks...");
+    logger.info("Startup: Recalculating all ranks...");
     await updateFighterRanks();
   })
-  .catch((err) => {
-    console.error("❌ Database connection failed:", err);
+  .catch((err: any) => {
+    logger.error(`❌ Database connection failed: ${err.message}`);
   });
 
 process.on("SIGINT", async () => {
-  console.log("Shutting down...");
+  logger.info("Shutting down...");
   httpServer.close();
   await sequelize.close();
   process.exit(0);

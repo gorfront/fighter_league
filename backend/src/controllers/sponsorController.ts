@@ -4,6 +4,7 @@ import User from "../models/User";
 import Sponsor from "../models/Sponsor";
 import sequelize from "../config/sequelize";
 import jwt from "jsonwebtoken";
+import { asyncHandler, AppError } from "../utils/errorHandling";
 
 interface SponsorRegistrationPayload {
   email: string;
@@ -14,7 +15,7 @@ interface SponsorRegistrationPayload {
   walletAddress?: string;
 }
 
-export const registerSponsor = async (
+export const registerSponsor = asyncHandler(async (
   req: Request<{}, {}, SponsorRegistrationPayload>,
   res: Response
 ) => {
@@ -22,14 +23,11 @@ export const registerSponsor = async (
     req.body;
 
   if (!email || !companyName || !logoUrl) {
-    return res.status(400).json({
-      message:
-        "Missing required fields: user email, company name, and logo URL.",
-    });
+    throw new AppError("Missing required fields: user email, company name, and logo URL.", 400);
   }
 
   // if (walletAddress && !/^0x[a-fA-F0-9]{40}$/.test(walletAddress)) {
-  //   return res.status(400).json({ message: "Invalid wallet address format." });
+  //   throw new AppError("Invalid wallet address format.", 400);
   // }
 
   const sponsorTier = tier || "Partner";
@@ -41,7 +39,7 @@ export const registerSponsor = async (
     const user = await User.findOne({ where: { email }, transaction });
     if (!user) {
       await transaction.rollback();
-      return res.status(404).json({ message: "User not found." });
+      throw new AppError("User not found.", 404);
     }
 
     if (walletAddress) {
@@ -52,9 +50,7 @@ export const registerSponsor = async (
 
       if (existingWallet && existingWallet.id !== user.id) {
         await transaction.rollback();
-        return res.status(409).json({
-          message: "Wallet address already in use by another user.",
-        });
+        throw new AppError("Wallet address already in use by another user.", 409);
       }
     }
 
@@ -64,10 +60,7 @@ export const registerSponsor = async (
     });
     if (existingSponsor) {
       await transaction.rollback();
-      return res.status(409).json({
-        message:
-          "This user is already registered as a sponsor or the contact email is already used.",
-      });
+      throw new AppError("This user is already registered as a sponsor or the contact email is already used.", 409);
     }
 
     await user.update(
@@ -115,96 +108,79 @@ export const registerSponsor = async (
     });
   } catch (error: any) {
     if (transaction) await transaction.rollback();
-    console.error("Sponsor registration failed:", error);
+
+    if (error instanceof AppError) {
+      throw error;
+    }
 
     if (error.name === "SequelizeUniqueConstraintError") {
-      return res.status(409).json({
-        message:
-          "This user is already registered as a sponsor or the contact email is already used.",
-      });
+      throw new AppError("This user is already registered as a sponsor or the contact email is already used.", 409);
     }
 
-    res.status(500).json({
-      message: "An internal server error occurred during registration.",
-    });
+    throw new AppError("An internal server error occurred during registration.", 500);
   }
-};
+});
 
-export const getMySponsorProfile = async (req: Request, res: Response) => {
+export const getMySponsorProfile = asyncHandler(async (req: Request, res: Response) => {
   const userId = req.user?.id;
 
   if (!userId) {
-    return res.status(401).json({ message: "Authentication required." });
+    throw new AppError("Authentication required.", 401);
   }
 
-  try {
-    const sponsor = await Sponsor.findOne({ where: { user_id: userId } });
+  const sponsor = await Sponsor.findOne({ where: { user_id: userId } });
 
-    if (!sponsor) {
-      return res.status(404).json({ message: "Sponsor profile not found." });
-    }
-
-    res.status(200).json(sponsor);
-  } catch (error) {
-    console.error("Error in getMySponsorProfile:", error);
-    res.status(500).json({ message: "Server Error." });
+  if (!sponsor) {
+    throw new AppError("Sponsor profile not found.", 404);
   }
-};
 
-export const getAllSponsors = async (req: Request, res: Response) => {
+  res.status(200).json(sponsor);
+});
+
+export const getAllSponsors = asyncHandler(async (req: Request, res: Response) => {
   const { search } = req.query;
 
-  try {
-    const whereClause: any = {};
+  const whereClause: any = {};
 
-    if (search) {
-      whereClause.company_name = { [Op.iLike]: `%${search}%` };
-    }
-
-    const sponsors = await Sponsor.findAll({
-      where: whereClause,
-      order: [["company_name", "ASC"]],
-      attributes: [
-        "id",
-        "user_id",
-        "company_name",
-        "logo_url",
-        "description",
-        "tier",
-      ],
-    });
-
-    res.status(200).json({ sponsors });
-  } catch (error) {
-    console.error("Error in getAllSponsors:", error);
-    res.status(500).json({ message: "Server error retrieving sponsors." });
+  if (search) {
+    whereClause.company_name = { [Op.iLike]: `%${search}%` };
   }
-};
 
-export const updateSponsorProfile = async (req: Request, res: Response) => {
+  const sponsors = await Sponsor.findAll({
+    where: whereClause,
+    order: [["company_name", "ASC"]],
+    attributes: [
+      "id",
+      "user_id",
+      "company_name",
+      "logo_url",
+      "description",
+      "tier",
+    ],
+  });
+
+  res.status(200).json({ sponsors });
+});
+
+export const updateSponsorProfile = asyncHandler(async (req: Request, res: Response) => {
   const userId = req.user?.id;
 
   if (!userId) {
-    return res.status(401).json({ message: "Unauthorized" });
+    throw new AppError("Unauthorized", 401);
   }
 
-  try {
-    const sponsor = await Sponsor.findOne({ where: { user_id: userId } });
+  const sponsor = await Sponsor.findOne({ where: { user_id: userId } });
 
-    if (!sponsor) {
-      return res.status(404).json({ message: "Sponsor profile not found" });
-    }
-
-    await sponsor.update({
-      company_name: req.body.company_name || sponsor.company_name,
-      email: req.body.email || sponsor.email,
-      description: req.body.description || sponsor.description,
-      logo_url: req.body.logo_url || sponsor.logo_url,
-    });
-
-    res.status(200).json({ message: "Sponsor profile updated", sponsor });
-  } catch (error) {
-    console.error("Error updating sponsor:", error);
-    res.status(500).json({ message: "Server error updating profile" });
+  if (!sponsor) {
+    throw new AppError("Sponsor profile not found", 404);
   }
-};
+
+  await sponsor.update({
+    company_name: req.body.company_name || sponsor.company_name,
+    email: req.body.email || sponsor.email,
+    description: req.body.description || sponsor.description,
+    logo_url: req.body.logo_url || sponsor.logo_url,
+  });
+
+  res.status(200).json({ message: "Sponsor profile updated", sponsor });
+});

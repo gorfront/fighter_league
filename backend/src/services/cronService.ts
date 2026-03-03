@@ -1,3 +1,4 @@
+
 import cron from "node-cron";
 import Event from "../models/Event";
 import Subscriber from "../models/Subscriber";
@@ -5,6 +6,7 @@ import { sendStatusChangeNotification } from "../utils/emailService";
 import { updateFighterRanks } from "./rankingService";
 import moment from "moment-timezone";
 import { ServerSocket } from "../socket";
+import { logger } from "../utils/logger";
 
 export const initCronJobs = () => {
   cron.schedule("* * * * *", async () => {
@@ -28,7 +30,7 @@ export const initCronJobs = () => {
     }
 
     if (eventsToStart.length > 0) {
-      console.log(`[Cron] activating ${eventsToStart.length} events...`);
+      logger.info(`[Cron] activating ${eventsToStart.length} events...`);
 
       const subs = await Subscriber.findAll({
         where: { isActive: true },
@@ -37,7 +39,7 @@ export const initCronJobs = () => {
       const emailList = subs.map((s) => s.email);
 
       for (const event of eventsToStart) {
-        console.log(`🔔 Transitioning event to LIVE: ${event.title}`);
+        logger.info(`🔔 Transitioning event to LIVE: ${event.title}`);
 
         await event.update({ status: "live" });
 
@@ -49,9 +51,11 @@ export const initCronJobs = () => {
         }
 
         if (emailList.length > 0) {
-          sendStatusChangeNotification(emailList, event.toJSON()).catch((err) =>
-            console.error(`Email failed for ${event.title}:`, err)
-          );
+          try {
+            await sendStatusChangeNotification(emailList, event.toJSON());
+          } catch (err: any) {
+            logger.error(`Email failed for ${event.title}: ${err.message}`);
+          }
         }
       }
     }
@@ -61,3 +65,4 @@ export const initCronJobs = () => {
     await updateFighterRanks();
   });
 };
+

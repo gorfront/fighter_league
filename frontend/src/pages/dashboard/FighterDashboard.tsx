@@ -11,8 +11,6 @@ import { Award, BarChart, Edit, MapPin, Weight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuthStore } from "@/stores/authStore";
 
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_FIGHTER_IMAGES as string;
-
 const FighterDashboard = () => {
   const { t } = useTranslation();
   const token = useAuthStore((s) => s.token);
@@ -69,7 +67,7 @@ const FighterDashboard = () => {
 
           <Card className="p-6 text-center w-full max-w-md">
             <img
-              src={`${supabaseAnonKey}${fighter.image}`}
+              src={fighter.image}
               alt={fighter.name}
               className="h-24 w-24 mx-auto rounded-full border-2 border-background shadow-md object-cover mb-4"
             />
@@ -127,7 +125,7 @@ const FighterDashboard = () => {
           <Card className="mb-6 overflow-hidden">
             <div className="relative h-48 w-full bg-gradient-stripe">
               <img
-                src={`${supabaseAnonKey}${fighter.image}`}
+                src={fighter.image}
                 alt={fighter.name}
                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-36 w-36 rounded-full border-4 border-background shadow-lg object-cover"
               />

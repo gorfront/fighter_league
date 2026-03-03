@@ -5,8 +5,8 @@ const URL = import.meta.env.VITE_WS_URL || "http://localhost:3000";
 
 export const socket: Socket = io(URL, {
   autoConnect: false,
-  transports: ["websocket"],
-  reconnection: true, 
+  transports: ["websocket", "polling"],
+  reconnection: true,
   reconnectionAttempts: 10,
   reconnectionDelay: 1000,
 });

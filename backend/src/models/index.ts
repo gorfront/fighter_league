@@ -5,6 +5,7 @@ import Donor from "./Donor";
 import Message from "./Message";
 import Comment from "./Comment";
 import Fight from "./Fight";
+import TokenBlacklist from "./TokenBlacklist";
 
 export function initAssociations() {
   // --- Fighter ---

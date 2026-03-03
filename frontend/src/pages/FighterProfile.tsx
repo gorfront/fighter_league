@@ -110,7 +110,7 @@ const FighterProfile = () => {
               <div className="relative aspect-[3/4] w-full max-w-[320px] lg:max-w-md mx-auto lg:mx-0 overflow-hidden rounded-xl shadow-2xl border-4 border-white dark:border-gray-800">
                 <img
                   src={
-                    fighter.image === "https://i.imgur.com/LpaY82x.png"
+                    fighter.image
                       ? fighter.image
                       : supabaseAnonKey + fighter.image
                   }

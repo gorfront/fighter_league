@@ -37,11 +37,11 @@ export const FighterCard = ({
       <div className="aspect-[3/4] overflow-hidden">
         <img
           src={
-            image === "https://i.imgur.com/LpaY82x.png"
+            image === "https://i.imgur.com/LpaY82x.png" || image?.startsWith("http")
               ? image
               : supabaseAnonKey + image
           }
-          alt={name}
+          alt={name || "Fighter"}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
         />
       </div>

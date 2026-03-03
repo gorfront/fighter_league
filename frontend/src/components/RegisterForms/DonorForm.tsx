@@ -58,12 +58,17 @@ const DonorForm = ({ name, email }: { name: string; email: string }) => {
         const filePath = `${fileName}`;
 
         const { data: uploadData, error: uploadError } = await supabase.storage
-          .from("donor_images")
+          .from("donor-images")
           .upload(filePath, imageFile);
 
         if (uploadError)
           throw new Error(`Upload failed: ${uploadError.message}`);
-        logoUrl = uploadData.path;
+
+        const { data: publicUrlData } = supabase.storage
+          .from("donor-images")
+          .getPublicUrl(uploadData.path);
+
+        logoUrl = publicUrlData.publicUrl;
       }
 
       const registerPayload = {

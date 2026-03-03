@@ -8,6 +8,8 @@ import {
   refreshAllRanks,
 } from "../controllers/fighterController";
 import { protect } from "../middleware/authMiddleware";
+import { validate } from "../middleware/validate";
+import { createFighterSchema } from "../validators/fighterValidators";
 import path from "path";
 import multer from "multer";
 
@@ -31,7 +33,7 @@ router.get("/me", protect, getMyFighterProfile);
 
 router.post(
   "/register",
-  // protect,
+  validate(createFighterSchema),
   registerFighter
 );
 

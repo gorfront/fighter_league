@@ -3,15 +3,16 @@ import { Op, ValidationError } from "sequelize";
 import Subscriber from "../models/Subscriber";
 import Event from "../models/Event";
 import { sendWelcomeEmail } from "../utils/emailService";
+import { asyncHandler, AppError } from "../utils/errorHandling";
 
-export const subscribeToNewsletter = async (req: Request, res: Response) => {
+export const subscribeToNewsletter = asyncHandler(async (req: Request, res: Response) => {
   const { email } = req.body;
 
-  if (!email) return res.status(400).json({ message: "Email is required." });
+  if (!email) throw new AppError("Email is required.", 400);
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
-    return res.status(400).json({ message: "Invalid email format." });
+    throw new AppError("Invalid email format.", 400);
   }
 
   try {
@@ -24,7 +25,7 @@ export const subscribeToNewsletter = async (req: Request, res: Response) => {
           .status(200)
           .json({ message: "Welcome back! Subscription reactivated." });
       }
-      return res.status(409).json({ message: "You are already subscribed." });
+      throw new AppError("You are already subscribed.", 409);
     }
 
     await Subscriber.create({ email });
@@ -50,10 +51,8 @@ export const subscribeToNewsletter = async (req: Request, res: Response) => {
   } catch (error: any) {
     if (error instanceof ValidationError) {
       const messages = error.errors.map((e) => e.message).join(", ");
-      return res.status(400).json({ message: `Validation Error: ${messages}` });
+      throw new AppError(`Validation Error: ${messages}`, 400);
     }
-
-    console.error("Newsletter subscription error:", error);
-    res.status(500).json({ message: "Server error." });
+    throw error;
   }
-};
+});

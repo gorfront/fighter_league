@@ -13,10 +13,8 @@ import { Loader2, Save, ArrowLeft, UploadCloud } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { createClient } from "@supabase/supabase-js";
 
-const SUPABASE_URL = "https://eumlexrcxqgaudtsmavc.supabase.co";
+const SUPABASE_URL = "https://khvuwcwdjuofdcidfaoq.supabase.co";
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
-const IMAGE_BASE_URL =
-  "https://eumlexrcxqgaudtsmavc.supabase.co/storage/v1/object/public/donor_images/";
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -56,9 +54,14 @@ const DonorEdit = () => {
 
         if (data.logo_url) {
           const isExternal = data.logo_url.startsWith("http");
-          setImagePreview(
-            isExternal ? data.logo_url : IMAGE_BASE_URL + data.logo_url
-          );
+          if (isExternal) {
+            setImagePreview(data.logo_url);
+          } else {
+            const { data: publicUrlData } = supabase.storage
+              .from("donor-images")
+              .getPublicUrl(data.logo_url);
+            setImagePreview(publicUrlData.publicUrl);
+          }
         }
       } catch (error) {
         console.error("Failed to load profile", error);
@@ -96,14 +99,18 @@ const DonorEdit = () => {
         const fileName = `${Date.now()}-donor.${fileExt}`;
         const filePath = `${fileName}`;
 
-        const { error: uploadError } = await supabase.storage
-          .from("donor_images")
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from("donor-images")
           .upload(filePath, file);
 
         if (uploadError)
           throw new Error("Logo upload failed: " + uploadError.message);
 
-        finalLogoUrl = filePath;
+        const { data: publicUrlData } = supabase.storage
+          .from("donor-images")
+          .getPublicUrl(uploadData.path);
+
+        finalLogoUrl = publicUrlData.publicUrl;
       }
 
       const payload = {

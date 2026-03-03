@@ -55,6 +55,7 @@ const FighterForm = ({ name, email }: { name: string; email: string }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [divisions, setDivisions] = useState<Division[]>([]);
+  const [divisionsError, setDivisionsError] = useState(false);
 
   const [achievements, setAchievements] = useState<string[]>([]);
   const [currentAchievement, setCurrentAchievement] = useState("");
@@ -63,8 +64,14 @@ const FighterForm = ({ name, email }: { name: string; email: string }) => {
   useEffect(() => {
     apiClient
       .get<Division[]>("/divisions")
-      .then((res) => setDivisions(res.data))
-      .catch((err) => console.error("Failed to fetch divisions", err));
+      .then((res) => {
+        setDivisions(res.data);
+        setDivisionsError(false);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch divisions", err);
+        setDivisionsError(true);
+      });
   }, []);
 
   useEffect(() => {
@@ -167,7 +174,11 @@ const FighterForm = ({ name, email }: { name: string; email: string }) => {
           throw new Error(`Image upload failed: ${uploadError.message}`);
         }
 
-        imageUrl = uploadData.path;
+        const { data: publicUrlData } = supabase.storage
+          .from("fighter-images")
+          .getPublicUrl(uploadData.path);
+
+        imageUrl = publicUrlData.publicUrl;
       }
 
       const payload = {
@@ -177,7 +188,7 @@ const FighterForm = ({ name, email }: { name: string; email: string }) => {
         losses: Number(formData.losses || 0),
         draws: Number(formData.draws || 0),
         knockouts: knockouts,
-        age: formData.age ? Number(formData.age) : null,
+        age: formData.age !== undefined && formData.age !== null ? Number(formData.age) : null,
         height: formData.height,
         reach: formData.reach,
         image: imageUrl,
@@ -322,34 +333,49 @@ const FighterForm = ({ name, email }: { name: string; email: string }) => {
           </div>
 
           <div className="space-y-2 flex flex-col items-start">
-            <Label htmlFor="division">{t("division_auto_label")}</Label>
-            <Select
-              value={formData.division ?? ""}
-              onValueChange={(value) => handleChange("division", value)}
-              disabled={true}
-              required
-            >
-              <SelectTrigger id="division" className="bg-muted/50">
-                <SelectValue
-                  placeholder={
-                    !formData.weight
-                      ? t("enter_weight_division")
-                      : formData.division || t("no_matching_division")
-                  }
-                />
-              </SelectTrigger>
-              <SelectContent>
-                {availableDivisions.map((division) => (
-                  <SelectItem key={division.id} value={division.name}>
-                    {division.name} ({Number(division.min_weight)} -{" "}
-                    {Number(division.max_weight)} lbs)
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            {formData.weight && !formData.division && (
+            <Label htmlFor="division">{divisionsError ? t("division_manual_label") : t("division_auto_label")}</Label>
+            {divisionsError ? (
+              <Input
+                id="division"
+                value={formData.division ?? ""}
+                onChange={(e) => handleChange("division", e.target.value)}
+                placeholder={t("enter_division_manually")}
+                required
+              />
+            ) : (
+              <Select
+                value={formData.division ?? ""}
+                onValueChange={(value) => handleChange("division", value)}
+                disabled={true}
+                required
+              >
+                <SelectTrigger id="division" className="bg-muted/50">
+                  <SelectValue
+                    placeholder={
+                      !formData.weight
+                        ? t("enter_weight_division")
+                        : formData.division || t("no_matching_division")
+                    }
+                  />
+                </SelectTrigger>
+                <SelectContent>
+                  {availableDivisions.map((division) => (
+                    <SelectItem key={division.id} value={division.name}>
+                      {division.name} ({Number(division.min_weight)} -{" "}
+                      {Number(division.max_weight)} lbs)
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
+            {formData.weight && !formData.division && !divisionsError && (
               <p className="text-xs text-red-500 mt-1">
                 {t("weight_mismatch_error")}
+              </p>
+            )}
+            {divisionsError && (
+              <p className="text-xs text-amber-500 mt-1">
+                Could not load divisions automatically. Please enter it manually.
               </p>
             )}
           </div>
