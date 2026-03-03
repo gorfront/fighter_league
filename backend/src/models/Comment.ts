@@ -41,10 +41,7 @@ Comment.init(
     {
         sequelize,
         tableName: "comments",
-        timestamps: false, // We handle created_at manually/via defaultValue if needed, but usually timestamps: true gives createdAt/updatedAt. 
-        // Looking at User.ts, it has timestamps: false and manual created_at. I will follow that pattern or use timestamps: true if I want both.
-        // User.ts has: createdAt: { type: DataTypes.DATE, field: "created_at" } and timestamps: false.
-        // I will follow User.ts pattern.
+        timestamps: false,
     }
 );
 

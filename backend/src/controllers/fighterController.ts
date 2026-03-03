@@ -241,7 +241,6 @@ export const getMyFighterProfile = asyncHandler(async (req: Request, res: Respon
   });
 
   if (!fighter) {
-    // Note: returning success with a status to handle frontend logic if no profile exists
     return res.status(200).json({
       status: "not_found",
       message: "Fighter profile not found",

@@ -26,7 +26,7 @@ import fightRoutes from "./routes/fightRoutes";
 import commentRoutes from "./routes/commentRoutes";
 import { initCronJobs } from "./services/cronService";
 import { updateFighterRanks } from "./services/rankingService";
-import "./services/emailQueue"; // Initialize email worker
+import "./services/emailQueue";
 
 const application: Express = express();
 const httpServer = http.createServer(application);
@@ -107,12 +107,10 @@ application.use("/api", (req: Request, res: Response) => {
   });
 });
 
-// Global Error Handling Middleware
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 application.use((err: any, req: Request, res: Response, next: NextFunction) => {
   logger.error(`Error caught by global handler: ${err.message}`, { error: err });
 
-  // If it's a known operational error, send its specific status and message
   if (err instanceof AppError) {
     return res.status(err.statusCode).json({
       status: "error",
@@ -120,7 +118,6 @@ application.use((err: any, req: Request, res: Response, next: NextFunction) => {
     });
   }
 
-  // Fallback for unexpected errors
   res.status(500).json({
     status: "error",
     message: "Internal server error",

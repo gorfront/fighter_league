@@ -52,6 +52,7 @@ interface ChatState {
   disconnectSocket: () => void;
   fetchContacts: () => Promise<void>;
   ensureContactInList: (user: ChatContact) => void;
+  leaveChat: () => void;
 }
 
 const BASE_API_URL = import.meta.env.VITE_API_BASE_URL;
@@ -103,8 +104,9 @@ export const useChatStore = create<ChatState>((set, get) => ({
     });
 
     socket.on("receive_message", (message: Message) => {
-      const { activeChatUser, userId } = get();
-      const fetchContacts = get().fetchContacts;
+      console.log("📨 Soket: get new message", message);
+
+      const { activeChatUser, userId, fetchContacts, contacts } = get();
       const senderId = Number(message.senderId);
       const myId = Number(userId);
 
@@ -121,14 +123,18 @@ export const useChatStore = create<ChatState>((set, get) => ({
         set((state) => ({ messages: [...state.messages, message] }));
         apiClient.patch("/messages/mark-read", { senderId });
       } else {
-        set((state) => ({
-          unreadCounts: {
+        set((state) => {
+          const prevCount = state.unreadCounts[senderId] || 0;
+          const newCounts = {
             ...state.unreadCounts,
-            [senderId]: (state.unreadCounts[senderId] || 0) + 1,
-          },
-        }));
+            [senderId]: prevCount + 1,
+          };
+          console.log("🔴 ОБНОВЛЕН СЧЕТЧИК (Стейт):", newCounts);
+          return { unreadCounts: newCounts };
+        });
 
-        if (!get().contacts.some((c) => c.id === senderId)) {
+        if (!contacts.some((c) => c.id === senderId)) {
+          console.log("🔄 Контакт не найден, загружаем список...");
           fetchContacts();
         }
       }
@@ -169,20 +175,26 @@ export const useChatStore = create<ChatState>((set, get) => ({
     try {
       const response = await apiClient.get(`/messages/conversations`);
       const contactsData = response.data as ChatContact[];
-      set({ contacts: contactsData });
 
-      const newCounts: { [key: number]: number } = {};
+      set((state) => {
+        const newCounts: { [key: number]: number } = { ...state.unreadCounts };
+        const { activeChatUser } = state;
 
-      contactsData.forEach((c) => {
-        newCounts[c.id] = c.unreadCount || 0;
+        contactsData.forEach((c) => {
+          if (newCounts[c.id] === undefined || (c.unreadCount || 0) > newCounts[c.id]) {
+            newCounts[c.id] = c.unreadCount || 0;
+          }
+        });
+
+        if (activeChatUser && newCounts[activeChatUser] !== undefined) {
+          newCounts[activeChatUser] = 0;
+        }
+
+        return {
+          contacts: contactsData,
+          unreadCounts: newCounts
+        };
       });
-
-      const { activeChatUser } = get();
-      if (activeChatUser && newCounts[activeChatUser] !== undefined) {
-        newCounts[activeChatUser] = 0;
-      }
-
-      set({ unreadCounts: newCounts });
     } catch (err) {
       console.error("Failed to fetch contacts", err);
     }
@@ -222,5 +234,9 @@ export const useChatStore = create<ChatState>((set, get) => ({
       token: null,
       isLoadingHistory: false,
     });
+  },
+
+  leaveChat: () => {
+    set({ activeChatUser: null });
   },
 }));

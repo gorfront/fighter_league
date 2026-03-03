@@ -220,7 +220,6 @@ const Sponsors = () => {
                                 sponsor.user_id && (
                                   <Button
                                     className="w-full bg-gradient-gold hover:opacity-90 transition-opacity"
-                                    // variant="secondary"
                                     onClick={() =>
                                       navigate(
                                         `/dashboard/messages?contactId=${sponsor.user_id}`

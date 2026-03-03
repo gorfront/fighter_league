@@ -141,8 +141,6 @@ export const getFightsByEventId = asyncHandler(async (req: Request, res: Respons
       { model: Fighter, as: "redCorner" },
       { model: Fighter, as: "blueCorner" },
     ],
-    // УДАЛИ ИЛИ ЗАКОММЕНТИРУЙ ЭТУ СТРОКУ:
-    // order: [["order_index", "ASC"]], 
   });
 
   res.json(fights);

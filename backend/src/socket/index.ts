@@ -130,29 +130,24 @@ export class ServerSocket {
               return;
             }
 
+            const tId = Number(targetUserId);
+
             const newMessage = await Message.create({
               senderId: myId,
-              receiverId: targetUserId,
+              receiverId: tId,
               content: content || "",
               attachmentUrl,
               attachmentType,
             });
 
-            const roomId = [myId, targetUserId].sort((a, b) => a - b).join("_");
+            const roomId = [Number(myId), tId].sort((a, b) => a - b).join("_");
             const chatRoomName = `chat_${roomId}`;
 
-            this.io.to(chatRoomName).emit("receive_message", newMessage);
+            const personalRoomName = `user_${tId}`;
 
-            const receiverSocketId = this.users[targetUserId];
-            if (receiverSocketId) {
-              const receiverSocket =
-                this.io.sockets.sockets.get(receiverSocketId);
-              if (receiverSocket && !receiverSocket.rooms.has(chatRoomName)) {
-                this.io
-                  .to(receiverSocketId)
-                  .emit("receive_message", newMessage);
-              }
-            }
+            const msgData = newMessage.toJSON ? newMessage.toJSON() : newMessage;
+
+            this.io.to(chatRoomName).to(personalRoomName).emit("receive_message", msgData);
           } catch (error) {
             console.error("Error saving message:", error);
             socket.emit("error", { message: "Failed to send message" });

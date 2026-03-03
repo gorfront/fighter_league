@@ -26,10 +26,6 @@ export const registerSponsor = asyncHandler(async (
     throw new AppError("Missing required fields: user email, company name, and logo URL.", 400);
   }
 
-  // if (walletAddress && !/^0x[a-fA-F0-9]{40}$/.test(walletAddress)) {
-  //   throw new AppError("Invalid wallet address format.", 400);
-  // }
-
   const sponsorTier = tier || "Partner";
   let transaction: Transaction | undefined;
 

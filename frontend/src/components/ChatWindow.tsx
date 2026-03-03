@@ -32,6 +32,7 @@ const ChatWindow = ({
   const {
     connectSocket,
     joinChat,
+    leaveChat,
     sendMessage,
     messages,
     isConnected,
@@ -73,6 +74,9 @@ const ChatWindow = ({
       setShowEmojiPicker(false);
       clearAttachment();
     }
+    return () => {
+      leaveChat();
+    };
   }, [targetUserId, joinChat, clearAttachment]);
 
   useEffect(() => {

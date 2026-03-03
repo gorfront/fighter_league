@@ -2950,3 +2950,1575 @@
 2026-03-03 15:35:46 warn: Redis connection retry attempt 40...
 2026-03-03 15:36:26 warn: Redis connection retry attempt 60...
 2026-03-03 15:36:26 warn: Redis connection retry attempt 60...
+2026-03-03 15:37:06 warn: Redis connection retry attempt 80...
+2026-03-03 15:37:06 warn: Redis connection retry attempt 80...
+2026-03-03 15:37:46 warn: Redis connection retry attempt 100...
+2026-03-03 15:37:46 warn: Redis connection retry attempt 100...
+2026-03-03 15:38:26 warn: Redis connection retry attempt 120...
+2026-03-03 15:38:26 warn: Redis connection retry attempt 120...
+2026-03-03 15:39:06 warn: Redis connection retry attempt 140...
+2026-03-03 15:39:06 warn: Redis connection retry attempt 140...
+2026-03-03 15:39:46 warn: Redis connection retry attempt 160...
+2026-03-03 15:39:46 warn: Redis connection retry attempt 160...
+2026-03-03 15:40:26 warn: Redis connection retry attempt 180...
+2026-03-03 15:40:26 warn: Redis connection retry attempt 180...
+2026-03-03 15:41:06 warn: Redis connection retry attempt 200...
+2026-03-03 15:41:06 warn: Redis connection retry attempt 200...
+2026-03-03 15:41:46 warn: Redis connection retry attempt 220...
+2026-03-03 15:41:46 warn: Redis connection retry attempt 220...
+2026-03-03 15:42:26 warn: Redis connection retry attempt 240...
+2026-03-03 15:42:26 warn: Redis connection retry attempt 240...
+2026-03-03 15:43:06 warn: Redis connection retry attempt 260...
+2026-03-03 15:43:06 warn: Redis connection retry attempt 260...
+2026-03-03 15:43:46 warn: Redis connection retry attempt 280...
+2026-03-03 15:43:46 warn: Redis connection retry attempt 280...
+2026-03-03 15:44:26 warn: Redis connection retry attempt 300...
+2026-03-03 15:44:26 warn: Redis connection retry attempt 300...
+2026-03-03 15:45:06 warn: Redis connection retry attempt 320...
+2026-03-03 15:45:06 warn: Redis connection retry attempt 320...
+2026-03-03 15:45:46 warn: Redis connection retry attempt 340...
+2026-03-03 15:45:46 warn: Redis connection retry attempt 340...
+2026-03-03 15:46:26 warn: Redis connection retry attempt 360...
+2026-03-03 15:46:26 warn: Redis connection retry attempt 360...
+2026-03-03 15:47:06 warn: Redis connection retry attempt 380...
+2026-03-03 15:47:06 warn: Redis connection retry attempt 380...
+2026-03-03 15:47:47 warn: Redis connection retry attempt 400...
+2026-03-03 15:47:47 warn: Redis connection retry attempt 400...
+2026-03-03 15:48:27 warn: Redis connection retry attempt 420...
+2026-03-03 15:48:27 warn: Redis connection retry attempt 420...
+2026-03-03 15:49:07 warn: Redis connection retry attempt 440...
+2026-03-03 15:49:07 warn: Redis connection retry attempt 440...
+2026-03-03 15:49:47 warn: Redis connection retry attempt 460...
+2026-03-03 15:49:47 warn: Redis connection retry attempt 460...
+2026-03-03 15:50:27 warn: Redis connection retry attempt 480...
+2026-03-03 15:50:27 warn: Redis connection retry attempt 480...
+2026-03-03 15:51:07 warn: Redis connection retry attempt 500...
+2026-03-03 15:51:07 warn: Redis connection retry attempt 500...
+2026-03-03 15:51:47 warn: Redis connection retry attempt 520...
+2026-03-03 15:51:47 warn: Redis connection retry attempt 520...
+2026-03-03 15:52:27 warn: Redis connection retry attempt 540...
+2026-03-03 15:52:27 warn: Redis connection retry attempt 540...
+2026-03-03 15:53:07 warn: Redis connection retry attempt 560...
+2026-03-03 15:53:07 warn: Redis connection retry attempt 560...
+2026-03-03 15:53:47 warn: Redis connection retry attempt 580...
+2026-03-03 15:53:47 warn: Redis connection retry attempt 580...
+2026-03-03 15:54:27 warn: Redis connection retry attempt 600...
+2026-03-03 15:54:27 warn: Redis connection retry attempt 600...
+2026-03-03 15:54:35 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 15:54:35 info: METHOD: [GET] - URL: [/api/v1/messages/1] - IP: [::1]
+2026-03-03 15:54:36 info: METHOD: [GET] - URL: [/1] - STATUS: [200] - IP: [::1]
+2026-03-03 15:54:37 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 15:54:37 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 15:54:38 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 15:54:38 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 15:54:39 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 15:54:39 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 15:54:41 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 15:55:05 error: Redis connection error: connect ECONNREFUSED 127.0.0.1:6379 (further connection errors will be suppressed)
+2026-03-03 15:55:05 warn: Redis connection retry attempt 1...
+2026-03-03 15:55:05 warn: Redis connection retry attempt 1...
+2026-03-03 15:55:08 info: ✅ Database connected successfully.
+2026-03-03 15:55:15 warn: Redis connection retry attempt 20...
+2026-03-03 15:55:15 warn: Redis connection retry attempt 20...
+2026-03-03 15:55:15 info: Startup: Recalculating all ranks...
+2026-03-03 15:55:15 info: 🔄 Starting Ranking Calculation...
+2026-03-03 15:55:15 info: 🚀 Server + Socket running on port 3000
+2026-03-03 15:55:15 info: ✅ Fighter ranks updated successfully.
+2026-03-03 15:55:34 error: Redis connection error: connect ECONNREFUSED 127.0.0.1:6379 (further connection errors will be suppressed)
+2026-03-03 15:55:34 warn: Redis connection retry attempt 1...
+2026-03-03 15:55:34 warn: Redis connection retry attempt 1...
+2026-03-03 15:55:37 info: ✅ Database connected successfully.
+2026-03-03 15:55:44 warn: Redis connection retry attempt 20...
+2026-03-03 15:55:44 warn: Redis connection retry attempt 20...
+2026-03-03 15:55:44 info: Startup: Recalculating all ranks...
+2026-03-03 15:55:44 info: 🔄 Starting Ranking Calculation...
+2026-03-03 15:55:44 info: 🚀 Server + Socket running on port 3000
+2026-03-03 15:55:44 info: ✅ Fighter ranks updated successfully.
+2026-03-03 15:56:13 warn: Redis connection retry attempt 40...
+2026-03-03 15:56:13 warn: Redis connection retry attempt 40...
+2026-03-03 15:56:48 error: Redis connection error: connect ECONNREFUSED 127.0.0.1:6379 (further connection errors will be suppressed)
+2026-03-03 15:56:48 warn: Redis connection retry attempt 1...
+2026-03-03 15:56:48 warn: Redis connection retry attempt 1...
+2026-03-03 15:56:51 info: ✅ Database connected successfully.
+2026-03-03 15:56:57 warn: Redis connection retry attempt 20...
+2026-03-03 15:56:57 warn: Redis connection retry attempt 20...
+2026-03-03 15:56:57 info: Startup: Recalculating all ranks...
+2026-03-03 15:56:57 info: 🔄 Starting Ranking Calculation...
+2026-03-03 15:56:57 info: 🚀 Server + Socket running on port 3000
+2026-03-03 15:56:58 info: ✅ Fighter ranks updated successfully.
+2026-03-03 15:57:05 info: METHOD: [GET] - URL: [/] - IP: [::1]
+2026-03-03 15:57:05 info: METHOD: [GET] - URL: [/] - STATUS: [404] - IP: [::1]
+2026-03-03 15:57:10 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 15:57:10 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 15:57:10 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [200] - IP: [::1]
+2026-03-03 15:57:10 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 15:57:11 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [200] - IP: [::1]
+2026-03-03 15:57:12 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 15:57:13 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 15:57:13 info: METHOD: [GET] - URL: [/api/v1/fighters/me] - IP: [::1]
+2026-03-03 15:57:14 info: METHOD: [GET] - URL: [/me] - STATUS: [304] - IP: [::1]
+2026-03-03 15:57:15 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 15:57:17 info: METHOD: [GET] - URL: [/api/v1/fighters/me] - IP: [::1]
+2026-03-03 15:57:17 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 15:57:17 info: METHOD: [GET] - URL: [/me] - STATUS: [304] - IP: [::1]
+2026-03-03 15:57:19 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 15:57:26 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 15:57:26 info: METHOD: [GET] - URL: [/api/v1/messages/1] - IP: [::1]
+2026-03-03 15:57:27 warn: Redis connection retry attempt 40...
+2026-03-03 15:57:27 warn: Redis connection retry attempt 40...
+2026-03-03 15:57:27 info: METHOD: [GET] - URL: [/1] - STATUS: [304] - IP: [::1]
+2026-03-03 15:57:27 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 15:57:28 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 15:57:28 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 15:57:28 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 15:57:30 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 15:57:30 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 15:57:31 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 15:57:39 info: METHOD: [POST] - URL: [/api/v1/auth/login/email] - IP: [::1]
+2026-03-03 15:57:39 info: METHOD: [POST] - URL: [/login/email] - STATUS: [200] - IP: [::1]
+2026-03-03 15:57:39 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 15:57:39 info: METHOD: [GET] - URL: [/api/v1/dashboard/admin/fighters/pending?page=1&limit=10] - IP: [::1]
+2026-03-03 15:57:40 info: METHOD: [GET] - URL: [/fighters/pending?page=1&limit=10] - STATUS: [304] - IP: [::1]
+2026-03-03 15:57:41 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 15:57:41 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 15:57:43 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 15:57:50 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 15:57:50 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 15:57:50 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-03 15:57:50 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 15:57:50 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [304] - IP: [::1]
+2026-03-03 15:57:51 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 15:57:55 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 15:57:55 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 15:57:55 info: METHOD: [GET] - URL: [/48] - STATUS: [200] - IP: [::1]
+2026-03-03 15:57:55 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 15:57:55 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 15:57:56 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 15:57:56 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 15:57:56 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 15:57:57 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 15:57:57 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 15:57:57 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 15:57:58 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 15:57:58 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 15:58:00 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 15:58:00 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 15:58:01 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 15:58:01 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-03 15:58:02 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 15:58:02 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [304] - IP: [::1]
+2026-03-03 15:58:02 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 15:58:02 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 15:58:04 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 15:58:07 warn: Redis connection retry attempt 60...
+2026-03-03 15:58:07 warn: Redis connection retry attempt 60...
+2026-03-03 15:58:47 warn: Redis connection retry attempt 80...
+2026-03-03 15:58:47 warn: Redis connection retry attempt 80...
+2026-03-03 15:59:27 warn: Redis connection retry attempt 100...
+2026-03-03 15:59:27 warn: Redis connection retry attempt 100...
+2026-03-03 16:00:07 warn: Redis connection retry attempt 120...
+2026-03-03 16:00:07 warn: Redis connection retry attempt 120...
+2026-03-03 16:00:47 warn: Redis connection retry attempt 140...
+2026-03-03 16:00:47 warn: Redis connection retry attempt 140...
+2026-03-03 16:01:27 warn: Redis connection retry attempt 160...
+2026-03-03 16:01:27 warn: Redis connection retry attempt 160...
+2026-03-03 16:02:07 warn: Redis connection retry attempt 180...
+2026-03-03 16:02:07 warn: Redis connection retry attempt 180...
+2026-03-03 16:02:47 warn: Redis connection retry attempt 200...
+2026-03-03 16:02:47 warn: Redis connection retry attempt 200...
+2026-03-03 16:03:27 warn: Redis connection retry attempt 220...
+2026-03-03 16:03:27 warn: Redis connection retry attempt 220...
+2026-03-03 16:04:07 warn: Redis connection retry attempt 240...
+2026-03-03 16:04:07 warn: Redis connection retry attempt 240...
+2026-03-03 16:04:47 warn: Redis connection retry attempt 260...
+2026-03-03 16:04:47 warn: Redis connection retry attempt 260...
+2026-03-03 16:04:57 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:05:00 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 16:05:00 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:05:02 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:05:15 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 16:05:17 info: METHOD: [GET] - URL: [/48] - STATUS: [200] - IP: [::1]
+2026-03-03 16:05:17 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 16:05:17 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:05:18 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 16:05:18 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:05:18 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:05:18 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:05:19 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:05:20 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 16:05:20 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:05:22 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:05:27 warn: Redis connection retry attempt 280...
+2026-03-03 16:05:27 warn: Redis connection retry attempt 280...
+2026-03-03 16:05:34 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:05:34 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 16:05:35 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 16:05:35 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:05:35 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [200] - IP: [::1]
+2026-03-03 16:05:36 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 16:05:36 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [304] - IP: [::1]
+2026-03-03 16:05:37 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 16:06:07 warn: Redis connection retry attempt 300...
+2026-03-03 16:06:07 warn: Redis connection retry attempt 300...
+2026-03-03 16:06:47 warn: Redis connection retry attempt 320...
+2026-03-03 16:06:47 warn: Redis connection retry attempt 320...
+2026-03-03 16:07:04 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 16:07:04 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:07:05 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-03 16:07:05 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 16:07:05 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [304] - IP: [::1]
+2026-03-03 16:07:07 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:07:11 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 16:07:11 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:07:11 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-03 16:07:11 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 16:07:12 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [304] - IP: [::1]
+2026-03-03 16:07:13 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:07:27 info: METHOD: [POST] - URL: [/api/v1/auth/login/email] - IP: [::1]
+2026-03-03 16:07:27 warn: Redis connection retry attempt 340...
+2026-03-03 16:07:27 warn: Redis connection retry attempt 340...
+2026-03-03 16:07:28 info: METHOD: [POST] - URL: [/login/email] - STATUS: [200] - IP: [::1]
+2026-03-03 16:07:28 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:07:28 info: METHOD: [GET] - URL: [/api/v1/fighters/me] - IP: [::1]
+2026-03-03 16:07:30 info: METHOD: [GET] - URL: [/me] - STATUS: [304] - IP: [::1]
+2026-03-03 16:07:31 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 16:07:31 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:07:32 info: METHOD: [GET] - URL: [/api/v1/messages/1] - IP: [::1]
+2026-03-03 16:07:32 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:07:32 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:07:33 info: METHOD: [GET] - URL: [/1] - STATUS: [200] - IP: [::1]
+2026-03-03 16:07:33 info: METHOD: [GET] - URL: [/api/v1/messages/1] - IP: [::1]
+2026-03-03 16:07:33 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:07:33 info: METHOD: [GET] - URL: [/1] - STATUS: [304] - IP: [::1]
+2026-03-03 16:07:33 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:07:33 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:07:34 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:07:34 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:07:34 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:07:36 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:07:36 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:07:38 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:07:38 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:07:39 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:08:07 warn: Redis connection retry attempt 360...
+2026-03-03 16:08:07 warn: Redis connection retry attempt 360...
+2026-03-03 16:08:10 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:08:10 info: METHOD: [GET] - URL: [/api/v1/messages/1] - IP: [::1]
+2026-03-03 16:08:12 info: METHOD: [GET] - URL: [/1] - STATUS: [304] - IP: [::1]
+2026-03-03 16:08:12 info: METHOD: [GET] - URL: [/api/v1/messages/1] - IP: [::1]
+2026-03-03 16:08:12 info: METHOD: [GET] - URL: [/1] - STATUS: [304] - IP: [::1]
+2026-03-03 16:08:12 info: METHOD: [GET] - URL: [/api/v1/messages/1] - IP: [::1]
+2026-03-03 16:08:12 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:08:13 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:08:13 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:08:13 info: METHOD: [GET] - URL: [/1] - STATUS: [304] - IP: [::1]
+2026-03-03 16:08:13 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:08:13 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:08:14 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:08:15 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:08:15 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:08:16 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:08:16 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:08:18 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:08:18 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:08:18 info: METHOD: [GET] - URL: [/api/v1/fighters/me] - IP: [::1]
+2026-03-03 16:08:19 info: METHOD: [GET] - URL: [/me] - STATUS: [304] - IP: [::1]
+2026-03-03 16:08:20 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:08:22 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:08:22 info: METHOD: [GET] - URL: [/api/v1/messages/1] - IP: [::1]
+2026-03-03 16:08:23 info: METHOD: [GET] - URL: [/1] - STATUS: [304] - IP: [::1]
+2026-03-03 16:08:23 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:08:24 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:08:24 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:08:24 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:08:26 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:08:26 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:08:28 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:08:41 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 16:08:41 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:08:41 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-03 16:08:41 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 16:08:42 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [304] - IP: [::1]
+2026-03-03 16:08:43 info: METHOD: [GET] - URL: [/api/v1/fighters/me] - IP: [::1]
+2026-03-03 16:08:44 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:08:44 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:08:44 info: METHOD: [GET] - URL: [/me] - STATUS: [304] - IP: [::1]
+2026-03-03 16:08:45 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:08:47 warn: Redis connection retry attempt 380...
+2026-03-03 16:08:47 warn: Redis connection retry attempt 380...
+2026-03-03 16:09:00 info: METHOD: [POST] - URL: [/api/v1/auth/login/email] - IP: [::1]
+2026-03-03 16:09:01 info: METHOD: [POST] - URL: [/login/email] - STATUS: [200] - IP: [::1]
+2026-03-03 16:09:01 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:09:01 info: METHOD: [GET] - URL: [/api/v1/dashboard/admin/fighters/pending?page=1&limit=10] - IP: [::1]
+2026-03-03 16:09:02 info: METHOD: [GET] - URL: [/fighters/pending?page=1&limit=10] - STATUS: [304] - IP: [::1]
+2026-03-03 16:09:03 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 16:09:03 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:09:05 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:09:06 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:09:06 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 16:09:07 info: METHOD: [GET] - URL: [/48] - STATUS: [200] - IP: [::1]
+2026-03-03 16:09:07 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 16:09:07 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:09:08 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 16:09:08 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:09:08 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:09:08 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:09:08 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:09:08 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:09:10 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 16:09:10 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:09:12 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:09:12 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:09:13 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 16:09:13 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-03 16:09:13 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 16:09:13 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:09:13 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:09:14 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [304] - IP: [::1]
+2026-03-03 16:09:15 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 16:09:27 warn: Redis connection retry attempt 400...
+2026-03-03 16:09:27 warn: Redis connection retry attempt 400...
+2026-03-03 16:09:48 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:09:48 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 16:09:48 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 16:09:50 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-03 16:09:50 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 16:09:50 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [304] - IP: [::1]
+2026-03-03 16:09:50 info: METHOD: [GET] - URL: [/48] - STATUS: [200] - IP: [::1]
+2026-03-03 16:09:50 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:09:51 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:09:51 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 16:09:51 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:09:53 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:09:53 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:09:54 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:09:54 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:09:56 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:09:56 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:09:58 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:10:07 warn: Redis connection retry attempt 420...
+2026-03-03 16:10:07 warn: Redis connection retry attempt 420...
+2026-03-03 16:10:11 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:10:11 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 16:10:12 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-03 16:10:13 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 16:10:13 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [304] - IP: [::1]
+2026-03-03 16:10:14 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:10:36 info: METHOD: [POST] - URL: [/api/v1/auth/login/email] - IP: [::1]
+2026-03-03 16:10:37 info: METHOD: [POST] - URL: [/login/email] - STATUS: [200] - IP: [::1]
+2026-03-03 16:10:37 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:10:37 info: METHOD: [GET] - URL: [/api/v1/fighters/me] - IP: [::1]
+2026-03-03 16:10:38 info: METHOD: [GET] - URL: [/me] - STATUS: [304] - IP: [::1]
+2026-03-03 16:10:39 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 16:10:39 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:10:41 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:10:44 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:10:44 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 16:10:45 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 16:10:45 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:10:46 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:10:46 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 16:10:46 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:10:47 warn: Redis connection retry attempt 440...
+2026-03-03 16:10:47 warn: Redis connection retry attempt 440...
+2026-03-03 16:10:48 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:10:48 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:10:50 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:11:08 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:11:09 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 16:11:09 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:11:11 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:11:13 error: Redis connection error: connect ECONNREFUSED 127.0.0.1:6379 (further connection errors will be suppressed)
+2026-03-03 16:11:13 warn: Redis connection retry attempt 1...
+2026-03-03 16:11:13 warn: Redis connection retry attempt 1...
+2026-03-03 16:11:16 info: ✅ Database connected successfully.
+2026-03-03 16:11:22 warn: Redis connection retry attempt 20...
+2026-03-03 16:11:22 warn: Redis connection retry attempt 20...
+2026-03-03 16:11:23 info: Startup: Recalculating all ranks...
+2026-03-03 16:11:23 info: 🔄 Starting Ranking Calculation...
+2026-03-03 16:11:23 info: 🚀 Server + Socket running on port 3000
+2026-03-03 16:11:23 info: ✅ Fighter ranks updated successfully.
+2026-03-03 16:11:27 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:11:27 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 16:11:29 info: METHOD: [GET] - URL: [/48] - STATUS: [200] - IP: [::1]
+2026-03-03 16:11:29 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 16:11:29 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 16:11:29 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 16:11:29 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:11:30 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:11:30 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:11:30 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 16:11:30 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:11:30 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:11:31 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:11:31 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:11:31 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:11:33 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:11:33 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:11:35 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:11:36 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:11:36 info: METHOD: [GET] - URL: [/api/v1/fighters/me] - IP: [::1]
+2026-03-03 16:11:37 info: METHOD: [GET] - URL: [/me] - STATUS: [304] - IP: [::1]
+2026-03-03 16:11:38 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:11:51 info: METHOD: [POST] - URL: [/api/v1/auth/login/email] - IP: [::1]
+2026-03-03 16:11:52 warn: Redis connection retry attempt 40...
+2026-03-03 16:11:52 warn: Redis connection retry attempt 40...
+2026-03-03 16:11:52 error: Error caught by global handler: Invalid credentials. No match users
+2026-03-03 16:11:52 info: METHOD: [POST] - URL: [/api/v1/auth/login/email] - STATUS: [401] - IP: [::1]
+2026-03-03 16:11:56 info: METHOD: [POST] - URL: [/api/v1/auth/login/email] - IP: [::1]
+2026-03-03 16:11:56 info: METHOD: [POST] - URL: [/login/email] - STATUS: [200] - IP: [::1]
+2026-03-03 16:11:56 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:11:56 info: METHOD: [GET] - URL: [/api/v1/dashboard/admin/fighters/pending?page=1&limit=10] - IP: [::1]
+2026-03-03 16:11:58 info: METHOD: [GET] - URL: [/fighters/pending?page=1&limit=10] - STATUS: [304] - IP: [::1]
+2026-03-03 16:11:59 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 16:11:59 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:12:00 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:12:03 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:12:03 info: METHOD: [GET] - URL: [/api/v1/messages/1] - IP: [::1]
+2026-03-03 16:12:03 info: METHOD: [GET] - URL: [/1] - STATUS: [200] - IP: [::1]
+2026-03-03 16:12:03 info: METHOD: [GET] - URL: [/api/v1/messages/1] - IP: [::1]
+2026-03-03 16:12:03 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:12:04 info: METHOD: [GET] - URL: [/1] - STATUS: [304] - IP: [::1]
+2026-03-03 16:12:04 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:12:04 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:12:04 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 16:12:04 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:12:05 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:12:06 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:12:06 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:12:08 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:12:08 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:12:10 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:12:15 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:12:15 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 16:12:15 info: METHOD: [GET] - URL: [/48] - STATUS: [200] - IP: [::1]
+2026-03-03 16:12:15 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:12:16 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:12:16 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 16:12:16 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:12:18 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 16:12:18 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:12:20 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:12:32 warn: Redis connection retry attempt 60...
+2026-03-03 16:12:32 warn: Redis connection retry attempt 60...
+2026-03-03 16:13:12 warn: Redis connection retry attempt 80...
+2026-03-03 16:13:12 warn: Redis connection retry attempt 80...
+2026-03-03 16:13:52 warn: Redis connection retry attempt 100...
+2026-03-03 16:13:52 warn: Redis connection retry attempt 100...
+2026-03-03 16:14:32 warn: Redis connection retry attempt 120...
+2026-03-03 16:14:32 warn: Redis connection retry attempt 120...
+2026-03-03 16:15:12 warn: Redis connection retry attempt 140...
+2026-03-03 16:15:12 warn: Redis connection retry attempt 140...
+2026-03-03 16:15:52 warn: Redis connection retry attempt 160...
+2026-03-03 16:15:52 warn: Redis connection retry attempt 160...
+2026-03-03 16:16:32 warn: Redis connection retry attempt 180...
+2026-03-03 16:16:32 warn: Redis connection retry attempt 180...
+2026-03-03 16:17:12 warn: Redis connection retry attempt 200...
+2026-03-03 16:17:12 warn: Redis connection retry attempt 200...
+2026-03-03 16:17:52 warn: Redis connection retry attempt 220...
+2026-03-03 16:17:52 warn: Redis connection retry attempt 220...
+2026-03-03 16:18:32 warn: Redis connection retry attempt 240...
+2026-03-03 16:18:32 warn: Redis connection retry attempt 240...
+2026-03-03 16:19:12 warn: Redis connection retry attempt 260...
+2026-03-03 16:19:12 warn: Redis connection retry attempt 260...
+2026-03-03 16:19:52 warn: Redis connection retry attempt 280...
+2026-03-03 16:19:52 warn: Redis connection retry attempt 280...
+2026-03-03 16:20:32 warn: Redis connection retry attempt 300...
+2026-03-03 16:20:32 warn: Redis connection retry attempt 300...
+2026-03-03 16:21:12 warn: Redis connection retry attempt 320...
+2026-03-03 16:21:12 warn: Redis connection retry attempt 320...
+2026-03-03 16:21:52 warn: Redis connection retry attempt 340...
+2026-03-03 16:21:52 warn: Redis connection retry attempt 340...
+2026-03-03 16:22:32 warn: Redis connection retry attempt 360...
+2026-03-03 16:22:32 warn: Redis connection retry attempt 360...
+2026-03-03 16:23:13 warn: Redis connection retry attempt 380...
+2026-03-03 16:23:13 warn: Redis connection retry attempt 380...
+2026-03-03 16:23:53 warn: Redis connection retry attempt 400...
+2026-03-03 16:23:53 warn: Redis connection retry attempt 400...
+2026-03-03 16:24:33 warn: Redis connection retry attempt 420...
+2026-03-03 16:24:33 warn: Redis connection retry attempt 420...
+2026-03-03 16:25:13 warn: Redis connection retry attempt 440...
+2026-03-03 16:25:13 warn: Redis connection retry attempt 440...
+2026-03-03 16:25:53 warn: Redis connection retry attempt 460...
+2026-03-03 16:25:53 warn: Redis connection retry attempt 460...
+2026-03-03 16:26:33 warn: Redis connection retry attempt 480...
+2026-03-03 16:26:33 warn: Redis connection retry attempt 480...
+2026-03-03 16:27:13 warn: Redis connection retry attempt 500...
+2026-03-03 16:27:13 warn: Redis connection retry attempt 500...
+2026-03-03 16:27:53 warn: Redis connection retry attempt 520...
+2026-03-03 16:27:53 warn: Redis connection retry attempt 520...
+2026-03-03 16:28:33 warn: Redis connection retry attempt 540...
+2026-03-03 16:28:33 warn: Redis connection retry attempt 540...
+2026-03-03 16:29:13 warn: Redis connection retry attempt 560...
+2026-03-03 16:29:13 warn: Redis connection retry attempt 560...
+2026-03-03 16:29:53 warn: Redis connection retry attempt 580...
+2026-03-03 16:29:53 warn: Redis connection retry attempt 580...
+2026-03-03 16:30:33 warn: Redis connection retry attempt 600...
+2026-03-03 16:30:33 warn: Redis connection retry attempt 600...
+2026-03-03 16:31:13 warn: Redis connection retry attempt 620...
+2026-03-03 16:31:13 warn: Redis connection retry attempt 620...
+2026-03-03 16:31:53 warn: Redis connection retry attempt 640...
+2026-03-03 16:31:53 warn: Redis connection retry attempt 640...
+2026-03-03 16:32:33 warn: Redis connection retry attempt 660...
+2026-03-03 16:32:33 warn: Redis connection retry attempt 660...
+2026-03-03 16:32:39 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 16:32:40 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [200] - IP: [::1]
+2026-03-03 16:32:50 info: METHOD: [POST] - URL: [/api/v1/auth/login/email] - IP: [::1]
+2026-03-03 16:32:50 info: METHOD: [POST] - URL: [/login/email] - STATUS: [200] - IP: [::1]
+2026-03-03 16:32:50 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:32:50 info: METHOD: [GET] - URL: [/api/v1/fighters/me] - IP: [::1]
+2026-03-03 16:32:52 info: METHOD: [GET] - URL: [/me] - STATUS: [200] - IP: [::1]
+2026-03-03 16:32:52 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 16:32:52 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:32:54 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:32:55 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:32:55 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 16:32:56 info: METHOD: [GET] - URL: [/48] - STATUS: [200] - IP: [::1]
+2026-03-03 16:32:56 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 16:32:57 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:32:57 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:32:57 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 16:32:57 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 16:32:57 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:32:57 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 16:32:57 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:32:58 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:32:59 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:32:59 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:32:59 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:33:02 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:33:02 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:33:04 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:33:13 warn: Redis connection retry attempt 680...
+2026-03-03 16:33:13 warn: Redis connection retry attempt 680...
+2026-03-03 16:33:53 warn: Redis connection retry attempt 700...
+2026-03-03 16:33:53 warn: Redis connection retry attempt 700...
+2026-03-03 16:34:33 warn: Redis connection retry attempt 720...
+2026-03-03 16:34:33 warn: Redis connection retry attempt 720...
+2026-03-03 16:35:13 warn: Redis connection retry attempt 740...
+2026-03-03 16:35:13 warn: Redis connection retry attempt 740...
+2026-03-03 16:35:53 warn: Redis connection retry attempt 760...
+2026-03-03 16:35:53 warn: Redis connection retry attempt 760...
+2026-03-03 16:36:12 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:36:12 info: METHOD: [GET] - URL: [/api/v1/fighters/me] - IP: [::1]
+2026-03-03 16:36:13 info: METHOD: [GET] - URL: [/me] - STATUS: [304] - IP: [::1]
+2026-03-03 16:36:15 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 16:36:17 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:36:17 info: METHOD: [GET] - URL: [/api/v1/messages/1] - IP: [::1]
+2026-03-03 16:36:18 info: METHOD: [GET] - URL: [/1] - STATUS: [200] - IP: [::1]
+2026-03-03 16:36:18 info: METHOD: [GET] - URL: [/api/v1/messages/1] - IP: [::1]
+2026-03-03 16:36:18 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:36:18 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:36:19 info: METHOD: [GET] - URL: [/1] - STATUS: [200] - IP: [::1]
+2026-03-03 16:36:19 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:36:19 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:36:19 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:36:20 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:36:21 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 16:36:21 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:36:23 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:36:23 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:36:23 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:36:23 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:36:24 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:36:27 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:36:27 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 16:36:28 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-03 16:36:28 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 16:36:28 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [200] - IP: [::1]
+2026-03-03 16:36:30 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:36:31 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:36:32 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:36:33 warn: Redis connection retry attempt 780...
+2026-03-03 16:36:33 warn: Redis connection retry attempt 780...
+2026-03-03 16:37:13 warn: Redis connection retry attempt 800...
+2026-03-03 16:37:13 warn: Redis connection retry attempt 800...
+2026-03-03 16:37:53 warn: Redis connection retry attempt 820...
+2026-03-03 16:37:53 warn: Redis connection retry attempt 820...
+2026-03-03 16:38:33 warn: Redis connection retry attempt 840...
+2026-03-03 16:38:33 warn: Redis connection retry attempt 840...
+2026-03-03 16:39:13 warn: Redis connection retry attempt 860...
+2026-03-03 16:39:13 warn: Redis connection retry attempt 860...
+2026-03-03 16:39:53 warn: Redis connection retry attempt 880...
+2026-03-03 16:39:53 warn: Redis connection retry attempt 880...
+2026-03-03 16:40:33 warn: Redis connection retry attempt 900...
+2026-03-03 16:40:33 warn: Redis connection retry attempt 900...
+2026-03-03 16:41:13 warn: Redis connection retry attempt 920...
+2026-03-03 16:41:13 warn: Redis connection retry attempt 920...
+2026-03-03 16:41:54 warn: Redis connection retry attempt 940...
+2026-03-03 16:41:54 warn: Redis connection retry attempt 940...
+2026-03-03 16:42:34 warn: Redis connection retry attempt 960...
+2026-03-03 16:42:34 warn: Redis connection retry attempt 960...
+2026-03-03 16:42:53 error: Redis connection error: connect ECONNREFUSED 127.0.0.1:6379 (further connection errors will be suppressed)
+2026-03-03 16:42:53 warn: Redis connection retry attempt 1...
+2026-03-03 16:42:53 warn: Redis connection retry attempt 1...
+2026-03-03 16:42:56 info: ✅ Database connected successfully.
+2026-03-03 16:43:03 warn: Redis connection retry attempt 20...
+2026-03-03 16:43:03 warn: Redis connection retry attempt 20...
+2026-03-03 16:43:05 info: Startup: Recalculating all ranks...
+2026-03-03 16:43:05 info: 🔄 Starting Ranking Calculation...
+2026-03-03 16:43:05 info: 🚀 Server + Socket running on port 3000
+2026-03-03 16:43:06 info: ✅ Fighter ranks updated successfully.
+2026-03-03 16:43:32 error: Redis connection error: connect ECONNREFUSED 127.0.0.1:6379 (further connection errors will be suppressed)
+2026-03-03 16:43:32 warn: Redis connection retry attempt 1...
+2026-03-03 16:43:32 warn: Redis connection retry attempt 1...
+2026-03-03 16:43:37 info: ✅ Database connected successfully.
+2026-03-03 16:43:42 warn: Redis connection retry attempt 20...
+2026-03-03 16:43:42 warn: Redis connection retry attempt 20...
+2026-03-03 16:43:45 info: Startup: Recalculating all ranks...
+2026-03-03 16:43:45 info: 🔄 Starting Ranking Calculation...
+2026-03-03 16:43:45 info: 🚀 Server + Socket running on port 3000
+2026-03-03 16:43:45 info: ✅ Fighter ranks updated successfully.
+2026-03-03 16:43:57 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:43:57 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 16:43:58 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:43:58 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 16:43:59 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [200] - IP: [::1]
+2026-03-03 16:43:59 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 16:43:59 info: METHOD: [GET] - URL: [/48] - STATUS: [200] - IP: [::1]
+2026-03-03 16:43:59 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:43:59 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [200] - IP: [::1]
+2026-03-03 16:44:00 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:44:00 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:44:00 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:44:00 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:44:03 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:44:03 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:44:03 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 16:44:03 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 16:44:03 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 16:44:03 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:44:04 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 16:44:04 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:44:04 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:44:05 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:44:05 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:44:05 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:44:06 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:44:06 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:44:09 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:44:12 warn: Redis connection retry attempt 40...
+2026-03-03 16:44:12 warn: Redis connection retry attempt 40...
+2026-03-03 16:44:13 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 16:44:13 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:44:14 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-03 16:44:14 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 16:44:14 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [304] - IP: [::1]
+2026-03-03 16:44:15 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:44:19 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:44:19 info: METHOD: [GET] - URL: [/api/v1/messages/1] - IP: [::1]
+2026-03-03 16:44:20 info: METHOD: [GET] - URL: [/1] - STATUS: [200] - IP: [::1]
+2026-03-03 16:44:20 info: METHOD: [GET] - URL: [/api/v1/messages/1] - IP: [::1]
+2026-03-03 16:44:20 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:44:21 info: METHOD: [GET] - URL: [/1] - STATUS: [304] - IP: [::1]
+2026-03-03 16:44:21 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:44:21 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:44:21 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:44:21 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:44:21 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:44:22 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 16:44:23 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-03 16:44:23 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 16:44:23 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [304] - IP: [::1]
+2026-03-03 16:44:23 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:44:23 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:44:25 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:44:25 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:44:27 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:44:27 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:44:29 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:44:31 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:44:32 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:44:50 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:44:50 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 16:44:52 warn: Redis connection retry attempt 60...
+2026-03-03 16:44:52 warn: Redis connection retry attempt 60...
+2026-03-03 16:44:52 info: METHOD: [GET] - URL: [/48] - STATUS: [200] - IP: [::1]
+2026-03-03 16:44:52 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 16:44:53 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 16:44:53 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 16:44:53 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:44:54 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:44:55 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 16:44:55 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:44:55 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:44:55 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:44:55 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:44:57 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:44:57 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:44:59 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:44:59 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:45:02 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:45:03 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:45:04 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:45:32 warn: Redis connection retry attempt 80...
+2026-03-03 16:45:32 warn: Redis connection retry attempt 80...
+2026-03-03 16:46:12 warn: Redis connection retry attempt 100...
+2026-03-03 16:46:12 warn: Redis connection retry attempt 100...
+2026-03-03 16:46:52 warn: Redis connection retry attempt 120...
+2026-03-03 16:46:52 warn: Redis connection retry attempt 120...
+2026-03-03 16:47:32 warn: Redis connection retry attempt 140...
+2026-03-03 16:47:32 warn: Redis connection retry attempt 140...
+2026-03-03 16:48:12 warn: Redis connection retry attempt 160...
+2026-03-03 16:48:12 warn: Redis connection retry attempt 160...
+2026-03-03 16:48:52 warn: Redis connection retry attempt 180...
+2026-03-03 16:48:52 warn: Redis connection retry attempt 180...
+2026-03-03 16:49:02 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:49:02 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 16:49:03 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:49:03 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 16:49:03 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-03 16:49:03 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 16:49:04 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [304] - IP: [::1]
+2026-03-03 16:49:04 info: METHOD: [GET] - URL: [/48] - STATUS: [200] - IP: [::1]
+2026-03-03 16:49:04 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 16:49:05 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 16:49:05 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 16:49:05 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:49:05 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:49:05 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:49:05 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:49:06 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 16:49:06 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:49:06 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:49:07 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:49:07 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:49:07 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:49:09 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:49:09 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:49:10 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:49:10 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 16:49:10 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-03 16:49:10 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 16:49:10 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [304] - IP: [::1]
+2026-03-03 16:49:11 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 16:49:11 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:49:11 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:49:11 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 16:49:11 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 16:49:11 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:49:12 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 16:49:12 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 16:49:12 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:49:13 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:49:13 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:49:13 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 16:49:13 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:49:13 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:49:13 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:49:15 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:49:15 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:49:17 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:49:17 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:49:20 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:49:27 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:49:27 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 16:49:28 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:49:28 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 16:49:28 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-03 16:49:28 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 16:49:28 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [304] - IP: [::1]
+2026-03-03 16:49:29 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 16:49:29 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 16:49:29 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:49:29 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 16:49:29 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 16:49:29 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:49:30 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 16:49:30 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:49:30 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:49:30 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:49:31 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:49:31 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:49:32 warn: Redis connection retry attempt 200...
+2026-03-03 16:49:32 warn: Redis connection retry attempt 200...
+2026-03-03 16:49:33 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:49:33 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:49:35 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:49:35 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:49:37 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:50:03 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:50:03 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 16:50:05 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 16:50:05 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 16:50:06 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:50:06 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:50:06 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 16:50:06 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 16:50:06 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:50:07 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 16:50:07 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:50:08 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:50:08 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:50:08 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:50:08 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:50:10 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:50:10 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:50:12 warn: Redis connection retry attempt 220...
+2026-03-03 16:50:12 warn: Redis connection retry attempt 220...
+2026-03-03 16:50:13 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:50:25 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 16:50:25 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:50:26 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-03 16:50:26 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 16:50:28 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 16:50:28 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [304] - IP: [::1]
+2026-03-03 16:50:31 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:50:31 info: METHOD: [GET] - URL: [/api/v1/messages/1] - IP: [::1]
+2026-03-03 16:50:31 info: METHOD: [GET] - URL: [/1] - STATUS: [200] - IP: [::1]
+2026-03-03 16:50:31 info: METHOD: [GET] - URL: [/api/v1/messages/1] - IP: [::1]
+2026-03-03 16:50:31 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:50:32 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:50:33 info: METHOD: [GET] - URL: [/1] - STATUS: [200] - IP: [::1]
+2026-03-03 16:50:34 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:50:35 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:50:35 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 16:50:35 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:50:36 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 16:50:36 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-03 16:50:36 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 16:50:37 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [304] - IP: [::1]
+2026-03-03 16:50:39 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:50:39 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:50:41 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:50:42 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:50:42 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 16:50:42 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:50:44 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 16:50:44 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:50:46 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:50:52 warn: Redis connection retry attempt 240...
+2026-03-03 16:50:52 warn: Redis connection retry attempt 240...
+2026-03-03 16:51:29 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:51:29 info: METHOD: [GET] - URL: [/api/v1/messages/1] - IP: [::1]
+2026-03-03 16:51:31 info: METHOD: [GET] - URL: [/1] - STATUS: [200] - IP: [::1]
+2026-03-03 16:51:31 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:51:32 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:51:32 warn: Redis connection retry attempt 260...
+2026-03-03 16:51:32 warn: Redis connection retry attempt 260...
+2026-03-03 16:51:32 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:51:32 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:51:34 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:51:34 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:51:36 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:51:36 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:51:37 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:51:45 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:51:45 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 16:51:46 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-03 16:51:46 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 16:51:47 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [304] - IP: [::1]
+2026-03-03 16:51:47 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:51:48 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 16:51:48 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:51:48 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-03 16:51:49 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 16:51:49 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [304] - IP: [::1]
+2026-03-03 16:51:50 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:52:12 warn: Redis connection retry attempt 280...
+2026-03-03 16:52:12 warn: Redis connection retry attempt 280...
+2026-03-03 16:52:12 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:52:12 info: METHOD: [GET] - URL: [/api/v1/messages/1] - IP: [::1]
+2026-03-03 16:52:14 info: METHOD: [GET] - URL: [/1] - STATUS: [200] - IP: [::1]
+2026-03-03 16:52:14 info: METHOD: [GET] - URL: [/api/v1/messages/1] - IP: [::1]
+2026-03-03 16:52:14 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:52:15 info: METHOD: [GET] - URL: [/1] - STATUS: [304] - IP: [::1]
+2026-03-03 16:52:15 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:52:15 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:52:15 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 16:52:15 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:52:15 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:52:17 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 16:52:17 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:52:19 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:52:19 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:52:22 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:52:22 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 16:52:22 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-03 16:52:22 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 16:52:23 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [304] - IP: [::1]
+2026-03-03 16:52:24 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 16:52:45 info: METHOD: [POST] - URL: [/api/v1/auth/login/email] - IP: [::1]
+2026-03-03 16:52:46 info: METHOD: [POST] - URL: [/login/email] - STATUS: [200] - IP: [::1]
+2026-03-03 16:52:46 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:52:46 info: METHOD: [GET] - URL: [/api/v1/fighters/me] - IP: [::1]
+2026-03-03 16:52:47 info: METHOD: [GET] - URL: [/me] - STATUS: [304] - IP: [::1]
+2026-03-03 16:52:48 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 16:52:48 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:52:50 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:52:52 warn: Redis connection retry attempt 300...
+2026-03-03 16:52:52 warn: Redis connection retry attempt 300...
+2026-03-03 16:52:58 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:52:58 info: METHOD: [GET] - URL: [/api/v1/messages/1] - IP: [::1]
+2026-03-03 16:52:59 info: METHOD: [GET] - URL: [/1] - STATUS: [200] - IP: [::1]
+2026-03-03 16:52:59 info: METHOD: [GET] - URL: [/api/v1/messages/1] - IP: [::1]
+2026-03-03 16:52:59 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:53:00 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:53:00 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 16:53:00 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:53:01 info: METHOD: [GET] - URL: [/1] - STATUS: [200] - IP: [::1]
+2026-03-03 16:53:01 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:53:01 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:53:02 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 16:53:02 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-03 16:53:02 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 16:53:02 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:53:02 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 16:53:02 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [304] - IP: [::1]
+2026-03-03 16:53:04 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:53:04 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:53:06 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:53:06 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:53:07 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 16:53:07 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:53:09 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 16:53:29 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:53:29 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:53:32 warn: Redis connection retry attempt 320...
+2026-03-03 16:53:32 warn: Redis connection retry attempt 320...
+2026-03-03 16:54:10 error: Redis connection error: connect ECONNREFUSED 127.0.0.1:6379 (further connection errors will be suppressed)
+2026-03-03 16:54:10 warn: Redis connection retry attempt 1...
+2026-03-03 16:54:10 warn: Redis connection retry attempt 1...
+2026-03-03 16:54:14 info: ✅ Database connected successfully.
+2026-03-03 16:54:19 warn: Redis connection retry attempt 20...
+2026-03-03 16:54:19 warn: Redis connection retry attempt 20...
+2026-03-03 16:54:21 info: Startup: Recalculating all ranks...
+2026-03-03 16:54:21 info: 🔄 Starting Ranking Calculation...
+2026-03-03 16:54:21 info: 🚀 Server + Socket running on port 3000
+2026-03-03 16:54:21 info: ✅ Fighter ranks updated successfully.
+2026-03-03 16:54:33 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 16:54:34 info: METHOD: [GET] - URL: [/48] - STATUS: [200] - IP: [::1]
+2026-03-03 16:54:34 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 16:54:34 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:54:35 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 16:54:36 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:54:36 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:54:36 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:54:37 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:54:38 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:54:38 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:54:41 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:54:49 warn: Redis connection retry attempt 40...
+2026-03-03 16:54:49 warn: Redis connection retry attempt 40...
+2026-03-03 16:54:51 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 16:54:51 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:54:53 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-03 16:54:53 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 16:54:53 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [304] - IP: [::1]
+2026-03-03 16:54:54 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:54:55 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:54:55 info: METHOD: [GET] - URL: [/api/v1/messages/1] - IP: [::1]
+2026-03-03 16:54:56 info: METHOD: [GET] - URL: [/1] - STATUS: [200] - IP: [::1]
+2026-03-03 16:54:56 info: METHOD: [GET] - URL: [/api/v1/messages/1] - IP: [::1]
+2026-03-03 16:54:56 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:54:57 info: METHOD: [GET] - URL: [/1] - STATUS: [304] - IP: [::1]
+2026-03-03 16:54:57 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:54:57 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:54:57 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:54:57 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:54:57 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:54:59 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 16:54:59 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:54:59 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:54:59 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-03 16:54:59 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 16:55:00 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [304] - IP: [::1]
+2026-03-03 16:55:01 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:55:01 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:55:03 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:55:03 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 16:55:04 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:55:04 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:55:04 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 16:55:04 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 16:55:04 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:55:04 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:55:05 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 16:55:05 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 16:55:05 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:55:06 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 16:55:06 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:55:06 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:55:06 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:55:06 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:55:06 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:55:06 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:55:08 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:55:08 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 16:55:10 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 16:55:11 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 16:55:12 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 16:55:29 warn: Redis connection retry attempt 60...
+2026-03-03 16:55:29 warn: Redis connection retry attempt 60...
+2026-03-03 16:56:09 warn: Redis connection retry attempt 80...
+2026-03-03 16:56:09 warn: Redis connection retry attempt 80...
+2026-03-03 16:56:49 warn: Redis connection retry attempt 100...
+2026-03-03 16:56:49 warn: Redis connection retry attempt 100...
+2026-03-03 16:57:29 warn: Redis connection retry attempt 120...
+2026-03-03 16:57:29 warn: Redis connection retry attempt 120...
+2026-03-03 16:58:09 warn: Redis connection retry attempt 140...
+2026-03-03 16:58:09 warn: Redis connection retry attempt 140...
+2026-03-03 16:58:49 warn: Redis connection retry attempt 160...
+2026-03-03 16:58:49 warn: Redis connection retry attempt 160...
+2026-03-03 16:59:29 warn: Redis connection retry attempt 180...
+2026-03-03 16:59:29 warn: Redis connection retry attempt 180...
+2026-03-03 17:00:09 warn: Redis connection retry attempt 200...
+2026-03-03 17:00:09 warn: Redis connection retry attempt 200...
+2026-03-03 17:00:49 warn: Redis connection retry attempt 220...
+2026-03-03 17:00:49 warn: Redis connection retry attempt 220...
+2026-03-03 17:01:29 warn: Redis connection retry attempt 240...
+2026-03-03 17:01:29 warn: Redis connection retry attempt 240...
+2026-03-03 17:02:09 warn: Redis connection retry attempt 260...
+2026-03-03 17:02:09 warn: Redis connection retry attempt 260...
+2026-03-03 17:02:49 warn: Redis connection retry attempt 280...
+2026-03-03 17:02:49 warn: Redis connection retry attempt 280...
+2026-03-03 17:03:29 warn: Redis connection retry attempt 300...
+2026-03-03 17:03:29 warn: Redis connection retry attempt 300...
+2026-03-03 17:04:09 warn: Redis connection retry attempt 320...
+2026-03-03 17:04:09 warn: Redis connection retry attempt 320...
+2026-03-03 17:04:17 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:04:17 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 17:04:18 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:04:18 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:04:19 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-03 17:04:19 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 17:04:20 info: METHOD: [GET] - URL: [/48] - STATUS: [200] - IP: [::1]
+2026-03-03 17:04:20 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:04:20 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [304] - IP: [::1]
+2026-03-03 17:04:21 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:04:21 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:04:21 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:04:21 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:04:21 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:04:21 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:04:22 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:04:22 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:04:23 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:04:23 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:04:23 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:04:23 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:04:26 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:04:26 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:04:28 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:04:41 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:04:41 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 17:04:42 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:04:42 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:04:43 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-03 17:04:43 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 17:04:43 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [304] - IP: [::1]
+2026-03-03 17:04:43 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:04:43 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:04:44 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:04:44 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:04:44 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:04:44 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 17:04:45 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:04:45 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:04:45 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:04:45 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:04:45 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-03 17:04:45 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 17:04:45 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 17:04:45 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-03 17:04:45 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:04:45 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:04:45 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:04:45 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [304] - IP: [::1]
+2026-03-03 17:04:46 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:04:46 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:04:46 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:04:46 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:04:47 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:04:47 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:04:47 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:04:48 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:04:48 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:04:48 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:04:48 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:04:48 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:04:48 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:04:48 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:04:49 warn: Redis connection retry attempt 340...
+2026-03-03 17:04:49 warn: Redis connection retry attempt 340...
+2026-03-03 17:04:50 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:04:50 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:04:52 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:04:52 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:04:55 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:04:55 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:05:00 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:05:00 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:05:03 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:05:03 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:05:04 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:05:05 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:05:05 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:05:06 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:05:07 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:05:07 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:05:11 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:05:25 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:05:26 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:05:26 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:05:27 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:05:27 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:05:29 warn: Redis connection retry attempt 360...
+2026-03-03 17:05:29 warn: Redis connection retry attempt 360...
+2026-03-03 17:05:29 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:05:53 error: Redis connection error: connect ECONNREFUSED 127.0.0.1:6379 (further connection errors will be suppressed)
+2026-03-03 17:05:53 warn: Redis connection retry attempt 1...
+2026-03-03 17:05:53 warn: Redis connection retry attempt 1...
+2026-03-03 17:06:01 error: Redis connection error: connect ECONNREFUSED 127.0.0.1:6379 (further connection errors will be suppressed)
+2026-03-03 17:06:01 warn: Redis connection retry attempt 1...
+2026-03-03 17:06:01 warn: Redis connection retry attempt 1...
+2026-03-03 17:06:05 error: Redis connection error: connect ECONNREFUSED 127.0.0.1:6379 (further connection errors will be suppressed)
+2026-03-03 17:06:05 warn: Redis connection retry attempt 1...
+2026-03-03 17:06:05 warn: Redis connection retry attempt 1...
+2026-03-03 17:06:06 error: Redis connection error: connect ECONNREFUSED 127.0.0.1:6379 (further connection errors will be suppressed)
+2026-03-03 17:06:06 warn: Redis connection retry attempt 1...
+2026-03-03 17:06:06 warn: Redis connection retry attempt 1...
+2026-03-03 17:06:09 info: ✅ Database connected successfully.
+2026-03-03 17:06:15 warn: Redis connection retry attempt 20...
+2026-03-03 17:06:15 warn: Redis connection retry attempt 20...
+2026-03-03 17:06:18 info: Startup: Recalculating all ranks...
+2026-03-03 17:06:18 info: 🔄 Starting Ranking Calculation...
+2026-03-03 17:06:18 info: 🚀 Server + Socket running on port 3000
+2026-03-03 17:06:18 info: ✅ Fighter ranks updated successfully.
+2026-03-03 17:06:19 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:06:19 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:06:21 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:06:21 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:06:22 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:06:22 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:06:22 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:06:22 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:06:22 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:06:22 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:06:22 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:06:23 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:06:23 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:06:25 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:06:25 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:06:27 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:06:27 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:06:28 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 17:06:28 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:06:28 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-03 17:06:28 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 17:06:29 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [304] - IP: [::1]
+2026-03-03 17:06:29 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:06:30 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:06:35 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:06:35 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:06:36 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:06:36 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:06:37 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:06:37 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:06:37 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:06:37 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:06:37 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:06:38 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:06:38 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:06:38 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:06:39 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:06:39 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:06:39 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:06:40 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 17:06:40 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:06:41 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-03 17:06:41 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 17:06:42 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [304] - IP: [::1]
+2026-03-03 17:06:43 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:06:43 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:06:43 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:06:45 warn: Redis connection retry attempt 40...
+2026-03-03 17:06:45 warn: Redis connection retry attempt 40...
+2026-03-03 17:06:46 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:07:04 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:07:04 info: METHOD: [GET] - URL: [/api/v1/messages/1] - IP: [::1]
+2026-03-03 17:07:06 info: METHOD: [GET] - URL: [/1] - STATUS: [200] - IP: [::1]
+2026-03-03 17:07:06 info: METHOD: [GET] - URL: [/api/v1/messages/1] - IP: [::1]
+2026-03-03 17:07:07 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:07:07 info: METHOD: [GET] - URL: [/1] - STATUS: [304] - IP: [::1]
+2026-03-03 17:07:07 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:07:07 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 17:07:07 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:07:08 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:07:08 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:07:09 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 17:07:09 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:07:11 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:07:11 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:07:12 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:07:13 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:07:14 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:07:17 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:07:17 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 17:07:17 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [200] - IP: [::1]
+2026-03-03 17:07:18 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 17:07:18 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [200] - IP: [::1]
+2026-03-03 17:07:19 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:07:25 warn: Redis connection retry attempt 60...
+2026-03-03 17:07:25 warn: Redis connection retry attempt 60...
+2026-03-03 17:07:32 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:07:32 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 17:07:32 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-03 17:07:32 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 17:07:33 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [304] - IP: [::1]
+2026-03-03 17:07:35 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:07:35 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:07:35 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:07:36 info: METHOD: [GET] - URL: [/48] - STATUS: [200] - IP: [::1]
+2026-03-03 17:07:36 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:07:36 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:07:36 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:07:36 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:07:36 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:07:37 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 17:07:37 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:07:37 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:07:39 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 17:07:39 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:07:41 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:07:41 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:07:44 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:08:05 warn: Redis connection retry attempt 80...
+2026-03-03 17:08:05 warn: Redis connection retry attempt 80...
+2026-03-03 17:08:45 warn: Redis connection retry attempt 100...
+2026-03-03 17:08:45 warn: Redis connection retry attempt 100...
+2026-03-03 17:09:11 error: Redis connection error: connect ECONNREFUSED 127.0.0.1:6379 (further connection errors will be suppressed)
+2026-03-03 17:09:11 warn: Redis connection retry attempt 1...
+2026-03-03 17:09:11 warn: Redis connection retry attempt 1...
+2026-03-03 17:09:13 error: Redis connection error: connect ECONNREFUSED 127.0.0.1:6379 (further connection errors will be suppressed)
+2026-03-03 17:09:13 warn: Redis connection retry attempt 1...
+2026-03-03 17:09:13 warn: Redis connection retry attempt 1...
+2026-03-03 17:09:14 error: Redis connection error: connect ECONNREFUSED 127.0.0.1:6379 (further connection errors will be suppressed)
+2026-03-03 17:09:14 warn: Redis connection retry attempt 1...
+2026-03-03 17:09:14 warn: Redis connection retry attempt 1...
+2026-03-03 17:09:15 error: Redis connection error: connect ECONNREFUSED 127.0.0.1:6379 (further connection errors will be suppressed)
+2026-03-03 17:09:15 warn: Redis connection retry attempt 1...
+2026-03-03 17:09:15 warn: Redis connection retry attempt 1...
+2026-03-03 17:09:21 info: ✅ Database connected successfully.
+2026-03-03 17:09:24 warn: Redis connection retry attempt 20...
+2026-03-03 17:09:24 warn: Redis connection retry attempt 20...
+2026-03-03 17:09:27 info: Startup: Recalculating all ranks...
+2026-03-03 17:09:27 info: 🔄 Starting Ranking Calculation...
+2026-03-03 17:09:27 info: 🚀 Server + Socket running on port 3000
+2026-03-03 17:09:28 info: ✅ Fighter ranks updated successfully.
+2026-03-03 17:09:33 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 17:09:33 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [200] - IP: [::1]
+2026-03-03 17:09:34 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 17:09:34 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:09:34 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:09:34 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [200] - IP: [::1]
+2026-03-03 17:09:35 info: METHOD: [GET] - URL: [/48] - STATUS: [200] - IP: [::1]
+2026-03-03 17:09:35 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:09:35 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:09:36 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:09:36 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:09:36 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:09:36 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:09:37 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:09:37 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:09:37 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:09:37 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:09:37 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:09:37 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:09:37 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:09:37 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:09:37 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:09:37 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:09:38 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:09:38 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:09:38 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:09:38 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:09:38 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:09:38 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:09:39 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:09:39 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:09:39 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:09:39 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:09:39 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:09:39 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:09:39 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:09:40 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:09:40 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:09:40 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:09:40 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:09:41 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:09:42 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:09:42 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:09:42 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:09:42 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:09:43 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:09:43 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:09:43 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:09:44 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:09:54 warn: Redis connection retry attempt 40...
+2026-03-03 17:09:54 warn: Redis connection retry attempt 40...
+2026-03-03 17:09:56 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:09:56 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:09:58 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:09:59 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:09:59 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:09:59 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:10:00 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:10:01 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:10:02 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:10:02 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:10:02 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 17:10:02 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 17:10:03 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 17:10:04 error: Redis connection error: connect ECONNREFUSED 127.0.0.1:6379 (further connection errors will be suppressed)
+2026-03-03 17:10:04 warn: Redis connection retry attempt 1...
+2026-03-03 17:10:04 warn: Redis connection retry attempt 1...
+2026-03-03 17:10:06 error: Redis connection error: connect ECONNREFUSED 127.0.0.1:6379 (further connection errors will be suppressed)
+2026-03-03 17:10:06 warn: Redis connection retry attempt 1...
+2026-03-03 17:10:06 warn: Redis connection retry attempt 1...
+2026-03-03 17:10:09 error: Redis connection error: connect ECONNREFUSED 127.0.0.1:6379 (further connection errors will be suppressed)
+2026-03-03 17:10:09 warn: Redis connection retry attempt 1...
+2026-03-03 17:10:09 warn: Redis connection retry attempt 1...
+2026-03-03 17:10:13 info: ✅ Database connected successfully.
+2026-03-03 17:10:17 error: Redis connection error: connect ECONNREFUSED 127.0.0.1:6379 (further connection errors will be suppressed)
+2026-03-03 17:10:17 warn: Redis connection retry attempt 1...
+2026-03-03 17:10:17 warn: Redis connection retry attempt 1...
+2026-03-03 17:10:20 info: ✅ Database connected successfully.
+2026-03-03 17:10:23 error: Redis connection error: connect ECONNREFUSED 127.0.0.1:6379 (further connection errors will be suppressed)
+2026-03-03 17:10:23 warn: Redis connection retry attempt 1...
+2026-03-03 17:10:23 warn: Redis connection retry attempt 1...
+2026-03-03 17:10:26 error: Redis connection error: connect ECONNREFUSED 127.0.0.1:6379 (further connection errors will be suppressed)
+2026-03-03 17:10:26 warn: Redis connection retry attempt 1...
+2026-03-03 17:10:26 warn: Redis connection retry attempt 1...
+2026-03-03 17:10:30 info: ✅ Database connected successfully.
+2026-03-03 17:10:34 error: Redis connection error: connect ECONNREFUSED 127.0.0.1:6379 (further connection errors will be suppressed)
+2026-03-03 17:10:34 warn: Redis connection retry attempt 1...
+2026-03-03 17:10:34 warn: Redis connection retry attempt 1...
+2026-03-03 17:10:37 info: ✅ Database connected successfully.
+2026-03-03 17:10:40 error: Redis connection error: connect ECONNREFUSED 127.0.0.1:6379 (further connection errors will be suppressed)
+2026-03-03 17:10:40 warn: Redis connection retry attempt 1...
+2026-03-03 17:10:40 warn: Redis connection retry attempt 1...
+2026-03-03 17:10:44 info: ✅ Database connected successfully.
+2026-03-03 17:10:48 error: Redis connection error: connect ECONNREFUSED 127.0.0.1:6379 (further connection errors will be suppressed)
+2026-03-03 17:10:48 warn: Redis connection retry attempt 1...
+2026-03-03 17:10:48 warn: Redis connection retry attempt 1...
+2026-03-03 17:10:53 info: ✅ Database connected successfully.
+2026-03-03 17:10:57 warn: Redis connection retry attempt 20...
+2026-03-03 17:10:57 warn: Redis connection retry attempt 20...
+2026-03-03 17:11:01 info: Startup: Recalculating all ranks...
+2026-03-03 17:11:01 info: 🔄 Starting Ranking Calculation...
+2026-03-03 17:11:01 info: 🚀 Server + Socket running on port 3000
+2026-03-03 17:11:02 info: ✅ Fighter ranks updated successfully.
+2026-03-03 17:11:27 warn: Redis connection retry attempt 40...
+2026-03-03 17:11:27 warn: Redis connection retry attempt 40...
+2026-03-03 17:11:56 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:11:56 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 17:11:57 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:11:57 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:11:58 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-03 17:11:58 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 17:11:58 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:11:58 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:11:59 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [304] - IP: [::1]
+2026-03-03 17:11:59 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 17:11:59 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:11:59 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 17:11:59 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:11:59 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:11:59 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:12:00 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:00 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 17:12:00 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:00 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:00 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:12:00 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:00 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:12:00 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:12:00 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:12:01 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:12:01 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:01 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:12:02 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:02 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:02 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:12:02 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:02 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:12:02 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:12:03 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:03 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:12:03 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:12:03 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:12:03 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 17:12:03 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:12:04 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:04 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:12:04 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 17:12:04 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:04 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:04 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:12:05 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:05 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:12:05 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:05 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:12:05 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:12:05 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:06 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:06 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:12:06 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:12:06 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:12:07 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:07 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:12:07 warn: Redis connection retry attempt 60...
+2026-03-03 17:12:07 warn: Redis connection retry attempt 60...
+2026-03-03 17:12:08 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:08 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:12:11 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:11 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:12:13 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:13 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:12:15 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:12:15 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 17:12:15 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:15 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 17:12:16 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:16 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:12:16 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:16 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:12:16 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:16 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:12:17 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:17 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:17 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:12:17 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:12:18 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:12:18 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:18 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:12:18 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:12:18 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 17:12:18 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:18 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 17:12:19 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 17:12:19 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:19 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:19 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 17:12:19 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:19 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:12:19 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:12:19 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:20 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:20 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:12:20 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:12:20 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:20 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:20 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:12:20 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:12:20 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:12:21 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:21 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:12:21 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:21 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:12:22 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:12:22 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:12:22 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:22 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:12:22 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 17:12:22 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:22 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 17:12:23 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:12:23 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:23 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:23 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:12:24 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:24 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:12:24 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:24 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:12:24 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 17:12:24 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:24 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:12:24 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:12:25 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:25 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 17:12:25 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:25 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:12:25 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:12:25 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:12:26 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:26 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:26 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:12:26 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:26 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:12:26 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:12:26 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:27 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:27 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:12:27 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:12:27 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:12:27 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:27 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:12:28 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:12:28 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:28 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:12:31 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:31 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:12:33 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:12:33 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-03 17:12:33 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:33 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-03 17:12:33 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:34 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:12:34 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:34 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:12:34 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:34 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:12:35 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:35 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-03 17:12:35 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:12:35 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:36 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:36 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-03 17:12:36 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:12:36 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:36 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:12:36 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-03 17:12:38 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:38 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:12:40 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:40 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:12:42 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:42 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:12:43 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:12:43 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:12:44 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:44 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:12:45 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:12:45 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 17:12:45 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 17:12:45 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:12:45 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:45 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:12:47 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 17:12:47 warn: Redis connection retry attempt 80...
+2026-03-03 17:12:47 warn: Redis connection retry attempt 80...
+2026-03-03 17:12:47 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 17:12:47 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:12:48 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:48 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:12:49 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-03 17:12:50 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:50 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:12:52 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:52 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:12:54 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:54 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:12:56 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:12:56 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-03 17:12:58 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-03 17:13:09 error: Redis connection error: connect ECONNREFUSED 127.0.0.1:6379 (further connection errors will be suppressed)
+2026-03-03 17:13:09 warn: Redis connection retry attempt 1...
+2026-03-03 17:13:09 warn: Redis connection retry attempt 1...
+2026-03-03 17:13:10 error: Redis connection error: connect ECONNREFUSED 127.0.0.1:6379 (further connection errors will be suppressed)
+2026-03-03 17:13:10 warn: Redis connection retry attempt 1...
+2026-03-03 17:13:10 warn: Redis connection retry attempt 1...
+2026-03-03 17:13:15 info: ✅ Database connected successfully.
+2026-03-03 17:13:19 warn: Redis connection retry attempt 20...
+2026-03-03 17:13:19 warn: Redis connection retry attempt 20...

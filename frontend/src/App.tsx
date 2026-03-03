@@ -33,23 +33,30 @@ import FightDetails from "./pages/FightDetails";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import ContactUs from "./pages/ContactUs";
-import { connectSocket, disconnectSocket } from "./socket/socket";
+import { useChatStore } from "./stores/useChatStore";
 
 const queryClient = new QueryClient();
 
 const AppInitializer = ({ children }: { children: React.ReactNode }) => {
   const initializeAuth = useAuthStore((s) => s.initializeAuth);
+  const token = useAuthStore((s) => s.token);
+
+  const connectChatSocket = useChatStore((s) => s.connectSocket);
+  const disconnectChatSocket = useChatStore((s) => s.disconnectSocket);
 
   useEffect(() => {
     initializeAuth();
   }, [initializeAuth]);
 
   useEffect(() => {
-    connectSocket();
+    if (token) {
+      connectChatSocket(token);
+    }
+
     return () => {
-      disconnectSocket();
+      disconnectChatSocket();
     };
-  }, []);
+  }, [token, connectChatSocket, disconnectChatSocket]);
 
   return <>{children}</>;
 };

@@ -50,7 +50,7 @@ export const getComments = asyncHandler(async (req: Request, res: Response) => {
                 attributes: ["id", "name", "avatar", "country", "user_type"],
             },
         ],
-        order: [["created_at", "DESC"]], // Newest first
+        order: [["created_at", "DESC"]],
     });
 
     res.status(200).json(comments);
