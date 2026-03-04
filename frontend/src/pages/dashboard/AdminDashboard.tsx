@@ -610,7 +610,7 @@ const AdminDashboard = () => {
                         >
                           <div className="flex items-center gap-3">
                             <Shield className="w-8 h-8 text-blue-500 bg-blue-50 dark:bg-blue-500/10 p-1.5 rounded-full" />
-                            <div>
+                            <div className="flex flex-col items-start">
                               <p className="font-bold text-primary text-start">
                                 {s.company_name}
                               </p>

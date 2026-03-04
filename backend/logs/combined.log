@@ -5354,3 +5354,389 @@
 2026-03-03 18:51:19 warn: Redis connection retry attempt 2240...
 2026-03-03 18:51:59 warn: Redis connection retry attempt 2260...
 2026-03-03 18:51:59 warn: Redis connection retry attempt 2260...
+2026-03-03 18:52:39 warn: Redis connection retry attempt 2280...
+2026-03-03 18:52:39 warn: Redis connection retry attempt 2280...
+2026-03-03 18:53:19 warn: Redis connection retry attempt 2300...
+2026-03-03 18:53:19 warn: Redis connection retry attempt 2300...
+2026-03-03 18:53:59 warn: Redis connection retry attempt 2320...
+2026-03-03 18:53:59 warn: Redis connection retry attempt 2320...
+2026-03-03 18:54:39 warn: Redis connection retry attempt 2340...
+2026-03-03 18:54:39 warn: Redis connection retry attempt 2340...
+2026-03-03 18:55:19 warn: Redis connection retry attempt 2360...
+2026-03-03 18:55:19 warn: Redis connection retry attempt 2360...
+2026-03-03 18:55:23 error: Redis connection error: connect ECONNREFUSED 127.0.0.1:6379 (further connection errors will be suppressed)
+2026-03-03 18:55:23 warn: Redis connection retry attempt 1...
+2026-03-03 18:55:23 warn: Redis connection retry attempt 1...
+2026-03-03 18:55:25 error: Redis connection error: connect ECONNREFUSED 127.0.0.1:6379 (further connection errors will be suppressed)
+2026-03-03 18:55:25 warn: Redis connection retry attempt 1...
+2026-03-03 18:55:25 warn: Redis connection retry attempt 1...
+2026-03-03 18:55:27 error: Redis connection error: connect ECONNREFUSED 127.0.0.1:6379 (further connection errors will be suppressed)
+2026-03-03 18:55:27 warn: Redis connection retry attempt 1...
+2026-03-03 18:55:27 warn: Redis connection retry attempt 1...
+2026-03-03 18:55:32 info: ✅ Database connected successfully.
+2026-03-03 18:55:36 warn: Redis connection retry attempt 20...
+2026-03-03 18:55:36 warn: Redis connection retry attempt 20...
+2026-03-03 18:55:39 info: Shutting down...
+2026-03-03 18:55:39 info: Shutting down...
+2026-03-03 18:55:39 info: Shutting down...
+2026-03-03 18:55:39 info: Shutting down...
+2026-03-03 18:55:39 error: ❌ Database connection failed: ConnectionManager.getConnection was called after the connection manager was closed!
+2026-03-03 18:55:42 error: Redis connection error: connect ECONNREFUSED 127.0.0.1:6379 (further connection errors will be suppressed)
+2026-03-03 18:55:42 warn: Redis connection retry attempt 1...
+2026-03-03 18:55:42 warn: Redis connection retry attempt 1...
+2026-03-03 18:55:44 error: Redis connection error: connect ECONNREFUSED 127.0.0.1:6379 (further connection errors will be suppressed)
+2026-03-03 18:55:44 warn: Redis connection retry attempt 1...
+2026-03-03 18:55:44 warn: Redis connection retry attempt 1...
+2026-03-03 18:55:49 info: ✅ Database connected successfully.
+2026-03-03 18:55:54 warn: Redis connection retry attempt 20...
+2026-03-03 18:55:54 warn: Redis connection retry attempt 20...
+2026-03-03 18:55:58 info: Startup: Recalculating all ranks...
+2026-03-03 18:55:58 info: 🔄 Starting Ranking Calculation...
+2026-03-03 18:55:58 info: 🚀 Server + Socket running on port 3000
+2026-03-03 18:55:58 info: ✅ Fighter ranks updated successfully.
+2026-03-03 18:56:07 info: METHOD: [POST] - URL: [/api/v1/newsletter/subscribe] - IP: [::1]
+2026-03-03 18:56:08 info: METHOD: [POST] - URL: [/subscribe] - STATUS: [201] - IP: [::1]
+2026-03-03 18:56:08 info: ✅ Welcome email DIRECTLY SENT to avakimyan.gor.00@gmail.com
+2026-03-03 18:56:23 warn: Redis connection retry attempt 40...
+2026-03-03 18:56:23 warn: Redis connection retry attempt 40...
+2026-03-03 18:57:04 warn: Redis connection retry attempt 60...
+2026-03-03 18:57:04 warn: Redis connection retry attempt 60...
+2026-03-03 18:57:44 warn: Redis connection retry attempt 80...
+2026-03-03 18:57:44 warn: Redis connection retry attempt 80...
+2026-03-03 18:58:24 warn: Redis connection retry attempt 100...
+2026-03-03 18:58:24 warn: Redis connection retry attempt 100...
+2026-03-03 18:59:04 warn: Redis connection retry attempt 120...
+2026-03-03 18:59:04 warn: Redis connection retry attempt 120...
+2026-03-03 18:59:44 warn: Redis connection retry attempt 140...
+2026-03-03 18:59:44 warn: Redis connection retry attempt 140...
+2026-03-03 19:00:24 warn: Redis connection retry attempt 160...
+2026-03-03 19:00:24 warn: Redis connection retry attempt 160...
+2026-03-03 19:01:04 warn: Redis connection retry attempt 180...
+2026-03-03 19:01:04 warn: Redis connection retry attempt 180...
+2026-03-04 00:00:00 info: 🔄 Starting Ranking Calculation...
+2026-03-04 00:00:01 info: ✅ Fighter ranks updated successfully.
+2026-03-04 10:11:48 info: ✅ Database connected successfully.
+2026-03-04 10:11:55 info: Startup: Recalculating all ranks...
+2026-03-04 10:11:55 info: 🔄 Starting Ranking Calculation...
+2026-03-04 10:11:55 info: 🚀 Server + Socket running on port 3000
+2026-03-04 10:11:55 info: ✅ Fighter ranks updated successfully.
+2026-03-04 10:26:57 info: ✅ Database connected successfully.
+2026-03-04 10:27:03 info: Startup: Recalculating all ranks...
+2026-03-04 10:27:03 info: 🔄 Starting Ranking Calculation...
+2026-03-04 10:27:03 info: 🚀 Server + Socket running on port 3000
+2026-03-04 10:27:04 info: ✅ Fighter ranks updated successfully.
+2026-03-04 10:27:58 info: ✅ Database connected successfully.
+2026-03-04 10:28:02 info: ✅ Database connected successfully.
+2026-03-04 10:28:07 info: ✅ Database connected successfully.
+2026-03-04 10:28:14 info: Startup: Recalculating all ranks...
+2026-03-04 10:28:14 info: 🔄 Starting Ranking Calculation...
+2026-03-04 10:28:14 info: 🚀 Server + Socket running on port 3000
+2026-03-04 10:28:14 info: ✅ Fighter ranks updated successfully.
+2026-03-04 10:29:00 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-04 10:29:00 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-04 10:29:01 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-04 10:29:01 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-04 10:29:01 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [304] - IP: [::1]
+2026-03-04 10:29:02 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-04 10:29:14 info: METHOD: [POST] - URL: [/api/v1/newsletter/subscribe] - IP: [::1]
+2026-03-04 10:29:15 info: METHOD: [POST] - URL: [/subscribe] - STATUS: [201] - IP: [::1]
+2026-03-04 10:29:15 info: ✅ Welcome email enqueued for avakimyan.gor.00@gmail.com
+2026-03-04 10:29:16 info: ✅ Email successfully processed by worker and sent to: avakimyan.gor.00@gmail.com
+2026-03-04 10:31:05 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-04 10:31:05 info: METHOD: [GET] - URL: [/api/v1/divisions] - IP: [::1]
+2026-03-04 10:31:05 info: METHOD: [GET] - URL: [/api/v1/fighters?page=1&limit=10&sortBy=ranking] - IP: [::1]
+2026-03-04 10:31:06 info: METHOD: [GET] - URL: [/] - STATUS: [200] - IP: [::1]
+2026-03-04 10:31:06 info: METHOD: [GET] - URL: [/?page=1&limit=10&sortBy=ranking] - STATUS: [200] - IP: [::1]
+2026-03-04 10:31:07 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-04 10:32:30 info: METHOD: [GET] - URL: [/api/v1/fighters?page=2&limit=10&sortBy=ranking] - IP: [::1]
+2026-03-04 10:32:32 info: METHOD: [GET] - URL: [/?page=2&limit=10&sortBy=ranking] - STATUS: [200] - IP: [::1]
+2026-03-04 10:32:38 info: METHOD: [GET] - URL: [/api/v1/fighters?page=3&limit=10&sortBy=ranking] - IP: [::1]
+2026-03-04 10:32:38 info: METHOD: [GET] - URL: [/?page=3&limit=10&sortBy=ranking] - STATUS: [200] - IP: [::1]
+2026-03-04 10:33:34 info: METHOD: [GET] - URL: [/api/v1/divisions] - IP: [::1]
+2026-03-04 10:33:34 info: METHOD: [GET] - URL: [/api/v1/fighters?page=1&limit=10&sortBy=ranking] - IP: [::1]
+2026-03-04 10:33:34 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-04 10:33:36 info: METHOD: [GET] - URL: [/] - STATUS: [304] - IP: [::1]
+2026-03-04 10:33:36 info: METHOD: [GET] - URL: [/?page=1&limit=10&sortBy=ranking] - STATUS: [200] - IP: [::1]
+2026-03-04 10:33:36 info: METHOD: [GET] - URL: [/api/v1/fighters?page=1&limit=10&sortBy=ranking] - IP: [::1]
+2026-03-04 10:33:36 info: METHOD: [GET] - URL: [/?page=1&limit=10&sortBy=ranking] - STATUS: [304] - IP: [::1]
+2026-03-04 10:33:36 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-04 10:33:58 info: METHOD: [GET] - URL: [/api/v1/divisions] - IP: [::1]
+2026-03-04 10:33:58 info: METHOD: [GET] - URL: [/api/v1/fighters?page=1&limit=10&sortBy=ranking] - IP: [::1]
+2026-03-04 10:33:58 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-04 10:33:59 info: METHOD: [GET] - URL: [/] - STATUS: [304] - IP: [::1]
+2026-03-04 10:33:59 info: METHOD: [GET] - URL: [/?page=1&limit=10&sortBy=ranking] - STATUS: [304] - IP: [::1]
+2026-03-04 10:33:59 info: METHOD: [GET] - URL: [/api/v1/fighters?page=1&limit=10&sortBy=ranking] - IP: [::1]
+2026-03-04 10:33:59 info: METHOD: [GET] - URL: [/?page=1&limit=10&sortBy=ranking] - STATUS: [304] - IP: [::1]
+2026-03-04 10:33:59 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-04 10:34:20 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-04 10:34:20 info: METHOD: [GET] - URL: [/api/v1/fighters/30] - IP: [::1]
+2026-03-04 10:34:21 info: METHOD: [GET] - URL: [/30] - STATUS: [200] - IP: [::1]
+2026-03-04 10:34:22 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-04 10:34:30 info: METHOD: [GET] - URL: [/api/v1/fighters/30] - IP: [::1]
+2026-03-04 10:34:30 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-04 10:34:31 info: METHOD: [GET] - URL: [/30] - STATUS: [200] - IP: [::1]
+2026-03-04 10:34:31 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-04 10:34:43 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-04 10:34:43 info: METHOD: [GET] - URL: [/api/v1/divisions] - IP: [::1]
+2026-03-04 10:34:43 info: METHOD: [GET] - URL: [/api/v1/fighters?page=1&limit=10&sortBy=ranking] - IP: [::1]
+2026-03-04 10:34:44 info: METHOD: [GET] - URL: [/] - STATUS: [200] - IP: [::1]
+2026-03-04 10:34:45 info: METHOD: [GET] - URL: [/?page=1&limit=10&sortBy=ranking] - STATUS: [200] - IP: [::1]
+2026-03-04 10:34:45 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-04 10:36:01 info: METHOD: [GET] - URL: [/api/v1/fighters?page=2&limit=10&sortBy=ranking] - IP: [::1]
+2026-03-04 10:36:01 info: METHOD: [GET] - URL: [/?page=2&limit=10&sortBy=ranking] - STATUS: [200] - IP: [::1]
+2026-03-04 10:36:10 info: METHOD: [GET] - URL: [/api/v1/fighters?page=3&limit=10&sortBy=ranking] - IP: [::1]
+2026-03-04 10:36:10 info: METHOD: [GET] - URL: [/?page=3&limit=10&sortBy=ranking] - STATUS: [200] - IP: [::1]
+2026-03-04 10:36:32 info: METHOD: [GET] - URL: [/api/v1/fighters?gender=male&page=1&limit=10&sortBy=ranking] - IP: [::1]
+2026-03-04 10:36:34 info: METHOD: [GET] - URL: [/?gender=male&page=1&limit=10&sortBy=ranking] - STATUS: [200] - IP: [::1]
+2026-03-04 10:36:36 info: METHOD: [GET] - URL: [/api/v1/fighters?gender=female&page=1&limit=10&sortBy=ranking] - IP: [::1]
+2026-03-04 10:36:37 info: METHOD: [GET] - URL: [/?gender=female&page=1&limit=10&sortBy=ranking] - STATUS: [200] - IP: [::1]
+2026-03-04 10:36:42 info: METHOD: [GET] - URL: [/api/v1/fighters?page=1&limit=10&sortBy=ranking] - IP: [::1]
+2026-03-04 10:36:43 info: METHOD: [GET] - URL: [/?page=1&limit=10&sortBy=ranking] - STATUS: [304] - IP: [::1]
+2026-03-04 10:36:48 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-04 10:36:48 info: METHOD: [GET] - URL: [/api/v1/events?status=live] - IP: [::1]
+2026-03-04 10:36:48 info: METHOD: [GET] - URL: [/api/v1/events?status=upcoming] - IP: [::1]
+2026-03-04 10:36:48 info: METHOD: [GET] - URL: [/api/v1/events?status=completed] - IP: [::1]
+2026-03-04 10:36:49 info: METHOD: [GET] - URL: [/?status=live] - STATUS: [200] - IP: [::1]
+2026-03-04 10:36:49 info: METHOD: [GET] - URL: [/?status=upcoming] - STATUS: [200] - IP: [::1]
+2026-03-04 10:36:49 info: METHOD: [GET] - URL: [/?status=completed] - STATUS: [200] - IP: [::1]
+2026-03-04 10:36:49 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-04 10:37:26 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-04 10:37:26 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-04 10:37:27 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-04 10:37:27 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-04 10:37:28 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [200] - IP: [::1]
+2026-03-04 10:37:28 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-04 10:37:31 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-04 10:37:31 info: METHOD: [GET] - URL: [/api/v1/divisions] - IP: [::1]
+2026-03-04 10:37:31 info: METHOD: [GET] - URL: [/api/v1/fighters?page=1&limit=10&sortBy=ranking] - IP: [::1]
+2026-03-04 10:37:31 info: METHOD: [GET] - URL: [/] - STATUS: [304] - IP: [::1]
+2026-03-04 10:37:32 info: METHOD: [GET] - URL: [/?page=1&limit=10&sortBy=ranking] - STATUS: [304] - IP: [::1]
+2026-03-04 10:37:32 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-04 10:37:34 info: METHOD: [GET] - URL: [/api/v1/fighters?search=i&page=1&limit=10&sortBy=ranking] - IP: [::1]
+2026-03-04 10:37:34 info: METHOD: [GET] - URL: [/?search=i&page=1&limit=10&sortBy=ranking] - STATUS: [200] - IP: [::1]
+2026-03-04 10:37:34 info: METHOD: [GET] - URL: [/api/v1/fighters?page=1&limit=10&sortBy=ranking] - IP: [::1]
+2026-03-04 10:37:35 info: METHOD: [GET] - URL: [/?page=1&limit=10&sortBy=ranking] - STATUS: [304] - IP: [::1]
+2026-03-04 10:37:36 info: METHOD: [GET] - URL: [/api/v1/fighters?search=gor&page=1&limit=10&sortBy=ranking] - IP: [::1]
+2026-03-04 10:37:36 info: METHOD: [GET] - URL: [/?search=gor&page=1&limit=10&sortBy=ranking] - STATUS: [200] - IP: [::1]
+2026-03-04 10:37:38 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-04 10:37:38 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-04 10:37:38 info: METHOD: [GET] - URL: [/48] - STATUS: [200] - IP: [::1]
+2026-03-04 10:37:38 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-04 10:37:38 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-04 10:37:38 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-04 10:37:39 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-04 10:37:39 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-04 10:37:39 info: METHOD: [GET] - URL: [/api/v1/messages/48] - IP: [::1]
+2026-03-04 10:37:39 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-04 10:37:40 info: METHOD: [GET] - URL: [/48] - STATUS: [304] - IP: [::1]
+2026-03-04 10:37:40 info: METHOD: [PATCH] - URL: [/api/v1/messages/mark-read] - IP: [::1]
+2026-03-04 10:37:40 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-04 10:37:40 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-04 10:37:40 info: METHOD: [PATCH] - URL: [/mark-read] - STATUS: [200] - IP: [::1]
+2026-03-04 10:37:40 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-04 10:37:40 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-04 10:37:41 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-04 10:37:45 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-04 10:37:46 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-04 10:38:05 info: ✅ Database connected successfully.
+2026-03-04 10:38:20 info: ✅ Database connected successfully.
+2026-03-04 10:38:27 info: Startup: Recalculating all ranks...
+2026-03-04 10:38:27 info: 🔄 Starting Ranking Calculation...
+2026-03-04 10:38:27 info: 🚀 Server + Socket running on port 3000
+2026-03-04 10:38:27 info: ✅ Fighter ranks updated successfully.
+2026-03-04 10:38:45 info: ✅ Database connected successfully.
+2026-03-04 10:38:53 info: ✅ Database connected successfully.
+2026-03-04 10:39:00 info: Startup: Recalculating all ranks...
+2026-03-04 10:39:00 info: 🔄 Starting Ranking Calculation...
+2026-03-04 10:39:00 info: 🚀 Server + Socket running on port 3000
+2026-03-04 10:39:00 info: ✅ Fighter ranks updated successfully.
+2026-03-04 10:39:37 info: ✅ Database connected successfully.
+2026-03-04 10:39:44 info: Startup: Recalculating all ranks...
+2026-03-04 10:39:44 info: 🔄 Starting Ranking Calculation...
+2026-03-04 10:39:44 info: 🚀 Server + Socket running on port 3000
+2026-03-04 10:39:44 info: ✅ Fighter ranks updated successfully.
+2026-03-04 10:43:53 info: ✅ Database connected successfully.
+2026-03-04 10:44:00 info: Startup: Recalculating all ranks...
+2026-03-04 10:44:00 info: 🔄 Starting Ranking Calculation...
+2026-03-04 10:44:00 info: 🚀 Server + Socket running on port 3000
+2026-03-04 10:44:00 info: ✅ Fighter ranks updated successfully.
+2026-03-04 10:44:05 info: ✅ Database connected successfully.
+2026-03-04 10:44:08 info: ✅ Database connected successfully.
+2026-03-04 10:44:16 info: ✅ Database connected successfully.
+2026-03-04 10:44:23 info: Startup: Recalculating all ranks...
+2026-03-04 10:44:23 info: 🔄 Starting Ranking Calculation...
+2026-03-04 10:44:23 info: 🚀 Server + Socket running on port 3000
+2026-03-04 10:44:23 info: ✅ Fighter ranks updated successfully.
+2026-03-04 10:44:46 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-04 10:44:46 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-04 10:44:47 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [200] - IP: [::1]
+2026-03-04 10:44:47 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-04 10:44:48 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-04 10:44:48 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-04 10:44:49 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [304] - IP: [::1]
+2026-03-04 10:44:49 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-04 10:44:49 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [200] - IP: [::1]
+2026-03-04 10:44:50 info: METHOD: [GET] - URL: [/conversations] - STATUS: [200] - IP: [::1]
+2026-03-04 10:44:55 info: METHOD: [POST] - URL: [/api/v1/newsletter/subscribe] - IP: [::1]
+2026-03-04 10:44:55 info: METHOD: [POST] - URL: [/subscribe] - STATUS: [201] - IP: [::1]
+2026-03-04 10:44:55 info: ✅ Welcome email enqueued for avakimyan.gor.00@gmail.com
+2026-03-04 10:44:56 info: ✅ Email successfully processed by worker and sent to: avakimyan.gor.00@gmail.com
+2026-03-04 10:47:28 info: METHOD: [POST] - URL: [/api/v1/newsletter/subscribe] - IP: [::1]
+2026-03-04 10:47:30 info: METHOD: [POST] - URL: [/subscribe] - STATUS: [201] - IP: [::1]
+2026-03-04 10:47:30 info: ✅ Welcome email enqueued for gor.avkimyan@gmail.com
+2026-03-04 10:47:31 info: ✅ Email successfully processed by worker and sent to: gor.avkimyan@gmail.com
+2026-03-04 10:48:00 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-04 10:48:00 info: METHOD: [GET] - URL: [/api/v1/events?status=live] - IP: [::1]
+2026-03-04 10:48:00 info: METHOD: [GET] - URL: [/api/v1/events?status=upcoming] - IP: [::1]
+2026-03-04 10:48:00 info: METHOD: [GET] - URL: [/api/v1/events?status=completed] - IP: [::1]
+2026-03-04 10:48:01 info: METHOD: [GET] - URL: [/?status=live] - STATUS: [304] - IP: [::1]
+2026-03-04 10:48:01 info: METHOD: [GET] - URL: [/?status=upcoming] - STATUS: [304] - IP: [::1]
+2026-03-04 10:48:01 info: METHOD: [GET] - URL: [/?status=completed] - STATUS: [304] - IP: [::1]
+2026-03-04 10:48:03 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-04 10:51:32 info: ✅ Database connected successfully.
+2026-03-04 10:51:38 info: ✅ Database connected successfully.
+2026-03-04 10:51:42 info: ✅ Database connected successfully.
+2026-03-04 10:51:49 info: Startup: Recalculating all ranks...
+2026-03-04 10:51:49 info: 🔄 Starting Ranking Calculation...
+2026-03-04 10:51:49 info: 🚀 Server + Socket running on port 3000
+2026-03-04 10:51:49 info: ✅ Fighter ranks updated successfully.
+2026-03-04 10:52:22 info: ✅ Database connected successfully.
+2026-03-04 10:52:26 info: ✅ Database connected successfully.
+2026-03-04 10:52:32 info: Startup: Recalculating all ranks...
+2026-03-04 10:52:32 info: 🔄 Starting Ranking Calculation...
+2026-03-04 10:52:32 info: 🚀 Server + Socket running on port 3000
+2026-03-04 10:52:33 info: ✅ Fighter ranks updated successfully.
+2026-03-04 10:52:48 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-04 10:52:48 info: METHOD: [GET] - URL: [/api/v1/fighters?sortBy=ranking&limit=4] - IP: [::1]
+2026-03-04 10:52:49 info: METHOD: [GET] - URL: [/?sortBy=ranking&limit=4] - STATUS: [200] - IP: [::1]
+2026-03-04 10:52:50 info: METHOD: [GET] - URL: [/api/v1/fighters?limit=1000] - IP: [::1]
+2026-03-04 10:52:50 info: METHOD: [GET] - URL: [/?limit=1000] - STATUS: [200] - IP: [::1]
+2026-03-04 10:52:51 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-04 10:52:56 info: METHOD: [POST] - URL: [/api/v1/newsletter/subscribe] - IP: [::1]
+2026-03-04 10:52:57 info: METHOD: [POST] - URL: [/subscribe] - STATUS: [201] - IP: [::1]
+2026-03-04 10:52:57 info: ✅ Welcome email enqueued for avakimyan.gor.00@gmail.com
+2026-03-04 10:52:58 info: ✅ Email successfully processed by worker and sent to: avakimyan.gor.00@gmail.com
+2026-03-04 10:53:28 info: METHOD: [POST] - URL: [/api/v1/newsletter/subscribe] - IP: [::1]
+2026-03-04 10:53:30 info: METHOD: [POST] - URL: [/subscribe] - STATUS: [201] - IP: [::1]
+2026-03-04 10:53:30 info: ✅ Welcome email enqueued for gor.avkimyan@gmail.com
+2026-03-04 10:53:31 info: ✅ Email successfully processed by worker and sent to: gor.avkimyan@gmail.com
+2026-03-04 10:55:29 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-04 10:55:29 info: METHOD: [GET] - URL: [/api/v1/divisions] - IP: [::1]
+2026-03-04 10:55:29 info: METHOD: [GET] - URL: [/api/v1/fighters?page=1&limit=10&sortBy=ranking] - IP: [::1]
+2026-03-04 10:55:31 info: METHOD: [GET] - URL: [/] - STATUS: [304] - IP: [::1]
+2026-03-04 10:55:31 info: METHOD: [GET] - URL: [/?page=1&limit=10&sortBy=ranking] - STATUS: [200] - IP: [::1]
+2026-03-04 10:55:32 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-04 10:55:33 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-04 10:55:33 info: METHOD: [GET] - URL: [/api/v1/dashboard/admin/fighters/pending?page=1&limit=10] - IP: [::1]
+2026-03-04 10:55:34 info: METHOD: [GET] - URL: [/fighters/pending?page=1&limit=10] - STATUS: [200] - IP: [::1]
+2026-03-04 10:55:35 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-04 10:55:36 info: METHOD: [GET] - URL: [/api/v1/dashboard/admin/fighters/verified?page=1&limit=10] - IP: [::1]
+2026-03-04 10:55:36 info: METHOD: [GET] - URL: [/fighters/verified?page=1&limit=10] - STATUS: [200] - IP: [::1]
+2026-03-04 10:55:40 info: METHOD: [GET] - URL: [/api/v1/dashboard/admin/fighters/verified?page=2&limit=10] - IP: [::1]
+2026-03-04 10:55:41 info: METHOD: [GET] - URL: [/fighters/verified?page=2&limit=10] - STATUS: [200] - IP: [::1]
+2026-03-04 10:55:42 info: METHOD: [GET] - URL: [/api/v1/dashboard/admin/fighters/verified?page=3&limit=10] - IP: [::1]
+2026-03-04 10:55:43 info: METHOD: [GET] - URL: [/fighters/verified?page=3&limit=10] - STATUS: [200] - IP: [::1]
+2026-03-04 10:55:46 info: METHOD: [GET] - URL: [/api/v1/dashboard/admin/fighters/verified?page=4&limit=10] - IP: [::1]
+2026-03-04 10:55:46 info: METHOD: [GET] - URL: [/fighters/verified?page=4&limit=10] - STATUS: [200] - IP: [::1]
+2026-03-04 10:55:50 info: METHOD: [GET] - URL: [/api/v1/dashboard/admin/fighters/verified?page=3&limit=10] - IP: [::1]
+2026-03-04 10:55:50 info: METHOD: [GET] - URL: [/fighters/verified?page=3&limit=10] - STATUS: [304] - IP: [::1]
+2026-03-04 10:55:56 info: METHOD: [GET] - URL: [/api/v1/dashboard/admin/fighters/verified?page=2&limit=10] - IP: [::1]
+2026-03-04 10:55:57 info: METHOD: [GET] - URL: [/fighters/verified?page=2&limit=10] - STATUS: [304] - IP: [::1]
+2026-03-04 10:56:04 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-04 10:56:04 info: METHOD: [GET] - URL: [/api/v1/sponsors?] - IP: [::1]
+2026-03-04 10:56:04 info: METHOD: [GET] - URL: [/?] - STATUS: [200] - IP: [::1]
+2026-03-04 10:56:06 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-04 10:56:09 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-04 10:56:09 info: METHOD: [GET] - URL: [/api/v1/dashboard/admin/fighters/pending?page=1&limit=10] - IP: [::1]
+2026-03-04 10:56:10 info: METHOD: [GET] - URL: [/fighters/pending?page=1&limit=10] - STATUS: [304] - IP: [::1]
+2026-03-04 10:56:11 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-04 10:56:11 info: METHOD: [GET] - URL: [/api/v1/dashboard/admin/sponsors?page=1&limit=10] - IP: [::1]
+2026-03-04 10:56:12 info: METHOD: [GET] - URL: [/sponsors?page=1&limit=10] - STATUS: [200] - IP: [::1]
+2026-03-04 10:56:16 info: METHOD: [GET] - URL: [/api/v1/dashboard/admin/sponsors?page=2&limit=10] - IP: [::1]
+2026-03-04 10:56:17 info: METHOD: [GET] - URL: [/sponsors?page=2&limit=10] - STATUS: [200] - IP: [::1]
+2026-03-04 10:58:09 info: METHOD: [GET] - URL: [/api/v1/dashboard/admin/sponsors?page=1&limit=10] - IP: [::1]
+2026-03-04 10:58:10 info: METHOD: [GET] - URL: [/sponsors?page=1&limit=10] - STATUS: [304] - IP: [::1]
+2026-03-04 10:59:02 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-04 10:59:02 info: METHOD: [GET] - URL: [/api/v1/dashboard/admin/fighters/pending?page=1&limit=10] - IP: [::1]
+2026-03-04 10:59:03 info: METHOD: [GET] - URL: [/fighters/pending?page=1&limit=10] - STATUS: [304] - IP: [::1]
+2026-03-04 10:59:04 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-04 10:59:05 info: METHOD: [GET] - URL: [/api/v1/dashboard/admin/sponsors?page=1&limit=10] - IP: [::1]
+2026-03-04 10:59:05 info: METHOD: [GET] - URL: [/sponsors?page=1&limit=10] - STATUS: [304] - IP: [::1]
+2026-03-04 10:59:06 info: METHOD: [GET] - URL: [/api/v1/dashboard/admin/fighters/verified?page=1&limit=10] - IP: [::1]
+2026-03-04 10:59:07 info: METHOD: [GET] - URL: [/fighters/verified?page=1&limit=10] - STATUS: [304] - IP: [::1]
+2026-03-04 10:59:49 info: METHOD: [GET] - URL: [/api/v1/dashboard/admin/fighters/pending?page=1&limit=10] - IP: [::1]
+2026-03-04 10:59:51 info: METHOD: [GET] - URL: [/fighters/pending?page=1&limit=10] - STATUS: [304] - IP: [::1]
+2026-03-04 10:59:52 info: METHOD: [GET] - URL: [/api/v1/dashboard/admin/fighters/pending?page=1&limit=10] - IP: [::1]
+2026-03-04 10:59:52 info: METHOD: [GET] - URL: [/fighters/pending?page=1&limit=10] - STATUS: [304] - IP: [::1]
+2026-03-04 10:59:57 info: METHOD: [GET] - URL: [/api/v1/dashboard/admin/fighters/pending?page=1&limit=10] - IP: [::1]
+2026-03-04 10:59:57 info: METHOD: [GET] - URL: [/fighters/pending?page=1&limit=10] - STATUS: [304] - IP: [::1]
+2026-03-04 11:00:13 info: METHOD: [GET] - URL: [/api/v1/dashboard/admin/fighters/pending?page=1&limit=10] - IP: [::1]
+2026-03-04 11:00:15 info: METHOD: [GET] - URL: [/fighters/pending?page=1&limit=10] - STATUS: [304] - IP: [::1]
+2026-03-04 11:00:18 info: METHOD: [GET] - URL: [/api/v1/dashboard/admin/fighters/pending?page=1&limit=10] - IP: [::1]
+2026-03-04 11:00:19 info: METHOD: [GET] - URL: [/fighters/pending?page=1&limit=10] - STATUS: [304] - IP: [::1]
+2026-03-04 11:00:19 info: METHOD: [GET] - URL: [/api/v1/dashboard/admin/fighters/pending?page=1&limit=10] - IP: [::1]
+2026-03-04 11:00:20 info: METHOD: [GET] - URL: [/fighters/pending?page=1&limit=10] - STATUS: [304] - IP: [::1]
+2026-03-04 11:00:26 info: METHOD: [GET] - URL: [/api/v1/dashboard/admin/fighters/pending?page=1&limit=10] - IP: [::1]
+2026-03-04 11:00:26 info: METHOD: [GET] - URL: [/fighters/pending?page=1&limit=10] - STATUS: [304] - IP: [::1]
+2026-03-04 11:00:30 info: METHOD: [GET] - URL: [/api/v1/dashboard/admin/sponsors?page=2&limit=10] - IP: [::1]
+2026-03-04 11:00:31 info: METHOD: [GET] - URL: [/sponsors?page=2&limit=10] - STATUS: [304] - IP: [::1]
+2026-03-04 11:00:32 info: METHOD: [GET] - URL: [/api/v1/dashboard/admin/donors?page=1&limit=10] - IP: [::1]
+2026-03-04 11:00:33 info: METHOD: [GET] - URL: [/donors?page=1&limit=10] - STATUS: [200] - IP: [::1]
+2026-03-04 11:00:44 info: METHOD: [DELETE] - URL: [/api/v1/dashboard/admin/donors/1] - IP: [::1]
+2026-03-04 11:00:47 info: METHOD: [DELETE] - URL: [/donors/1] - STATUS: [200] - IP: [::1]
+2026-03-04 11:00:55 info: METHOD: [GET] - URL: [/api/v1/dashboard/admin/applications?page=1&limit=10] - IP: [::1]
+2026-03-04 11:00:56 info: METHOD: [GET] - URL: [/applications?page=1&limit=10] - STATUS: [200] - IP: [::1]
+2026-03-04 11:01:03 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-04 11:01:03 info: METHOD: [GET] - URL: [/api/v1/dashboard/admin/fighters/pending?page=1&limit=10] - IP: [::1]
+2026-03-04 11:01:05 info: METHOD: [GET] - URL: [/fighters/pending?page=1&limit=10] - STATUS: [304] - IP: [::1]
+2026-03-04 11:01:06 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-04 11:06:39 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-04 11:06:39 info: METHOD: [GET] - URL: [/api/v1/events?status=live] - IP: [::1]
+2026-03-04 11:06:39 info: METHOD: [GET] - URL: [/api/v1/events?status=upcoming] - IP: [::1]
+2026-03-04 11:06:39 info: METHOD: [GET] - URL: [/api/v1/events?status=completed] - IP: [::1]
+2026-03-04 11:06:40 info: METHOD: [GET] - URL: [/?status=live] - STATUS: [304] - IP: [::1]
+2026-03-04 11:06:40 info: METHOD: [GET] - URL: [/?status=completed] - STATUS: [304] - IP: [::1]
+2026-03-04 11:06:40 info: METHOD: [GET] - URL: [/?status=upcoming] - STATUS: [304] - IP: [::1]
+2026-03-04 11:06:40 info: METHOD: [GET] - URL: [/api/v1/divisions] - IP: [::1]
+2026-03-04 11:06:40 info: METHOD: [GET] - URL: [/] - STATUS: [304] - IP: [::1]
+2026-03-04 11:06:42 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-04 11:06:42 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-04 11:06:43 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-04 11:07:39 info: METHOD: [POST] - URL: [/api/v1/events] - IP: [::1]
+2026-03-04 11:07:41 info: METHOD: [POST] - URL: [/] - STATUS: [201] - IP: [::1]
+2026-03-04 11:07:41 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-04 11:07:41 info: METHOD: [GET] - URL: [/api/v1/events?status=live] - IP: [::1]
+2026-03-04 11:07:41 info: METHOD: [GET] - URL: [/api/v1/events?status=upcoming] - IP: [::1]
+2026-03-04 11:07:41 info: METHOD: [GET] - URL: [/api/v1/events?status=completed] - IP: [::1]
+2026-03-04 11:07:41 info: METHOD: [GET] - URL: [/?status=live] - STATUS: [304] - IP: [::1]
+2026-03-04 11:07:42 info: METHOD: [GET] - URL: [/?status=upcoming] - STATUS: [200] - IP: [::1]
+2026-03-04 11:07:42 info: METHOD: [GET] - URL: [/?status=completed] - STATUS: [304] - IP: [::1]
+2026-03-04 11:07:43 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-04 11:08:00 info: METHOD: [GET] - URL: [/api/v1/events/16] - IP: [::1]
+2026-03-04 11:08:00 info: METHOD: [GET] - URL: [/api/v1/fights/event/16] - IP: [::1]
+2026-03-04 11:08:01 info: METHOD: [GET] - URL: [/event/16] - STATUS: [200] - IP: [::1]
+2026-03-04 11:08:01 info: METHOD: [GET] - URL: [/16] - STATUS: [200] - IP: [::1]
+2026-03-04 11:08:01 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-04 11:08:03 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-04 11:08:17 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-04 11:08:17 info: METHOD: [GET] - URL: [/api/v1/events?status=live] - IP: [::1]
+2026-03-04 11:08:17 info: METHOD: [GET] - URL: [/api/v1/events?status=upcoming] - IP: [::1]
+2026-03-04 11:08:17 info: METHOD: [GET] - URL: [/api/v1/events?status=completed] - IP: [::1]
+2026-03-04 11:08:18 info: METHOD: [GET] - URL: [/?status=live] - STATUS: [304] - IP: [::1]
+2026-03-04 11:08:18 info: METHOD: [GET] - URL: [/?status=upcoming] - STATUS: [304] - IP: [::1]
+2026-03-04 11:08:18 info: METHOD: [GET] - URL: [/?status=completed] - STATUS: [304] - IP: [::1]
+2026-03-04 11:08:20 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-04 11:08:25 info: METHOD: [GET] - URL: [/api/v1/events/16] - IP: [::1]
+2026-03-04 11:08:25 info: METHOD: [GET] - URL: [/api/v1/fights/event/16] - IP: [::1]
+2026-03-04 11:08:25 info: METHOD: [GET] - URL: [/event/16] - STATUS: [304] - IP: [::1]
+2026-03-04 11:08:25 info: METHOD: [GET] - URL: [/16] - STATUS: [304] - IP: [::1]
+2026-03-04 11:08:25 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-04 11:08:28 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]
+2026-03-04 11:10:33 info: METHOD: [GET] - URL: [/api/v1/messages/conversations] - IP: [::1]
+2026-03-04 11:10:33 info: METHOD: [GET] - URL: [/api/v1/events?status=live] - IP: [::1]
+2026-03-04 11:10:33 info: METHOD: [GET] - URL: [/api/v1/events?status=upcoming] - IP: [::1]
+2026-03-04 11:10:33 info: METHOD: [GET] - URL: [/api/v1/events?status=completed] - IP: [::1]
+2026-03-04 11:10:35 info: METHOD: [GET] - URL: [/?status=live] - STATUS: [304] - IP: [::1]
+2026-03-04 11:10:35 info: METHOD: [GET] - URL: [/?status=upcoming] - STATUS: [304] - IP: [::1]
+2026-03-04 11:10:35 info: METHOD: [GET] - URL: [/?status=completed] - STATUS: [304] - IP: [::1]
+2026-03-04 11:10:36 info: METHOD: [GET] - URL: [/conversations] - STATUS: [304] - IP: [::1]

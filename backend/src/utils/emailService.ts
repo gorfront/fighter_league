@@ -11,29 +11,76 @@ if (!process.env.SENDGRID_API_KEY) {
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 }
 
-const FROM_EMAIL = process.env.EMAIL_USER;
+export const sendWelcomeEmail = async (
+  toEmail: string,
+  nextEvent: any,
+  liveEvents: any[] = []
+) => {
+  const frontendUrl = process.env.FRONTEND_URL || "http://localhost:8080";
 
-export const sendWelcomeEmail = async (toEmail: string, eventDetails: any) => {
-  const eventName = eventDetails?.title || "Upcoming Championship";
-  const rawDate = eventDetails?.event_date || eventDetails?.date;
-  const eventDate = rawDate ? new Date(rawDate).toDateString() : "Date TBD";
-  const eventLocation = eventDetails?.location || "TBD";
+  const nextEventName = nextEvent?.title || "Upcoming Championship";
+  const nextRawDate = nextEvent?.event_date || nextEvent?.date;
+  const nextEventDate = nextRawDate ? new Date(nextRawDate).toDateString() : "Date TBD";
+  const nextEventLocation = nextEvent?.location || "TBD";
 
-  const html = `
-    <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto;">
-      <h1 style="color: #d97706;">You're in!</h1>
-      <p>Thanks for subscribing. You'll be the first to know about fight announcements.</p>
-      <hr style="border: 1px solid #eee; margin: 20px 0;" />
-      <h2>📅 Next Event: ${eventName}</h2>
-      <p><strong>Date:</strong> ${eventDate}</p>
-      <p><strong>Location:</strong> ${eventLocation}</p>
-    </div>
-  `;
+  let html = `<div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">`;
+
+  if (liveEvents && liveEvents.length > 0) {
+    const liveListHtml = liveEvents
+      .map(
+        (event) => `
+      <div style="margin-top: 15px; padding: 15px; background-color: rgba(255,255,255,0.1); border-radius: 8px; border: 1px solid rgba(255,255,255,0.2);">
+        <h3 style="margin: 0 0 10px 0; font-size: 20px;">${event.title}</h3>
+        <a href="${frontendUrl}/events/${event.id}" style="display: inline-block; background-color: white; color: #dc2626; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 14px;">
+          ▶ WATCH LIVE
+        </a>
+      </div>
+    `
+      )
+      .join("");
+
+    html += `
+      <div style="background-color: #dc2626; padding: 30px 20px; text-align: center; color: white;">
+        <h1 style="margin: 0; font-size: 28px; animation: blink 1s infinite;">🚨 LIVE NOW 🚨</h1>
+        <p style="font-size: 16px; margin-top: 10px;">Don't miss the action! We have ${liveEvents.length} events happening right now:</p>
+        ${liveListHtml}
+      </div>
+      <div style="padding: 20px; background-color: #f9fafb;">
+        <h3 style="color: #d97706; margin-top: 0; font-size: 22px;">Welcome to the Fight Club! 🥊</h3>
+        <p>Thanks for subscribing. You'll be the first to know about all future fight announcements.</p>
+        <hr style="border: 1px solid #e5e7eb; margin: 20px 0;" />
+        <p style="font-weight: bold; color: #6b7280; text-transform: uppercase; font-size: 12px; letter-spacing: 1px;">📅 Also Upcoming</p>
+        <h4 style="margin: 5px 0 10px 0; font-size: 18px;">${nextEventName}</h4>
+        <p style="margin: 5px 0;"><strong>Date:</strong> ${nextEventDate}</p>
+        <p style="margin: 5px 0;"><strong>Location:</strong> ${nextEventLocation}</p>
+      </div>
+    `;
+  } else {
+    html += `
+      <div style="padding: 30px 20px; text-align: center; background-color: #f9fafb;">
+        <h1 style="color: #d97706; font-size: 28px; margin-top: 0;">You're in! 🥊</h1>
+        <p style="font-size: 16px;">Thanks for subscribing. You'll be the first to know about fight announcements.</p>
+      </div>
+      <div style="padding: 20px;">
+        <p style="font-weight: bold; color: #6b7280; text-transform: uppercase; font-size: 12px; letter-spacing: 1px;">📅 Next Event</p>
+        <h2 style="margin: 5px 0 10px 0; font-size: 22px;">${nextEventName}</h2>
+        <p style="margin: 5px 0;"><strong>Date:</strong> ${nextEventDate}</p>
+        <p style="margin: 5px 0;"><strong>Location:</strong> ${nextEventLocation}</p>
+      </div>
+    `;
+  }
+
+  html += `</div>`;
 
   try {
+    const subject =
+      liveEvents && liveEvents.length > 0
+        ? `🚨 LIVE NOW: ${liveEvents.length} Events + Welcome!`
+        : "Welcome to the Fight Club! 🥊";
+
     await emailQueue.add("send-welcome-email", {
       to: toEmail,
-      subject: "Welcome to the Fight Club! 🥊",
+      subject,
       html,
     });
     logger.info(`✅ Welcome email enqueued for ${toEmail}`);

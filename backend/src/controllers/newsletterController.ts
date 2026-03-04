@@ -30,22 +30,40 @@ export const subscribeToNewsletter = asyncHandler(async (req: Request, res: Resp
 
     await Subscriber.create({ email });
 
+    const liveEvents = await Event.findAll({
+      where: {
+        status: {
+          [Op.in]: ["live", "LIVE", "Live"],
+        },
+      },
+    });
+
+    const liveEventIds = liveEvents.map((e) => e.id);
+
     let nextEvent = await Event.findOne({
       where: {
         event_date: {
           [Op.gte]: new Date(),
         },
+        ...(liveEventIds.length > 0 && { id: { [Op.notIn]: liveEventIds } }),
       },
       order: [["event_date", "ASC"]],
     });
 
     if (!nextEvent) {
       nextEvent = await Event.findOne({
+        where: {
+          ...(liveEventIds.length > 0 && { id: { [Op.notIn]: liveEventIds } }),
+        },
         order: [["event_date", "DESC"]],
       });
     }
 
-    sendWelcomeEmail(email, nextEvent ? nextEvent.toJSON() : null);
+    sendWelcomeEmail(
+      email,
+      nextEvent ? nextEvent.toJSON() : null,
+      liveEvents.length > 0 ? liveEvents.map((e) => e.toJSON()) : []
+    );
 
     res.status(201).json({ message: "Successfully subscribed!" });
   } catch (error: any) {
